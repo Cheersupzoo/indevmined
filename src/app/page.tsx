@@ -70,6 +70,7 @@ export default function Home() {
             >
               Mined
             </Highlight>
+            <span> 🧠⛏️</span>
           </p>
         </div>
       </HeroHighlight>
