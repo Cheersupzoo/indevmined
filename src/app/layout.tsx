@@ -6,7 +6,7 @@ import { cn } from "@/utils/cn";
 const inter = Ubuntu({ weight: ['300', '400', '500', '700'] ,subsets: ['greek'] });
 
 export const metadata: Metadata = {
-  title: "IsekaiDev Guide",
+  title: "404 | In Dev Mined",
   description: "404 Page not found",
 };
 

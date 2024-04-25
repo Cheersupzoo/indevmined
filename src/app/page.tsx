@@ -63,12 +63,12 @@ export default function Home() {
             ref={pScope}
             className="text-neutral-600 dark:text-neutral-200 text-xl mt-6 opacity-0 -translate-y-8"
           >
-            IsekaiDev{" "}
+            In Dev{" "}
             <Highlight
               ref={highlightRef}
               className="font-medium text-neutral-700 dark:text-neutral-300"
             >
-              Guide
+              Mined
             </Highlight>
           </p>
         </div>
