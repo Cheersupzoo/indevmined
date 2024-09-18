@@ -3,6 +3,7 @@ import fs from 'fs'
 import { compileMDX } from 'next-mdx-remote/rsc'
 import imageUrlTransformer from './rehype/imageUrlTransformer'
 import wikiLinkPlugin from 'remark-wiki-link'
+import imageSizeEmbedder from './rehype/imageSizeEmbedder'
 
 const postsDirectory = join(process.cwd(), 'vault')
 
@@ -39,7 +40,7 @@ export async function getPostBySlug(slug: string, lang?: string) {
       parseFrontmatter: true,
       mdxOptions: {
         remarkPlugins: [wikiLinkPlugin],
-        rehypePlugins: [imageUrlTransformer]
+        rehypePlugins: [imageUrlTransformer, imageSizeEmbedder]
       }
     }
   })
