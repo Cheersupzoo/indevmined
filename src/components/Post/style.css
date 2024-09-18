@@ -1,0 +1,14 @@
+p {
+  margin-bottom: 24px;
+}
+
+.parallax {
+  animation: parallax linear;
+  animation-timeline: scroll();
+}
+
+@keyframes parallax {
+  to {
+    transform: translateY(100px);
+  }
+}
