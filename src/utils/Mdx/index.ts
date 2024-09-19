@@ -1,6 +1,6 @@
 import { join } from 'path'
 import fs from 'fs'
-import { compileMDX } from 'next-mdx-remote/rsc'
+import { compileMDX, type CompileMDXResult } from 'next-mdx-remote/rsc'
 import imageUrlTransformer from './rehype/imageUrlTransformer'
 import wikiLinkPlugin from 'remark-wiki-link'
 import imageSizeEmbedder from './rehype/imageSizeEmbedder'
@@ -28,7 +28,14 @@ export type FrontmatterContent = {
   extracted: string
 }
 
+const postMap: {[key: string]: CompileMDXResult<FrontmatterContent>} = {}
+
 export async function getPostBySlug(slug: string, lang?: string) {
+  const key = `${slug}[${lang ?? 'th'}]`
+  if (postMap[key]) {
+    return postMap[key]
+  }
+
   const post = fs.readFileSync(
     join(postsDirectory, lang ? `/${lang}` : '', `${slug}.md`),
     {
@@ -46,6 +53,8 @@ export async function getPostBySlug(slug: string, lang?: string) {
       }
     }
   })
+
+  postMap[key] = mdxSource
 
   return mdxSource
 }
