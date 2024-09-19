@@ -1,4 +1,8 @@
-import { generatePostsStaticParams, getPostBySlug, getPostSlugs } from '@/utils/Mdx'
+import {
+  generatePostMetadata,
+  generatePostsStaticParams,
+  getPostBySlug
+} from '@/utils/Mdx'
 import React from 'react'
 import Layout from '@/components/Layout'
 import { Metadata } from 'next'
@@ -27,9 +31,5 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = await getPostBySlug(decodeURI(params.slug))
-
-  return {
-    title: post.frontmatter.title as string
-  }
+  return generatePostMetadata(params.slug)
 }

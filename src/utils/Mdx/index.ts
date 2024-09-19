@@ -4,6 +4,7 @@ import { compileMDX } from 'next-mdx-remote/rsc'
 import imageUrlTransformer from './rehype/imageUrlTransformer'
 import wikiLinkPlugin from 'remark-wiki-link'
 import imageSizeEmbedder from './rehype/imageSizeEmbedder'
+import type { Metadata } from 'next'
 
 const postsDirectory = join(process.cwd(), 'vault')
 
@@ -24,6 +25,7 @@ export type FrontmatterContent = {
   published: string
   categories: string
   keywords: string[]
+  extracted: string
 }
 
 export async function getPostBySlug(slug: string, lang?: string) {
@@ -50,7 +52,7 @@ export async function getPostBySlug(slug: string, lang?: string) {
 
 export function generatePostsStaticParams(lang?: string) {
   let files: string[]
-  if(!lang) {
+  if (!lang) {
     files = getPostSlugs()
   } else {
     files = getPostSlugsByLang(lang)
@@ -61,4 +63,18 @@ export function generatePostsStaticParams(lang?: string) {
   }
 
   return files.map((file) => ({ slug: file.replace('.md', '') }))
+}
+
+export async function generatePostMetadata(
+  slug: string,
+  lang?: string
+): Promise<Metadata> {
+  const post = await getPostBySlug(decodeURI(slug), lang)
+  const extracted = JSON.parse(post.frontmatter.extracted)
+
+  return {
+    title: post.frontmatter.title as string,
+    description: extracted.summarize,
+    keywords: extracted.keywords
+  }
 }
