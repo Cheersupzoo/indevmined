@@ -1,4 +1,5 @@
-
 export const onRequest = async (context) => {
-  return new Response('Hello, world!')
+  const text = `Hello, world! ${process.env.test}`
+
+  return new Response(text)
 }
