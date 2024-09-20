@@ -40,3 +40,6 @@ next-env.d.ts
 vault/.obsidian/themes
 vault/.obsidian/appearance.json
 vault/.obsidian/workspace.json
+
+# cloudflare
+/.wrangler
