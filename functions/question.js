@@ -10,8 +10,12 @@ import { knowledge } from '../script/knowledge'
 export const onRequest = async (context) => {
   const reqBody = await context.request.json()
 
-  if (!reqBody?.question) {
-    return Response.json({status: 'failed',})
+  if (!reqBody?.question || typeof reqBody?.question !== 'string') {
+    return Response.json({ status: 'failed', error: 'Invalid parameters.' })
+  }
+
+  if (reqBody.question.length > 400) {
+    return Response.json({ status: 'failed', error: 'Question too long.' })
   }
   const question = reqBody?.question
 
@@ -42,7 +46,7 @@ export const onRequest = async (context) => {
     temperature: 0.1,
     max_tokens: 1500,
     top_p: 1,
-    stream: false,
+    stream: reqBody.stream ?? false,
     stop: null
   }
   const response = await fetch(url, {
@@ -54,10 +58,5 @@ export const onRequest = async (context) => {
     body: JSON.stringify(body)
   })
 
-  const output = await response.json()
-
-  return Response.json({
-    status: 'success',
-    data: output.choices[0].message.content
-  })
+  return new Response(response.body, response)
 }
