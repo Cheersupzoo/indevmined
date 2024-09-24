@@ -1,6 +1,7 @@
 // @ts-check
 import { franc } from 'franc-min'
 import { knowledge } from '../script/knowledge'
+
 /**
  * @typedef { {GROQ_API_KEY: string} } Env
  */
@@ -8,21 +9,31 @@ import { knowledge } from '../script/knowledge'
  * @param {import('@cloudflare/workers-types').EventContext<Env, '',{}>} context
  */
 export const onRequest = async (context) => {
+  const headers = getHeader(context)
   const reqBody = await context.request.json().catch((e) => {
     console.trace(e)
 
     return 'error'
   })
-  if(reqBody === 'error') {
-    return Response.json({ status: 'failed', error: 'Invalid content-type.' })
+  if (reqBody === 'error') {
+    return Response.json(
+      { status: 'failed', error: 'Invalid content-type.' },
+      { headers }
+    )
   }
 
   if (!reqBody?.question || typeof reqBody?.question !== 'string') {
-    return Response.json({ status: 'failed', error: 'Invalid parameters.' })
+    return Response.json(
+      { status: 'failed', error: 'Invalid parameters.' },
+      { headers }
+    )
   }
 
   if (reqBody.question.length > 400) {
-    return Response.json({ status: 'failed', error: 'Question too long.' })
+    return Response.json(
+      { status: 'failed', error: 'Question too long.' },
+      { headers }
+    )
   }
   const question = reqBody?.question
 
@@ -65,37 +76,41 @@ export const onRequest = async (context) => {
     body: JSON.stringify(body)
   })
 
-  return new Response(response.body, response)
+  return new Response(response.body, { headers })
 }
 
-export const onRequestOptions = async (context) => {
-  const host = context.request.headers.get('Host') ?? ''
+function getHeader(context) {
+  const origin = context.request.headers.get('origin') ?? ''
+
   const corsWhitelist = [
-    /^localhost:3000/,
-    /^[0-9a-z]+\.isekai-dev-guide\.pages\.dev/,
+    /^http:\/\/localhost:3000/,
+    /^https:\/\/[0-9a-z]+\.isekai-dev-guide\.pages\.dev/,
     /www\.indevmined\.com/,
     /indevmined\.com/
   ]
 
-  if (corsWhitelist.some((whitelist) => whitelist.test(host))) {
-    return new Response(null, {
-      status: 204,
-      headers: {
-        'Access-Control-Allow-Origin': host,
-        'Access-Control-Allow-Headers': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Max-Age': '86400'
-      }
-    })
-  }
+  if (corsWhitelist.some((whitelist) => whitelist.test(origin))) {
+    console.log('ALLOWED')
 
-  return new Response(null, {
-    status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': 'www.indevmined.com',
+    return {
+      'Access-Control-Allow-Origin': origin,
       'Access-Control-Allow-Headers': '*',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Max-Age': '86400'
     }
+  }
+
+  return {
+    'Access-Control-Allow-Origin': 'https://www.indevmined.com',
+    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Max-Age': '86400'
+  }
+}
+
+export const onRequestOptions = async (context) => {
+  return new Response(null, {
+    status: 204,
+    headers: getHeader(context)
   })
 }
