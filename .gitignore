@@ -43,3 +43,4 @@ vault/.obsidian/workspace.json
 
 # cloudflare
 /.wrangler
+.dev.vars
