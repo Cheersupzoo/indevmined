@@ -8,7 +8,14 @@ import { knowledge } from '../script/knowledge'
  * @param {import('@cloudflare/workers-types').EventContext<Env, '',{}>} context
  */
 export const onRequest = async (context) => {
-  const reqBody = await context.request.json()
+  const reqBody = await context.request.json().catch((e) => {
+    console.trace(e)
+
+    return 'error'
+  })
+  if(reqBody === 'error') {
+    return Response.json({ status: 'failed', error: 'Invalid content-type.' })
+  }
 
   if (!reqBody?.question || typeof reqBody?.question !== 'string') {
     return Response.json({ status: 'failed', error: 'Invalid parameters.' })
