@@ -67,3 +67,35 @@ export const onRequest = async (context) => {
 
   return new Response(response.body, response)
 }
+
+export const onRequestOptions = async (context) => {
+  const host = context.request.headers.get('Host') ?? ''
+  const corsWhitelist = [
+    /^localhost:3000/,
+    /^[0-9a-z]+\.isekai-dev-guide\.pages\.dev/,
+    /www\.indevmined\.com/,
+    /indevmined\.com/
+  ]
+
+  if (corsWhitelist.some((whitelist) => whitelist.test(host))) {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        'Access-Control-Allow-Origin': host,
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Max-Age': '86400'
+      }
+    })
+  }
+
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': 'www.indevmined.com',
+      'Access-Control-Allow-Headers': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Max-Age': '86400'
+    }
+  })
+}
