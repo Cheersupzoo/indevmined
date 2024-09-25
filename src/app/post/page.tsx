@@ -1,4 +1,5 @@
 import Layout from '@/components/Layout'
+import Question from '@/components/Question'
 import { getPostSlugs } from '@/utils/Mdx'
 import { Metadata } from 'next'
 import Link from 'next/link'
@@ -10,6 +11,7 @@ export default function page() {
   return (
     <Layout>
       <div className='text-text relative mx-auto max-w-2xl w-full text-lg'>
+        <Question />
         {files.map((file) => (
           <div key={file}>
             <Link href={`/post/${file.replace('.md', '')}`}>{file}</Link>

@@ -1,0 +1,64 @@
+.answer {
+  overflow: hidden;
+  transition: height 0.5s ease;
+}
+
+.answer > h1 {
+  font-size: 2rem;
+  line-height: 2.8rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+}
+
+.answer > h2 {
+  font-size: 1.8rem;
+  line-height: 2.2rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.answer > h3 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.answer > p,
+.answer > pre,
+.answer > ol,
+.answer > ul {
+  margin-bottom: 0.5rem;
+}
+
+.answer > ol {
+  list-style-type: decimal;
+  list-style-position: inside;
+}
+
+.answer > ul {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+.square-loader {
+  display: inline-block;
+  width: 0.7em;
+  height: 0.7em;
+  background-color: var(--text-color);
+  animation: squareLoader 1s infinite ease-in-out;
+  transform-origin: bottom;
+}
+
+@keyframes squareLoader {
+  0% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.4);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
