@@ -5,6 +5,7 @@ import './style.css'
 import { micromark } from 'micromark'
 import cs from 'classnames'
 import { getAnswerIterator } from '@/apis'
+import AutoAnimateHeight from './AutoAnimateHeight'
 
 const squareLoader = `<span class='square-loader' />`
 
@@ -34,13 +35,19 @@ const Question = () => {
     }
   }
 
+  const onClear = () => {
+    changeContent('')
+    setQuestion('')
+    setIsActive(false)
+  }
+
   const onSubmit = async () => {
     setIsActive(true)
     setIsLoading(true)
     setupLoadingIndicator()
     try {
       const iterator = await getAnswerIterator(question)
-      if(!iterator) {
+      if (!iterator) {
         return
       }
       let answer = ''
@@ -60,16 +67,16 @@ const Question = () => {
   }
 
   return (
-    <div className='group'>
-      <div
-        className={cs(
-          {
-            'rounded-b-none border-foreground bg-foreground': isActive,
-            'border-text': !isActive
-          },
-          'focus-within:bg-foreground hover:bg-foreground relative flex items-center border  rounded-2xl py-3 pl-6 pr-6'
-        )}
-      >
+    <div
+      className={cs(
+        {
+          'border-foreground bg-foreground': isActive,
+          'border-text': !isActive
+        },
+        'focus-within:bg-foreground hover:bg-foreground  border rounded-2xl py-3 pl-6 pr-6'
+      )}
+    >
+      <div className='flex relative items-center'>
         <Search size={20} strokeWidth={3} />
         <input
           value={question}
@@ -82,6 +89,7 @@ const Question = () => {
         <button
           className='mr-4 cursor-pointer disabled:hidden'
           disabled={isLoading || !question.length}
+          onClick={onClear}
         >
           <X strokeWidth={2} />
         </button>
@@ -96,14 +104,16 @@ const Question = () => {
           />
         </button>
       </div>
-      <div
-        className={cs('bg-foreground', 'rounded-b-2xl', { hidden: !isActive })}
-      >
+      <AutoAnimateHeight expanded={isActive}>
+        <div className='h-3'></div>
         <div className='h-[0.05rem] mx-16 bg-text' />
-        <div className='h-4' />
-        <div className='answer px-6 ' ref={answerRef}></div>
-        <div className='h-4' />
-      </div>
+        <div className='h-4'></div>
+      </AutoAnimateHeight>
+
+      <div className='answer px-2 ' ref={answerRef}></div>
+      <AutoAnimateHeight expanded={isActive}>
+        <div className='h-1'></div>
+      </AutoAnimateHeight>
     </div>
   )
 }

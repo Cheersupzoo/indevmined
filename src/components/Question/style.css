@@ -1,6 +1,6 @@
 .answer {
   overflow: hidden;
-  transition: height 0.5s ease;
+  transition: height 500ms ease;
 }
 
 .answer > h1 {
@@ -8,7 +8,7 @@
   line-height: 2.8rem;
   font-weight: 400;
   margin-bottom: 1rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .answer > h2 {
