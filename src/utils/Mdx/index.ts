@@ -28,7 +28,7 @@ export type FrontmatterContent = {
   extracted: string
 }
 
-const postMap: {[key: string]: CompileMDXResult<FrontmatterContent>} = {}
+const postMap: { [key: string]: CompileMDXResult<FrontmatterContent> } = {}
 
 export async function getPostBySlug(slug: string, lang?: string) {
   const key = `${slug}[${lang ?? 'th'}]`
@@ -43,20 +43,25 @@ export async function getPostBySlug(slug: string, lang?: string) {
     }
   )
 
-  const mdxSource = await compileMDX<FrontmatterContent>({
-    source: post,
-    options: {
-      parseFrontmatter: true,
-      mdxOptions: {
-        remarkPlugins: [wikiLinkPlugin],
-        rehypePlugins: [imageUrlTransformer, imageSizeEmbedder]
+  try {
+    const mdxSource = await compileMDX<FrontmatterContent>({
+      source: post,
+      options: {
+        parseFrontmatter: true,
+        mdxOptions: {
+          remarkPlugins: [wikiLinkPlugin],
+          rehypePlugins: [imageUrlTransformer, imageSizeEmbedder]
+        }
       }
-    }
-  })
+    })
+    postMap[key] = mdxSource
 
-  postMap[key] = mdxSource
-
-  return mdxSource
+    return mdxSource
+  } catch (error) {
+    console.trace(error)
+    console.log('[POST]', post)
+    throw new Error(`Parsed Failed "${key}"`)
+  }
 }
 
 export function generatePostsStaticParams(lang?: string) {
