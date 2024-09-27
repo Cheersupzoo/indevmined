@@ -20,6 +20,7 @@ const Question = () => {
   const [isLoading, setIsLoading] = useState(false)
   const answerRef = useRef<HTMLDivElement>(null)
   const [isActive, setIsActive] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const changeContent = (newContent: string) => {
     if (answerRef.current) {
@@ -46,9 +47,11 @@ const Question = () => {
     changeContent('')
     setQuestion('')
     setIsActive(false)
+    setError(null)
   }
 
   const onSubmit = async (overrideQuestion?: string) => {
+    setError(null)
     setIsActive(true)
     setIsLoading(true)
     setupLoadingIndicator()
@@ -68,6 +71,8 @@ const Question = () => {
       changeContent(micromark(answer, { allowDangerousHtml: true }))
     } catch (e) {
       console.trace(e)
+      setError('Something went wrong. Please try again later.')
+      changeContent('')
     } finally {
       setIsLoading(false)
     }
@@ -119,6 +124,7 @@ const Question = () => {
       <div className='h-3'></div>
       <div className='h-[0.05rem] mx-16 bg-text' />
       <div className='h-4'></div>
+      <div className='text-color2 text-center'>{error}</div>
       <AutoAnimateHeight expanded={!isActive}>
         <div className='mb-1'>Try Ask</div>
         {exampleQuestions.map((question) => (

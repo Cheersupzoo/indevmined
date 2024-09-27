@@ -15,6 +15,9 @@ export const getAnswerIterator = async (question: string) => {
       })
     }
   )
+  if (response.status > 299) {
+    throw new Error(`/question error ${response.status}`)
+  }
 
   if (!response.body) {
     return
