@@ -3,23 +3,23 @@
 @tailwind utilities;
 
 :root {
-  --bg-color: #ffffff;
-  --fg-color: #eff0f6;
-  --text-color: #2e2c33;
-  --light-blue-color: #b7e2f3;
-  --orange-color: #ffd2c7;
-  --grey-color: #b3b3b4;
-  --sat-pink-color: #b844c0;
-  --purple-color: #754ff6;
-  --blue-color: #5079e5;
-  --green-color: #55bbc2;
-  --pink-color: #e293d4;
-  --red-color: #c06a6f;
-  --color1: #0c7fb2;
-  --color2: #e99927;
-  --color3: #e0aa6f;
-  --color4: #a3d4d1;
-  --color5: #6ca4aa;
+  --bg-color: 255 255 255;
+  --fg-color: 239 240 246;
+  --text-color: 46 44 51;
+  --light-blue-color: 183 226 243;
+  --orange-color: 255 210 199;
+  --grey-color: 179 179 180;
+  --sat-pink-color: 184 68 192;
+  --purple-color: 117 79 246;
+  --blue-color: 80 121 229;
+  --green-color: 85 187 194;
+  --pink-color: 226 146 212;
+  --red-color: 192 106 111;
+  --color1: 12 127 178;
+  --color2: 233 153 39;
+  --color3: 224 170 111;
+  --color4: 163 212 209;
+  --color5: 108 164 170;
 
   --shadow-color: 233deg 9% 58%;
   --shadow-elevation-low: -0.3px 0.5px 0.6px hsl(var(--shadow-color) / 0.55),
@@ -36,18 +36,18 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #14142a;
-    --fg-color: #23263a;
-    --text-color: #d8dbe9;
-    --light-blue-color: #43636f;
-    --orange-color: #9e7469;
-    --grey-color: #545771;
-    --sat-pink-color: #c26edb;
-    --purple-color: #a38df3;
-    --blue-color: #6f94e7;
-    --green-color: #55bbc2;
-    --pink-color: #ed73b1;
-    --red-color: #d17277;
+    --bg-color: 20 20 42;
+    --fg-color: 35 38 58;
+    --text-color: 216 219 233;
+    --light-blue-color: 67 99 111;
+    --orange-color: 158 116 105;
+    --grey-color: 84 87 113;
+    --sat-pink-color: 194 109 219;
+    --purple-color: 163 141 243;
+    --blue-color: 111 148 231;
+    --green-color: 85 187 194;
+    --pink-color: 237 115 177;
+    --red-color: 209 114 119;
   
     --shadow-color: 224deg 18% 8%;
     --shadow-elevation-low: -0.3px 0.5px 0.6px hsl(var(--shadow-color) / 0.55),

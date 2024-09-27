@@ -87,10 +87,11 @@ const Question = () => {
     <div
       className={cs(
         {
-          'border-foreground bg-foreground': isActive,
+          'border-foreground bg-foreground/90': isActive,
           'border-text': !isActive
         },
-        'focus-within:bg-foreground hover:bg-foreground  border rounded-2xl py-3 pl-6 pr-6'
+        'focus-within:bg-foreground/90 hover:bg-foreground/90  border rounded-2xl py-3 pl-6 pr-6 transition-colors',
+        'backdrop-blur-sm'
       )}
     >
       <div className='flex relative items-center'>
