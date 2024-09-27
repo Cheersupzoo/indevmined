@@ -83,7 +83,7 @@ const Question = () => {
           disabled={isLoading}
           onChange={(e) => setQuestion(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && onSubmit()}
-          placeholder='Ask me any posts on InDevMined'
+          placeholder='Ask AI about any posts on InDevMined in 🇬🇧 or 🇹🇭'
           className='bg-transparent  w-full mx-2 focus:outline-none'
         />
         <button

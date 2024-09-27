@@ -8,10 +8,53 @@ import type { Metadata } from 'next'
 
 const postsDirectory = join(process.cwd(), 'vault')
 
-export function getPostSlugs() {
+type Language = 'en' | 'th'
+
+export function getPostFiles() {
   return fs.readdirSync(postsDirectory).filter((path) => path.endsWith('.md'))
 }
-export function getPostSlugsByLang(lang: string) {
+
+function fileToSlug(file: string) {
+  return file.replace('.md', '')
+}
+
+type PostMeta = FrontmatterContent & {
+  slug: string
+  en: {
+    title: string
+    url: string
+  }
+}
+
+export async function getPostsMeta(): Promise<PostMeta[]> {
+  const files = getPostFiles()
+  const slugs = files.map((file) => fileToSlug(file))
+  const postTHs = await Promise.all(slugs.map((slug) => getPostBySlug(slug)))
+  postTHs.sort(
+    (a, b) =>
+      new Date(b.frontmatter.published).getTime() - new Date(a.frontmatter.published).getTime()
+  )
+
+  const postENs = await Promise.all(
+    postTHs.map((post) =>
+      getPostBySlug(
+        parseMarkdownLink(post.frontmatter['language-en-link']!).slug,
+        'en'
+      )
+    )
+  )
+
+  return postTHs.map((post, index) => ({
+    ...post.frontmatter,
+    slug: slugs[index],
+    en: {
+      title: postENs[index].frontmatter.title,
+      url: parseMarkdownLink(post.frontmatter['language-en-link']!).url
+    }
+  }))
+}
+
+export function getPostSlugsByLang(lang: Language) {
   return fs
     .readdirSync(join(postsDirectory, lang))
     .filter((path) => path.endsWith('.md'))
@@ -26,11 +69,12 @@ export type FrontmatterContent = {
   categories: string
   keywords: string[]
   extracted: string
+  'reading-time': number
 }
 
 const postMap: { [key: string]: CompileMDXResult<FrontmatterContent> } = {}
 
-export async function getPostBySlug(slug: string, lang?: string) {
+export async function getPostBySlug(slug: string, lang?: Language) {
   const key = `${slug}[${lang ?? 'th'}]`
   if (postMap[key]) {
     return postMap[key]
@@ -64,10 +108,10 @@ export async function getPostBySlug(slug: string, lang?: string) {
   }
 }
 
-export function generatePostsStaticParams(lang?: string) {
+export function generatePostsStaticParams(lang?: Language) {
   let files: string[]
   if (!lang) {
-    files = getPostSlugs()
+    files = getPostFiles()
   } else {
     files = getPostSlugsByLang(lang)
   }
@@ -81,7 +125,7 @@ export function generatePostsStaticParams(lang?: string) {
 
 export async function generatePostMetadata(
   slug: string,
-  lang?: string
+  lang?: Language
 ): Promise<Metadata> {
   const post = await getPostBySlug(decodeURI(slug), lang)
   const extracted = JSON.parse(post.frontmatter.extracted)
@@ -90,5 +134,17 @@ export async function generatePostMetadata(
     title: post.frontmatter.title as string,
     description: extracted.summarize,
     keywords: extracted.keywords
+  }
+}
+
+export function parseMarkdownLink(mdLink: string, lang = 'en') {
+  const slug = mdLink.slice(2).slice(0, -2).split('|')[0].split('/').pop()
+  if(!slug) {
+    throw new Error("Fail to parse slug")
+  }
+
+  return {
+    url: lang === 'th' ? `/post/${slug}` : `/${lang}/post/${slug}`,
+    slug
   }
 }

@@ -2,7 +2,7 @@ import {
   generatePostMetadata,
   generatePostsStaticParams,
   getPostBySlug,
-  getPostSlugsByLang
+  parseMarkdownLink
 } from '@/utils/Mdx'
 import React from 'react'
 import Layout from '@/components/Layout'
@@ -13,7 +13,10 @@ type Props = { params: { slug: string } }
 
 export default async function page({ params }: Props) {
   const post = await getPostBySlug(decodeURI(params.slug), 'en')
-  const thSlug = post.frontmatter['language-th-link']!.slice(2).slice(0, -2)
+  const { url: thUrl, slug: thSlug } = parseMarkdownLink(
+    post.frontmatter['language-th-link']!,
+    'th'
+  )
   const thPost = await getPostBySlug(thSlug)
   const { published, categories } = thPost.frontmatter
   post.frontmatter = {
@@ -21,8 +24,6 @@ export default async function page({ params }: Props) {
     published,
     categories
   }
-
-  const thUrl = `/post/${thSlug}`
 
   return (
     <Layout th={thUrl}>
