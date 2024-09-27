@@ -1,6 +1,10 @@
 // @ts-check
 import { franc } from 'franc-min'
 import { knowledge } from '../script/knowledge'
+const dontKnowPrompt = {
+  'eng': `Sorry, I don't know how to help with that.`,
+  'tha': 'ขออภัย ฉันไม่สามารถตอบคำถามดังกล่าวได้'
+}
 
 /**
  * @typedef { {GROQ_API_KEY: string} } Env
@@ -42,7 +46,7 @@ export const onRequest = async (context) => {
 
   const url = 'https://api.groq.com/openai/v1/chat/completions'
   const apiKey = context.env.GROQ_API_KEY
-  let systemPrompt = `You are a very enthusiastic InDevMined representative who loves to help people! Given the following information provided inside <POST> tags, answer the question using only that information, outputted in markdown format. It is okay to provide additional information based on the information given. If you are unsure and the answer is not explicitly written in the information, say "Sorry, I don't know how to help with that."
+  let systemPrompt = `You are a very enthusiastic InDevMined representative who loves to help people! Given the following information provided inside <POST> tags, answer the question using only that information, outputted in markdown format. It is okay to provide additional information based on the information given. If you are unsure and the answer is not explicitly written in the information, say "${dontKnowPrompt[lang]}"
   
   Context sections:
     `
