@@ -1,79 +1,45 @@
-"use client";
-import { TypewriterEffect } from "@/components/ui/typewriter-effect";
-import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
-import { useAnimate, useInView, animate } from "framer-motion";
-import { useEffect, useRef } from "react";
-
-const words = [
-  {
-    text: "404",
-    className: "text-red-500 dark:text-red-500",
-    breakLine: true,
-  },
-  {
-    text: "Page",
-  },
-  {
-    text: "Not",
-  },
-  {
-    text: "Found",
-  },
-];
+import Layout from '@/components/Layout'
+import Question from '@/components/Question'
+import { Metadata } from 'next'
+import Link from 'next/link'
 
 export default function Home() {
-  const typeWriterEffectRef =
-    useRef<React.ElementRef<typeof TypewriterEffect>>(null);
-  const highlightRef = useRef<React.ElementRef<typeof Highlight>>(null);
-
-  const mainRef = useRef(null);
-  const isInView = useInView(mainRef);
-  const [pScope, pAnimate] = useAnimate();
-
-  useEffect(() => {
-    const startAnimate = async () => {
-      await typeWriterEffectRef.current?.start();
-      await animate([
-        [
-          pScope.current,
-          { opacity: 1, transform: "translateY(0px)" },
-          { delay: 0.2, duration: 0.7, ease: "easeInOut" },
-        ],
-        highlightRef.current?.animate()!,
-      ]);
-    };
-
-    startAnimate();
-   
-  }, [isInView]);
-
   return (
-    <main ref={mainRef}>
-      <HeroHighlight containerClassName="h-screen">
-        <div className="flex flex-col items-center justify-center h-full ">
-          <div>
-            <TypewriterEffect
-              ref={typeWriterEffectRef}
-              words={words}
-              cursorClassName="bg-red-500"
-            />
-          </div>
-          <div className="mt-12 max-w-[80%] h-1 w-full rounded-xl bg-neutral-600 dark:bg-neutral-200" />
-          <p
-            ref={pScope}
-            className="text-neutral-600 dark:text-neutral-200 text-xl mt-6 opacity-0 -translate-y-8"
-          >
-            In Dev{" "}
-            <Highlight
-              ref={highlightRef}
-              className="font-medium text-neutral-700 dark:text-neutral-300"
-            >
-              Mined
-            </Highlight>
-            <span> 🧠⛏️</span>
-          </p>
+    <Layout>
+      <div className='text-text relative mx-auto max-w-2xl w-full text-lg'>
+        <Question />
+        <div className='text-sm text-center text-zinc-500 mt-2 mb-8'>
+          AI can make mistakes. Check important info.
         </div>
-      </HeroHighlight>
-    </main>
-  );
+        <div className='text-sm text-center text-zinc-500 mt-2 mb-8'>
+          Made for fun with{' '}
+          <a className='text-text' href='https://nextjs.org' target='_blank'>
+            Next.js
+          </a>{' '}
+          +{' '}
+          <a
+            className='text-text'
+            href='https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/MODEL_CARD.md'
+            target='_blank'
+          >
+            Llama 3.1
+          </a>{' '}
+          70b on{' '}
+          <a className='text-text' href='https://groq.com' target='_blank'>
+            Groq
+          </a>
+        </div>
+      </div>
+
+      <div className='text-text relative mx-auto max-w-2xl w-full text-lg'>
+        <Link href={'/post'}>Read Post Yourself?</Link>
+      </div>
+    </Layout>
+  )
+}
+
+export const metadata: Metadata = {
+  title: 'Home | In Dev Mined',
+  description:
+    'All In Dev Mined Home page. Ask AI question about InDevMined post.'
 }
