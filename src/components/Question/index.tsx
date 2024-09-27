@@ -1,5 +1,5 @@
 'use client'
-import { CornerDownRight, Search, X } from 'lucide-react'
+import { CornerDownRight, MessageCircleQuestion, Search, X } from 'lucide-react'
 import React, { useRef, useState } from 'react'
 import './style.css'
 import { micromark } from 'micromark'
@@ -8,6 +8,12 @@ import { getAnswerIterator } from '@/apis'
 import AutoAnimateHeight from './AutoAnimateHeight'
 
 const squareLoader = `<span class='square-loader' />`
+
+const exampleQuestions = [
+  'Why use Generative AI?',
+  'เมื่อไหร่ควรนำ Gen AI มาใช้',
+  'How to update Generative AI knowledge'
+]
 
 const Question = () => {
   const [question, setQuestion] = useState('')
@@ -26,6 +32,7 @@ const Question = () => {
       answerRef.current.style.height = newHeight + 'px'
     }
   }
+
   const setupLoadingIndicator = () => {
     if (answerRef.current) {
       answerRef.current.innerHTML = squareLoader
@@ -41,12 +48,12 @@ const Question = () => {
     setIsActive(false)
   }
 
-  const onSubmit = async () => {
+  const onSubmit = async (overrideQuestion?: string) => {
     setIsActive(true)
     setIsLoading(true)
     setupLoadingIndicator()
     try {
-      const iterator = await getAnswerIterator(question)
+      const iterator = await getAnswerIterator(overrideQuestion ?? question)
       if (!iterator) {
         return
       }
@@ -64,6 +71,11 @@ const Question = () => {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const onChooseExampleQuestion = (question: string) => {
+    setQuestion(question)
+    onSubmit(question)
   }
 
   return (
@@ -96,20 +108,28 @@ const Question = () => {
         <button
           className='bg-color1 rounded-xl cursor-pointer disabled:bg-slate-600'
           disabled={isLoading}
-          onClick={onSubmit}
+          onClick={() => onSubmit()}
         >
           <CornerDownRight
-            className=' -scale-x-100 p-1 w-10 h-7'
+            className='-scale-x-100 p-1 w-10 h-7'
             strokeWidth={2}
           />
         </button>
       </div>
-      <AutoAnimateHeight expanded={isActive}>
-        <div className='h-3'></div>
-        <div className='h-[0.05rem] mx-16 bg-text' />
-        <div className='h-4'></div>
+      <div className='h-3'></div>
+      <div className='h-[0.05rem] mx-16 bg-text' />
+      <div className='h-4'></div>
+      <AutoAnimateHeight expanded={!isActive}>
+        <div className='mb-1'>Try Ask</div>
+        {exampleQuestions.map((question) => (
+          <div
+            onClick={() => onChooseExampleQuestion(question)}
+            className='cursor-pointer flex items-center hover:bg-slate-200/15 mb-1 px-1 py-1 rounded-xl'
+          >
+            <MessageCircleQuestion className='mr-2' /> {question}
+          </div>
+        ))}
       </AutoAnimateHeight>
-
       <div className='answer px-2 ' ref={answerRef}></div>
       <AutoAnimateHeight expanded={isActive}>
         <div className='h-1'></div>
