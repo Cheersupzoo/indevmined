@@ -9,6 +9,7 @@ keywords:
   - Generative AI
   - ChatGPT
 extracted: '{  "summarize": "เมื่อนำ Generative AI มาใช้ในการทำงาน ควรคำนึงถึงความปลอดภัยของข้อมูลผู้ใช้และข้อมูลที่ Gen AI สร้างขึ้น รวมถึงประเมินความสำคัญของข้อมูลที่ส่งไปให้บริการ Gen AI และตรวจสอบให้ดีว่าบริการนั้นนำข้อมูลไปฝึกต่อหรือไม่",  "keywords": ["Generative AI", "ความปลอดภัย", "ข้อมูลผู้ใช้", "ข้อมูลที่ Gen AI สร้างขึ้น", "บริการ Gen AI", "การฝึกต่อ", "ความสำคัญของข้อมูล"]}'
+reading-time: 2
 ---
 ![img-PY66Wa99IDGn9sUOhW3sNgqT_upscayl_2x_realesrgan-x4plus-anime.jpg](img-PY66Wa99IDGn9sUOhW3sNgqT_upscayl_2x_realesrgan-x4plus-anime.jpg)
 

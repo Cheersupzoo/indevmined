@@ -1,7 +1,7 @@
 ---
 title: อยากใช้ Gen AI นะ แต่เขียน Prompt ไม่เป็น
 language: th
-language-en-link: "[[en/Want-to-Use-Gen-AI-but-Don't-Know-How-to-Write-a-Prompt|Want-to-Use-Gen-AI-but-Don't-Know-How-to-Write-a-Prompt]]"
+language-en-link: "[[en/Want-to-Use-Gen-AI-but-Dont-Know-How-to-Write-a-Prompt|Want-to-Use-Gen-AI-but-Dont-Know-How-to-Write-a-Prompt]]"
 published: 2024-05-22
 categories: learning
 keywords:
@@ -9,6 +9,7 @@ keywords:
   - Generative AI
   - ChatGPT
 extracted: '{  "summarize": "หลายคนอาจเจอปัญหาในการใช้ Generative AI โดยไม่สามารถถามคำถามได้ถูกต้อง แต่จริงๆ แล้วคุณเพียงต้องการเห็นตัวอย่างดีๆ ของ Prompt ที่เวิร์ค วันนี้เรารวมแหล่งตัวอย่างดีๆ จากผู้พัฒนาเอง เช่น OpenAI, Anthropic และ Google",  "keywords": ["Generative AI", "Prompt", "OpenAI", "Anthropic", "Google", "Prompt Engineering", "ChatGPT"]}'
+reading-time: 1
 ---
 ![441580942_122116196402287989_7372035436482167927_n.jpg](441580942_122116196402287989_7372035436482167927_n.jpg)
 
