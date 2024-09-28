@@ -130,6 +130,7 @@ const Question = () => {
         <div className='mb-1'>Try Ask</div>
         {exampleQuestions.map((question) => (
           <div
+            key={question}
             onClick={() => onChooseExampleQuestion(question)}
             className='cursor-pointer flex items-center hover:bg-slate-200/15 mb-1 px-1 py-1 rounded-xl'
           >

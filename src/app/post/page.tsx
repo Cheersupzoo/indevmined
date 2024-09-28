@@ -12,13 +12,6 @@ export default async function page() {
   return (
     <Layout>
       <div className='text-text relative mx-auto max-w-2xl w-full text-lg'>
-        <Question />
-        <div className='text-sm text-center text-zinc-500 mt-2 mb-8'>
-          AI can make mistakes. Check important info.
-        </div>
-        <div className='text-[2rem] leading-none text=text font-medium mb-6'>
-          Read Post directly
-        </div>
         {posts.map((post) => (
           <Link key={post.slug} href={`/post/${post.slug}`} className='mb-4 block group'>
             <div className='text-color3 group-hover:text-color2 text-xl'>{post.title}</div>

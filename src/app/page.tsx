@@ -7,7 +7,7 @@ import Link from 'next/link'
 export default function Home() {
   return (
     <Layout>
-      <div className='text-text relative mx-auto max-w-2xl w-full text-lg'>
+      <div className='text-text relative mx-auto max-w-2xl w-full text-lg px-2 sm:px-0'>
         <Question />
         <div className='text-sm text-center text-zinc-500 mt-2'>
           AI can make mistakes. Check important info.
@@ -32,7 +32,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className='text-text relative mx-auto max-w-2xl w-full text-lg'>
+      <div className='text-text relative mx-auto max-w-2xl w-full text-lg px-2 sm:px-0'>
         <Link className='font-medium' href={'/post'}>Read Posts Yourself?</Link>
       </div>
       <StuntingBackground />

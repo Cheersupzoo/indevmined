@@ -19,7 +19,7 @@
 
 .square {
   background: linear-gradient(135deg, rgb(var(--color2)), rgb(var(--color5)));
-  animation: rotateSquare 35s infinite linear;
+  animation: rotateSquare 250s infinite linear;
 }
 
 .triangle {
@@ -28,13 +28,13 @@
   border-left: 50px solid transparent;
   border-right: 50px solid transparent;
   border-bottom: 86.6px solid rgb(var(--color3));
-  animation: moveTriangle 32s infinite alternate;
+  animation: moveTriangle 258s infinite alternate;
 }
 
 .line {
   height: 2px;
   background-color: rgb(var(--color1));
-  animation: moveLine 25s infinite alternate;
+  animation: moveLine 185s infinite alternate;
 }
 
 .dot-grid {
