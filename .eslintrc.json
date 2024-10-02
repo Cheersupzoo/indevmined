@@ -4,6 +4,7 @@
     "padding-line-between-statements": [
       "warn",
       { "blankLine": "always", "prev": "*", "next": "return" }
-    ]
+    ],
+    "react/no-unescaped-entities": 0
   }
 }
