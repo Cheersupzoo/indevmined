@@ -18,7 +18,7 @@ function fileToSlug(file: string) {
   return file.replace('.md', '')
 }
 
-type PostMeta = FrontmatterContent & {
+export type PostMeta = FrontmatterContent & {
   slug: string
   en: {
     title: string

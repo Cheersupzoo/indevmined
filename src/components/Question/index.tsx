@@ -87,10 +87,10 @@ const Question = () => {
     <div
       className={cs(
         {
-          'border-foreground bg-foreground/90': isActive,
+          'bg-foreground/90': isActive,
           'border-text': !isActive
         },
-        'focus-within:bg-foreground/90 hover:bg-foreground/90  border rounded-2xl py-3 pl-6 pr-6 transition-colors',
+        'border rounded-2xl py-3 pl-6 pr-6',
         'backdrop-blur-sm'
       )}
     >
