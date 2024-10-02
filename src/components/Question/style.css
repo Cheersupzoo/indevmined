@@ -46,7 +46,7 @@
   display: inline-block;
   width: 0.7em;
   height: 0.7em;
-  background-color: var(--text-color);
+  background-color: rgb(var(--text-color));
   animation: squareLoader 1s infinite ease-in-out;
   transform-origin: bottom;
 }
