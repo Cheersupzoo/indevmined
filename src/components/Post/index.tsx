@@ -2,13 +2,14 @@ import { FrontmatterContent } from '@/utils/Mdx'
 import { CompileMDXResult } from 'next-mdx-remote/rsc'
 import React from 'react'
 import './style.css'
+import { NormalResponsive } from '../Layout'
 
 type Props = {
   post: CompileMDXResult<FrontmatterContent>
 }
 const Post = ({ post }: Props) => {
   return (
-    <div className='relative mx-auto max-w-2xl text-lg text-eva-text'>
+    <NormalResponsive className='text-eva-text'>
       <h1 className='text-4xl font-bold mb-3'>
         {post.frontmatter.title as string}
       </h1>
@@ -22,7 +23,7 @@ const Post = ({ post }: Props) => {
         POST
       </div>
       {post.content}
-    </div>
+    </NormalResponsive>
   )
 }
 

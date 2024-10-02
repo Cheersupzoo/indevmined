@@ -1,4 +1,4 @@
-import Layout from '@/components/Layout'
+import Layout, { NormalResponsive } from '@/components/Layout'
 import Question from '@/components/Question'
 import StuntingBackground from '@/components/StuntingBackground'
 import { Metadata } from 'next'
@@ -7,7 +7,7 @@ import Link from 'next/link'
 export default function Home() {
   return (
     <Layout>
-      <div className='text-text relative mx-auto max-w-2xl w-full text-lg px-2 sm:px-0'>
+      <NormalResponsive>
         <Question />
         <div className='text-sm text-center text-zinc-500 mt-2'>
           AI can make mistakes. Check important info.
@@ -30,11 +30,10 @@ export default function Home() {
             Groq
           </a>
         </div>
-      </div>
-
-      <div className='text-text relative mx-auto max-w-2xl w-full text-lg px-2 sm:px-0'>
-        <Link className='font-medium' href={'/post'}>Read Posts Yourself?</Link>
-      </div>
+        <Link className='font-medium' href={'/post'}>
+          Read Posts Yourself?
+        </Link>
+      </NormalResponsive>
       <StuntingBackground />
     </Layout>
   )

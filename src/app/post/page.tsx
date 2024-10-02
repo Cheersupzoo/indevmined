@@ -1,5 +1,4 @@
-import Layout from '@/components/Layout'
-import Question from '@/components/Question'
+import Layout, { NormalResponsive } from '@/components/Layout'
 import { getPostsMeta } from '@/utils/Mdx'
 import { Clock } from 'lucide-react'
 import { Metadata } from 'next'
@@ -11,7 +10,7 @@ export default async function page() {
 
   return (
     <Layout>
-      <div className='text-text relative mx-auto max-w-2xl w-full text-lg'>
+      <NormalResponsive>
         {posts.map((post) => (
           <Link key={post.slug} href={`/post/${post.slug}`} className='mb-4 block group'>
             <div className='text-color3 group-hover:text-color2 text-xl'>{post.title}</div>
@@ -21,7 +20,7 @@ export default async function page() {
             </div>
           </Link>
         ))}
-      </div>
+      </NormalResponsive>
     </Layout>
   )
 }
