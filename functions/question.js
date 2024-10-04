@@ -94,7 +94,6 @@ function getHeader(context) {
   ]
 
   if (corsWhitelist.some((whitelist) => whitelist.test(origin))) {
-    console.log('ALLOWED')
 
     return {
       'Access-Control-Allow-Origin': origin,
