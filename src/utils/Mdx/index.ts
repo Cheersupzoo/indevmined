@@ -32,7 +32,8 @@ export async function getPostsMeta(): Promise<PostMeta[]> {
   const postTHs = await Promise.all(slugs.map((slug) => getPostBySlug(slug)))
   postTHs.sort(
     (a, b) =>
-      new Date(b.frontmatter.published).getTime() - new Date(a.frontmatter.published).getTime()
+      new Date(b.frontmatter.published).getTime() -
+      new Date(a.frontmatter.published).getTime()
   )
 
   const postENs = await Promise.all(
@@ -97,6 +98,19 @@ export async function getPostBySlug(slug: string, lang?: Language) {
           rehypePlugins: [imageUrlTransformer, imageSizeEmbedder]
         }
       }
+    }).catch((e) => {
+      console.log(`RETRY PARSE: ${key}`)
+
+      return compileMDX<FrontmatterContent>({
+        source: post,
+        options: {
+          parseFrontmatter: true,
+          mdxOptions: {
+            remarkPlugins: [wikiLinkPlugin],
+            rehypePlugins: [imageUrlTransformer, imageSizeEmbedder]
+          }
+        }
+      })
     })
     postMap[key] = mdxSource
 
@@ -139,8 +153,8 @@ export async function generatePostMetadata(
 
 export function parseMarkdownLink(mdLink: string, lang = 'en') {
   const slug = mdLink.slice(2).slice(0, -2).split('|')[0].split('/').pop()
-  if(!slug) {
-    throw new Error("Fail to parse slug")
+  if (!slug) {
+    throw new Error('Fail to parse slug')
   }
 
   return {
