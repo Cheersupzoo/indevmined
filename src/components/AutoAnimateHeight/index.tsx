@@ -2,7 +2,7 @@ import React from 'react'
 import './AutoAnimateHeight.css'
 import cs from 'classnames'
 
-const AutoAnimateHeight = ({
+export const AutoAnimateHeight = ({
   children,
   expanded
 }: React.PropsWithChildren<{ expanded?: boolean }>) => {
@@ -12,5 +12,3 @@ const AutoAnimateHeight = ({
     </div>
   )
 }
-
-export default AutoAnimateHeight

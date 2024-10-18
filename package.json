@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@e2b/code-interpreter": "^1.0.2",
     "classnames": "^2.5.1",
     "clsx": "^2.1.0",
+    "e2b": "^1.0.1",
     "eventsource-parser": "^2.0.1",
     "framer-motion": "^11.0.25",
     "franc-min": "^6.2.0",

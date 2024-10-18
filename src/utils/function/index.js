@@ -38,7 +38,24 @@ export const functionWrapper = (onRequest) => {
 
     const response = await onRequest(context, reqBody)
 
-    return new Response(response.body, { headers })
+    if (!(response instanceof Response)) {
+      return Response.json(
+        { data: response },
+        {
+          headers: {
+            ...headers,
+            'content-type': 'application/json'
+          }
+        }
+      )
+    }
+
+    return new Response(response.body, {
+      headers: {
+        ...headers,
+        'content-type': response.headers.get('content-type')
+      }
+    })
   }
 }
 

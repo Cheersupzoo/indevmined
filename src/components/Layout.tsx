@@ -2,13 +2,17 @@ import React from 'react'
 import { Header } from './Header'
 import Footer from './Footer'
 import cn from 'classnames'
-type Props = React.PropsWithChildren<{ en?: string; th?: string }>
-export default function Layout({ children, en, th }: Props) {
+type Props = React.PropsWithChildren<{
+  en?: string
+  th?: string
+  className?: string
+}>
+export default function Layout({ children, en, th, className }: Props) {
   return (
-    <div className='flex flex-col'>
-      <Header en={en} th={th} />
+    <div className={cn('flex flex-col', className)}>
+      <Header en={en} th={th} className={className} />
       <div className='flex flex-grow flex-col'>{children}</div>
-      <Footer />
+      <Footer className={className} />
     </div>
   )
 }
