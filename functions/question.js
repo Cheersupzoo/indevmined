@@ -7,12 +7,6 @@ const dontKnowPrompt = {
   tha: 'ขออภัย ฉันไม่สามารถตอบคำถามดังกล่าวได้'
 }
 
-/**
- * @typedef { {GROQ_API_KEY: string} } Env
- */
-/**
- * @param {import('@cloudflare/workers-types').EventContext<Env, '',{}>} context
- */
 export const onRequest = functionWrapper(async (context, reqBody) => {
   let lang = franc(reqBody.question, { only: ['tha', 'eng'] })
   if (lang === 'und') lang = 'eng'
@@ -83,9 +77,4 @@ function getHeader(context) {
   }
 }
 
-export const onRequestOptions = async (context) => {
-  return new Response(null, {
-    status: 204,
-    headers: getHeader(context)
-  })
-}
+export { onRequestOptions } from '../src/utils/function/index'
