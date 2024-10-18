@@ -1,9 +1,10 @@
 // @ts-check
 import { franc } from 'franc-min'
 import { knowledge } from '../script/knowledge'
+import { functionWrapper } from '../src/utils/function'
 const dontKnowPrompt = {
-  'eng': `Sorry, I don't know how to help with that.`,
-  'tha': 'ขออภัย ฉันไม่สามารถตอบคำถามดังกล่าวได้'
+  eng: `Sorry, I don't know how to help with that.`,
+  tha: 'ขออภัย ฉันไม่สามารถตอบคำถามดังกล่าวได้'
 }
 
 /**
@@ -12,36 +13,8 @@ const dontKnowPrompt = {
 /**
  * @param {import('@cloudflare/workers-types').EventContext<Env, '',{}>} context
  */
-export const onRequest = async (context) => {
-  const headers = getHeader(context)
-  const reqBody = await context.request.json().catch((e) => {
-    console.trace(e)
-
-    return 'error'
-  })
-  if (reqBody === 'error') {
-    return Response.json(
-      { status: 'failed', error: 'Invalid content-type.' },
-      { headers }
-    )
-  }
-
-  if (!reqBody?.question || typeof reqBody?.question !== 'string') {
-    return Response.json(
-      { status: 'failed', error: 'Invalid parameters.' },
-      { headers }
-    )
-  }
-
-  if (reqBody.question.length > 400) {
-    return Response.json(
-      { status: 'failed', error: 'Question too long.' },
-      { headers }
-    )
-  }
-  const question = reqBody?.question
-
-  let lang = franc(question, { only: ['tha', 'eng'] })
+export const onRequest = functionWrapper(async (context, reqBody) => {
+  let lang = franc(reqBody.question, { only: ['tha', 'eng'] })
   if (lang === 'und') lang = 'eng'
 
   const url = 'https://api.groq.com/openai/v1/chat/completions'
@@ -61,7 +34,7 @@ export const onRequest = async (context) => {
       },
       {
         role: 'user',
-        content: question
+        content: reqBody.question
       }
     ],
     model: 'llama-3.1-70b-versatile',
@@ -80,8 +53,8 @@ export const onRequest = async (context) => {
     body: JSON.stringify(body)
   })
 
-  return new Response(response.body, { headers })
-}
+  return response
+})
 
 function getHeader(context) {
   const origin = context.request.headers.get('origin') ?? ''
@@ -94,7 +67,6 @@ function getHeader(context) {
   ]
 
   if (corsWhitelist.some((whitelist) => whitelist.test(origin))) {
-
     return {
       'Access-Control-Allow-Origin': origin,
       'Access-Control-Allow-Headers': '*',
