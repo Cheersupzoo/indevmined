@@ -1,5 +1,6 @@
 import { callE2B } from '../src/utils/function/e2b'
 import { functionWrapper } from '../src/utils/function/index'
+import { sendMessage } from '../src/utils/function/stream'
 
 const codeParser = (functionObj) => {
   if (!functionObj?.function?.arguments || !functionObj?.id) {
@@ -87,54 +88,87 @@ export const onRequest = functionWrapper(async (context, reqBody) => {
     ) {
       return 'Sorry, I am unable to answer the following question.'
     }
-    const results = await Promise.all(
-      aiChoice.tool_calls.map(async (toolCall) => {
-        const { id, code, error } = codeParser(toolCall)
-        if (error) {
-          return {
-            id,
-            error
-          }
+
+    const { readable, writable } = new TransformStream()
+
+    new Promise(async (resolve) => {
+      try {
+        const jsonText = JSON.stringify({
+          object: 'code.execute',
+          id: 'code.execute'
+        })
+        await sendMessage(jsonText, writable)
+
+        for await (const toolCall of aiChoice.tool_calls) {
+          const { id, code } = codeParser(toolCall)
+          const jsonText = JSON.stringify({ object: 'code.source', id, code })
+          await sendMessage(jsonText, writable)
         }
+        const results = await Promise.all(
+          aiChoice.tool_calls.map(async (toolCall) => {
+            const { id, code, error } = codeParser(toolCall)
 
-        const output = await callE2B(e2bApiKey, id, code)
+            if (error) {
+              return {
+                id,
+                error
+              }
+            }
 
-        return output
-      })
-    )
+            const output = await callE2B(e2bApiKey, id, code)
 
-    const body = {
-      messages: [
-        {
-          role: 'system',
-          content: systemPrompt
-        },
-        {
-          role: 'user',
-          content: question
-        },
-        aiChoice,
-        {
-          role: 'function',
-          name: 'execute_python',
-          content: JSON.stringify(results)
+            const jsonText = JSON.stringify({
+              object: 'code.source.result',
+              id,
+              result: output.result,
+              error: output.error
+            })
+            await sendMessage(jsonText, writable)
+
+            return output
+          })
+        )
+
+        const body = {
+          messages: [
+            {
+              role: 'system',
+              content: systemPrompt
+            },
+            {
+              role: 'user',
+              content: question
+            },
+            aiChoice,
+            {
+              role: 'function',
+              name: 'execute_python',
+              content: JSON.stringify(results)
+            }
+          ],
+          model: 'llama-3.1-70b-versatile',
+          temperature: 0.1,
+          max_tokens: 1500,
+          stream: reqBody.stream ?? false
         }
-      ],
-      model: 'llama-3.1-70b-versatile',
-      temperature: 0.1,
-      max_tokens: 1500,
-      stream: reqBody.stream ?? false
-    }
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${groqApiKey}`
-      },
-      body: JSON.stringify(body)
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${groqApiKey}`
+          },
+          body: JSON.stringify(body)
+        })
+
+        response.body.pipeTo(writable)
+        resolve()
+      } catch (error) {
+        console.error(error)
+        writable.close()
+      }
     })
 
-    return response
+    return readable
   }
 
   return aiChoice.content

@@ -38,6 +38,15 @@ export const functionWrapper = (onRequest) => {
 
     const response = await onRequest(context, reqBody)
 
+    if (response instanceof ReadableStream) {
+      return new Response(response, {
+        headers: {
+          ...headers,
+          'content-type': 'text/event-stream'
+        }
+      })
+    }
+
     if (!(response instanceof Response)) {
       return Response.json(
         { data: response },

@@ -1,4 +1,4 @@
-import { openAIStreamToIterator } from '@/utils/Stream'
+import { openAIStreamToIterator, TextStreamUpdate } from '@/utils/Stream'
 import { EventSourceParserStream } from 'eventsource-parser/stream'
 
 export const getAnswerIterator = async (question: string) => {
@@ -32,7 +32,11 @@ export const getAnswerIterator = async (question: string) => {
   return iterator
 }
 
-export const getMathAnswerIterator = async (question: string) => {
+export const getMathAnswerIterator: (
+  question: string
+) => Promise<AsyncGenerator<TextStreamUpdate, any, any>> = async (
+  question: string
+) => {
   const response = await fetch(
     process.env.NEXT_PUBLIC_MATH_QUESTION_ENDPOINT ?? '/math-question',
     {

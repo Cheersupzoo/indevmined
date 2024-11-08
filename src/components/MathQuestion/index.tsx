@@ -1,13 +1,20 @@
 'use client'
 import { CornerDownRight, MessageCircleQuestion, Search, X } from 'lucide-react'
-import React, { useRef, useState } from 'react'
+import React, { Fragment, lazy, useState } from 'react'
 import './style.css'
 import { micromark } from 'micromark'
 import cs from 'classnames'
 import { getMathAnswerIterator } from '@/apis'
-import { AutoAnimateHeight } from '../AutoAnimateHeight'
+import { AutoAnimateHeight, EnterAnimateHeight } from '../AutoAnimateHeight'
+import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
+oneLight['pre[class*="language-"]'].margin = '0'
+oneLight['pre[class*="language-"]'].borderRadius = '0'
 
-const squareLoader = `<span class='square-loader bg-slate-700' />`
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
+import python from 'react-syntax-highlighter/dist/esm/languages/prism/python'
+import { cn } from '@/utils/cn'
+SyntaxHighlighter.registerLanguage('python', python)
+const SquareLoader = () => <span className='square-loader bg-slate-700' />
 
 const exampleQuestions = [
   'Find the area of circle when radius is 5',
@@ -15,46 +22,28 @@ const exampleQuestions = [
   'What is the answer for x^2+2x+1 when x=3? And given a sentence "An apple a day keeps the doctor away", what is the order of the word "apple" in the sentence'
 ]
 
+type Content = {
+  id: string
+  type: 'text' | 'code'
+  value: string
+  loading?: boolean
+  result?: string
+  error?: string
+}
+
 const MathQuestion = () => {
   const [question, setQuestion] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const answerRef = useRef<HTMLDivElement>(null)
   const [isActive, setIsActive] = useState(false)
   const [error, setError] = useState<string | null>(null)
-
-  const changeContent = (newContent: string) => {
-    if (answerRef.current) {
-      const currentHeight = answerRef.current.clientHeight
-      answerRef.current.innerHTML = newContent
-      answerRef.current.style.height = 'auto'
-      const newHeight = answerRef.current.clientHeight
-      answerRef.current.style.height = currentHeight + 'px'
-      void answerRef.current.offsetHeight
-      answerRef.current.style.height = newHeight + 'px'
-    }
-  }
-
-  const setupLoadingIndicator = () => {
-    if (answerRef.current) {
-      answerRef.current.innerHTML = squareLoader
-      answerRef.current.style.height = '0px'
-      void answerRef.current.offsetHeight
-      answerRef.current.style.height = ' 1.2em'
-    }
-  }
-
-  const onClear = () => {
-    changeContent('')
-    setQuestion('')
-    setIsActive(false)
-    setError(null)
-  }
+  const [contents, setContents] = useState<Content[]>([])
 
   const onSubmit = async (overrideQuestion?: string) => {
     setError(null)
     setIsActive(true)
     setIsLoading(true)
-    setupLoadingIndicator()
+    setContents([])
+
     try {
       const iterator = await getMathAnswerIterator(overrideQuestion ?? question)
       if (!iterator) {
@@ -62,26 +51,66 @@ const MathQuestion = () => {
       }
 
       if (typeof iterator === 'string') {
-        changeContent(micromark(iterator, { allowDangerousHtml: true }))
+        setContents([{ id: '', type: 'text', value: iterator }])
         setIsLoading(false)
       }
 
-      let answer = ''
+      let contentBuffer: Content[] = []
       for await (const update of iterator) {
-        const { value } = update
-        answer += value
-        changeContent(
-          micromark(answer + squareLoader, { allowDangerousHtml: true })
-        )
+        const { id = '', value, codeId, code = '', error } = update
+        if (!(value || code)) continue
+        // TODO: Refactor Whole This block
+        if (codeId) {
+          const contentIndex = contentBuffer.findIndex(
+            (content) => content.id === id
+          )
+          if (contentIndex !== -1) {
+            contentBuffer = [...contentBuffer]
+            contentBuffer[contentIndex] = {
+              ...contentBuffer[contentIndex],
+              loading: false,
+              result: value,
+              error
+            }
+          } else {
+            contentBuffer = [
+              ...contentBuffer,
+              { id, type: 'code', value: code, loading: true }
+            ]
+          }
+        } else {
+          const contentIndex = contentBuffer.findIndex(
+            (content) => content.id === id
+          )
+          if (contentIndex !== -1) {
+            contentBuffer = [...contentBuffer]
+            contentBuffer[contentIndex] = {
+              ...contentBuffer[contentIndex],
+              value: contentBuffer[contentIndex].value + value
+            }
+          } else {
+            contentBuffer = [...contentBuffer, { id, type: 'text', value }]
+          }
+        }
+        setContents(contentBuffer)
       }
-      changeContent(micromark(answer, { allowDangerousHtml: true }))
     } catch (e) {
       console.trace(e)
-      setError('Something went wrong. Please try again later.')
-      changeContent('')
+      setContents([
+        {
+          id: '',
+          type: 'text',
+          value: 'Something went wrong. Please try again later.'
+        }
+      ])
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const onClear = () => {
+    setContents([])
+    setIsActive(false)
   }
 
   const onChooseExampleQuestion = (question: string) => {
@@ -145,7 +174,39 @@ const MathQuestion = () => {
           </div>
         ))}
       </AutoAnimateHeight>
-      <div className='answer px-2 ' ref={answerRef}></div>
+      <div className='answer px-2 space-y-4'>
+        {contents.map(({ value, type, loading, result }, index) => (
+          <Fragment key={index}>
+            {type === 'text' && <div>{value}</div>}
+            {type === 'code' && (
+              <EnterAnimateHeight className='text-sm  '>
+                <div className='bg-slate-500 text-slate-100 pl-2 py-0.5 rounded-t-[.3em] text-xs'>
+                  Python
+                </div>
+                <SyntaxHighlighter
+                  PreTag='div'
+                  language='python'
+                  style={oneLight}
+                >
+                  {String(value).replace(/\n$/, '')}
+                </SyntaxHighlighter>
+                {
+                  <div
+                    className={cn(
+                      'bg-slate-300 text-slate-700 pl-2 py-0.5 rounded-b-[.3em] text-sm font-mono',
+                      loading && 'code-spinner'
+                    )}
+                  >
+                    {loading && 'Running...'}
+                    {!loading && <>Output: {result}</>}
+                  </div>
+                }
+              </EnterAnimateHeight>
+            )}
+          </Fragment>
+        ))}
+        {isLoading && <SquareLoader />}
+      </div>
       <AutoAnimateHeight expanded={isActive}>
         <div className='h-1'></div>
       </AutoAnimateHeight>
