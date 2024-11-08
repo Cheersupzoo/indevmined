@@ -110,6 +110,7 @@ const MathQuestion = () => {
 
   const onClear = () => {
     setContents([])
+    setQuestion('')
     setIsActive(false)
   }
 
