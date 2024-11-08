@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Layout, { NormalResponsive } from '@/components/Layout'
 import Question from '@/components/Question'
 import StuntingBackground from '@/components/StuntingBackground'
@@ -8,6 +9,24 @@ export default function Home() {
   return (
     <Layout>
       <NormalResponsive>
+        <div className='relative flex'>
+          <div className='h-40 w-64' />
+          <div className='mt-2 sm:mt-10 space-y-4'>
+            <div className='text-xl sm:text-2xl'>
+              Ask <span className='text-color2 font-semibold '>Ham</span> the AI
+              about <span className='text-color1 font-medium'>InDevMined</span>!
+            </div>
+            <div className='text-sm sm:text-base'>
+              He knows all the FB posts and can respond in both English and
+              Thai.
+            </div>
+          </div>
+          <img
+            className='absolute top-0 -left-16 w-[200px] sm:w-[300px]'
+            src='/ham.png'
+            alt='Ham the ai assistance'
+          />
+        </div>
         <div className='bg-foreground/90 p-2 rounded-3xl'>
           <Question />
           <div className='text-sm text-center text-zinc-500 mt-2'>
@@ -35,7 +54,7 @@ export default function Home() {
           <div className='px-4 py-2'>
             <div className='font-medium text-2xl mb-4'>Q&A</div>
 
-            <div className='font-medium mb-2'>What is this AI?</div>
+            <div className='font-medium mb-2'>What is Ham?</div>
             <div className='text-sm text-justify'>
               This is a Q&A AI system that has been trained using information
               from the{' '}
@@ -51,7 +70,7 @@ export default function Home() {
               be accurate.
             </div>
 
-            <div className='font-medium mb-2 mt-4'>How is this AI made?</div>
+            <div className='font-medium mb-2 mt-4'>How is Ham made?</div>
             <div className='text-sm text-justify'>
               The core of this AI system is based on the LLM{' '}
               <a
@@ -95,10 +114,14 @@ export default function Home() {
               >
                 this website
               </Link>
-              . An English translated version is available on this <Link
+              . An English translated version is available on this{' '}
+              <Link
                 className='underline underline-offset-4 hover:text-color2'
                 href={'/en/post'}
-              >page</Link>.
+              >
+                page
+              </Link>
+              .
             </div>
           </div>
         </div>

@@ -88,10 +88,10 @@ const Question = () => {
       className={cs(
         {
           'bg-foreground/90': isActive,
-          'border-text': !isActive
+          'border-text bg-foreground/60': !isActive
         },
         'border rounded-2xl py-3 pl-6 pr-6',
-        'backdrop-blur-sm'
+        'backdrop-blur-sm transition-colors'
       )}
     >
       <div className='flex relative items-center'>
@@ -101,7 +101,7 @@ const Question = () => {
           disabled={isLoading}
           onChange={(e) => setQuestion(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && onSubmit()}
-          placeholder='Ask AI about any posts on InDevMined in 🇬🇧 or 🇹🇭'
+          placeholder='Ask Ham about any posts on InDevMined in 🇬🇧 or 🇹🇭'
           className='bg-transparent  w-full mx-2 focus:outline-none'
         />
         <button
