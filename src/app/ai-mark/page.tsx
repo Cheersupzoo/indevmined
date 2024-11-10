@@ -73,6 +73,14 @@ export default function Home() {
             </a>
           </div>
         </div>
+        <div className='flex justify-center mt-8'>
+          <a
+            href='https://github.com/Cheersupzoo/indevmined'
+            className='text-slate-600 text-sm hover:underline'
+          >
+            View on GitHub
+          </a>
+        </div>
       </NormalResponsive>
     </Layout>
   )
