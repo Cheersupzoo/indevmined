@@ -9,14 +9,18 @@ This is site is made with `Next.js` app router. It is built as static site. The 
 
 ## Getting Started
 
-First, run the development server:
+### Prepare env
+```bash
+cp .env.example .env
+```
+Make sure to update the api key with your personal key or the AI won't work.
+
+### Run dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+# For LLM endpoints to work will need to run
+npm run dev:function
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

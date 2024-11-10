@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev:function": "npx -y wrangler pages dev ."
   },
   "dependencies": {
     "@e2b/code-interpreter": "^1.0.2",
