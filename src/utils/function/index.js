@@ -1,5 +1,5 @@
 /**
- * @typedef { {GROQ_API_KEY: string, E2B_API_KEY: string} } Env
+ * @typedef { {GROQ_API_KEY: string, E2B_API_KEY: string, TOGETHER_AI_API_KEY: string} } Env
  * @typedef { import('@cloudflare/workers-types').EventContext<Env, '',{}> } Context
  */
 /**
