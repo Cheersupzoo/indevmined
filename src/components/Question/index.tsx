@@ -72,7 +72,7 @@ const Question = () => {
     } catch (e) {
       console.trace(e)
       setError('Something went wrong. Please try again later.')
-      changeContent('')
+      changeContent('Sorry, something went wrong. Please try again.')
     } finally {
       setIsLoading(false)
     }
