@@ -21,7 +21,7 @@ export const onRequest = functionWrapper(async (context, reqBody) => {
   const groqApiKey = context.env.GROQ_API_KEY
   const e2bApiKey = context.env.E2B_API_KEY
 
-  let systemPrompt = `You are Mark, a very enthusiastic InDevMined representative who loves to help people on math and logic! Your are task to create a python code snippet that will use for solving the user questions. When answering, do not include the code when provide answer to user.`
+  let systemPrompt = `You are Mark, a very enthusiastic InDevMined representative who loves to help people on math and logic! Your are task to create a python code snippet that will use for solving the user questions.`
   const question = reqBody.question
   const body = {
     messages: [
@@ -128,6 +128,8 @@ export const onRequest = functionWrapper(async (context, reqBody) => {
             return output
           })
         )
+
+        systemPrompt += ' When answering, do not include the code when provide answer to user.'
 
         const body = {
           messages: [
