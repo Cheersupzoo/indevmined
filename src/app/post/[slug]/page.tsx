@@ -32,5 +32,3 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return generatePostMetadata(params.slug)
 }
-
-export const revalidate = 0
