@@ -5,6 +5,7 @@
     "tags": "tags",
     "published": "date",
     "keywords": "multitext",
-    "extracted": "text"
+    "extracted": "text",
+    "draft": "checkbox"
   }
 }
