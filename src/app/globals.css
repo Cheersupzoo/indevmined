@@ -36,7 +36,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: 20 20 42;
+    --bg-color: 18 18 24;
     --fg-color: 35 38 58;
     --text-color: 216 219 233;
     --light-blue-color: 67 99 111;

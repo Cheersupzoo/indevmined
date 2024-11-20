@@ -5,31 +5,49 @@ import imageUrlTransformer from './rehype/imageUrlTransformer'
 import wikiLinkPlugin from 'remark-wiki-link'
 import imageSizeEmbedder from './rehype/imageSizeEmbedder'
 import type { Metadata } from 'next'
+import imageVaultToPublic from './rehype/imageVaultToPublic'
+import centerImageDescription from './rehype/centerImageDescription'
+import rehypeMdxCodeProps from 'rehype-mdx-code-props'
+import { pre } from './components/pre'
+import { Code } from './components/code'
+import { img } from './components/img'
 
 const postsDirectory = join(process.cwd(), 'vault')
 
 type Language = 'en' | 'th'
 
 export function getPostFiles() {
-  return fs.readdirSync(postsDirectory).filter((path) => path.endsWith('.md'))
+  return fs
+    .readdirSync(postsDirectory)
+    .filter((path) => path.endsWith('.md') || path.endsWith('.mdx'))
 }
 
 function fileToSlug(file: string) {
-  return file.replace('.md', '')
+  return file.replace('.mdx', '').replace('.md', '')
 }
 
 export type PostMeta = FrontmatterContent & {
   slug: string
   en: {
-    title: string
+    title?: string
     url: string
-  }
+  } | null
 }
 
 export async function getPostsMeta(): Promise<PostMeta[]> {
   const files = getPostFiles()
   const slugs = files.map((file) => fileToSlug(file))
-  const postTHs = await Promise.all(slugs.map((slug) => getPostBySlug(slug)))
+  let postTHs = await Promise.all(slugs.map((slug) => getPostBySlug(slug)))
+
+  postTHs = postTHs
+    .map((post, index) => ({
+      ...post,
+      frontmatter: { ...post.frontmatter, slug: slugs[index] }
+    }))
+    .filter((post) => {
+      return !post.frontmatter.draft
+    })
+
   postTHs.sort(
     (a, b) =>
       new Date(b.frontmatter.published).getTime() -
@@ -38,20 +56,23 @@ export async function getPostsMeta(): Promise<PostMeta[]> {
 
   const postENs = await Promise.all(
     postTHs.map((post) =>
-      getPostBySlug(
-        parseMarkdownLink(post.frontmatter['language-en-link']!).slug,
-        'en'
-      )
+      post.frontmatter['language-en-link']
+        ? getPostBySlug(
+            parseMarkdownLink(post.frontmatter['language-en-link']!).slug,
+            'en'
+          )
+        : null
     )
   )
 
   return postTHs.map((post, index) => ({
     ...post.frontmatter,
-    slug: slugs[index],
-    en: {
-      title: postENs[index].frontmatter.title,
-      url: parseMarkdownLink(post.frontmatter['language-en-link']!).url
-    }
+    en: postENs?.[index]
+      ? {
+          title: postENs?.[index]?.frontmatter.title,
+          url: parseMarkdownLink(post.frontmatter['language-en-link']!).url
+        }
+      : null
   }))
 }
 
@@ -71,31 +92,61 @@ export type FrontmatterContent = {
   keywords: string[]
   extracted: string
   'reading-time': number
+  draft: boolean
+  /** Generated */
+  slug: string
 }
 
 const postMap: { [key: string]: CompileMDXResult<FrontmatterContent> } = {}
 
-export async function getPostBySlug(slug: string, lang?: Language) {
+export async function getPostBySlug(rawSlug: string, lang?: Language) {
+  const slug = decodeURIComponent(rawSlug)
+
   const key = `${slug}[${lang ?? 'th'}]`
-  if (postMap[key]) {
+  if (process.env.NODE_ENV !== 'development' && postMap[key]) {
     return postMap[key]
   }
-
-  const post = fs.readFileSync(
-    join(postsDirectory, lang ? `/${lang}` : '', `${slug}.md`),
-    {
-      encoding: 'utf-8'
-    }
-  )
+  let post
+  try {
+    post = fs.readFileSync(
+      join(postsDirectory, lang ? `/${lang}` : '', `${slug}.md`),
+      {
+        encoding: 'utf-8'
+      }
+    )
+  } catch {
+    post = fs.readFileSync(
+      join(postsDirectory, lang ? `/${lang}` : '', `${slug}.mdx`),
+      {
+        encoding: 'utf-8'
+      }
+    )
+  }
 
   try {
     const mdxSource = await compileMDX<FrontmatterContent>({
       source: post,
+      components: {
+        pre,
+        Code,
+        img,
+        Custom: function (props) {
+          console.log('🚀 ~ getPostBySlug ~ props:', props)
+          return <p>123</p>
+        }
+      },
+
       options: {
         parseFrontmatter: true,
         mdxOptions: {
           remarkPlugins: [wikiLinkPlugin],
-          rehypePlugins: [imageUrlTransformer, imageSizeEmbedder]
+          rehypePlugins: [
+            imageVaultToPublic,
+            imageUrlTransformer,
+            imageSizeEmbedder,
+            centerImageDescription,
+            rehypeMdxCodeProps
+          ]
         }
       }
     }).catch((e) => {
@@ -107,7 +158,13 @@ export async function getPostBySlug(slug: string, lang?: Language) {
           parseFrontmatter: true,
           mdxOptions: {
             remarkPlugins: [wikiLinkPlugin],
-            rehypePlugins: [imageUrlTransformer, imageSizeEmbedder]
+            rehypePlugins: [
+              imageVaultToPublic,
+              imageUrlTransformer,
+              imageSizeEmbedder,
+              centerImageDescription,
+              rehypeMdxCodeProps
+            ]
           }
         }
       })
@@ -131,10 +188,16 @@ export function generatePostsStaticParams(lang?: Language) {
   }
 
   if (process.env.NODE_ENV === 'development') {
-    return files.map((file) => ({ slug: encodeURI(file.replace('.md', '')) }))
+    const encodedFiles = files.map((file) => ({
+      slug: encodeURI(fileToSlug(file))
+    }))
+
+    return encodedFiles
   }
 
-  return files.map((file) => ({ slug: file.replace('.md', '') }))
+  return files.map((file) => ({
+    slug: fileToSlug(file)
+  }))
 }
 
 export async function generatePostMetadata(
@@ -142,6 +205,9 @@ export async function generatePostMetadata(
   lang?: Language
 ): Promise<Metadata> {
   const post = await getPostBySlug(decodeURI(slug), lang)
+  if (!post.frontmatter.extracted) {
+    return { title: post.frontmatter.title as string }
+  }
   const extracted = JSON.parse(post.frontmatter.extracted)
 
   return {

@@ -41,6 +41,7 @@ vault/.obsidian/themes
 vault/.obsidian/appearance.json
 vault/.obsidian/workspace.json
 vault/.obsidian/graph.json
+vault/.obsidian/plugins
 
 # cloudflare
 /.wrangler

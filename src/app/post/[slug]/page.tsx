@@ -12,8 +12,11 @@ import Post from '@/components/Post'
 type Props = { params: { slug: string } }
 
 export default async function page({ params }: Props) {
-  const post = await getPostBySlug(decodeURI(params.slug))
-  const enUrl = parseMarkdownLink(post.frontmatter['language-en-link']!).url
+  const post = await getPostBySlug(params.slug)
+
+  const enUrl = post.frontmatter['language-en-link']
+    ? parseMarkdownLink(post.frontmatter['language-en-link']!).url
+    : undefined
 
   return (
     <Layout en={enUrl}>
@@ -29,3 +32,5 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return generatePostMetadata(params.slug)
 }
+
+export const revalidate = 0

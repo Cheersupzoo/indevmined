@@ -5,7 +5,7 @@ export default async function extractImageMeta(
   const image = sharp(input).rotate()
   const metadata = await image.metadata()
 
-  const {dominant} = await image.stats()
+  const { dominant } = await image.stats()
 
   return {
     width: metadata.width,

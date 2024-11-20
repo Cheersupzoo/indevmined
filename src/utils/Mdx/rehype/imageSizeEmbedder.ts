@@ -48,11 +48,11 @@ function imageSizeEmbedder() {
           return
         }
         try {
-          const result = await extractImageMeta(path.join('public', url))
+          const result = await extractImageMeta(path.join('public', decodeURIComponent(url)))
 
           imgCache[url] = result
         } catch (error) {
-          console.error('Fail to cache blog image', error)
+          console.error('Fail to cache blog image', url, error)
         }
       })
     )
