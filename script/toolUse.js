@@ -93,8 +93,6 @@ const codeParser = (functionObj) => {
         }
       })
     )
-    console.log("🚀 ~ ; ~ results:", results)
-
 
     const body = {
       messages: [
