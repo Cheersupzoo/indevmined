@@ -1,9 +1,9 @@
-import { PostMeta } from '@/utils/Mdx'
 import React from 'react'
 import PostList from './PostList'
 import { NormalResponsive } from '../Layout'
 import { FaFacebookSquare } from 'react-icons/fa'
 import './style.css'
+import { PostMeta } from '@/utils/Mdx/compileMdx'
 
 const PostExplorer = ({ posts, en }: { posts: PostMeta[]; en?: boolean }) => {
   return (

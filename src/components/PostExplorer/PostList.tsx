@@ -1,4 +1,4 @@
-import { PostMeta } from '@/utils/Mdx'
+import { PostMeta } from '@/utils/Mdx/compileMdx';
 import { Calendar, Clock } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'

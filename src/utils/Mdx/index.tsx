@@ -1,16 +1,8 @@
 import { join } from 'path'
 import fs from 'fs'
-import { compileMDX, type CompileMDXResult } from 'next-mdx-remote/rsc'
-import imageUrlTransformer from './rehype/imageUrlTransformer'
-import wikiLinkPlugin from 'remark-wiki-link'
-import imageSizeEmbedder from './rehype/imageSizeEmbedder'
+import { type CompileMDXResult } from 'next-mdx-remote/rsc'
 import type { Metadata } from 'next'
-import imageVaultToPublic from './rehype/imageVaultToPublic'
-import centerImageDescription from './rehype/centerImageDescription'
-import rehypeMdxCodeProps from 'rehype-mdx-code-props'
-import { pre } from './components/pre'
-import { Code } from './components/code'
-import { img } from './components/img'
+import { compiledOptionMDX, FrontmatterContent, PostMeta } from './compileMdx'
 
 const postsDirectory = join(process.cwd(), 'vault')
 
@@ -24,14 +16,6 @@ export function getPostFiles() {
 
 function fileToSlug(file: string) {
   return file.replace('.mdx', '').replace('.md', '')
-}
-
-export type PostMeta = FrontmatterContent & {
-  slug: string
-  en: {
-    title?: string
-    url: string
-  } | null
 }
 
 export async function getPostsMeta(): Promise<PostMeta[]> {
@@ -82,21 +66,6 @@ export function getPostSlugsByLang(lang: Language) {
     .filter((path) => path.endsWith('.md'))
 }
 
-export type FrontmatterContent = {
-  title: string
-  language: 'th'
-  'language-en-link'?: string
-  'language-th-link'?: string
-  published: string
-  categories: string
-  keywords: string[]
-  extracted: string
-  'reading-time': number
-  draft: boolean
-  /** Generated */
-  slug: string
-}
-
 const postMap: { [key: string]: CompileMDXResult<FrontmatterContent> } = {}
 
 export async function getPostBySlug(rawSlug: string, lang?: Language) {
@@ -124,57 +93,17 @@ export async function getPostBySlug(rawSlug: string, lang?: Language) {
   }
 
   try {
-    const mdxSource = await compileMDX<FrontmatterContent>({
-      source: post,
-      components: {
-        pre,
-        Code,
-        img,
-        Custom: function (props) {
-          console.log('🚀 ~ getPostBySlug ~ props:', props)
-          return <p>123</p>
-        }
-      },
-
-      options: {
-        parseFrontmatter: true,
-        mdxOptions: {
-          remarkPlugins: [wikiLinkPlugin],
-          rehypePlugins: [
-            imageVaultToPublic,
-            imageUrlTransformer,
-            imageSizeEmbedder,
-            centerImageDescription,
-            rehypeMdxCodeProps
-          ]
-        }
-      }
-    }).catch((e) => {
+    const mdxSource = await compiledOptionMDX(post).catch((e) => {
       console.log(`RETRY PARSE: ${key}`)
 
-      return compileMDX<FrontmatterContent>({
-        source: post,
-        options: {
-          parseFrontmatter: true,
-          mdxOptions: {
-            remarkPlugins: [wikiLinkPlugin],
-            rehypePlugins: [
-              imageVaultToPublic,
-              imageUrlTransformer,
-              imageSizeEmbedder,
-              centerImageDescription,
-              rehypeMdxCodeProps
-            ]
-          }
-        }
-      })
+      return compiledOptionMDX(post)
     })
     postMap[key] = mdxSource
 
     return mdxSource
   } catch (error) {
     console.trace(error)
-    console.log('[POST]', post)
+    console.log('[POST]', post.slice(0, 300))
     throw new Error(`Parsed Failed "${key}"`)
   }
 }

@@ -1,8 +1,8 @@
-import { FrontmatterContent } from '@/utils/Mdx'
 import { CompileMDXResult } from 'next-mdx-remote/rsc'
 import React from 'react'
 import './style.css'
 import { NormalResponsive } from '../Layout'
+import { FrontmatterContent } from '@/utils/Mdx/compileMdx'
 
 type Props = {
   post: CompileMDXResult<FrontmatterContent>
