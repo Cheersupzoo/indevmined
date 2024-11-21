@@ -7,7 +7,7 @@ import './style.css'
 
 export default function Home() {
   return (
-    <Layout className='bg-slate-200 text-slate-800'>
+    <Layout isEN className='bg-slate-200 text-slate-800'>
       <div className='-z-10 fixed inset-0 bg-slate-200' />
       <EnhancedMathBackground />
       <NormalResponsive className='overflow-hidden sm:overflow-visible pb-4'>

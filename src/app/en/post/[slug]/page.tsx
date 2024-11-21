@@ -26,7 +26,7 @@ export default async function page({ params }: Props) {
   }
 
   return (
-    <Layout th={thUrl}>
+    <Layout th={thUrl} isEN>
       <Post post={post} />
     </Layout>
   )

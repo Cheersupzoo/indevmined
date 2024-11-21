@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export default function Home() {
   return (
-    <Layout>
+    <Layout isEN>
       <NormalResponsive>
         <div className='relative flex'>
           <div className='h-40 w-64' />

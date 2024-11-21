@@ -9,7 +9,7 @@ export default async function page() {
   const posts = await getPostsMeta()
 
   return (
-    <Layout th='/post'>
+    <Layout th='/post' isEN>
       <PostExplorer posts={posts} en />
     </Layout>
   )

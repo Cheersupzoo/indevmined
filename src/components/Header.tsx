@@ -2,9 +2,9 @@ import { cn } from '@/utils/cn'
 import Link from 'next/link'
 import React from 'react'
 
-type Props = { en?: string; th?: string; className?: string }
+type Props = { en?: string; th?: string; className?: string; isEN?: boolean }
 
-export const Header = ({ en, th, className }: Props) => {
+export const Header = ({ en, th, className, isEN }: Props) => {
   return (
     <header
       className={cn(
@@ -18,15 +18,12 @@ export const Header = ({ en, th, className }: Props) => {
             InDevMined
           </Link>
           <Link
-            href={en ? '/post' : '/en/post'}
+            href={!isEN ? '/post' : '/en/post'}
             className='font-bold text-lg hover:text-color3'
           >
             Post
           </Link>
-          <Link
-            href='/ai-mark'
-            className='font-bold text-lg hover:text-color3'
-          >
+          <Link href='/ai-mark' className='font-bold text-lg hover:text-color3'>
             MarkAI
           </Link>
         </div>
