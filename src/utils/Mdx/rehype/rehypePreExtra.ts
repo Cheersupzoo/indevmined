@@ -13,6 +13,8 @@ export default function rehypePreExtra(options: any) {
             .filter((prop) => !ignoreProps.includes(prop))
             .filter((prop) => !prop.includes('='))
             .forEach((prop) => (node.properties[prop] = true))
+
+          node.properties.meta = codeNode.data?.meta
         }
       }
     })

@@ -1,23 +1,27 @@
 import { visit } from 'unist-util-visit'
-import type { Nodes } from 'mdast'
-import { toMarkdown } from 'mdast-util-to-markdown'
-import { mdxToMarkdown } from 'mdast-util-mdx'
+
+function removeFirstLastLines(str: string) {
+  const lines = str.split('\n')
+  return lines.slice(1, -1).join('\n')
+}
 
 export function remarkCodeHikeDirective() {
-  return (tree: any) => {
+  return (tree: any, vFile: { value: string }) => {
     visit(tree, (node) => {
-      if (node.type === 'containerDirective') {
-        const tree = {
-          type: 'root',
-          children: node.children
-        }
-        const md = toMarkdown(tree as Nodes, { extensions: [mdxToMarkdown()] })
-        if (node.name !== 'CodeHike') return
+      if (node.type === 'containerDirective' && node.name === 'CodeHike') {
+        const originalMdx = vFile.value
+        const chPartMdx = removeFirstLastLines(
+          originalMdx.slice(
+            node.position.start.offset,
+            node.position.end.offset
+          )
+        )
+
         node.type = 'mdxJsxTextElement'
         node.children = [
           {
             type: 'text',
-            value: md
+            value: chPartMdx
           }
         ]
       }

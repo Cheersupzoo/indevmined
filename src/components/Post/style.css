@@ -36,10 +36,14 @@ p {
   list-style-type: disc;
 }
 
+.markdown-body p:has(+ul) {
+  margin-bottom: 10px;
+}
+
 .markdown-body ul,
 .markdown-body ol {
   margin-top: 0;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   padding-left: 2em;
 }
 

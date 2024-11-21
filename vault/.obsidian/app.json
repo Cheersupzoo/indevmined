@@ -3,5 +3,6 @@
   "newLinkFormat": "absolute",
   "useMarkdownLinks": true,
   "newFileLocation": "root",
-  "attachmentFolderPath": "/"
+  "attachmentFolderPath": "/",
+  "tabSize": 2
 }

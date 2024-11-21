@@ -2,6 +2,8 @@ import {
   AnnotationHandler,
   InlineAnnotation,
   InnerLine,
+  InnerPre,
+  InnerToken,
   Pre,
   RawCode,
   highlight
@@ -12,11 +14,25 @@ export async function Code({ codeblock }: { codeblock: RawCode }) {
   const highlighted = await highlight(codeblock, 'dark-plus')
 
   return (
-    <Pre
-      code={highlighted}
-      handlers={[tokenTransitions, bgHandler, mark, callout]}
-      className=' bg-transparent text-[0.9rem]'
-    />
+    <>
+      {!!highlighted.meta.length && <div className='text-center text-zinc-400 text-xs py-2'>
+        {highlighted.meta}
+      </div>}
+      <div className='overflow-auto'>
+        <Pre
+          code={highlighted}
+          handlers={[
+            tokenTransitions,
+            bgHandler,
+            mark,
+            callout,
+            wordWrap,
+            lineNumbers
+          ]}
+          className='bg-transparent text-[0.9rem]'
+        />
+      </div>
+    </>
   )
 }
 
@@ -27,15 +43,35 @@ const bgHandler: AnnotationHandler = {
 
 const mark: AnnotationHandler = {
   name: 'mark',
-  AnnotatedLine: ({ annotation, ...props }) => (
-    <InnerLine merge={props} data-mark={true} />
-  ),
-  Line: (props) => (
-    <InnerLine
-      merge={props}
-      className='px-2 border-l-4 border-transparent data-[mark]:border-color3 data-[mark]:bg-color3/10'
-    />
-  )
+  Line: ({ annotation, ...props }) => {
+    const color = annotation?.query || 'rgb(14 165 233)'
+    return (
+      <div
+        className='...'
+        style={{
+          borderLeft: 'solid 2px transparent',
+          borderLeftColor: annotation && color,
+          backgroundColor: annotation && `rgb(from ${color} r g b / 0.1)`
+        }}
+      >
+        <InnerLine merge={props} className='px-2 flex-1' />
+      </div>
+    )
+  },
+  Inline: ({ annotation, children }) => {
+    const color = annotation?.query || 'rgb(14 165 233)'
+    return (
+      <span
+        className='...'
+        style={{
+          outline: `solid 1px rgb(from ${color} r g b / 0.5)`,
+          background: `rgb(from ${color} r g b / 0.13)`
+        }}
+      >
+        {children}
+      </span>
+    )
+  }
 }
 
 const callout: AnnotationHandler = {
@@ -58,16 +94,52 @@ const callout: AnnotationHandler = {
       <>
         {children}
         <div
-          style={{ minWidth: `${column + 4}ch`, left: `2ch` }}
+          style={{ minWidth: `${column + 4}ch`, left: `5ch` }}
           className='w-fit border bg-background border-current rounded px-2 relative -ml-[1ch] mt-1 whitespace-break-spaces'
         >
           <div
-            style={{ left: `${column - 2}ch` }}
+            style={{ left: `${column - 5}ch` }}
             className='absolute border-l border-t border-current w-2 h-2 rotate-45 -translate-y-1/2 -top-[1px] bg-background'
           />
           {annotation.query}
         </div>
       </>
+    )
+  }
+}
+
+export const wordWrap: AnnotationHandler = {
+  name: 'word-wrap',
+  Pre: (props) => <InnerPre merge={props} className='whitespace-pre-wrap' />,
+  Line: (props) => (
+    <InnerLine merge={props}>
+      <div
+        style={{
+          textIndent: `${-props.indentation}ch`,
+          marginLeft: `${props.indentation}ch`
+        }}
+      >
+        {props.children}
+      </div>
+    </InnerLine>
+  ),
+  Token: (props) => <InnerToken merge={props} style={{ textIndent: 0 }} />
+}
+
+export const lineNumbers: AnnotationHandler = {
+  name: 'line-numbers',
+  Line: (props) => {
+    const width = props.totalLines.toString().length + 1
+    return (
+      <div className='flex'>
+        <span
+          className='text-right opacity-50 select-none'
+          style={{ minWidth: `${width}ch` }}
+        >
+          {props.lineNumber}
+        </span>
+        <InnerLine merge={props} className='flex-1 pl-2' />
+      </div>
     )
   }
 }
