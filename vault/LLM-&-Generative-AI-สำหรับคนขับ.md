@@ -8,7 +8,7 @@ keywords:
   - GenAI
 extracted: ""
 reading-time: 1
-draft: false
+draft: true
 ---
 ![กล่องดำ](Pasted%20image%2020241113151615.png)
 กล่องดำ
