@@ -54,7 +54,8 @@ export async function getPostsMeta(): Promise<PostMeta[]> {
     en: postENs?.[index]
       ? {
           title: postENs?.[index]?.frontmatter.title,
-          url: parseMarkdownLink(post.frontmatter['language-en-link']!).url
+          url: parseMarkdownLink(post.frontmatter['language-en-link']!).url,
+          description: postENs?.[index]?.frontmatter.description
         }
       : null
   }))

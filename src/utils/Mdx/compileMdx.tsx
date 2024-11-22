@@ -15,6 +15,7 @@ export type PostMeta = FrontmatterContent & {
   slug: string
   en: {
     title?: string
+    description?: string
     url: string
   } | null
 }

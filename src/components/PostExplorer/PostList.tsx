@@ -17,8 +17,10 @@ const PostList = ({ posts, en }: { posts: PostMeta[]; en?: boolean }) => {
             <div className='text-color3 group-hover:text-color2 text-xl'>
               {en ? post.en?.title : post.title}
             </div>
-            {post.description && (
-              <div className='mt-2 mb-2 text-base'>{post.description}</div>
+            {(en ? post.en?.description : post.description) && (
+              <div className='mt-2 mb-2 text-base'>
+                {en ? post.en?.description : post.description}
+              </div>
             )}
             <div className='flex items-center text-xs space-x-4'>
               <div className='flex items-center'>
