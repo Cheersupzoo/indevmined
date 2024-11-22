@@ -2,6 +2,7 @@
 title: LLM Gen AI and Security
 language-th-link: "[[LLM-Gen-AI-กับ-ความปลอดภัย]]"
 extracted: '{  "summarize": "When using Generative AI in the workplace, consider security measures such as protecting sensitive data, reviewing generated content, and evaluating data usage by AI services. Implementing guardrails and using alternative versions can help. Study thoroughly before implementing Gen AI.",  "keywords": ["Generative AI", "security", "data protection", "sensitive data", "guardrails", "AI services", "workplace"]}'
+description: A comprehensive guide on security considerations when implementing Generative AI in organizations, covering data privacy, content filtering, and service selection to protect sensitive information while maximizing AI benefits.
 ---
 
 ![img-PY66Wa99IDGn9sUOhW3sNgqT_upscayl_2x_realesrgan-x4plus-anime.jpg](img-PY66Wa99IDGn9sUOhW3sNgqT_upscayl_2x_realesrgan-x4plus-anime.jpg)

@@ -10,6 +10,7 @@ keywords:
   - ChatGPT
 extracted: '{  "summarize": "หลายคนอาจเจอปัญหาในการใช้ Generative AI โดยไม่สามารถถามคำถามได้ถูกต้อง แต่จริงๆ แล้วคุณเพียงต้องการเห็นตัวอย่างดีๆ ของ Prompt ที่เวิร์ค วันนี้เรารวมแหล่งตัวอย่างดีๆ จากผู้พัฒนาเอง เช่น OpenAI, Anthropic และ Google",  "keywords": ["Generative AI", "Prompt", "OpenAI", "Anthropic", "Google", "Prompt Engineering", "ChatGPT"]}'
 reading-time: 1
+description: รวบรวมแหล่งตัวอย่างการเขียน Prompt ที่ได้ผลจากผู้พัฒนา AI ชั้นนำอย่าง OpenAI, Anthropic และ Google พร้อมแนวทางการเป็น Prompt Engineer ที่มีประสิทธิภาพ
 ---
 ![441580942_122116196402287989_7372035436482167927_n.jpg](441580942_122116196402287989_7372035436482167927_n.jpg)
 

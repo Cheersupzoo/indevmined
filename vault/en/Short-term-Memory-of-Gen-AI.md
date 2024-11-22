@@ -2,6 +2,7 @@
 title: Short-term Memory of Gen AI
 language-th-link: "[[ความจำระยะสั้น-ของ-Gen-AI]]"
 extracted: '{  "summarize": "Improve Gen AI accuracy by attaching relevant documents and instructing it to use only that knowledge to answer. This method enhances accuracy but slows down response time. Try it for specialized questions and adjust your asking method for better results.",  "keywords": ["Gen AI", "accuracy", "documents", "knowledge", "Q&A", "response time", "specialized questions"]}'
+description: Learn how to get more accurate answers from AI by using document-based prompting instead of relying on its training data. This approach leverages AI's short-term memory for specialized questions, ensuring more reliable and current information.
 ---
 
 ![PreviewCard.png](PreviewCard.png)

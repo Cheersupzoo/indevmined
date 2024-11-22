@@ -2,6 +2,7 @@
 title: Let's try ChatGPT Advanced Voice Mode!
 language-th-link: "[[มาลอง-ChatGPT-Advanced-Voice-Mode-กัน!]]"
 extracted: "{  \"summarize\": \"The post discusses OpenAI's new Advanced Voice Mode for ChatGPT, comparing it to the previous Standard Voice. It highlights improvements such as better performance, more natural conversations, and enhanced voice capabilities. The author also notes some limitations and potential applications in various fields. The post concludes by mentioning OpenAI's recent announcement of the Realtime API, which could allow for further development of voice AI applications.\",  \"keywords\": [    \"OpenAI\",    \"Advanced Voice Mode\",    \"ChatGPT\",    \"GPT-4\",    \"Speech-to-Speech\",    \"AI voice technology\",    \"Natural language processing\",    \"Voice chat improvements\",    \"AI limitations\",    \"Realtime API\",    \"AI applications\",    \"Customer service\",    \"Language learning\",    \"Voice AI development\"  ]}"
+description: A comprehensive review of OpenAI's Advanced Voice Mode, comparing it with Standard Voice, highlighting improvements in natural conversation, accent quality, and interactive features, while discussing limitations and potential applications in various industries.
 ---
 After OpenAI released Advanced Voice Mode for Plus users starting from September 27, 2023, it's been a week now, so I'd like to share some thoughts.
 

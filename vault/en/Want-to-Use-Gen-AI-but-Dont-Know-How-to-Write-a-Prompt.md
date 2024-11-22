@@ -2,6 +2,7 @@
 title: Want to Use Gen AI but Don't Know How to Write a Prompt
 language-th-link: "[[อยากใช้-Gen-AI-นะ-แต่เขียน-Prompt-ไม่เป็น]]"
 extracted: '{  "summarize": "Get effective Generative AI responses with well-written prompts from developers. Check out examples and guidelines from OpenAI, Anthropic, and Google. Improve prompt engineering skills for accurate results.",  "keywords": ["Generative AI", "Prompts", "OpenAI", "Anthropic", "Google", "Prompt Engineering", "AI"]}'
+description: Discover how to effectively use Generative AI with expert prompt examples from OpenAI, Anthropic, and Google. Access official prompt libraries and engineering guides to improve your AI interactions and get better responses from ChatGPT, Claude, and Gemini.
 ---
 
 ![441580942_122116196402287989_7372035436482167927_n.jpg](441580942_122116196402287989_7372035436482167927_n.jpg)

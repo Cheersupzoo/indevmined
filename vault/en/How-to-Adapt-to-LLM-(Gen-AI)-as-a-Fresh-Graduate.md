@@ -2,6 +2,7 @@
 title: How to Adapt to LLM (Gen AI) as a Fresh Graduate
 language-th-link: "[[จบใหม่มา-จะปรับตัวอย่างไรกับ-LLM-(Gen-AI)]]"
 extracted: '{  "summarize": "The post discusses how fresh graduates can adapt to using Large Language Models (LLM) or Gen AI tools to aid in their learning and work. These tools can provide answers to technical questions, explain industry terms, and even write code. By leveraging Gen AI, fresh graduates can shift their focus from repetitive tasks to understanding and working effectively.",  "keywords": ["Gen AI", "LLM", "fresh graduates", "learning", "programming", "language tools", "ChatGPT"]}'
+description: Learn how fresh graduates can leverage AI language models (LLMs) like ChatGPT for career development, focusing on practical applications in programming and other fields while maintaining critical thinking and understanding of core concepts.
 ---
 
 But it's not just for fresh graduates, everyone can read 📚

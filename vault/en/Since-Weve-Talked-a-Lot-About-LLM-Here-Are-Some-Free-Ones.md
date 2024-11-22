@@ -2,6 +2,7 @@
 title: Since We've Talked a Lot About LLM, Here Are Some Free Ones
 language-th-link: "[[ไหนๆก็พูดถึง-LLM-เยอะแล้ว-มารวมของฟรีให้]]"
 extracted: "{  \"summarize\": \"Discover three free and powerful AI tools: OpenAI's ChatGPT 4o, Anthropic's Claude 3 Sonnet, and Google's Gemini. These tools offer a range of capabilities, including text, image, and audio input. They also provide easy-to-use free versions with additional features.\",  \"keywords\": [\"Generative AI\", \"ChatGPT\", \"Anthropic\", \"Google Gemini\", \"AI tools\", \"LLMs\", \"Artificial Intelligence\"]}"
+description: Explore the latest free and powerful AI tools including ChatGPT 4o, Claude 3 Sonnet, and Google Gemini. Learn about their capabilities, features, and playground versions for both casual users and developers.
 ---
 
 Recently, I've been posting a lot about Generative AI 🧠. Today, I want to introduce some free and powerful AI tools that everyone should know about!

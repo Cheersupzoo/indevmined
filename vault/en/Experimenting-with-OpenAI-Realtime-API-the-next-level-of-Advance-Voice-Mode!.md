@@ -2,6 +2,7 @@
 title: Experimenting with OpenAI Realtime API, the next level of Advance Voice Mode!
 language-th-link: "[[ลองเล่นกับ-OpenAI-Realtime-API-ขั้นกว่าของ-Advance-Voice-Mode!]]"
 extracted: '{  "summarize": "OpenAI has released a new Realtime API for developers, enhancing voice interactions with AI. This API offers features like setting instructions, using tools for information retrieval, handling both text and voice inputs, and improved conversation flow. However, it comes with high costs and some technical complexities. The post includes an example of the API in action, demonstrating its capabilities in answering weather-related questions.",  "keywords": [    "OpenAI",    "Realtime API",    "Voice interaction",    "AI development",    "System Prompt",    "Tools integration",    "Voice-to-text",    "WebSocket",    "Stateful API",    "Speech to Speech",    "Weather information",    "API pricing",    "Voice Activity Detection",    "Whisper-1",    "ChatGPT App"  ]}'
+description: Explore OpenAI's new Realtime API for voice conversations, featuring tool integration, flexible communication modes, and improved AI interactions. Learn about its capabilities, pricing, and practical applications in this comprehensive overview.
 ---
 Following up on the previous post, we introduced Advance Voice Mode in the ChatGPT App, which makes conversations flow as smoothly as talking to a real person. However, it had major limitations regarding the information in the GPT-4o model's memory and communication through voice only.
 

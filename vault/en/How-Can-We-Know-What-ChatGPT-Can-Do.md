@@ -2,6 +2,7 @@
 title: How Can We Know What ChatGPT Can Do?
 language-th-link: "[[จะรู้ได้ยังไงว่า-ChatGPT-ช่วยอะไรเราได้]]"
 extracted: '{  "summarize": "To understand what ChatGPT can do, start by trying it thoroughly, asking questions on familiar topics and comparing its responses to Google search results. Then, explore its origin by understanding its name and how it processes information. Finally, crystallize its knowledge by recognizing its limitations and using techniques to keep its information updated.",  "keywords": ["ChatGPT", "AI", "Generative Pre-trained Transformers", "Travel Planning", "Natural Language Processing", "Machine Learning", "API"]}'
+description: Discover a systematic approach to understanding ChatGPT's capabilities through thorough testing, understanding its origins, crystallizing knowledge, and practical application. Learn how developers can effectively explore and implement AI technology in their projects.
 ---
 #HowADeveloperCanKnowWhatItCanDo
 
