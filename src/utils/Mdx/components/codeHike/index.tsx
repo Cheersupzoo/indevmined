@@ -65,9 +65,9 @@ export const CodeHike = async (props: React.PropsWithChildren) => {
           </Selectable>
         ))}
       </div>
-      <div className='sticky top-4 lg:static lg:w-[30vw] max-w-xl order-1 lg:order-2'>
+      <div className='sticky top-4 lg:static lg:w-[30vw] lg:max-w-xl order-1 lg:order-2'>
         <div className='top-4 sticky'>
-          <div className='bg-zinc-800 max-h-[40vh] lg:max-h-[80vh] rounded shadow-xl flex flex-col'>
+          <div className='bg-zinc-800 max-h-[40vh] lg:max-h-[80vh] rounded shadow-xl flex flex-col relative'>
             <Selection
               from={steps.map((step, i) => (
                 <Code

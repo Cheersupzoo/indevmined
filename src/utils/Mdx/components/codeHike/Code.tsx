@@ -9,16 +9,26 @@ import {
   highlight
 } from 'codehike/code'
 import { tokenTransitions } from './tokenTransitions'
+import { FloatCopyButton } from '@/components/CopyButton'
 
-export async function Code({ codeblock }: { codeblock: RawCode }) {
+export async function Code({
+  codeblock,
+  copy
+}: {
+  codeblock: RawCode
+  copy?: boolean
+}) {
   const highlighted = await highlight(codeblock, 'dark-plus')
 
   return (
     <>
-      {!!highlighted.meta.length && <div className='text-center text-zinc-400 text-xs py-2'>
-        {highlighted.meta}
-      </div>}
-      <div className='overflow-auto'>
+      {!!highlighted.meta.length && (
+        <div className='text-center text-zinc-400 text-xs py-2'>
+          {highlighted.meta}
+        </div>
+      )}
+      {copy && <FloatCopyButton text={codeblock.value} />}
+      <div className='overflow-auto rounded-b'>
         <Pre
           code={highlighted}
           handlers={[
@@ -45,6 +55,7 @@ const mark: AnnotationHandler = {
   name: 'mark',
   Line: ({ annotation, ...props }) => {
     const color = annotation?.query || 'rgb(14 165 233)'
+
     return (
       <div
         className='...'
@@ -60,6 +71,7 @@ const mark: AnnotationHandler = {
   },
   Inline: ({ annotation, children }) => {
     const color = annotation?.query || 'rgb(14 165 233)'
+
     return (
       <span
         className='...'
@@ -130,10 +142,11 @@ export const lineNumbers: AnnotationHandler = {
   name: 'line-numbers',
   Line: (props) => {
     const width = props.totalLines.toString().length + 1
+
     return (
       <div className='flex'>
         <span
-          className='text-right opacity-50 select-none'
+          className='text-right text-zinc-500 select-none'
           style={{ minWidth: `${width}ch` }}
         >
           {props.lineNumber}

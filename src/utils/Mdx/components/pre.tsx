@@ -18,17 +18,21 @@ export const pre = (props: any) => {
 
     // @ts-ignore
     const isScrollable = props.scroll
+    const isCopyable = props['!copy']
 
     return (
       <div
-        className='bg-zinc-800 rounded shadow-xl flex flex-col'
+        className='bg-zinc-800 rounded shadow-xl flex flex-col relative'
         style={{
           ...(isScrollable && {
             maxHeight: '400px'
           })
         }}
       >
-        <Code codeblock={{ lang: language, value: code, meta: language }} />
+        <Code
+          codeblock={{ lang: language, value: code, meta: language }}
+          copy={isCopyable}
+        />
       </div>
     )
   }
