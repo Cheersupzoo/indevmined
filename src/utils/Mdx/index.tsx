@@ -135,13 +135,16 @@ export async function generatePostMetadata(
 ): Promise<Metadata> {
   const post = await getPostBySlug(decodeURI(slug), lang)
   if (!post.frontmatter.extracted) {
-    return { title: post.frontmatter.title as string }
+    return {
+      title: post.frontmatter.title as string,
+      description: post.frontmatter.description
+    }
   }
   const extracted = JSON.parse(post.frontmatter.extracted)
 
   return {
     title: post.frontmatter.title as string,
-    description: extracted.summarize,
+    description: post.frontmatter.description ?? extracted.summarize,
     keywords: extracted.keywords
   }
 }

@@ -6,6 +6,7 @@
     "published": "date",
     "keywords": "multitext",
     "extracted": "text",
-    "draft": "checkbox"
+    "draft": "checkbox",
+    "description": "text"
   }
 }

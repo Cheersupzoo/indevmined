@@ -32,6 +32,7 @@ export type FrontmatterContent = {
   draft: boolean
   /** Generated */
   slug: string
+  description?: string
 }
 
 export function compiledOptionMDX(post: string) {
