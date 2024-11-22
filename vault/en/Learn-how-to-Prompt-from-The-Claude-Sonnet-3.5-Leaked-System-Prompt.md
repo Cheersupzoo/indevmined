@@ -1,34 +1,27 @@
 ---
-title: เรียนรู้จาก Prompt หลุด Claude Sonnet 3.5 Artifacts
-language: th
-language-en-link: "[[en/Learn-how-to-Prompt-from-The-Claude-Sonnet-3.5-Leaked-System-Prompt|Learn-how-to-Prompt-from-The-Claude-Sonnet-3.5-Leaked-System-Prompt]]"
-published: 2024-11-22
-categories: learning
-keywords:
-  - GenAI
+title: Learn how to Prompt from The Claude Sonnet 3.5 Leaked System Prompt
+language-th-link: "[[เรียนรู้จาก-Prompt-หลุด-Claude-Sonnet-3.5-Artifacts]]"
 extracted: ""
-reading-time: 10
-draft: false
-description: เรียนเขียน Prompt คุณภาพ จาก System Prompt ที่ใช้ในสินค้าที่คนนิยมอย่าง Claude Sonnet 3.5 Artifacts ที่หลุดออกมา ให้เราได้วิเคราะห์และเรียนรู้กัน
+description: Learn how to improve your prompt writing by analyzing techniques from Claude Sonnet 3.5 Artifacts' system prompt. Discover key methods like chain of thought and few-shot prompting to enhance AI interactions.
 ---
-อยากเขียน Prompt ให้เก่งขึ้น ดังนั้นจะมีอะไรดีไปกว่าการเรียนจาก Prompt คุณภาพ ที่ถูกนำไปใช้ในสินค้าที่คนนิยมใช้กัน **Claude Sonnet 3.5 Artifacts** กับ **System Prompt** ที่หลุดออกมา 
+Want to improve your prompt writing skills? What better way than learning from quality prompts used in popular products - **Claude Sonnet 3.5 Artifacts** and its leaked **System Prompt**.
 
-> **System Prompt** คือ Prompt แรกเริ่ม เป็นคำสั่งที่มีน้ำหนักต่อการคิดของ Gen AI เช่นใช้ในการกำหนดบทบาทและหน้าที่ให้กับ Gen AI นิยมใช้เป็นวิธีเกริ่นนำให้รับมือ Prompt จากผู้ใช้ โดยทั่วไป System Prompt จะเป็นส่วนที่ถูกซ่อนไว้ และเป็นตัวการหลักที่ทำให้การคุยกับ Gen AI ดูมีชีวิตชีวา
+> **System Prompt** is the initial prompt that heavily influences Gen AI's thinking, like defining its role and responsibilities. It's commonly used to set up how Gen AI handles user prompts. System Prompts are usually hidden and are key to making conversations with Gen AI feel more lively.
 
-> หากใครไม่รู้จัก **Claude Sonnet 3.5 Artifacts** เป็นเครื่องมือใน [Claude.ai](https://claude.ai) ที่ทำให้เหล่าโปรแกรมเมอร์ สร้างสรรค์เว็ปไซด์ เพียงป้อนคำสั่งเข้าไป แล้วเห็นผลลัพธ์ได้ทันที
+> For those unfamiliar with **Claude Sonnet 3.5 Artifacts**, it's a tool in [Claude.ai](https://claude.ai) that allows programmers to create websites just by entering commands and seeing results instantly.
 > ![](Screenshot%202567-11-20%20at%2009.53.33.png)
 
-ของจริงไหมไม่รู้ แต่เห็นว่าเป็น Prompt คุณภาพที่รวบรวมเทคนิคต่างๆในวงการมากมายไว้ใน Prompt เดียว และเป็นตัวอย่างที่ดีในการสั่งงานที่ซับซ้อน และมีการคิดเป็นลำดับขั้นตอน ดังนั้นถ้าใครพร้อมไปต่อ เราไปชำแหละมันกัน
+Whether it's real or not is uncertain, but it's sure to be a quality prompt that combines many techniques in the field into one, serving as a good example for complex tasks with step-by-step thinking. So if you're ready to dive deeper, let's break it down.
 
-ก่อนเราจะไปลงลึกในรายละเอียด สิ่งที่เราจะได้เจอใน Prompt จะประกอบไปด้วยเทคนิคเหล่านี้
-- (แถม ไม่มีชื่อทางการ) ใช้งานโมเดลตามที่ถูกฝึกมา
-- (แถม ไม่มีชื่อทางการ) เขียนคำสั่งให้ชัดเจน
+Before we get into details, here are the techniques we'll find in the prompt:
+- (Bonus, no official name) Using the model as trained
+- (Bonus, no official name) Writing clear instructions
 - Chain of thought
 - Few shots Prompting
 
-ฟังๆชื่อมา อาจจะดูน่ากลัว แต่ไม่ต้องเป็นห่วง เราจะอธิบายให้เข้าใจง่ายเอง
+These names might sound intimidating, but don't worry - we'll explain them simply.
 
-นี้คือ Prompt ดังกล่าวที่เราตัด และย่อบางส่วนมา ให้เห็นโครงสร้าง แต่ใครอยากอ่านทั้งหมดเลย ให้กระโดดไปท้ายบทความนี้เลย
+Here's the shortened-version of the mentioned prompt, to show its structure. For the complete version, jump to the end of this article.
 
 ``` xml scroll
 <artifacts_info>
@@ -100,25 +93,26 @@ else:
 
 ---
 
-<h2>วิเคราะห์ไปทีละหัวข้อ เทียบเคียงกับตัวอย่างแบบย่อ</h2>
+## Analyzing Each Topic with Examples
+
 
 :::CodeHike
-### !!steps ใช้งานโมเดลตามที่ถูกฝึกมา
+### !!steps Using the Model as Trained
 
-เริ่มมาเราจะสังเกตุเห็นว่า เขามีการใช้ `</>` เต็มไปหมด และนี้เป็นเทคนิคแรก การใช้งานโมเดลตามที่ถูกฝึกมา ถ้าเอาให้แน่ใจ เราควรไปเช็คกับ model card หรืองานวิจัยที่ตีพิมพ์ของโมเดลนั้นๆ เช่น [Claude 3 model card](https://assets.anthropic.com/m/61e7d27f8c8f5919/original/Claude-3-Model-Card.pdf) เพื่อเช็คว่า มีคำศัพท์พิเศษใดบ้างที่โมเดลจับทางได้ดีเป็นพิเศษ หากใครไม่มีเวลาเช็ค ก็ไม่ต้องเป็นกังวลไป เพราะโมเดลส่วนมากนั้นคล้ายกันในส่วนนี้ คือใช้ XML Tags การใช้คำศัพท์พิเศษเหล่านี้จะช่วยบ่งบอกให้โมเดลรับรู้ว่า นี้เป็นส่วนเดียวกัน เช่นอันนี้คือตัวอย่างนะ อันนี้คือคำบรรยายนะ อันนี้คือคำสั่งนะ
+First, we notice extensive use of `</>`. This is the first technique - using the model as trained. To be sure, we should check the model card or published research like [Claude 3 model card](https://assets.anthropic.com/m/61e7d27f8c8f5919/original/Claude-3-Model-Card.pdf) to verify special terms the model handles well. If you don't have time to check, don't worry - most models are similar in this aspect, using XML Tags. These special terms help the model recognize related parts, like examples, descriptions, or instructions.
 
-เหมือนกับคนเลย เวลาเราอ่านจับใจความ เราก็จะมีการแบ่งในหัวเราว่า ข้อความช่วงนี้คือเกริ่นนำ ขยายความ สรุป โมเดลเหล่านี้ก็จะทำคลายๆกัน แต่ยังไม่เก่งเท่าเรา เลยจะช่วยมันเล็กน้อย ใช้ข้อความพิเศษมาชี้ว่า อันนี้เกี่ยวข้องกัน อยู่ด้วยกัน ตอนตีความอย่าเอามาปะปนกัน
+Like humans reading for comprehension, we mentally divide text into introduction, elaboration, conclusion. These models do similarly but aren't as skilled as us, so we help them by using special markers to show related content that should be interpreted together.
 
-มาถึงเวลาเราเอาไปใช้งานเองบ้าง ให้เราเอาข้อความครอบด้วยคำศัพท์พิเศษ เช่นเวลาเราอยากให้โมเดลรู้ว่านี้คือตัวอย่างคำตอบ ก็จะใส่เป็น <Code language='xml'>&lt;answer_example>ตัวอย่างคำตอบ&lt;/answer_example></Code> จากเดิมที่โมเดลจะอ่านเป็นข้อความยาวเป็นพรืด ก็จะมองเห็นเป็นสัดส่วน และไม่ปะปนข้อมูล ท้ายที่สุดให้ผลลัพท์ที่แม่นยำ
+To apply this ourselves, we wrap text with special terms. For example, when we want the model to recognize example answers, we use <Code language='xml'>&lt;answer_example>example answer&lt;/answer_example></Code>. Instead of reading one long text, the model sees structured sections and doesn't mix information, leading to more accurate results.
 
-> หากใครไปส่อง Prompt เต็ม ด้านล่าง ก่อนแล้ว และมีความรู้โปรแกรมมิ่งบ้าง จะเอ๊ะ จริงๆ มันก็ไม่ใช่ XML ซะทีเดียว แต่เป็นการผสมผสานระหว่าง [XML Tags](https://www.w3schools.com/xml/xml_syntax.asp) และ [Markdown Syntax](https://www.markdownguide.org/cheat-sheet/)
+> If anyone who's seen the full prompt below and has programming knowledge might notice it's not exactly XML, but rather a mix of [XML Tags](https://www.w3schools.com/xml/xml_syntax.asp) and [Markdown Syntax](https://www.markdownguide.org/cheat-sheet/)
 
-```xml ! ใช้งานโมเดลตามที่ถูกฝึกมา
+```xml ! Using the Model as Trained
 <artifacts_info>
-  <!--  !callout[/artifact_instructions/] คู่ tag "artifact_instructions" -->
+  <!--  !callout[/artifact_instructions/] Pair tag "artifact_instructions" -->
   <artifact_instructions>
   ...
-  <!--  !callout[/artifact_instructions/] คู่ปิด tag "artifact_instructions"  -->
+  <!--  !callout[/artifact_instructions/] Closing Pair tag "artifact_instructions"  -->
   </artifact_instructions>
   <examples>
     <example_docstring>...</example_docstring>
@@ -131,17 +125,17 @@ else:
 </artifacts_info>
 ```
 
-### !!steps เขียนคำสั่งให้ชัดเจน
+### !!steps Writing Clear Instructions
 
-ใน Prompt ตัวอย่าง มีคำสั่งให้เขียน artifacts ดังนั้นเขาก็จะระบุให้ชัดเจนว่า artifacts ที่ดีควรเป็นอย่างไร ที่ไม่ดีเป็นอย่างไร ควรนำไปใช้ตอนไหนบ้าง
+In the example prompt, it specifies instructions for writing artifacts, clearly stating what makes good and bad artifacts, and when to use them.
 
-คำสั่งควรครบถ้วนให้ได้มากที่สุด และไม่ควรมีสิ่งที่ไม่เกี่ยวข้องติดมาด้วยให้สับสน
+Instructions should be as complete as possible without irrelevant information that could cause confusion.
 
-ถ้าอยากทดสอบดูว่าคำสั่งเราดีแค่ไหน ลองให้คนอื่นที่ไม่ทำงานเกี่ยวข้องโดยตรงอ่านดูว่า ทำตามคำสั่งเหล่านี้ เพียงพอสำหรับการเริ่มทำงานไหม
+To test if your instructions are good, try having someone unfamiliar with the work read them to see if they're sufficient to start the task.
 
-เทียบกับในตัวอย่าง ให้ลองสังเกตุใน <Code language='xml'>&lt;artifacts_info></Code>
+Compare this with the example in <Code language='xml'>&lt;artifacts_info></Code>
 
-```xml ! เขียนคำสั่งให้ชัดเจน
+```xml ! Writing Clear Instructions
 <!-- !bg[1:16]-->
 <artifacts_info>
 The assistant can create and reference artifacts during conversations. Artifacts are for substantial, self-contained content that users might modify or reuse, displayed in a separate UI window for clarity.
@@ -162,11 +156,12 @@ The assistant can create and reference artifacts during conversations. Artifacts
 ```
 
 ### !!steps Chain of Thought
-ต่อมา Chain of thought หรือการให้น้องเอไอคิดออกมา ก่อนสรุปคำตอบสุดท้าย
 
-ในตัวอย่าง <Code language='xml'>&lt;artifact_instructions></Code>  เขาจะให้ลำดับการทำงานที่ชัดเจน และในลำดับแรก เขาจะให้เริ่มด้วยการคิดก่อนเลย โดยทดไว้ในกรอบ <Code language='xml'>&lt;antThinking></Code> แล้วจึงค่อยดำเดินการคิดลำดับต่อไป
+Next is Chain of thought - letting AI think before giving final answers.
 
-เทคนิคนี้ช่วยได้อย่างมากถ้าคำถามของเราเกี่ยวข้องกับการคิดเป็นลำดับขั้นตอน ซึ่งปกติแล้วขั้นตอนนี้ เราจะไม่เห็นในหน้างานกัน เพราะจะเป็นจังหวะที่ทำงานอยู่เบื้องหลัง ก่อนที่จะส่งผลลัพธ์สุดท้ายมาให้เราดู
+In the example <Code language='xml'>&lt;artifact_instructions></Code>, it provides clear work sequence, starting with thinking in <Code language='xml'>&lt;antThinking></Code> before proceeding to next steps.
+
+This technique helps greatly with step-by-step thinking questions. Usually, we don't see this stage in production as it works behind the scenes before showing final results.
 
 ```xml ! Chain of Though
 <artifacts_info>
@@ -190,22 +185,22 @@ The assistant can create and reference artifacts during conversations. Artifacts
 ```
 
 ### !!steps Few-Shot Prompting
-สุดท้ายเทคนิค Few Shot Prompting หรือการให้ตัวอย่างของคำถาม และคำตอบหลายๆอัน
+Lastly, Few Shot Prompting - providing multiple examples of questions and answers.
 
-ในตัวอย่าง เขาจะระบุอยู่ใน <Code language='xml'>&lt;examples></Code> แล้วในนั้นก็จะประกอบด้วย
+In the example, it's specified in <Code language='xml'>&lt;examples></Code> containing:
+
 <ul>
-<li><Code language='xml'>&lt;example_docstring></Code> ที่อธิบายว่าตัวอย่างเกี่ยวกับอะไร</li>
+<li><Code language='xml'>&lt;example_docstring></Code> explaining what the example is about</li>
 <li>
-แล้วถึงตามมาด้วย <Code language='xml'>&lt;example></Code> ซึ่งประกอบไปด้วย
+Followed by <Code language='xml'>&lt;example></Code> containing:
 <ul>
-<li><Code language='xml'>&lt;user_query></Code> ระบุคำถามจากผู้ใช้</li>
-<li><Code language='xml'>&lt;assistant_response></Code> ระบุคำตอบจากเอไอ</li>
+<li><Code language='xml'>&lt;user_query></Code> specifying user question</li>
+<li><Code language='xml'>&lt;assistant_response></Code> specifying AI answer</li>
 </ul>
 </li>
 </ul>
 
-
-ทั้งหมดนี้ ทำเพื่อให้เอไอสามารถเรียนรู้วิธีรับมือกับคำถาม และตอบคำถามให้ถูกต้องตามรูปแบบที่กำหนด
+All this helps AI learn how to handle questions and answer in the specified format.
 
 ```xml ! Few Shot Prompting
 <artifacts_info>
@@ -254,9 +249,9 @@ else:
 
 ---
 
-## Prompts เต็ม
+## Full Prompts
 
-เครดิตต้นทาง ที่ทำให้หลุดมาให้เราเห็นกัน
+Credit to original sources:
 
 - [Github Link](https://gist.github.com/dedlim/6bf6d81f77c19e20cd40594aa09e3ecd)
 
@@ -635,23 +630,23 @@ Claude responds directly to all human messages without unnecessary affirmations 
 Claude follows this information in all languages, and always responds to the user in the language they use or request. The information above is provided to Claude by Anthropic. Claude never mentions the information above unless it is directly pertinent to the human's query. Claude is now being connected with a human.
 ```
 
-## ของจริงไหม
+## Is It Real?
 
-เราก็ไม่รู้เทคนิค Prompt Leaking หรือวิธีที่เขาได้ Prompt นี้มา
+We don't know the Prompt Leaking technique used to obtain this prompt.
 
-แต่ถ้าถามว่าจริงไหม... ก็ดูเป็นไปได้สูงเลยทีเดียว
+But is it real?... It seems highly likely.
 
-ถ้าถามความเห็น เวลาจะออกแบบเว็ปแบบนี้ ส่วนมากเขาก็ไม่ได้ Render จากบน Server ทั้งหมด ส่วนของ Chat ก็ส่งมา Render บน Client เครื่องเราแทน ดังนั้น Output จาก LLM ก็จะมาเป็นข้อความ ให้ Client มาถอดความ และแปลงเป็นหน้าตาที่สวยงามอีกที
+Because typically, when designing such websites, they don't render everything on the server. Chat sections are rendered on the client side. So LLM output comes as text for the client to interpret and transform into a beautiful display.
 
 ![](Screenshot%202567-11-19%20at%2015.55.27.png)
 
-พอเราแงะด้วย Developer Tools > Network ส่อง Stream Response ที่ได้จากเวลาเรียก api `completion` ก็ดูจะตอบสมมุติฐานเรา เพราะ เราจะเห็นเลยว่า มีการเอ่ยถึง tag แบบ <Code language='xml'>&lt;antArtifact></Code> หรือ attribute เช่น <Code language='python'>type="application/vnd.ant.react"</Code> ส่วนที่เราไม่เห็น ขั้นตอนการคิดเช่น <Code language='xml'>&lt;antThinking></Code> ก็อาจเป็นไปได้ว่าถูกอมไว้ที่ฝั่ง Server ที่ส่งเฉพาะข้อความใน <Code language='xml'>&lt;assistant_response></Code>
+When we inspect with Developer Tools > Network to check Stream Response from the `completion` API call, it seems to confirm our hypothesis. We see mentions of tags like <Code language='xml'>&lt;antArtifact></Code> or attributes like <Code language='python'>type="application/vnd.ant.react"</Code>. However, The thinking steps like <Code language='xml'>&lt;antThinking></Code> that we don't see might be kept on the server side, sending only the <Code language='xml'>&lt;assistant_response></Code> text.
 
 
 ---
-## จบท้าย
-หมดไปแล้วกับเทคนิคที่ใช้ในการเขียน Prompt ของ Claude Sonnet 3.5 Artifacts
+## Conclusion
+That covers the prompt writing techniques used in Claude Sonnet 3.5 Artifacts.
 
-ท้ายที่สุด ถ้าเราอยากได้คำตอบที่ดีจาก Gen AI เราก็ต้องถามคำถามให้ดีเช่นกัน แล้วเทคนิคเหล่านั้นก็ไม่ได้แปลกใหม่อะไร เป็นเหมือนที่เราใช้ในเวลาทำงาน ก็ต้องมีการสื่อสารที่มีประสิทธิภาพ และเพียงปรับเล็กน้อยให้เอไอจับใจความได้ง่ายขึ้น เช่น ใช้ตัวคั่น (เช่น `""` ระบุว่าเป็นข้อความชุดเดียวกัน หรือ `---` สำหรับขึ้นย่อหน้าใหม่ไม่เกี่ยวกับก่อนหน้า ...) และ XML Tags (`</>`)
+To get good answers from Gen AI, we need to ask good questions. These techniques aren't really new - they're similar to what we use at work, requiring effective communication with slight adjustments to help AI comprehend better, like using separators (e.g., `""` for related text or `---` for new unrelated paragraphs...) and XML Tags (`</>`)
 
-สุดท้ายนี้ มีเทคนิคไหนที่ตกหล่นไปจากในตัวอย่าง Prompt ลองมาแชร์กันได้ในคอมเม้นเลยนะ
+Finally, if you notice any techniques missing from the leaked system prompt, feel free to share in the comments.
