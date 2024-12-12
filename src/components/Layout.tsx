@@ -1,7 +1,7 @@
 import React from 'react'
 import { Header } from './Header'
 import Footer from './Footer'
-import cn from 'classnames'
+import { cn } from '@/utils/cn'
 type Props = React.PropsWithChildren<{
   en?: string
   th?: string

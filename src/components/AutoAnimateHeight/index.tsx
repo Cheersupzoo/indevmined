@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import './AutoAnimateHeight.css'
-import cs from 'classnames'
+import { cn } from '@/utils/cn'
 
 export const AutoAnimateHeight = ({
   children,
   expanded
 }: React.PropsWithChildren<{ expanded?: boolean }>) => {
   return (
-    <div className={cs('transition-height', { expanded })}>
+    <div className={cn('transition-height', { expanded })}>
       <div>{children}</div>
     </div>
   )
@@ -24,7 +24,7 @@ export const EnterAnimateHeight = ({
   }, [])
 
   return (
-    <div className={cs(className, 'transition-height', { expanded })}>
+    <div className={cn(className, 'transition-height', { expanded })}>
       <div>{children}</div>
     </div>
   )

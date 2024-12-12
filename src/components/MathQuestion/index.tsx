@@ -3,7 +3,6 @@ import { CornerDownRight, MessageCircleQuestion, Search, X } from 'lucide-react'
 import React, { Fragment, lazy, useState } from 'react'
 import './style.css'
 import { micromark } from 'micromark'
-import cs from 'classnames'
 import { getMathAnswerIterator } from '@/apis'
 import { AutoAnimateHeight, EnterAnimateHeight } from '../AutoAnimateHeight'
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -121,7 +120,7 @@ const MathQuestion = () => {
 
   return (
     <div
-      className={cs(
+      className={cn(
         {
           'border-text': !isActive
         },

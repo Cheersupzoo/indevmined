@@ -3,9 +3,9 @@ import { CornerDownRight, MessageCircleQuestion, Search, X } from 'lucide-react'
 import React, { useRef, useState } from 'react'
 import './style.css'
 import { micromark } from 'micromark'
-import cs from 'classnames'
 import { getAnswerIterator } from '@/apis'
 import { AutoAnimateHeight } from '../AutoAnimateHeight'
+import { cn } from '@/utils/cn'
 
 const squareLoader = `<span class='square-loader' />`
 
@@ -85,7 +85,7 @@ const Question = () => {
 
   return (
     <div
-      className={cs(
+      className={cn(
         {
           'bg-foreground/90': isActive,
           'border-text bg-foreground/60': !isActive

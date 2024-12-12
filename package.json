@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@e2b/code-interpreter": "^1.0.2",
-    "classnames": "^2.5.1",
     "clsx": "^2.1.0",
     "codehike": "^1.0.4",
     "e2b": "^1.0.1",
