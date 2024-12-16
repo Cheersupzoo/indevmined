@@ -15,11 +15,13 @@ export const pre = (props: { codeblock: RawCode } | any) => {
     if (isScrollable) name = name.replace('scroll', '')
     const isCopyable = props.codeblock.meta.includes('!copy')
     if (isCopyable) name = name.replace('!copy', '')
+    const isCollapsible = props.codeblock.meta.includes('@collapse')
+    if (isCollapsible) name = name.replace('@collapse', '')
     name = name.trim()
 
     return (
       <div
-        className='bg-zinc-800 rounded shadow-xl flex flex-col relative'
+        className='bg-zinc-800 rounded shadow-xl flex flex-col relative pre'
         style={{
           ...(isScrollable && {
             maxHeight: '400px'
@@ -33,6 +35,7 @@ export const pre = (props: { codeblock: RawCode } | any) => {
             meta: `${language}${name.length ? ' | ' + name : ''}`
           }}
           copy={isCopyable}
+          collapse={isCollapsible}
         />
       </div>
     )

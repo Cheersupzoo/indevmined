@@ -36,7 +36,7 @@ p {
   list-style-type: disc;
 }
 
-.markdown-body p:has(+ul) {
+.markdown-body p:has(+ ul) {
   margin-bottom: 10px;
 }
 
@@ -65,7 +65,7 @@ p {
   padding-bottom: 0.3em;
   font-size: 2em;
   border-bottom: 1px solid var(--borderColor-muted);
-  @apply text-text
+  @apply text-text;
 }
 
 .markdown-body h1,
@@ -91,13 +91,13 @@ p {
 .markdown-body h3 {
   font-weight: var(--base-text-weight-semibold, 600);
   font-size: 1.25em;
-  @apply text-text
+  @apply text-text;
 }
 
 .markdown-body h4 {
   font-weight: var(--base-text-weight-semibold, 600);
   font-size: 1em;
-  @apply text-text/90
+  @apply text-text/90;
 }
 
 .markdown-body h5 {
@@ -121,7 +121,7 @@ p {
   margin-bottom: 22.5px;
 }
 
-.markdown-body div:has(div > pre) {
+.markdown-body div.pre {
   margin-bottom: 22.5px;
 }
 
@@ -173,12 +173,12 @@ p {
 
 .markdown-body p code {
   font-size: 85%;
-  @apply bg-text/15 text-text p-0.5 rounded
+  @apply bg-text/15 text-text p-0.5 rounded;
 }
 
 .markdown-body li code {
   font-size: 85%;
-  @apply bg-text/15 text-text p-0.5 rounded
+  @apply bg-text/15 text-text p-0.5 rounded;
 }
 
 .markdown-body > p:has(img) {
