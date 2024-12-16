@@ -13,17 +13,42 @@ import { tokenTransitions } from './tokenTransitions'
 import { FloatCopyButton } from '@/components/CopyButton'
 import { MermaidLanguageRenderer } from './MermaidLanguageRenderer'
 import { cn } from '@/utils/cn'
+import { CodeCollapsible } from './CodeCollapsible.client'
 
 export async function Code({
   codeblock,
-  copy
+  copy,
+  collapse
 }: {
   codeblock: RawCode
   copy?: boolean
+  collapse?: boolean
 }) {
   const highlighted = await highlight(codeblock, 'dark-plus')
-  // console.log("🚀 ~ highlighted:", highlighted)
-  // highlighted.annotations = highlighted.annotations.filter(ano => ano.name !=='callout')
+  let code: React.JSX.Element
+  if (highlighted.lang === 'mermaid') {
+    code = (
+      <div className='mx-2 mb-4'>
+        <MermaidLanguageRenderer codeblock={codeblock} />
+      </div>
+    )
+  } else {
+    code = (
+      <Pre
+        code={highlighted}
+        handlers={[
+          tokenTransitions,
+          bgHandler,
+          mark,
+          wordWrap,
+          lineNumbers,
+          callout,
+          diff
+        ]}
+        className='bg-transparent text-[0.9rem]'
+      />
+    )
+  }
 
   return (
     <>
@@ -33,28 +58,13 @@ export async function Code({
         </div>
       )}
       {copy && <FloatCopyButton text={codeblock.value} />}
-      <div className='overflow-auto rounded-b'>
-        {codeblock.lang !== 'mermaid' && (
-          <Pre
-            code={highlighted}
-            handlers={[
-              tokenTransitions,
-              bgHandler,
-              mark,
-              wordWrap,
-              lineNumbers,
-              callout,
-              diff
-            ]}
-            className='bg-transparent text-[0.9rem]'
-          />
-        )}
-        {codeblock.lang === 'mermaid' && (
-          <div className='mx-2 mb-4'>
-            <MermaidLanguageRenderer codeblock={codeblock} />
-          </div>
-        )}
-      </div>
+      {collapse ? (
+        <CodeCollapsible>
+          <div className='overflow-auto rounded-b'>{code}</div>
+        </CodeCollapsible>
+      ) : (
+        <div className='overflow-auto rounded-b'>{code}</div>
+      )}
     </>
   )
 }
