@@ -1,0 +1,11 @@
+.code-with-mermaid {
+  @apply mb-5
+}
+
+.markdown-body .code-with-mermaid > div:nth-child(1) {
+  @apply mb-0 rounded-b-none sm:rounded-b sm:rounded-r-none
+}
+
+.markdown-body .code-with-mermaid > div:nth-child(3) {
+  @apply mb-0 rounded-t-none sm:rounded-t sm:rounded-l-none
+}
