@@ -6,11 +6,13 @@ import imageVaultToPublic from './rehype/imageVaultToPublic'
 import centerImageDescription from './rehype/centerImageDescription'
 import remarkDirective from 'remark-directive'
 import { pre } from './components/pre'
-import { Code } from './components/code'
+import { InlineCode } from './components/InlineCode'
 import { img } from './components/img'
-import { remarkCodeHikeDirective } from './remark/codeHikeDirective'
 import rehypePreExtra from './rehype/rehypePreExtra'
-import { CodeHike } from './components/codeHike'
+import { ScrollyCoding } from './components/ScrollyCoding'
+import { CodeWithMermaid } from './components/CodeWithMermaid'
+import { remarkCodeHike, recmaCodeHike, CodeHikeConfig } from 'codehike/mdx'
+
 export type PostMeta = FrontmatterContent & {
   slug: string
   en: {
@@ -36,14 +38,20 @@ export type FrontmatterContent = {
   description?: string
 }
 
+const chConfig: CodeHikeConfig = {
+  components: { code: 'Pre', inlineCode: 'Code' },
+}
+
 export function compiledOptionMDX(post: string) {
   return compileMDX<FrontmatterContent>({
     source: post,
     components: {
-      pre,
-      Code,
+      // pre,
+      Pre: pre,
+      Code: InlineCode,
       img,
-      CodeHike
+      ScrollyCoding,
+      CodeWithMermaid
     },
     options: {
       parseFrontmatter: true,
@@ -51,7 +59,7 @@ export function compiledOptionMDX(post: string) {
         remarkPlugins: [
           wikiLinkPlugin,
           remarkDirective,
-          remarkCodeHikeDirective
+          [remarkCodeHike, chConfig]
         ],
         rehypePlugins: [
           imageVaultToPublic,
@@ -59,7 +67,8 @@ export function compiledOptionMDX(post: string) {
           imageSizeEmbedder,
           centerImageDescription,
           rehypePreExtra
-        ]
+        ],
+        recmaPlugins: [[recmaCodeHike, chConfig]]
       }
     }
   })

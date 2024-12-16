@@ -1,54 +1,19 @@
 import React from 'react'
 import { z } from 'zod'
-import { Block, CodeBlock, parseRoot } from 'codehike/blocks'
-import { remarkCodeHike, recmaCodeHike } from 'codehike/mdx'
+import { Block, CodeBlock, parseProps, parseRoot } from 'codehike/blocks'
 import {
   Selection,
   Selectable,
   SelectionProvider
 } from 'codehike/utils/selection'
-import { compileMDX } from 'next-mdx-remote/rsc'
 import { Code } from './Code'
-import { Code as CodeMdx } from '../code'
 
 const Schema = Block.extend({
   steps: z.array(Block.extend({ code: CodeBlock.optional() }))
 })
 
-/** @type {import('codehike/mdx').CodeHikeConfig} */
-const chConfig = {}
-
-export const CodeHike = async (props: React.PropsWithChildren) => {
-  const code = props.children as string
-  let result
-  try {
-    result = await compileMDX({
-      source: code,
-      components: {
-        Code: CodeMdx
-      },
-      options: {
-        mdxOptions: {
-          remarkPlugins: [[remarkCodeHike, chConfig]],
-          recmaPlugins: [[recmaCodeHike, chConfig]]
-        }
-      }
-    })
-  } catch (e) {
-    console.error(e)
-    throw e
-  }
-
-  const { steps } = parseRoot(
-    (props) =>
-      (result.content as any).type({
-        ...props,
-        components: {
-          Code: CodeMdx
-        }
-      }),
-    Schema
-  )
+export const ScrollyCoding = async (props: React.PropsWithChildren) => {
+  const { steps } = parseProps(props, Schema)
 
   return (
     <SelectionProvider className='flex flex-col lg:flex-row gap-4 relative lg:ml-[-10vw] lg:mr-[-10vw]'>

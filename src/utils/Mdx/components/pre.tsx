@@ -2,23 +2,20 @@ import React from 'react'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 oneDark['pre[class*="language-"]'].margin = '0'
 oneDark['pre[class*="language-"]'].borderRadius = '0'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { Code } from './codeHike/Code'
+import { Code } from './ScrollyCoding/Code'
+import { RawCode } from 'codehike/code'
 
-export const pre = (props: any) => {
-  if (
-    props.children &&
-    (props.children as any).props?.className?.startsWith('language-')
-  ) {
-    const language = (props.children as any).props.className.replace(
-      'language-',
-      ''
-    )
-    const code = (props.children as any).props.children
+export const pre = (props: { codeblock: RawCode } | any) => {
+  if (props.codeblock?.lang) {
+    const language = props.codeblock.lang
+    const code = props.codeblock.value.trimEnd()
 
-    // @ts-ignore
-    const isScrollable = props.scroll
-    const isCopyable = props['!copy']
+    let name = props.codeblock.meta
+    const isScrollable = props.codeblock.meta.includes('scroll')
+    if (isScrollable) name = name.replace('scroll', '')
+    const isCopyable = props.codeblock.meta.includes('!copy')
+    if (isCopyable) name = name.replace('!copy', '')
+    name = name.trim()
 
     return (
       <div
@@ -30,7 +27,11 @@ export const pre = (props: any) => {
         }}
       >
         <Code
-          codeblock={{ lang: language, value: code, meta: language }}
+          codeblock={{
+            lang: language,
+            value: code,
+            meta: `${language}${name.length ? ' | ' + name : ''}`
+          }}
           copy={isCopyable}
         />
       </div>

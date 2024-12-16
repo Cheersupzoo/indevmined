@@ -96,7 +96,8 @@ else:
 ## Analyzing Each Topic with Examples
 
 
-:::CodeHike
+<ScrollyCoding>
+
 ### !!steps Using the Model as Trained
 
 First, we notice extensive use of `</>`. This is the first technique - using the model as trained. To be sure, we should check the model card or published research like [Claude 3 model card](https://assets.anthropic.com/m/61e7d27f8c8f5919/original/Claude-3-Model-Card.pdf) to verify special terms the model handles well. If you don't have time to check, don't worry - most models are similar in this aspect, using XML Tags. These special terms help the model recognize related parts, like examples, descriptions, or instructions.
@@ -245,7 +246,7 @@ else:
 </artifacts_info>
 ```
 
-:::
+</ScrollyCoding>
 
 ---
 

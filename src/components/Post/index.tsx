@@ -3,13 +3,18 @@ import React from 'react'
 import './style.css'
 import { NormalResponsive } from '../Layout'
 import { FrontmatterContent } from '@/utils/Mdx/compileMdx'
+import { z } from 'zod'
+import { Block, parseProps, parseRoot } from 'codehike/blocks'
+import { parse } from 'codehike'
 
 type Props = {
   post: CompileMDXResult<FrontmatterContent>
 }
+
+const Schema = z.any()
 const Post = ({ post }: Props) => {
   return (
-    <NormalResponsive className='text-eva-text markdown-body'>
+    <NormalResponsive className='text-eva-text/70 markdown-body'>
       <h1 className='text-4xl font-bold mb-3'>
         {post.frontmatter.title as string}
       </h1>
