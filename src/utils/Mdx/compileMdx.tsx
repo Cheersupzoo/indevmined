@@ -4,6 +4,8 @@ import wikiLinkPlugin from 'remark-wiki-link'
 import imageSizeEmbedder from './rehype/imageSizeEmbedder'
 import imageVaultToPublic from './rehype/imageVaultToPublic'
 import centerImageDescription from './rehype/centerImageDescription'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import rehypeSlug from 'rehype-slug'
 import remarkDirective from 'remark-directive'
 import { pre } from './components/pre'
 import { InlineCode } from './components/InlineCode'
@@ -39,7 +41,7 @@ export type FrontmatterContent = {
 }
 
 const chConfig: CodeHikeConfig = {
-  components: { code: 'Pre', inlineCode: 'Code' },
+  components: { code: 'Pre', inlineCode: 'Code' }
 }
 
 export function compiledOptionMDX(post: string) {
@@ -66,7 +68,9 @@ export function compiledOptionMDX(post: string) {
           imageUrlTransformer,
           imageSizeEmbedder,
           centerImageDescription,
-          rehypePreExtra
+          rehypePreExtra,
+          rehypeSlug,
+          rehypeAutolinkHeadings
         ],
         recmaPlugins: [[recmaCodeHike, chConfig]]
       }

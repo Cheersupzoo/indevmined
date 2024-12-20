@@ -11,12 +11,15 @@ export const pre = (props: { codeblock: RawCode } | any) => {
     const code = props.codeblock.value.trimEnd()
 
     let name = props.codeblock.meta
-    const isScrollable = props.codeblock.meta.includes('scroll')
-    if (isScrollable) name = name.replace('scroll', '')
-    const isCopyable = props.codeblock.meta.includes('!copy')
-    if (isCopyable) name = name.replace('!copy', '')
-    const isCollapsible = props.codeblock.meta.includes('@collapse')
-    if (isCollapsible) name = name.replace('@collapse', '')
+    const parseMeta = (key: string) => {
+      const keyExist = props.codeblock.meta.includes(key)
+      if (keyExist) name = name.replace(key, '')
+      return keyExist
+    }
+    const isScrollable = parseMeta('scroll')
+    const isCopyable = parseMeta('!copy')
+    const isCollapsible = parseMeta('@collapse')
+    const isNoWrap = parseMeta('@noWrap')
     name = name.trim()
 
     return (
@@ -36,6 +39,7 @@ export const pre = (props: { codeblock: RawCode } | any) => {
           }}
           copy={isCopyable}
           collapse={isCollapsible}
+          noWrap={isNoWrap}
         />
       </div>
     )

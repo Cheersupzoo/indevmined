@@ -34,8 +34,6 @@ export class SmoothPre extends React.Component<CustomPreProps> {
     // console.log("🚀 ~ SmoothPre ~ transitions:", transitions)
 
     transitions.forEach(({ element, keyframes, options }) => {
-      console.log("🚀 ~ SmoothPre ~ transitions.forEach ~ keyframes:", keyframes)
-
       const { translateX, translateY, ...kf } = keyframes as any
       if (translateX && translateY) {
         kf.translate = [

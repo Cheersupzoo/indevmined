@@ -154,7 +154,7 @@ p {
 }
 
 .markdown-body blockquote > p:last-child {
-  margin-bottom: 0;
+  margin-bottom: 12px;
 }
 
 .markdown-body strong {

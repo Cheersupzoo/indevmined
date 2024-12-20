@@ -18,11 +18,13 @@ import { CodeCollapsible } from './CodeCollapsible.client'
 export async function Code({
   codeblock,
   copy,
-  collapse
+  collapse,
+  noWrap
 }: {
   codeblock: RawCode
   copy?: boolean
   collapse?: boolean
+  noWrap?: boolean
 }) {
   const highlighted = await highlight(codeblock, 'dark-plus')
   let code: React.JSX.Element
@@ -40,11 +42,11 @@ export async function Code({
           tokenTransitions,
           bgHandler,
           mark,
-          wordWrap,
+          !noWrap && wordWrap,
           lineNumbers,
           callout,
           diff
-        ]}
+        ].filter(Boolean) as AnnotationHandler[]}
         className='bg-transparent text-[0.9rem]'
       />
     )
