@@ -34,7 +34,7 @@ export const onRequest = functionWrapper(async (context, reqBody) => {
         content: question
       }
     ],
-    model: 'llama3-groq-70b-8192-tool-use-preview',
+    model: 'llama-3.3-70b-versatile',
     temperature: 0.1,
     max_tokens: 1500,
     stream: false,
