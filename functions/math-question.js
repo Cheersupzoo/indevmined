@@ -128,8 +128,8 @@ export const onRequest = functionWrapper(async (context, reqBody) => {
             return output
           })
         )
-
-        systemPrompt += ' When answering, do not include the code when provide answer to user.'
+        systemPrompt +=
+          ' When answering, do not include the code when provide answer to user.'
 
         const body = {
           messages: [
@@ -148,7 +148,7 @@ export const onRequest = functionWrapper(async (context, reqBody) => {
               content: JSON.stringify(results)
             }
           ],
-          model: 'llama-3.1-70b-versatile',
+          model: 'llama-3.3-70b-versatile',
           temperature: 0.1,
           max_tokens: 1500,
           stream: reqBody.stream ?? false
@@ -166,6 +166,7 @@ export const onRequest = functionWrapper(async (context, reqBody) => {
         resolve()
       } catch (error) {
         console.error(error)
+      } finally {
         writable.close()
       }
     })
