@@ -14,6 +14,7 @@
 - Paragraph (StarterKit)
 - Text (StarterKit)
 - TestComponent
+- Image [No File management]
 
 ## Marks
 

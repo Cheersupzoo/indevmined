@@ -47,3 +47,8 @@
 .bubble-menu button.is-active {
   @apply text-blue-400;
 }
+
+.ProseMirror-selectednode {
+  outline: 3px solid var(--purple);
+  @apply outline outline-[3px] outline-purple-500
+}

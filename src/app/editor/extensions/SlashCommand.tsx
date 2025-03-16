@@ -33,6 +33,17 @@ const suggestions = createSuggestionsItems([
     }
   },
   {
+    title: 'Image',
+    searchTerms: ['img', 'photo'],
+    command: ({ editor, range }) => {
+      const url = window.prompt('URL')
+
+      if (url) {
+        editor.chain().focus().deleteRange(range).setImage({ src: url }).run()
+      }
+    }
+  },
+  {
     title: 'React Component',
     searchTerms: ['react'],
     command: ({ editor, range }) => {

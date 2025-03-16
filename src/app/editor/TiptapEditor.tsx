@@ -4,7 +4,6 @@ import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import '@/styles/markdown.css'
 import './TiptapEditor.css'
-import { Metadata } from 'next'
 import {
   enableKeyboardNavigation,
   SlashCmdProvider
@@ -12,14 +11,16 @@ import {
 import Placeholder from '@tiptap/extension-placeholder'
 import TestComponent from './extensions/TestComponent/extension'
 import { SlashCommand, SlashWithConfigure } from './extensions/SlashCommand'
-import { BoldIcon, ItalicIcon, LinkIcon, StrikethroughIcon, UnderlineIcon } from 'lucide-react'
+import {
+  BoldIcon,
+  ItalicIcon,
+  LinkIcon,
+  StrikethroughIcon,
+  UnderlineIcon
+} from 'lucide-react'
 import { LinkWithConfigure, useSetLink } from './extensions/LinkExtension'
 import { Underline } from '@tiptap/extension-underline'
-
-export const metadata: Metadata = {
-  title: 'Editor | In Dev Mined',
-  description: 'In Dev Mined WYSIWYG Editor'
-}
+import Image from '@tiptap/extension-image'
 
 const TiptapEditor = () => {
   const editor = useEditor({
@@ -27,6 +28,7 @@ const TiptapEditor = () => {
       StarterKit.configure({ heading: { levels: [1, 2, 3, 4] } }),
 
       // Node
+      Image,
       // TODO: Remove TestComponent
       TestComponent,
 
