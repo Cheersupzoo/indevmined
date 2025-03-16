@@ -12,7 +12,8 @@ import {
 import Placeholder from '@tiptap/extension-placeholder'
 import TestComponent from './extensions/TestComponent/extension'
 import { SlashCommand, SlashWithConfigure } from './extensions/SlashCommand'
-import { BoldIcon, ItalicIcon, StrikethroughIcon } from 'lucide-react'
+import { BoldIcon, ItalicIcon, LinkIcon, StrikethroughIcon } from 'lucide-react'
+import { LinkWithConfigure, useSetLink } from './extensions/LinkExtension'
 
 export const metadata: Metadata = {
   title: 'Editor | In Dev Mined',
@@ -27,7 +28,9 @@ const TiptapEditor = () => {
       Placeholder.configure({
         placeholder: 'Press / to see available commands'
       }),
-      TestComponent
+      // TODO: Remove TestComponent
+      TestComponent,
+      LinkWithConfigure
     ],
     immediatelyRender: false,
     editorProps: {
@@ -40,6 +43,8 @@ const TiptapEditor = () => {
       <p>This is editable.</p>
     </react-component>`
   })
+
+  const setLink = useSetLink(editor)
 
   return (
     <SlashCmdProvider>
@@ -68,6 +73,12 @@ const TiptapEditor = () => {
               className={editor.isActive('strike') ? 'is-active' : ''}
             >
               <StrikethroughIcon size={16} />
+            </button>
+            <button
+              onClick={setLink}
+              className={editor.isActive('link') ? 'is-active' : ''}
+            >
+              <LinkIcon size={16} />
             </button>
           </div>
         </BubbleMenu>

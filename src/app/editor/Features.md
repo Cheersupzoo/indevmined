@@ -21,6 +21,7 @@
 - Code (StarterKit)
 - Italic (StarterKit)
 - Strike (StarterKit)
+- Link [Only Functional]
 
 ## Extensions
 
