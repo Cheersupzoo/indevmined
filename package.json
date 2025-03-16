@@ -11,7 +11,13 @@
   },
   "dependencies": {
     "@e2b/code-interpreter": "^1.0.2",
+    "@harshtalks/slash-tiptap": "^1.3.0",
     "@radix-ui/react-collapsible": "^1.1.2",
+    "@tiptap/core": "^2.11.5",
+    "@tiptap/extension-placeholder": "^2.11.5",
+    "@tiptap/pm": "^2.11.5",
+    "@tiptap/react": "^2.11.5",
+    "@tiptap/starter-kit": "^2.11.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.0",
     "codehike": "^1.0.4",

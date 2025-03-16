@@ -7,13 +7,21 @@ type Props = React.PropsWithChildren<{
   th?: string
   className?: string
   isEN?: boolean
+  footer?: React.ReactElement
 }>
-export default function Layout({ children, en, th, className, isEN }: Props) {
+export default function Layout({
+  children,
+  en,
+  th,
+  className,
+  isEN,
+  footer = <Footer className={className} />
+}: Props) {
   return (
     <div className={cn('flex flex-col', className)}>
       <Header en={en} th={th} className={className} isEN={isEN} />
       <div className='flex flex-grow flex-col'>{children}</div>
-      <Footer className={className} />
+      {footer}
     </div>
   )
 }

@@ -4,8 +4,7 @@ import './style.css'
 import { NormalResponsive } from '../Layout'
 import { FrontmatterContent } from '@/utils/Mdx/compileMdx'
 import { z } from 'zod'
-import { Block, parseProps, parseRoot } from 'codehike/blocks'
-import { parse } from 'codehike'
+import '@/styles/markdown.css'
 
 type Props = {
   post: CompileMDXResult<FrontmatterContent>
