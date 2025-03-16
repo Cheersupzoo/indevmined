@@ -12,8 +12,9 @@ import {
 import Placeholder from '@tiptap/extension-placeholder'
 import TestComponent from './extensions/TestComponent/extension'
 import { SlashCommand, SlashWithConfigure } from './extensions/SlashCommand'
-import { BoldIcon, ItalicIcon, LinkIcon, StrikethroughIcon } from 'lucide-react'
+import { BoldIcon, ItalicIcon, LinkIcon, StrikethroughIcon, UnderlineIcon } from 'lucide-react'
 import { LinkWithConfigure, useSetLink } from './extensions/LinkExtension'
+import { Underline } from '@tiptap/extension-underline'
 
 export const metadata: Metadata = {
   title: 'Editor | In Dev Mined',
@@ -24,12 +25,19 @@ const TiptapEditor = () => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ heading: { levels: [1, 2, 3, 4] } }),
+
+      // Node
+      // TODO: Remove TestComponent
+      TestComponent,
+
+      // Mark
+      Underline,
+
+      // Functionality
       SlashWithConfigure,
       Placeholder.configure({
         placeholder: 'Press / to see available commands'
       }),
-      // TODO: Remove TestComponent
-      TestComponent,
       LinkWithConfigure
     ],
     immediatelyRender: false,
@@ -73,6 +81,12 @@ const TiptapEditor = () => {
               className={editor.isActive('strike') ? 'is-active' : ''}
             >
               <StrikethroughIcon size={16} />
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleUnderline().run()}
+              className={editor.isActive('underline') ? 'is-active' : ''}
+            >
+              <UnderlineIcon size={16} />
             </button>
             <button
               onClick={setLink}
