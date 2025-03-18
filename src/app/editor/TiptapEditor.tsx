@@ -21,6 +21,7 @@ import {
 import { LinkWithConfigure, useSetLink } from './extensions/LinkExtension'
 import { Underline } from '@tiptap/extension-underline'
 import Image from '@tiptap/extension-image'
+import { MoveNodeShortcut } from './extensions/MoveNodeShortcut'
 
 const TiptapEditor = () => {
   const editor = useEditor({
@@ -40,7 +41,7 @@ const TiptapEditor = () => {
       Placeholder.configure({
         placeholder: 'Press / to see available commands'
       }),
-      LinkWithConfigure
+      MoveNodeShortcut
     ],
     immediatelyRender: false,
     editorProps: {
@@ -99,6 +100,7 @@ const TiptapEditor = () => {
           </div>
         </BubbleMenu>
       )}
+      {editor && <CursorInfo editor={editor} />}
     </SlashCmdProvider>
   )
 }

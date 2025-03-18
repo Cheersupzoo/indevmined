@@ -32,3 +32,4 @@
 - History (StarterKit)
 - Bubble Menu
 - Slash Command
+- MoveNodeShortcut
