@@ -22,6 +22,7 @@ import { LinkWithConfigure, useSetLink } from './extensions/LinkExtension'
 import { Underline } from '@tiptap/extension-underline'
 import Image from '@tiptap/extension-image'
 import { MoveNodeShortcut } from './extensions/MoveNodeShortcut'
+import { DragHandle } from './extensions/DragHandleExtension'
 
 const TiptapEditor = () => {
   const editor = useEditor({
@@ -41,7 +42,9 @@ const TiptapEditor = () => {
       Placeholder.configure({
         placeholder: 'Press / to see available commands'
       }),
-      MoveNodeShortcut
+      LinkWithConfigure,
+      MoveNodeShortcut,
+      DragHandle
     ],
     immediatelyRender: false,
     editorProps: {
@@ -62,7 +65,7 @@ const TiptapEditor = () => {
       <button onClick={() => console.log(editor?.getJSON())}>
         Export JSON
       </button>
-      <EditorContent className='markdown-body' editor={editor} />
+      <EditorContent className='markdown-body -mx-16' editor={editor} />
       <SlashCommand editor={editor} />
       {editor && (
         <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>

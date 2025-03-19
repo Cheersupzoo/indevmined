@@ -33,3 +33,4 @@
 - Bubble Menu
 - Slash Command
 - MoveNodeShortcut
+- Drag Handle V1

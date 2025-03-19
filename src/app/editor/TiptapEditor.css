@@ -1,3 +1,7 @@
+.tiptap.ProseMirror {
+  @apply border-l-[64px] border-r-[64px] border-l-transparent border-r-transparent;
+}
+
 .tiptap {
   @apply focus:outline-none;
 }
@@ -50,5 +54,5 @@
 
 .ProseMirror-selectednode {
   outline: 3px solid var(--purple);
-  @apply outline outline-[3px] outline-purple-500
+  @apply outline outline-[3px] outline-purple-500;
 }
