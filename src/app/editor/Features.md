@@ -15,6 +15,7 @@
 - Text (StarterKit)
 - TestComponent
 - Image [No File management]
+- Code V1 [No proper editor]
 
 ## Marks
 

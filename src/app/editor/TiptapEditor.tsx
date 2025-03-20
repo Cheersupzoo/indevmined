@@ -10,6 +10,7 @@ import {
 } from '@harshtalks/slash-tiptap'
 import Placeholder from '@tiptap/extension-placeholder'
 import TestComponent from './extensions/TestComponent/extension'
+import CodeBlock from './extensions/Code'
 import { SlashCommand, SlashWithConfigure } from './extensions/SlashCommand'
 import {
   BoldIcon,
@@ -22,6 +23,7 @@ import { LinkWithConfigure, useSetLink } from './extensions/LinkExtension'
 import { Underline } from '@tiptap/extension-underline'
 import Image from '@tiptap/extension-image'
 import { MoveNodeShortcut } from './extensions/MoveNodeShortcut'
+import { CursorInfo } from './extensions/CursorInfo'
 import { DragHandle } from './extensions/DragHandleExtension'
 
 const TiptapEditor = () => {
@@ -33,6 +35,7 @@ const TiptapEditor = () => {
       Image,
       // TODO: Remove TestComponent
       TestComponent,
+      CodeBlock,
 
       // Mark
       Underline,
@@ -47,12 +50,12 @@ const TiptapEditor = () => {
       DragHandle
     ],
     immediatelyRender: false,
-    editorProps: {
-      handleDOMEvents: {
-        keydown: (_, v) => enableKeyboardNavigation(v)
-      }
-    },
-    content: `<h1>H1</h1><h2>H2</h2><h3>H3</h3><h4>H4</h4><p>Hello World! 🌎️</p><ul><li>list</li></ul><react-component count="1">
+    content: `<h1>H1</h1><h2>H2</h2><h3>H3</h3><h4>H4</h4><p>Hello World! 🌎️</p><ul><li>list</li></ul>
+    <code-block lang="js">// !mark
+const text="test";
+    // !bg[5:8] gold
+console.log('hello world')</code-block>
+    <react-component count="1">
       <p>This is editable.</p>
       <p>This is editable.</p>
     </react-component>`
