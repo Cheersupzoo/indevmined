@@ -25,6 +25,7 @@ import Image from '@tiptap/extension-image'
 import { MoveNodeShortcut } from './extensions/MoveNodeShortcut'
 import { CursorInfo } from './extensions/CursorInfo'
 import { DragHandle } from './extensions/DragHandleExtension'
+import { CodeBlockLighter } from './extensions/CodeBlockLighter'
 
 const TiptapEditor = () => {
   const editor = useEditor({
@@ -36,6 +37,7 @@ const TiptapEditor = () => {
       // TODO: Remove TestComponent
       TestComponent,
       CodeBlock,
+      CodeBlockLighter,
 
       // Mark
       Underline,
@@ -50,7 +52,9 @@ const TiptapEditor = () => {
       DragHandle
     ],
     immediatelyRender: false,
-    content: `<h1>H1</h1><h2>H2</h2><h3>H3</h3><h4>H4</h4><p>Hello World! 🌎️</p><ul><li>list</li></ul>
+    content: `<h1>H1</h1><h2>H2</h2><h3>H3</h3><h4>H4</h4><p>Hello World! 🌎️</p><pre language="js"><code class="language-javascript">const str = '123';
+str.replace('1','9')
+const obj = {a: 'c'}</code></pre><ul><li>list</li></ul>
     <code-block lang="js">// !mark
 const text="test";
     // !bg[5:8] gold
