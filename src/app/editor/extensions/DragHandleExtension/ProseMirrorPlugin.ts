@@ -137,7 +137,7 @@ function getPluginState(state: EditorState): DragHandlePluginState {
 }
 
 // Find a block node position at or near a given position
-function findBlockNodeAt(state: EditorState, pos: number): number | null {
+export function findBlockNodeAt(state: EditorState, pos: number): number | null {
   const $pos = state.doc.resolve(pos)
   let depth = $pos.depth
 

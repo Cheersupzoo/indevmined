@@ -26,6 +26,7 @@ import { MoveNodeShortcut } from './extensions/MoveNodeShortcut'
 import { CursorInfo } from './extensions/CursorInfo'
 import { DragHandle } from './extensions/DragHandleExtension'
 import { CodeBlockLighter } from './extensions/CodeBlockLighter'
+import { findBlockNodeAt } from './extensions/DragHandleExtension/ProseMirrorPlugin'
 
 const TiptapEditor = () => {
   const editor = useEditor({
@@ -75,7 +76,21 @@ console.log('hello world')</code-block>
       <EditorContent className='markdown-body -mx-16' editor={editor} />
       <SlashCommand editor={editor} />
       {editor && (
-        <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
+        <BubbleMenu
+          editor={editor}
+          shouldShow={({ state, from }) => {
+            const blockPos = findBlockNodeAt(state, from)
+            if (!blockPos) {
+              return true
+            }
+            const ignoreBlockNode = ['codeBlock']
+
+            return !ignoreBlockNode.includes(
+              state.doc.nodeAt(blockPos)?.type.name ?? 'paragraph'
+            )
+          }}
+          tippyOptions={{ duration: 100 }}
+        >
           <div className='bubble-menu'>
             <button
               onClick={() => editor.chain().focus().toggleBold().run()}
