@@ -71,8 +71,8 @@ export const SlashCommand = ({ editor }: { editor: Editor | null }) => {
   return (
     <SlashCmd.Root editor={editor}>
       <SlashCmd.Cmd>
-        <SlashCmd.Empty>No commands available</SlashCmd.Empty>
         <SlashCmd.List>
+          <SlashCmd.Empty>No commands available</SlashCmd.Empty>
           <SlashCmd.Group heading='Blocks'>
             {suggestions.map((item) => {
               return (

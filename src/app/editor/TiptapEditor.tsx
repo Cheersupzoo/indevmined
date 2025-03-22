@@ -53,6 +53,11 @@ const TiptapEditor = () => {
       DragHandle
     ],
     immediatelyRender: false,
+    editorProps: {
+      handleDOMEvents: {
+        keydown: (_, v) => enableKeyboardNavigation(v)
+      }
+    },
     content: `<h1>H1</h1><h2>H2</h2><h3>H3</h3><h4>H4</h4><p>Hello World! 🌎️</p><pre language="js"><code class="language-javascript">const str = '123';
 str.replace('1','9')
 const obj = {a: 'c'}</code></pre><ul><li>list</li></ul>
@@ -78,7 +83,9 @@ console.log('hello world')</code-block>
       {editor && (
         <BubbleMenu
           editor={editor}
-          shouldShow={({ state, from }) => {
+          shouldShow={({ state, from, to }) => {
+            if (from === to) return false
+
             const blockPos = findBlockNodeAt(state, from)
             if (!blockPos) {
               return true
