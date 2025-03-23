@@ -44,6 +44,18 @@ const suggestions = createSuggestionsItems([
     }
   },
   {
+    title: 'Code Block',
+    searchTerms: ['coding', 'programming'],
+    command: ({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .toggleCodeBlock({ language: 'javascript' })
+        .run()
+    }
+  },
+  {
     title: 'React Component',
     searchTerms: ['react'],
     command: ({ editor, range }) => {

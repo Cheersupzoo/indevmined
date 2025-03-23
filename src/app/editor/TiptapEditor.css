@@ -16,8 +16,8 @@
   /* scroll-padding-block-end: 8px; */
 }
 
-[cmdk-list-sizer] {
-  @apply py-2 px-1 text-eva-text bg-slate-900 border border-slate-800 rounded-xl;
+[cmdk-root] {
+  @apply text-eva-text bg-zinc-800 border border-zinc-700 shadow-xl rounded-xl;
 }
 
 [cmdk-group-heading] {
