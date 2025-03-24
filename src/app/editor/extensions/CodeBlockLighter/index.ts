@@ -16,6 +16,7 @@ export const CodeBlockLighter = CodeBlock.extend<CodeBlockLighterOptions>({
       HTMLAttributes: {}
     }
   },
+  marks: 'codeMark',
   addProseMirrorPlugins() {
     return [
       ...(this.parent?.() || []),
