@@ -80,7 +80,10 @@ console.log('hello world')</code-block>
 
   return (
     <SlashCmdProvider>
-      <button className='absolute top-0 right-0' onClick={() => console.log(editor?.getJSON())}>
+      <button
+        className='absolute top-0 right-0'
+        onClick={() => console.log(editor?.getJSON())}
+      >
         Export JSON
       </button>
       <EditorContent className='markdown-body -mx-16' editor={editor} />
