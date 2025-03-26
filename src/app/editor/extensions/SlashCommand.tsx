@@ -82,7 +82,7 @@ export const SlashWithConfigure = Slash.configure({
 export const SlashCommand = ({ editor }: { editor: Editor | null }) => {
   return (
     <SlashCmd.Root editor={editor}>
-      <SlashCmd.Cmd>
+      <SlashCmd.Cmd className='px-1 py-2' loop>
         <SlashCmd.List>
           <SlashCmd.Empty>No commands available</SlashCmd.Empty>
           <SlashCmd.Group heading='Blocks'>
