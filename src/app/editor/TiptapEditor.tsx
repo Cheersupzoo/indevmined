@@ -30,6 +30,7 @@ import { CodeBlockLighter } from './extensions/CodeBlockLighter'
 import { findBlockNodeAt } from './extensions/DragHandleExtension/ProseMirrorPlugin'
 import { CodeMark } from './extensions/CodeBlockLighter/MarkExtension'
 import { cn } from '@/lib/utils'
+import { PreNodeTools } from './PreNodeTools'
 
 const TiptapEditor = () => {
   const editor = useEditor({
@@ -79,10 +80,11 @@ console.log('hello world')</code-block>
 
   return (
     <SlashCmdProvider>
-      <button onClick={() => console.log(editor?.getJSON())}>
+      <button className='absolute top-0 right-0' onClick={() => console.log(editor?.getJSON())}>
         Export JSON
       </button>
       <EditorContent className='markdown-body -mx-16' editor={editor} />
+      <PreNodeTools editor={editor} />
       <SlashCommand editor={editor} />
       {editor && (
         <BubbleMenu

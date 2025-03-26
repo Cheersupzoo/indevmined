@@ -45,7 +45,7 @@
 }
 
 .markdown-body h1 {
-  margin: 0.67em 0;
+  /* margin: 0.67em 0; */
   font-weight: var(--base-text-weight-semibold, 600);
   padding-bottom: 0.3em;
   font-size: 2em;
@@ -59,7 +59,6 @@
 .markdown-body h4,
 .markdown-body h5,
 .markdown-body h6 {
-  margin-top: var(--base-size-24);
   margin-bottom: var(--base-size-16);
   font-weight: var(--base-text-weight-semibold, 600);
   line-height: 1.25;

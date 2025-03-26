@@ -1,4 +1,4 @@
-import { Plugin, PluginKey, EditorState } from '@tiptap/pm/state'
+import { Plugin, PluginKey, EditorState, TextSelection } from '@tiptap/pm/state'
 import { EditorView, Decoration, DecorationSet } from '@tiptap/pm/view'
 import { Fragment, Node } from '@tiptap/pm/model'
 
@@ -22,105 +22,70 @@ const dragHandlePluginKey = new PluginKey<DragHandlePluginState>('dragHandle')
 export function dragHandlePlugin(): Plugin<DragHandlePluginState> {
   return new Plugin<DragHandlePluginState>({
     key: dragHandlePluginKey,
-
-    state: {
-      init() {
-        return { hoveredNode: null, showHandle: false, dragging: false }
-      },
-      apply(tr, state) {
-        // Get the current position of the mouse from the transaction metadata
-        const hoverPos = tr.getMeta(dragHandlePluginKey) as
-          | number
-          | null
-          | undefined
-        if (hoverPos !== undefined) {
-          return { hoveredNode: hoverPos, showHandle: hoverPos !== null }
-        }
-        return state
-      }
-    },
-
-    props: {
-      // Add decorations to show handles
-      decorations(state: EditorState): DecorationSet {
-        const pluginState = this.getState(state)
-
-        if (!pluginState?.showHandle || pluginState.hoveredNode === null) {
-          return DecorationSet.empty
-        }
-
-        const pos = pluginState.hoveredNode
-        const node = state.doc.nodeAt(pos)
-
-        if (!node || !node.isBlock) return DecorationSet.empty
-
-        // Create a widget decoration that will be placed before the block node
-        const handleDecoration = Decoration.widget(
-          pos,
-          () => {
-            const handle = document.createElement('div')
-            handle.innerHTML =
-              '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-grip-vertical"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></svg>'
-
-            handle.style.cssText = `
-            cursor: grab;
-            position: absolute;
-            left: -24px;
-            color: #999;
-            font-size: 16px;
-            user-select: none;
-            padding: 4px;
-            `
-            // Simple vertical dots as a drag handle
-            handle.className = 'prosemirror-drag-handle'
-            handle.setAttribute('data-drag-handle', 'true')
-            handle.setAttribute('draggable', 'true')
-
-            const preventDefault = (event: Event) => event.preventDefault()
-            // Add mouse events to the handle
-            handle.addEventListener('dragstart', (e: DragEvent) => startDrag(e))
-
-            handle.addEventListener('selectstart', preventDefault)
-
-            return handle
-          },
-          { side: -1 }
-        ) // Place it to the left of the node
-
-        return DecorationSet.create(state.doc, [handleDecoration])
-      },
-
-      // Track mouse movement to show/hide handles
-      handleDOMEvents: {
-        mousemove(view: EditorView, event: MouseEvent): boolean {
-          const pos = view.posAtCoords({
-            left: event.clientX,
-            top: event.clientY
-          })
-          if (!pos) {
-            updatePluginState(view, null)
-            return false
-          }
-
-          const hoveredNode = findBlockNodeAt(view.state, pos.pos)
-          if (hoveredNode !== getPluginState(view.state).hoveredNode) {
-            updatePluginState(view, hoveredNode)
-          }
-          return false
-        },
-        mouseleave(view: EditorView): boolean {
-          updatePluginState(view, null)
-          return false
-        }
-      }
-    },
-
     // View method to handle the drag operation
     view(editorView: EditorView) {
-      setupDragHandles(editorView)
+      const preNodeContainer = document.querySelector(
+        '.pre-node-tool-container'
+      ) as HTMLDivElement
+      const handleNode = document.querySelector(
+        '.drag-handle'
+      ) as HTMLDivElement
+      if (!handleNode || !preNodeContainer) {
+        return {
+          update: () => {},
+          destroy: () => {}
+        }
+      }
+
+      const preventDefault = (event: Event) => event.preventDefault()
+      // Add mouse events to the handle
+      const handleDragStart = (e: DragEvent) => startDrag(e, editorView)
+      handleNode.addEventListener('dragstart', handleDragStart)
+      handleNode.addEventListener('selectstart', preventDefault)
+
+      const mousemove = (event: MouseEvent) => {
+        const pos = editorView.posAtCoords({
+          left: event.clientX,
+          top: event.clientY
+        })
+        if (!pos) {
+          preNodeContainer.style.visibility = 'hidden'
+
+          return false
+        }
+
+        const hoveredNode = findBlockNodeAt(editorView.state, pos.pos)
+        if (typeof hoveredNode === 'number') {
+          preNodeContainer.style.visibility = 'visible'
+          const node = editorView.nodeDOM(hoveredNode)
+          const rect = (node as HTMLDivElement).getBoundingClientRect()
+          const editorRect = editorView.dom.getBoundingClientRect()
+          const top = rect.top - editorRect.top
+          preNodeContainer.style.top = `${top}px`
+        }
+        return false
+      }
+
+      const mouseleave = (event: MouseEvent) => {
+        const editorBound = editorView.dom.getBoundingClientRect()
+        if (
+          event.clientX < editorBound.left ||
+          event.clientX > editorBound.right
+        ) {
+          preNodeContainer.style.visibility = 'hidden'
+        }
+        return false
+      }
+      editorView.dom.addEventListener('mousemove', mousemove)
+      editorView.dom.addEventListener('mouseleave', mouseleave)
+
       return {
         update: () => {},
-        destroy: () => {}
+        destroy: () => {
+          handleNode.removeEventListener('dragstart', handleDragStart)
+          editorView.dom.removeEventListener('mousemove', mousemove)
+          editorView.dom.removeEventListener('mouseleave', mouseleave)
+        }
       }
     }
   })
@@ -137,7 +102,10 @@ function getPluginState(state: EditorState): DragHandlePluginState {
 }
 
 // Find a block node position at or near a given position
-export function findBlockNodeAt(state: EditorState, pos: number): number | null {
+export function findBlockNodeAt(
+  state: EditorState,
+  pos: number
+): number | null {
   const $pos = state.doc.resolve(pos)
   let depth = $pos.depth
 
@@ -160,42 +128,30 @@ export function findBlockNodeAt(state: EditorState, pos: number): number | null 
   return null
 }
 
-declare global {
-  interface Window {
-    _currentProseMirrorView?: EditorView
-  }
-}
-
 // Handler for starting a drag operation
-function startDrag(event: DragEvent): void {
+function startDrag(event: DragEvent, view: EditorView): void {
   const handle = event.target as HTMLElement
-  const view = window._currentProseMirrorView
+  const pos = view.posAtCoords({
+    left: event.clientX,
+    top: event.clientY
+  })
+  if (!pos) {
+    return
+  }
 
-  if (!view) return
+  const nodePos = findBlockNodeAt(view.state, pos.pos)
+  if (!view || typeof nodePos !== 'number') return
 
-  const state = view.state
-  const pluginState = getPluginState(state)
-  const nodePos = pluginState.hoveredNode
-
-  if (nodePos === null) return
-
-  const node = state.doc.nodeAt(nodePos)
+  const node = view.state.doc.nodeAt(nodePos)
   if (!node) return
 
   const domNode = view.nodeDOM(nodePos)
-  let dragNode: HTMLDivElement
   if (domNode) {
-    dragNode = document.createElement('div')
-    dragNode.style.cssText = 'padding-left: 12px;'
-
-    dragNode.appendChild(domNode.cloneNode(true))
-    view.dom.parentNode?.appendChild(dragNode)
-    event.dataTransfer?.setDragImage(dragNode, 0, 0)
+    event.dataTransfer?.setDragImage(domNode as HTMLElement, 0, 0)
   }
 
   // Change cursor style during drag
   handle.style.cursor = 'grabbing'
-  document.body.style.cursor = 'grabbing'
 
   // Store the original node for dragging
   const draggedNode: DraggedNodeInfo = {
@@ -204,30 +160,11 @@ function startDrag(event: DragEvent): void {
     end: nodePos + node.nodeSize
   }
 
-  // Set up move and end handlers
-  // const move = (moveEvent: MouseEvent) => {
-  //   console.log('moving')
-
-  //   const pos = view.posAtCoords({
-  //     left: moveEvent.clientX,
-  //     top: moveEvent.clientY
-  //   })
-  //   if (!pos) return
-  // }
-
   const endDrag = (endEvent: MouseEvent) => {
-    document.removeEventListener('dragend', endDrag)
-    const handle = endEvent.target as HTMLElement
-    const view = window._currentProseMirrorView
-
+    handle.removeEventListener('dragend', endDrag)
     if (!view) return
 
-    if (dragNode) {
-      view.dom.parentNode?.removeChild(dragNode)
-    }
-
     // Restore cursor style
-    document.body.style.cursor = ''
     handle.style.cursor = 'grab'
 
     const pos = view.posAtCoords({
@@ -238,46 +175,10 @@ function startDrag(event: DragEvent): void {
 
     // Execute the node move
     moveNode(view, draggedNode, pos.pos)
+    view.dom.focus()
   }
 
   handle.addEventListener('dragend', endDrag)
-}
-
-// Find a valid position to drop the node
-function findValidDropPosition(
-  state: EditorState,
-  targetPos: number,
-  draggedNode: DraggedNodeInfo
-): number {
-  const $targetPos = state.doc.resolve(targetPos)
-
-  // Don't allow dropping inside the dragged node itself
-  if (targetPos > draggedNode.pos && targetPos < draggedNode.end) {
-    if (targetPos > draggedNode.pos + draggedNode.node.nodeSize / 2) {
-      return draggedNode.end
-    } else {
-      return draggedNode.pos
-    }
-  }
-
-  // Find a valid depth where we can insert a block
-  let depth = $targetPos.depth
-  while (depth > 0) {
-    const index = $targetPos.index(depth)
-    const node = $targetPos.node(depth)
-
-    // If we can insert the node at this depth, use this position
-    if (
-      node.canReplace(index, index, draggedNode.node as unknown as Fragment)
-    ) {
-      return $targetPos.before(depth + 1)
-    }
-
-    depth--
-  }
-
-  // If no good position found, default to current position
-  return targetPos
 }
 
 // Execute the node move
@@ -301,26 +202,10 @@ function moveNode(
   // Insert it at the target position
   tr = tr.insert(adjustedTargetPos, draggedNode.node)
 
+  // Update selection position to draggedNode node
+  const newSelection = TextSelection.create(tr.doc, adjustedTargetPos + 1)
+  tr.setSelection(newSelection)
+
   // Apply the transaction
   view.dispatch(tr)
-}
-
-// Example of how to add this plugin to an editor
-export function setupDragHandles(view: EditorView): void {
-  // Store the view globally for access in event handlers
-  window._currentProseMirrorView = view
-
-  // Add CSS styles for the editor
-  const style = document.createElement('style')
-  style.textContent = `
-    
-    .prosemirror-drag-handle {
-      transition: opacity 0.3s;
-    }
-    
-    .ProseMirror .prosemirror-drag-handle:hover {
-      color: #07f;
-    }
-  `
-  document.head.appendChild(style)
 }
