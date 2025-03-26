@@ -13,6 +13,7 @@ import './style.css'
 
 export const CodeBlockWrapper = (props: NodeViewProps) => {
   const codeEl = useRef<HTMLDivElement>(null)
+  const spanEl = useRef<HTMLDivElement>(null)
 
   return (
     <NodeViewWrapper className='bg-zinc-800 rounded shadow-xl flex flex-col relative pre group'>
@@ -22,6 +23,7 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
         className='text-center text-zinc-400 text-xs py-2 font-mono '
       >
         <span
+          ref={spanEl}
           className='cursor-pointer'
           data-language-selector
           onClick={() => {
@@ -34,6 +36,21 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
 
             const popup = tippy('[data-language-selector]', {
               appendTo: () => codeEl.current as Element,
+              getReferenceClientRect: () => {
+                if (!spanEl.current) {
+                  return {
+                    width: 0,
+                    height: 0,
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0
+                  } as DOMRect
+                }
+                const pos = spanEl.current.getBoundingClientRect()
+
+                return pos
+              },
               content: component.element,
               showOnCreate: true,
               interactive: true,
