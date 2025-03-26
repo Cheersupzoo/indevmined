@@ -93,11 +93,26 @@ function getDecorations({
 
     // flatten lines into nodes as we don't need in this
     nodes.lines.forEach((line, index) => {
+      const bgHighlighterDec = Decoration.widget(
+        from,
+        () => {
+          const lineHighlight = document.createElement('div')
+          // lineHighlight.style.cssText = `background-color: rgb(from ${'gold'} r g b / 0.13); border-left-color: ${'gold'}`
+          lineHighlight.innerHTML = `&nbsp;`
+          lineHighlight.className = 'line-highlighter'
+
+          return lineHighlight
+        },
+        { side: -1 }
+      )
+      decorations.push(bgHighlighterDec)
+      // add line number
       const lineNumberDec = Decoration.widget(
         from,
         () => {
           const lineNum = document.createElement('div')
-          lineNum.style.cssText = `color: rgb(113 113 122); text-align: right; display: inline-block; min-width: ${lineNumberWidth}ch; padding-right: 1ch; user-select: none;`
+          lineNum.style.cssText = `min-width: ${lineNumberWidth}ch; `
+          lineNum.className = 'line-number'
           lineNum.innerHTML = `${index + 1}`
 
           return lineNum
@@ -105,11 +120,12 @@ function getDecorations({
         { side: -1 }
       )
       decorations.push(lineNumberDec)
+      // apply syntax highlighter
       line.forEach((node) => {
         const to = from + node.content.length
         if (Object.keys(node.style).length) {
           const decoration = Decoration.inline(from, to, {
-            style: styleJSToCSS(node.style)
+            style: styleJSToCSS(node.style) + 'display: inline-block;'
           })
 
           decorations.push(decoration)

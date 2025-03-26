@@ -1,0 +1,13 @@
+pre code .line-highlighter {
+  border-left: solid transparent 2px;
+  @apply absolute w-full -z-10 select-none hover:border-l-4;
+}
+
+pre code .line-number {
+  color: rgb(113 113 122);
+  text-align: right;
+  display: inline-block;
+  padding-right: 1ch;
+  margin-left: 2px;
+  user-select: none;
+}

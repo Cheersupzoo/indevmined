@@ -9,6 +9,7 @@ import { ChevronDown } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 import tippy from 'tippy.js'
 import { Command } from 'cmdk'
+import './style.css'
 
 export const CodeBlockWrapper = (props: NodeViewProps) => {
   const codeEl = useRef<HTMLDivElement>(null)
@@ -55,7 +56,7 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
           />
         </span>
       </div>
-      <NodeViewContent as='code' className='text-[0.9rem]' />
+      <NodeViewContent as='code' className='text-[0.9rem] relative z-0' />
     </NodeViewWrapper>
   )
 }
