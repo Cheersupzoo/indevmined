@@ -81,7 +81,7 @@ console.log('hello world')</code-block>
   return (
     <SlashCmdProvider>
       <button
-        className='absolute top-0 right-0'
+        className='absolute top-0 right-0 z-10'
         onClick={() => console.log(editor?.getJSON())}
       >
         Export JSON

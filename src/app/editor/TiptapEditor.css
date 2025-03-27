@@ -11,9 +11,10 @@
   height: var(--cmdk-list-height);
   max-height: 500px;
   transition: height 100ms ease;
+  min-width: 240px;
 
-  /* scroll-padding-block-start: 8px; */
-  /* scroll-padding-block-end: 8px; */
+  scroll-padding-block-start: 8px;
+  scroll-padding-block-end: 8px;
 }
 
 [cmdk-root] {
@@ -21,11 +22,11 @@
 }
 
 [cmdk-group-heading] {
-  @apply font-medium text-xs text-eva-text/50 px-2 py-0.5;
+  @apply text-xs text-eva-text/50 px-2 py-1.5 font-medium;
 }
 
 [cmdk-item] {
-  @apply px-2 py-0.5 rounded-md;
+  @apply items-center flex gap-2 p-1.5 rounded-md font-thin text-sm cursor-pointer;
 }
 
 [cmdk-item][data-selected='true'] {
