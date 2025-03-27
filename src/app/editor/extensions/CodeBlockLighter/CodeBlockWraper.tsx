@@ -132,7 +132,7 @@ const LanguageSelector = ({
     >
       <Command.Input
         ref={inputEl}
-        className='bg-transparent outline-none px-2 pt-3 pb-3 border-b border-b-zinc-700'
+        className='bg-transparent outline-none px-3 pt-3 pb-3 border-b border-b-zinc-700 w-full'
         maxLength={16}
         placeholder='Programming language'
       />
