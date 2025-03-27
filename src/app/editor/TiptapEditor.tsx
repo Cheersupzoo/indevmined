@@ -31,6 +31,7 @@ import { findBlockNodeAt } from './extensions/DragHandleExtension/ProseMirrorPlu
 import { CodeMark } from './extensions/CodeBlockLighter/MarkExtension'
 import { cn } from '@/lib/utils'
 import { PreNodeTools } from './PreNodeTools'
+import { Box3dNode } from './extensions/React/Box3d'
 
 const TiptapEditor = () => {
   const editor = useEditor({
@@ -43,6 +44,7 @@ const TiptapEditor = () => {
       TestComponent,
       CodeBlock,
       CodeBlockLighter,
+      Box3dNode,
 
       // Mark
       Underline,

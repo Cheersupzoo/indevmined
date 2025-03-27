@@ -18,6 +18,7 @@ import {
   SquareCodeIcon,
   TypeIcon
 } from 'lucide-react'
+import { Box3dNode } from './React/Box3d'
 
 const blockSuggestions = createSuggestionsItems([
   {
@@ -172,6 +173,21 @@ const blockSuggestions = createSuggestionsItems([
           type: 'reactComponent',
           attrs: { count: 9 },
           content: [{ type: 'paragraph' }]
+        })
+        .run()
+    },
+    icon: LayoutTemplateIcon
+  },
+  {
+    title: 'React Component - 3D Box',
+    searchTerms: ['react'],
+    command: ({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .insertContent({
+          type: Box3dNode.name
         })
         .run()
     },
