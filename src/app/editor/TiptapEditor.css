@@ -1,5 +1,5 @@
 .tiptap.ProseMirror {
-  @apply border-l-[64px] border-r-[64px] border-l-transparent border-r-transparent;
+  @apply border-x-[16px] sm:border-x-[64px] border-l-transparent border-r-transparent;
 }
 
 .tiptap {

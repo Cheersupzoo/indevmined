@@ -88,7 +88,7 @@ console.log('hello world')</code-block>
       >
         Export JSON
       </button>
-      <EditorContent className='markdown-body -mx-16' editor={editor} />
+      <EditorContent className='markdown-body sm:-mx-16' editor={editor} />
       <PreNodeTools editor={editor} />
       <SlashCommand editor={editor} />
       {editor && (
