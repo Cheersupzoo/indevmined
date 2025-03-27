@@ -1,7 +1,7 @@
 "use client";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
-import { useAnimate, useInView, animate } from "framer-motion";
+import { useAnimate, useInView, animate } from "motion/react";
 import { useEffect, useRef } from "react";
 
 const words = [

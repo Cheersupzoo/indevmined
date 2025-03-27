@@ -1,4 +1,4 @@
 type AnimatableRef = {
   start: () => Promise<void>;
-  animate: () => import("framer-motion").Segment;
+  animate: () => import("motion/react").Segment;
 };

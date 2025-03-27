@@ -5,7 +5,7 @@ import {
   motion,
   useMotionTemplate,
   useAnimate,
-} from "framer-motion";
+} from "motion/react";
 import React, { forwardRef, useImperativeHandle } from "react";
 
 export const HeroHighlight = ({
