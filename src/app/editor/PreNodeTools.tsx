@@ -31,13 +31,14 @@ const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
 
           editor
             .chain()
-            .setTextSelection(nodePos + node.size)
-            .insertContent(
+            .insertContentAt(
+              node.range.to,
               editor.schema.nodes.paragraph.create(null, [
                 editor.schema.text('/')
               ])
             )
             .setTextSelection(nodePos + node.size + 2)
+            .scrollIntoView()
             .run()
         }}
         className='text-eva-text/60 hover:text-eva-text/70 hover:bg-eva-text/10 py-1 px-1 rounded-md cursor-pointer'
