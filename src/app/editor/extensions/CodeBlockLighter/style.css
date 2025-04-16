@@ -11,3 +11,8 @@ pre code .line-number {
   margin-left: 2px;
   user-select: none;
 }
+
+pre code .line-highlighter:has(+ .line-number:hover) {
+  border-left-color: gold;
+  border-left-width: 4px;
+}

@@ -25,6 +25,12 @@
 - Strike (StarterKit)
 - Link [Only Functional]
 - Underline
+- Code Block
+  - [x] Mark
+  - [x] Line Mark
+- [ ] Inline Code
+- [ ] Text Styling
+  
 
 ## Extensions
 
@@ -35,3 +41,12 @@
 - Slash Command
 - MoveNodeShortcut
 - Drag Handle V1
+  - [x] Move Node
+  - [ ] Drop down option
+    - [ ] Convert Node
+    - [ ] Delete Node
+    - [ ] Copy to clipboard
+    - [ ] Duplicate
+    - [ ] Clear formatting
+- [x] Add Node Handle
+- [ ] Cloud Save

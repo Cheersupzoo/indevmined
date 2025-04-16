@@ -10,6 +10,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import tippy from 'tippy.js'
 import { Command } from 'cmdk'
 import './style.css'
+import { cn } from '@/lib/utils'
 
 export const CodeBlockWrapper = (props: NodeViewProps) => {
   const codeEl = useRef<HTMLDivElement>(null)
@@ -26,7 +27,7 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
           ref={spanEl}
           className='cursor-pointer'
           data-language-selector
-          onClick={() => {
+          onClick={(event) => {
             const component = new ReactRenderer(LanguageSelector, {
               editor: props.editor,
               props: {
@@ -34,7 +35,7 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
               }
             })
 
-            const popup = tippy('[data-language-selector]', {
+            const popup = tippy(event.currentTarget, {
               appendTo: () => codeEl.current as Element,
               getReferenceClientRect: () => {
                 if (!spanEl.current) {
@@ -61,9 +62,8 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
               editor: props.editor,
               updateLanguage: (language: string) =>
                 props.updateAttributes({ language }),
-              closePopup: () => popup[0]?.hide()
+              closePopup: () => popup.hide()
             })
-            popup[0]?.show()
           }}
         >
           {props.node.attrs.language}
@@ -138,7 +138,11 @@ const LanguageSelector = ({
       />
       <Command.List className='px-2 mt-3 mb-3 text-left'>
         {supportLanguages.map((language) => (
-          <Command.Item key={language} onSelect={onSelected}>
+          <Command.Item
+            key={language}
+            onSelect={onSelected}
+            className={cn(language === currentLanguage && '!font-bold')}
+          >
             {language}
           </Command.Item>
         ))}

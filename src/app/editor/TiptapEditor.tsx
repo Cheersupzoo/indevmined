@@ -200,7 +200,7 @@ console.log('hello world')</code-block>
           </div>
         </BubbleMenu>
       )}
-      {editor && <CursorInfo editor={editor} />}
+      {/* {editor && <CursorInfo editor={editor} />} */}
     </SlashCmdProvider>
   )
 }

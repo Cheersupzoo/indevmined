@@ -1,7 +1,7 @@
 import { findChildren } from '@tiptap/core'
 import { Node as ProsemirrorNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import { Decoration, DecorationSet, EditorView } from '@tiptap/pm/view'
 import { highlightSync, preload } from '@code-hike/lighter'
 import type { CSSProperties } from 'react'
 
@@ -59,14 +59,15 @@ let forceRerender = false
 function getDecorations({
   doc,
   name,
-  defaultLanguage
+  defaultLanguage,
+  editor
 }: {
   doc: ProsemirrorNode
   name: string
   defaultLanguage: string | null | undefined
+  editor: EditorView
 }) {
   const decorations: Decoration[] = []
-
   findChildren(doc, (node) => node.type.name === name).forEach((block) => {
     let from = block.pos + 1
     const language = block.node.attrs.language || defaultLanguage
@@ -97,7 +98,9 @@ function getDecorations({
         from,
         () => {
           const lineHighlight = document.createElement('div')
-          // lineHighlight.style.cssText = `background-color: rgb(from ${'gold'} r g b / 0.13); border-left-color: ${'gold'}`
+          if (block.node.attrs?.lineMark?.has(index + 1)) {
+            lineHighlight.style.cssText = `background-color: rgb(from ${'gold'} r g b / 0.13); border-left-color: ${'gold'}`
+          }
           lineHighlight.innerHTML = `&nbsp;`
           lineHighlight.className = 'line-highlighter'
 
@@ -114,6 +117,22 @@ function getDecorations({
           lineNum.style.cssText = `min-width: ${lineNumberWidth}ch; `
           lineNum.className = 'line-number'
           lineNum.innerHTML = `${index + 1}`
+          lineNum.addEventListener('click', () => {
+            const updatedLineMark = new Set(block.node.attrs?.lineMark)
+            if (updatedLineMark.has(index + 1)) {
+              updatedLineMark.delete(index + 1)
+            } else {
+              updatedLineMark.add(index + 1)
+            }
+
+            editor.dispatch(
+              editor.state.tr.setNodeAttribute(
+                block.pos,
+                'lineMark',
+                updatedLineMark
+              )
+            )
+          })
 
           return lineNum
         },
@@ -151,11 +170,13 @@ export function LighterPlugin({
   name: string
   defaultLanguage: string | null | undefined
 }) {
+  let editor: EditorView
   const lighterPlugin: Plugin<any> = new Plugin({
     key: new PluginKey('lighter'),
 
     state: {
-      init: (_, { doc }) => getDecorations({ doc, name, defaultLanguage }),
+      init: (_, { doc }) =>
+        getDecorations({ doc, name, defaultLanguage, editor }),
       apply: (transaction, decorationSet, oldState, newState) => {
         if (loading) {
           return DecorationSet.empty
@@ -183,7 +204,15 @@ export function LighterPlugin({
               // (for example, a transaction that affects the entire document).
               // Such transactions can happen during collab syncing via y-prosemirror, for example.
               transaction.steps.some((step) => {
-                // @ts-ignore
+                if (
+                  // @ts-ignore
+                  step.attr === 'lineMark' &&
+                  // @ts-ignore
+                  newState.doc.nodeAt(step.pos)?.type?.name === 'codeBlock'
+                ) {
+                  return true
+                }
+
                 return (
                   // @ts-ignore
                   step.from !== undefined &&
@@ -206,7 +235,8 @@ export function LighterPlugin({
           return getDecorations({
             doc: transaction.doc,
             name,
-            defaultLanguage
+            defaultLanguage,
+            editor
           })
         }
 
@@ -220,6 +250,7 @@ export function LighterPlugin({
       }
     },
     view: (editorView) => {
+      editor = editorView
       const init = async () => {
         await preload([], 'dark-plus')
         loading = false
