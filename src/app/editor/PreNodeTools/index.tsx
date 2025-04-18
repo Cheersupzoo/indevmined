@@ -1,7 +1,10 @@
 import { Editor } from '@tiptap/core'
 import { GripVertical, PlusIcon } from 'lucide-react'
 import React, { memo } from 'react'
-import { findBlockNodeAt } from './extensions/DragHandleExtension/ProseMirrorPlugin'
+import { findBlockNodeAt } from '../extensions/DragHandleExtension/ProseMirrorPlugin'
+import { ReactRenderer } from '@tiptap/react'
+import tippy from 'tippy.js'
+import { NodeMenu } from './NodeMenu'
 
 const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
   return (
@@ -48,6 +51,38 @@ const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
       <div
         className='drag-handle text-eva-text/60 hover:text-eva-text/70 hover:bg-eva-text/10 py-1 px-1 rounded-md cursor-grab'
         draggable
+        onClick={(event) => {
+          event.preventDefault()
+          if (!editor) return
+          const pos = editor.view.posAtCoords({
+            left: event.clientX,
+            top: event.clientY
+          })
+          if (!pos) {
+            return
+          }
+          editor.chain().setNodeSelection(pos.pos).run()
+          const component = new ReactRenderer(NodeMenu, {
+            editor,
+            props: {
+              editor
+            }
+          })
+          const popup = tippy(event.currentTarget, {
+            content: component.element,
+            showOnCreate: true,
+            interactive: true,
+            trigger: 'manual',
+            placement: 'left',
+            arrow: false,
+            onCreate: () => {
+              editor.view.dom.style.pointerEvents = 'none'
+            },
+            onHide: () => {
+              editor.view.dom.style.pointerEvents = ''
+            }
+          })
+        }}
       >
         <GripVertical size={16} />
       </div>

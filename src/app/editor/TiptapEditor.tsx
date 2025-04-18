@@ -95,6 +95,7 @@ console.log('hello world')</code-block>
         <BubbleMenu
           editor={editor}
           shouldShow={({ state, from, to }) => {
+            if (state.selection.$from.depth === 0) return false
             if (from === to) return false
 
             const blockPos = findBlockNodeAt(state, from)
@@ -147,6 +148,7 @@ console.log('hello world')</code-block>
         <BubbleMenu
           editor={editor}
           shouldShow={({ state, from, to }) => {
+            if (state.selection.$from.depth === 0) return false
             if (from === to) return false
 
             const blockPos = findBlockNodeAt(state, from)
@@ -200,7 +202,7 @@ console.log('hello world')</code-block>
           </div>
         </BubbleMenu>
       )}
-      {/* {editor && <CursorInfo editor={editor} />} */}
+      {editor && <CursorInfo editor={editor} />}
     </SlashCmdProvider>
   )
 }

@@ -42,11 +42,12 @@
 - MoveNodeShortcut
 - Drag Handle V1
   - [x] Move Node
-  - [ ] Drop down option
+  - [x] Drop down option
     - [ ] Convert Node
-    - [ ] Delete Node
+    - [x] Delete Node
     - [ ] Copy to clipboard
-    - [ ] Duplicate
+    - [x] Duplicate
     - [ ] Clear formatting
 - [x] Add Node Handle
 - [ ] Cloud Save
+- [ ] Y.js
