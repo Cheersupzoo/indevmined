@@ -26,8 +26,7 @@ const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
           const nodePos = findBlockNodeAt(editor.state, pos.pos)
 
           if (typeof nodePos !== 'number') return
-          const node = editor.$pos(nodePos + 1)
-
+          const node = editor.state.doc.nodeAt(nodePos)
           if (!node) return
 
           editor.view.dom.focus()
@@ -35,12 +34,12 @@ const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
           editor
             .chain()
             .insertContentAt(
-              node.range.to,
+              nodePos + node.nodeSize,
               editor.schema.nodes.paragraph.create(null, [
                 editor.schema.text('/')
               ])
             )
-            .setTextSelection(nodePos + node.size + 2)
+            .setTextSelection(nodePos + node.nodeSize + 2)
             .scrollIntoView()
             .run()
         }}
