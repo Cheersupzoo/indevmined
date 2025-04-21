@@ -49,5 +49,6 @@
     - [x] Duplicate
     - [ ] Clear formatting
 - [x] Add Node Handle
-- [ ] Cloud Save
-- [ ] Y.js
+- [x] Cloud Save
+- [x] Y.js
+- [ ] Authentication

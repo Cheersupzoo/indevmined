@@ -20,7 +20,7 @@ export const CodeBlockLighter = CodeBlock.extend<CodeBlockLighterOptions>({
     return {
       ...this.parent?.(),
       lineMark: {
-        default: () => new Set([])
+        default: () => []
       }
     }
   },

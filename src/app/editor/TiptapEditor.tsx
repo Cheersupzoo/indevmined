@@ -32,8 +32,47 @@ import { CodeMark } from './extensions/CodeBlockLighter/MarkExtension'
 import { cn } from '@/lib/utils'
 import { PreNodeTools } from './PreNodeTools'
 import { Box3dNode } from './extensions/React/Box3d'
+import Collaboration from '@tiptap/extension-collaboration'
+import * as Y from 'yjs'
+import { IndexeddbPersistence } from 'y-indexeddb'
+import { useEffect, useRef } from 'react'
+import { TiptapCollabProvider } from '@hocuspocus/provider'
 
 const TiptapEditor = () => {
+  const { current: ydoc } = useRef(new Y.Doc())
+  // useEffect(() => {
+  //   const localProvider = new IndexeddbPersistence('example-document', ydoc)
+
+  //   return () => {
+  //     localProvider.destroy()
+  //   }
+  // }, [ydoc])
+
+  // useEffect(() => {
+  //   let provider: TiptapCollabProvider
+  //   const init = async () => {
+  //     const res = await fetch(process.env.NEXT_PUBLIC_AUTH_ENDPOINT ?? '/auth')
+  //     const { token } = await res.json()
+  //     if (!process.env.NEXT_PUBLIC_TIP_TAP_APP_ID) {
+  //       return new Error('Missing Tiptap app id')
+  //     }
+  //     provider = new TiptapCollabProvider({
+  //       name: 'example-document', // Unique document identifier for syncing. This is your document name.
+  //       appId: process.env.NEXT_PUBLIC_TIP_TAP_APP_ID, // Your Cloud Dashboard AppID or `baseURL` for on-premises
+  //       token,
+  //       document: ydoc
+  //     })
+  //   }
+
+  //   init()
+
+  //   return () => {
+  //     if (provider) {
+  //       provider.destroy()
+  //     }
+  //   }
+  // }, [ydoc])
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ heading: { levels: [1, 2, 3, 4] } }),
@@ -57,7 +96,10 @@ const TiptapEditor = () => {
       }),
       LinkWithConfigure,
       MoveNodeShortcut,
-      DragHandle
+      DragHandle,
+      Collaboration.configure({
+        document: ydoc
+      })
     ],
     immediatelyRender: false,
     editorProps: {

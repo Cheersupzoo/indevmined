@@ -98,7 +98,8 @@ function getDecorations({
         from,
         () => {
           const lineHighlight = document.createElement('div')
-          if (block.node.attrs?.lineMark?.has(index + 1)) {
+          const lineMarkSet = new Set(block.node.attrs?.lineMark)
+          if (lineMarkSet.has(index + 1)) {
             lineHighlight.style.cssText = `background-color: rgb(from ${'gold'} r g b / 0.13); border-left-color: ${'gold'}`
           }
           lineHighlight.innerHTML = `&nbsp;`
@@ -118,11 +119,12 @@ function getDecorations({
           lineNum.className = 'line-number'
           lineNum.innerHTML = `${index + 1}`
           lineNum.addEventListener('click', () => {
-            const updatedLineMark = new Set(block.node.attrs?.lineMark)
-            if (updatedLineMark.has(index + 1)) {
-              updatedLineMark.delete(index + 1)
+            const updatedLineMark = [...block.node.attrs?.lineMark]
+            const indexArray = updatedLineMark.indexOf(index + 1)
+            if (indexArray !== -1) {
+              updatedLineMark.splice(indexArray, 1)
             } else {
-              updatedLineMark.add(index + 1)
+              updatedLineMark.push(index + 1)
             }
 
             editor.dispatch(
