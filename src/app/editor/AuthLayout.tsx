@@ -12,8 +12,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { motion } from 'motion/react'
 
-const AuthLayoutImpl = ({ children }: React.PropsWithChildren) => {
+const AuthLayoutImpl = ({
+  children,
+  leading
+}: React.PropsWithChildren<{ leading?: React.ReactElement }>) => {
   const { loading, login, user, authLoading, signout } = useAuth()
 
   if (loading) {
@@ -22,13 +26,21 @@ const AuthLayoutImpl = ({ children }: React.PropsWithChildren) => {
 
   if (!user) {
     return (
-      <div className='flex justify-center h-screen items-center'>
-        <button
-          className='px-2 py-1 bg-slate-50 rounded-full flex items-center gap-1'
-          onClick={() => login()}
+      <div className='flex flex-col justify-center h-screen items-center gap-8'>
+        <motion.div
+          layoutId='editor-header'
+          className='select-none text-eva-text/80 font-medium text-base'
         >
-          <FaGoogle /> Signin with Google {authLoading && <FaTruckLoading />}
-        </button>
+          InDevMined Editor
+        </motion.div>
+        <motion.button layout onClick={() => login()}>
+          <motion.div
+            layout='position'
+            className='px-2 py-1 bg-slate-50 rounded-full flex items-center gap-1'
+          >
+            <FaGoogle /> Signin with Google {authLoading && <FaTruckLoading />}
+          </motion.div>
+        </motion.button>
       </div>
     )
   }
@@ -36,10 +48,14 @@ const AuthLayoutImpl = ({ children }: React.PropsWithChildren) => {
   return (
     <div className='flex flex-grow flex-col'>
       <header className='text-eva-text relative left-0 right-0 top-0 z-50 mx-auto  w-full max-w-2xl bg-transparent  px-4 sm:px-0'>
-        <div className='flex items-center py-2 justify-end '>
-          <div className='select-none absolute left-1/2 -translate-x-1/2 text-eva-text/50 font-medium text-base'>
+        <div className='flex items-center py-2 justify-between '>
+          <div>{leading}</div>
+          <motion.div
+            layoutId='editor-header'
+            className='select-none absolute left-1/2 -translate-x-1/2 text-eva-text/50 font-medium text-base'
+          >
             InDevMined Editor
-          </div>
+          </motion.div>
           {user && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -48,7 +64,7 @@ const AuthLayoutImpl = ({ children }: React.PropsWithChildren) => {
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className='w-56'>
-                <DropdownMenuLabel>user.email</DropdownMenuLabel>
+                <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <DropdownMenuItem onClick={signout}>Log out</DropdownMenuItem>
@@ -63,10 +79,13 @@ const AuthLayoutImpl = ({ children }: React.PropsWithChildren) => {
   )
 }
 
-const AuthLayout = ({ children }: React.PropsWithChildren) => {
+const AuthLayout = ({
+  children,
+  leading
+}: React.PropsWithChildren<{ leading?: React.ReactElement }>) => {
   return (
     <AuthProvider>
-      <AuthLayoutImpl>{children}</AuthLayoutImpl>
+      <AuthLayoutImpl leading={leading}>{children}</AuthLayoutImpl>
     </AuthProvider>
   )
 }

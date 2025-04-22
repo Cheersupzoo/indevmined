@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 const page = () => {
   return (
-    <AuthLayout>
+    <AuthLayout leading={<div className='text-eva-text hover:bg-eva-text/5 px-1.5 -mx-1.5 rounded-md'>example-document</div>}>
       <NormalResponsive className='pb-8'>
-        <TiptapEditor />
+        <TiptapEditor docId='example-document' />
       </NormalResponsive>
     </AuthLayout>
   )
