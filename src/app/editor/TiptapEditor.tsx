@@ -37,41 +37,60 @@ import * as Y from 'yjs'
 import { IndexeddbPersistence } from 'y-indexeddb'
 import { useEffect, useRef } from 'react'
 import { TiptapCollabProvider } from '@hocuspocus/provider'
+import { getAuth } from 'firebase/auth'
 
 const TiptapEditor = () => {
   const { current: ydoc } = useRef(new Y.Doc())
-  // useEffect(() => {
-  //   const localProvider = new IndexeddbPersistence('example-document', ydoc)
+  useEffect(() => {
+    const localProvider = new IndexeddbPersistence('example-document', ydoc)
 
-  //   return () => {
-  //     localProvider.destroy()
-  //   }
-  // }, [ydoc])
+    return () => {
+      localProvider.destroy()
+    }
+  }, [ydoc])
 
-  // useEffect(() => {
-  //   let provider: TiptapCollabProvider
-  //   const init = async () => {
-  //     const res = await fetch(process.env.NEXT_PUBLIC_AUTH_ENDPOINT ?? '/auth')
-  //     const { token } = await res.json()
-  //     if (!process.env.NEXT_PUBLIC_TIP_TAP_APP_ID) {
-  //       return new Error('Missing Tiptap app id')
-  //     }
-  //     provider = new TiptapCollabProvider({
-  //       name: 'example-document', // Unique document identifier for syncing. This is your document name.
-  //       appId: process.env.NEXT_PUBLIC_TIP_TAP_APP_ID, // Your Cloud Dashboard AppID or `baseURL` for on-premises
-  //       token,
-  //       document: ydoc
-  //     })
-  //   }
+  useEffect(() => {
+    let provider: TiptapCollabProvider
+    const init = async () => {
+      const auth = getAuth()
+      const idToken = await auth.currentUser?.getIdToken()
+      if (!idToken) {
+        return
+      }
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_AUTH_ENDPOINT ?? '/editor/auth',
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`
+          }
+        }
+      )
 
-  //   init()
+      if (res.status !== 200) {
+        console.log('[Auth] Unauthorized to use editor')
+        return
+      }
 
-  //   return () => {
-  //     if (provider) {
-  //       provider.destroy()
-  //     }
-  //   }
-  // }, [ydoc])
+      const { token } = await res.json()
+      if (!process.env.NEXT_PUBLIC_TIP_TAP_APP_ID) {
+        return new Error('Missing Tiptap app id')
+      }
+      provider = new TiptapCollabProvider({
+        name: 'example-document', // Unique document identifier for syncing. This is your document name.
+        appId: process.env.NEXT_PUBLIC_TIP_TAP_APP_ID, // Your Cloud Dashboard AppID or `baseURL` for on-premises
+        token,
+        document: ydoc
+      })
+    }
+
+    init()
+
+    return () => {
+      if (provider) {
+        provider.destroy()
+      }
+    }
+  }, [ydoc])
 
   const editor = useEditor({
     extensions: [

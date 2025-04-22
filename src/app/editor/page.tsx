@@ -1,7 +1,8 @@
-import Layout, { NormalResponsive } from '@/components/Layout'
+import { NormalResponsive } from '@/components/Layout'
 import React from 'react'
 import TiptapEditor from './TiptapEditor'
 import { Metadata } from 'next'
+import AuthLayout from './AuthLayout'
 
 export const metadata: Metadata = {
   title: 'Editor | In Dev Mined',
@@ -10,11 +11,11 @@ export const metadata: Metadata = {
 
 const page = () => {
   return (
-    <Layout footer={<></>}>
+    <AuthLayout>
       <NormalResponsive className='pb-8'>
         <TiptapEditor />
       </NormalResponsive>
-    </Layout>
+    </AuthLayout>
   )
 }
 

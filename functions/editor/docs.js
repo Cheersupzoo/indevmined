@@ -1,12 +1,14 @@
-export { onRequestOptions } from '../src/utils/function/index'
+export { onRequestOptions } from '../../src/utils/function/index'
 
-import { getHeader } from '../src/utils/function/index'
+import { getHeader } from '../../src/utils/function/index'
+import { protectedRoute } from '../../src/utils/function/protectedRoute'
+
 /**
  * @typedef { {} } Env
  * @typedef { import('@cloudflare/workers-types').EventContext<Env, '',{}> } Context
  */
 /** @param {Context} context */
-export const onRequest = async (context) => {
+export const onRequest = protectedRoute(async (context) => {
   const res = await fetch(
     `https://${context.env.TIP_TAP_APP_ID}.collab.tiptap.cloud/api/documents`,
     {
@@ -20,4 +22,4 @@ export const onRequest = async (context) => {
   const headers = getHeader(context)
 
   return Response.json({ docs }, { headers })
-}
+})
