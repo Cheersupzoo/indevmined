@@ -3,6 +3,7 @@ import React from 'react'
 import TiptapEditor from './TiptapEditor'
 import { Metadata } from 'next'
 import AuthLayout from './AuthLayout'
+import EditorLayout from './EditorLayout'
 
 export const metadata: Metadata = {
   title: 'Editor | In Dev Mined',
@@ -11,10 +12,12 @@ export const metadata: Metadata = {
 
 const page = () => {
   return (
-    <AuthLayout leading={<div className='text-eva-text hover:bg-eva-text/5 px-1.5 -mx-1.5 rounded-md'>example-document</div>}>
-      <NormalResponsive className='pb-8'>
-        <TiptapEditor docId='example-document' />
-      </NormalResponsive>
+    <AuthLayout>
+      <EditorLayout>
+        <NormalResponsive className='pb-8 sm:px-20 lg:px-0'>
+          <TiptapEditor docId='example-document' />
+        </NormalResponsive>
+      </EditorLayout>
     </AuthLayout>
   )
 }

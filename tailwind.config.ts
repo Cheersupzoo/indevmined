@@ -6,7 +6,8 @@ import svgToDataUri from "mini-svg-data-uri";
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 
 const config: Config = {
-  content: [
+    darkMode: ["class"],
+    content: [
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/utils/Mdx/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -45,16 +46,16 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
-        "eva-red": "rgb(var(--red-color) / <alpha-value>)",
-        "eva-text": "rgb(var(--text-color) / <alpha-value>)",
-        background: "rgb(var(--bg-color) / <alpha-value>)",
-        foreground: "rgb(var(--fg-color) / <alpha-value>)",
-        text: "rgb(var(--text-color) / <alpha-value>)",
-        color1: "rgb(var(--color1) / <alpha-value>)",
-        color2: "rgb(var(--color2) / <alpha-value>)",
-        color3: "rgb(var(--color3) / <alpha-value>)",
-        color4: "rgb(var(--color4) / <alpha-value>)",
-        color5: "rgb(var(--color5) / <alpha-value>)",
+  			'eva-red': 'rgb(var(--red-color) / <alpha-value>)',
+  			'eva-text': 'rgb(var(--text-color) / <alpha-value>)',
+  			background: 'rgb(var(--bg-color) / <alpha-value>)',
+  			foreground: 'rgb(var(--fg-color) / <alpha-value>)',
+  			text: 'rgb(var(--text-color) / <alpha-value>)',
+  			color1: 'rgb(var(--color1) / <alpha-value>)',
+  			color2: 'rgb(var(--color2) / <alpha-value>)',
+  			color3: 'rgb(var(--color3) / <alpha-value>)',
+  			color4: 'rgb(var(--color4) / <alpha-value>)',
+  			color5: 'rgb(var(--color5) / <alpha-value>)',
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
@@ -92,6 +93,16 @@ const config: Config = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
+  			},
+  			sidebar: {
+  				DEFAULT: 'hsl(var(--sidebar-background))',
+  				foreground: 'hsl(var(--sidebar-foreground))',
+  				primary: 'hsl(var(--sidebar-primary))',
+  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+  				accent: 'hsl(var(--sidebar-accent))',
+  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+  				border: 'hsl(var(--sidebar-border))',
+  				ring: 'hsl(var(--sidebar-ring))'
   			}
   		},
   		borderRadius: {

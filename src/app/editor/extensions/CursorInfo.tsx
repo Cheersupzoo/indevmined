@@ -22,7 +22,7 @@ export const CursorInfo = ({ editor }: { editor: Editor }) => {
   }, [editor])
 
   return (
-    <div className='fixed top-0 right-0 bg-white text-black'>
+    <div className='fixed top-20 right-0 text-slate-200 bg-slate-900'>
       <div>
         From {position.from} To {position.to}
       </div>
