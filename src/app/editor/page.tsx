@@ -1,9 +1,10 @@
 import { NormalResponsive } from '@/components/Layout'
 import React from 'react'
-import TiptapEditor from './TiptapEditor'
 import { Metadata } from 'next'
 import AuthLayout from './AuthLayout'
 import EditorLayout from './EditorLayout'
+import EditorProvider from './EditorProvider'
+import Editor from './Editor'
 
 export const metadata: Metadata = {
   title: 'Editor | In Dev Mined',
@@ -13,11 +14,13 @@ export const metadata: Metadata = {
 const page = () => {
   return (
     <AuthLayout>
-      <EditorLayout>
-        <NormalResponsive className='pb-8 sm:px-20 lg:px-0'>
-          <TiptapEditor docId='example-document' />
-        </NormalResponsive>
-      </EditorLayout>
+      <EditorProvider>
+        <EditorLayout>
+          <NormalResponsive className='pb-8 sm:px-20 lg:px-0'>
+            <Editor />
+          </NormalResponsive>
+        </EditorLayout>
+      </EditorProvider>
     </AuthLayout>
   )
 }

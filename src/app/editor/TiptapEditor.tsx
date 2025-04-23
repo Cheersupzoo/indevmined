@@ -36,11 +36,10 @@ import Collaboration from '@tiptap/extension-collaboration'
 import * as Y from 'yjs'
 import { IndexeddbPersistence } from 'y-indexeddb'
 import { useEffect, useRef, useState } from 'react'
-import { TiptapCollabProvider } from '@hocuspocus/provider'
-import { getAuth } from 'firebase/auth'
 import { motion } from 'motion/react'
 import { useObservable } from '@legendapp/state/react'
 import { $React } from '@legendapp/state/react-web'
+import { useTiptapProvider } from './hooks/useTiptapProvider'
 
 const TiptapEditor = ({ docId }: { docId: string }) => {
   const { current: ydoc } = useRef(new Y.Doc())
@@ -82,61 +81,19 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
     return () => meta.unobserve(observer)
   }, [])
 
-  useEffect(() => {
-    const localProvider = new IndexeddbPersistence(docId, ydoc)
-
-    return () => {
-      localProvider.destroy()
+  useTiptapProvider(docId, ydoc, (event) => {
+    if (syncing && event.state) {
+      setSyncing(false)
     }
-  }, [ydoc])
+  })
 
-  useEffect(() => {
-    let provider: TiptapCollabProvider
-    const init = async () => {
-      const auth = getAuth()
-      const idToken = await auth.currentUser?.getIdToken()
-      if (!idToken) {
-        return
-      }
-      const res = await fetch(
-        process.env.NEXT_PUBLIC_AUTH_ENDPOINT ?? '/editor/auth',
-        {
-          headers: {
-            Authorization: `Bearer ${idToken}`
-          }
-        }
-      )
+  // useEffect(() => {
+  //   const localProvider = new IndexeddbPersistence(docId, ydoc)
 
-      if (res.status !== 200) {
-        console.log('[Auth] Unauthorized to use editor')
-        return
-      }
-
-      const { token } = await res.json()
-      if (!process.env.NEXT_PUBLIC_TIP_TAP_APP_ID) {
-        return new Error('Missing Tiptap app id')
-      }
-      provider = new TiptapCollabProvider({
-        name: docId, // Unique document identifier for syncing. This is your document name.
-        appId: process.env.NEXT_PUBLIC_TIP_TAP_APP_ID, // Your Cloud Dashboard AppID or `baseURL` for on-premises
-        token,
-        document: ydoc,
-        onSynced: (event) => {
-          if (syncing && event.state) {
-            setSyncing(false)
-          }
-        }
-      })
-    }
-
-    init()
-
-    return () => {
-      if (provider) {
-        provider.destroy()
-      }
-    }
-  }, [ydoc])
+  //   return () => {
+  //     localProvider.destroy()
+  //   }
+  // }, [ydoc])
 
   const editor = useEditor({
     extensions: [

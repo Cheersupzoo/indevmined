@@ -1,0 +1,64 @@
+'use client'
+
+import { onSyncedParameters, TiptapCollabProvider } from '@hocuspocus/provider'
+import { getAuth } from 'firebase/auth'
+import { useCallback, useEffect, useRef } from 'react'
+import { type Doc } from 'yjs'
+
+export const useTiptapProvider = (
+  docId: string,
+  ydoc: Doc,
+  onSynced: (event: onSyncedParameters) => void
+) => {
+  const provider = useRef<TiptapCollabProvider>()
+
+  const refreshProvider = useCallback(async () => {
+    const auth = getAuth()
+    const idToken = await auth.currentUser?.getIdToken()
+    if (!idToken) {
+      return
+    }
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_AUTH_ENDPOINT ?? '/editor/auth',
+      {
+        headers: {
+          Authorization: `Bearer ${idToken}`
+        }
+      }
+    )
+
+    if (res.status !== 200) {
+      console.log('[Auth] Unauthorized to use editor')
+      return
+    }
+
+    const { token } = await res.json()
+    if (!process.env.NEXT_PUBLIC_TIP_TAP_APP_ID) {
+      return new Error('Missing Tiptap app id')
+    }
+    if (provider.current) {
+      provider.current.disconnect()
+      provider.current.destroy()
+    }
+    provider.current = new TiptapCollabProvider({
+      name: docId, // Unique document identifier for syncing. This is your document name.
+      appId: process.env.NEXT_PUBLIC_TIP_TAP_APP_ID, // Your Cloud Dashboard AppID or `baseURL` for on-premises
+      token,
+      document: ydoc,
+      onSynced
+    })
+  }, [docId, ydoc])
+
+  useEffect(() => {
+    refreshProvider()
+
+    return () => {
+      if (provider) {
+        provider.current?.disconnect()
+        provider.current?.destroy()
+      }
+    }
+  }, [docId, ydoc])
+
+  return { refreshProvider }
+}
