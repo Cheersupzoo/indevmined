@@ -7,7 +7,7 @@ import { motion } from 'motion/react'
 import { Memo, use$ } from '@legendapp/state/react'
 
 const AuthLayoutImpl = ({ children }: React.PropsWithChildren) => {
-  const { loading$, login, user$, authLoading$, signout } = useAuth()
+  const { loading$, login, user$, authLoading$ } = useAuth()
 
   const loading = use$(loading$)
   const user = use$(user$)

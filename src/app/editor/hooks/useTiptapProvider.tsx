@@ -1,5 +1,6 @@
 'use client'
 
+import { getEditorToken } from '@/apis/editor'
 import { onSyncedParameters, TiptapCollabProvider } from '@hocuspocus/provider'
 import { getAuth } from 'firebase/auth'
 import { useCallback, useEffect, useRef } from 'react'
@@ -13,40 +14,25 @@ export const useTiptapProvider = (
   const provider = useRef<TiptapCollabProvider>()
 
   const refreshProvider = useCallback(async () => {
-    const auth = getAuth()
-    const idToken = await auth.currentUser?.getIdToken()
-    if (!idToken) {
-      return
-    }
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_AUTH_ENDPOINT ?? '/editor/auth',
-      {
-        headers: {
-          Authorization: `Bearer ${idToken}`
-        }
+    try {
+      const token = await getEditorToken()
+      if (!process.env.NEXT_PUBLIC_TIP_TAP_APP_ID) {
+        return new Error('Missing Tiptap app id')
       }
-    )
-
-    if (res.status !== 200) {
-      console.log('[Auth] Unauthorized to use editor')
-      return
+      if (provider.current) {
+        provider.current.disconnect()
+        provider.current.destroy()
+      }
+      provider.current = new TiptapCollabProvider({
+        name: docId, // Unique document identifier for syncing. This is your document name.
+        appId: process.env.NEXT_PUBLIC_TIP_TAP_APP_ID, // Your Cloud Dashboard AppID or `baseURL` for on-premises
+        token,
+        document: ydoc,
+        onSynced
+      })
+    } catch (e) {
+      console.error(e)
     }
-
-    const { token } = await res.json()
-    if (!process.env.NEXT_PUBLIC_TIP_TAP_APP_ID) {
-      return new Error('Missing Tiptap app id')
-    }
-    if (provider.current) {
-      provider.current.disconnect()
-      provider.current.destroy()
-    }
-    provider.current = new TiptapCollabProvider({
-      name: docId, // Unique document identifier for syncing. This is your document name.
-      appId: process.env.NEXT_PUBLIC_TIP_TAP_APP_ID, // Your Cloud Dashboard AppID or `baseURL` for on-premises
-      token,
-      document: ydoc,
-      onSynced
-    })
   }, [docId, ydoc])
 
   useEffect(() => {

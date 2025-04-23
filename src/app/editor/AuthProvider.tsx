@@ -5,7 +5,6 @@ import React, {
   useContext,
   useEffect,
   useRef,
-  useState
 } from 'react'
 import { initializeApp, getApps } from 'firebase/app'
 import {
