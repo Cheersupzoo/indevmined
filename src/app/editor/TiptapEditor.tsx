@@ -37,16 +37,18 @@ import * as Y from 'yjs'
 import { IndexeddbPersistence } from 'y-indexeddb'
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
-import { useObservable } from '@legendapp/state/react'
+import { use$, useObservable } from '@legendapp/state/react'
 import { $React } from '@legendapp/state/react-web'
 import { useTiptapProvider } from './hooks/useTiptapProvider'
+import { useEditorContext } from './EditorProvider'
 
 const TiptapEditor = ({ docId }: { docId: string }) => {
-  const { current: ydoc } = useRef(new Y.Doc())
+  const { ydoc$ } = useEditorContext()
   const title$ = useObservable('')
   const category$ = useObservable('')
   const published$ = useObservable('2024-12-20')
   const [syncing, setSyncing] = useState(true)
+  const ydoc = use$(ydoc$)
   const meta = ydoc.getMap<string>('meta')
 
   useEffect(() => {
@@ -133,17 +135,17 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
         keydown: (_, v) => enableKeyboardNavigation(v)
       }
     },
-    content: `<h1>H1</h1><h2>H2</h2><h3>H3</h3><h4>H4</h4><p>Hello World! 🌎️</p><pre language="js"><code class="language-javascript">const str = '123';
-str.replace('1','9')
-const obj = {a: 'c'}</code></pre><ul><li>list</li></ul>
-    <code-block lang="js">// !mark
-const text="test";
-    // !bg[5:8] gold
-console.log('hello world')</code-block>
-    <react-component count="1">
-      <p>This is editable.</p>
-      <p>This is editable.</p>
-    </react-component>`
+//     content: `<h1>H1</h1><h2>H2</h2><h3>H3</h3><h4>H4</h4><p>Hello World! 🌎️</p><pre language="js"><code class="language-javascript">const str = '123';
+// str.replace('1','9')
+// const obj = {a: 'c'}</code></pre><ul><li>list</li></ul>
+//     <code-block lang="js">// !mark
+// const text="test";
+//     // !bg[5:8] gold
+// console.log('hello world')</code-block>
+//     <react-component count="1">
+//       <p>This is editable.</p>
+//       <p>This is editable.</p>
+//     </react-component>`
   })
 
   const setLink = useSetLink(editor)

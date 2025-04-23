@@ -5,7 +5,11 @@ const jwks_uri =
   'https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com'
 
 /**
- * @param {(context: Context, tokenPayload: import('jose').JWTPayload) => Promise<Response>} onRequest
+ * @typedef { {GROQ_API_KEY: string, E2B_API_KEY: string, TOGETHER_AI_API_KEY: string, TIP_TAP_APP_SECRET: string} } Env
+ * @typedef { import('@cloudflare/workers-types').EventContext<Env, '',{}> } Context
+ */
+/**
+ * @param {(context: Context, tokenPayload: import('jose').JWTPayload & {email: string}) => Promise<Response>} onRequest
  */
 export const protectedRoute = (onRequest) => {
   return async (context) => {

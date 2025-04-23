@@ -2,7 +2,6 @@
 
 import { getEditorToken } from '@/apis/editor'
 import { onSyncedParameters, TiptapCollabProvider } from '@hocuspocus/provider'
-import { getAuth } from 'firebase/auth'
 import { useCallback, useEffect, useRef } from 'react'
 import { type Doc } from 'yjs'
 
@@ -39,7 +38,7 @@ export const useTiptapProvider = (
     refreshProvider()
 
     return () => {
-      if (provider) {
+      if (provider.current) {
         provider.current?.disconnect()
         provider.current?.destroy()
       }

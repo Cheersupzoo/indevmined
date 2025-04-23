@@ -19,6 +19,25 @@ export const getDocs = async () => {
   return data
 }
 
+export const createDoc = async () => {
+  const token = await getAuth().currentUser?.getIdToken()
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT ?? ''}/editor/docs`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      method: 'POST'
+    }
+  )
+  if (res.status !== 200) {
+    throw new Error('Fail to create docs')
+  }
+
+  const data = await res.json()
+  return data
+}
+
 export const getEditorToken = async () => {
   const auth = getAuth()
   const idToken = await auth.currentUser?.getIdToken()

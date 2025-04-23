@@ -82,7 +82,7 @@ export function getHeader(context) {
     return {
       'Access-Control-Allow-Origin': origin,
       'Access-Control-Allow-Headers': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Max-Age': '86400'
     }
   }
@@ -90,7 +90,7 @@ export function getHeader(context) {
   return {
     'Access-Control-Allow-Origin': 'https://www.indevmined.com',
     'Access-Control-Allow-Headers': '*',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Max-Age': '86400'
   }
 }

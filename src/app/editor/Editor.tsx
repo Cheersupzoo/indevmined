@@ -12,7 +12,7 @@ const Editor = () => {
     return <div className='mt-8 text-eva-text/70 select-none'>Select posts from sidebar</div>
   }
 
-  return <TiptapEditor docId={docId} />
+  return <TiptapEditor key={docId} docId={docId} />
 }
 
 export default Editor

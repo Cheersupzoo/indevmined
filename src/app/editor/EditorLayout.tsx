@@ -3,8 +3,12 @@ import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import React from 'react'
 import { AppSidebar } from './EditorSidebar'
 import { motion } from 'motion/react'
+import { useEditorContext } from './EditorProvider'
+import { Memo } from '@legendapp/state/react'
 
 const EditorLayout = ({ children }: React.PropsWithChildren) => {
+  const { docId$ } = useEditorContext()
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -15,7 +19,7 @@ const EditorLayout = ({ children }: React.PropsWithChildren) => {
               <div className='flex gap-1 items-center'>
                 <SidebarTrigger />
                 <div className='text-eva-text hover:bg-eva-text/5 px-1.5 rounded-md'>
-                  example-document
+                  <Memo>{docId$}</Memo>
                 </div>
               </div>
               <motion.div
