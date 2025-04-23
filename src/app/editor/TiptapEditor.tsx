@@ -39,12 +39,14 @@ import { useEffect, useRef, useState } from 'react'
 import { TiptapCollabProvider } from '@hocuspocus/provider'
 import { getAuth } from 'firebase/auth'
 import { motion } from 'motion/react'
+import { useObservable } from '@legendapp/state/react'
+import { $React } from '@legendapp/state/react-web'
 
 const TiptapEditor = ({ docId }: { docId: string }) => {
   const { current: ydoc } = useRef(new Y.Doc())
-  const [title, setTitle] = useState('')
-  const [category, setCategory] = useState('')
-  const [published, setPublished] = useState('2024-12-20')
+  const title$ = useObservable('')
+  const category$ = useObservable('')
+  const published$ = useObservable('2024-12-20')
   const [syncing, setSyncing] = useState(true)
   const meta = ydoc.getMap<string>('meta')
 
@@ -54,24 +56,24 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
     const yPublished = meta.get('published')
 
     if (yTitle) {
-      setTitle(yTitle)
+      title$.set(yTitle)
     }
     if (yCategory) {
-      setCategory(yCategory)
+      category$.set(yCategory)
     }
     if (yPublished) {
-      setPublished(yPublished)
+      published$.set(yPublished)
     }
 
     const observer = (event: Y.YMapEvent<string>) => {
       if (event.keysChanged.has('title')) {
-        setTitle(meta.get('title') as string)
+        title$.set(meta.get('title') as string)
       }
       if (event.keysChanged.has('category')) {
-        setCategory(meta.get('category') as string)
+        category$.set(meta.get('category') as string)
       }
       if (event.keysChanged.has('published')) {
-        setPublished(meta.get('published') as string)
+        published$.set(meta.get('published') as string)
       }
     }
 
@@ -201,19 +203,19 @@ console.log('hello world')</code-block>
       className='mt-12 relative'
     >
       <SlashCmdProvider>
-        <input
+        <$React.input
           className='text-4xl font-bold mb-3 bg-transparent w-full outline-none'
           type='text'
-          value={title}
+          $value={title$}
           onChange={(e) => {
             const newTitle = e.target.value
             meta.set('title', newTitle)
           }}
           placeholder='Title'
         />
-        <input
+        <$React.input
           className='text-xs text-text bg-color2 inline py-1 px-2 rounded-full outline-none min-w-0 w-fit'
-          value={category}
+          $value={category$}
           onChange={(e) => {
             meta.set('category', e.target.value)
           }}
@@ -221,8 +223,8 @@ console.log('hello world')</code-block>
 
         <div className='text-sm font-thin text-text mt-1 mb-8'>
           <span className='select-none'>Published </span>
-          <input
-            value={published}
+          <$React.input
+            $value={published$}
             className='bg-transparent outline-none'
             onChange={(e) => {
               meta.set('published', e.target.value)

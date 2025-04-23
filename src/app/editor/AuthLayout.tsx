@@ -4,9 +4,13 @@ import React from 'react'
 import { FaGoogle, FaTruckLoading } from 'react-icons/fa'
 import AuthProvider, { useAuth } from './AuthProvider'
 import { motion } from 'motion/react'
+import { Memo, use$ } from '@legendapp/state/react'
 
 const AuthLayoutImpl = ({ children }: React.PropsWithChildren) => {
-  const { loading, login, user, authLoading, signout } = useAuth()
+  const { loading$, login, user$, authLoading$, signout } = useAuth()
+
+  const loading = use$(loading$)
+  const user = use$(user$)
 
   if (loading) {
     return <></>
@@ -26,7 +30,8 @@ const AuthLayoutImpl = ({ children }: React.PropsWithChildren) => {
             layout='position'
             className='px-2 py-1 bg-slate-50 rounded-full flex items-center gap-1'
           >
-            <FaGoogle /> Signin with Google {authLoading && <FaTruckLoading />}
+            <FaGoogle /> Signin with Google{' '}
+            <Memo>{() => authLoading$.get() && <FaTruckLoading />}</Memo>
           </motion.div>
         </motion.button>
       </div>

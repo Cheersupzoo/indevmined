@@ -12,7 +12,9 @@ import {
 } from '@/components/ui/sidebar'
 import { useAuth } from './AuthProvider'
 import UserDropdown from './UserDropdown'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { For, Memo, Show, useObservable } from '@legendapp/state/react'
+import type { Observable } from '@legendapp/state'
 
 type TiptapDoc = {
   created_at: string
@@ -22,12 +24,12 @@ type TiptapDoc = {
 }
 
 export function AppSidebar() {
-  const { user } = useAuth()
-  const [docs, setDocs] = useState<TiptapDoc[] | null>(null)
+  const docs$ = useObservable<TiptapDoc[] | null>(null)
+  const { user$ } = useAuth()
 
   useEffect(() => {
     const init = async () => {
-      const token = await user?.getIdToken()
+      const token = await user$.peek()?.getIdToken?.()
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT ?? ''}/editor/docs`,
         {
@@ -42,7 +44,7 @@ export function AppSidebar() {
 
       const data = await res.json()
       if (data.docs) {
-        setDocs(data.docs)
+        docs$.set(data.docs)
       }
     }
     init()
@@ -58,16 +60,19 @@ export function AppSidebar() {
           <SidebarGroupLabel>Posts</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {docs &&
-                docs.map((doc) => (
-                  <SidebarMenuItem key={doc.name}>
-                    <SidebarMenuButton asChild>
-                      <div>
-                        <span>{doc.name}</span>
-                      </div>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+              <Show if={docs$}>
+                <For each={docs$ as Observable<TiptapDoc[]>}>
+                  {(doc$) => (
+                    <SidebarMenuItem key={doc$.name.get()}>
+                      <SidebarMenuButton asChild>
+                        <div>
+                          <span>{doc$.name.get()}</span>
+                        </div>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )}
+                </For>
+              </Show>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

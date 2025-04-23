@@ -10,9 +10,12 @@ import {
 } from '@/components/ui/dropdown-menu'
 import React from 'react'
 import { useAuth } from './AuthProvider'
+import { use$ } from '@legendapp/state/react'
 
 const UserDropdown = () => {
-  const { user, signout } = useAuth()
+  const { user$, signout } = useAuth()
+
+  const user = use$(user$)
 
   return (
     user && (

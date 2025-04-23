@@ -20,6 +20,9 @@ importers:
       '@hocuspocus/provider':
         specifier: ^2.15.2
         version: 2.15.2(y-protocols@1.0.6(yjs@13.6.26))(yjs@13.6.26)
+      '@legendapp/state':
+        specifier: 3.0.0-beta.30
+        version: 3.0.0-beta.30(react@18.2.0)
       '@radix-ui/react-collapsible':
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@18.2.24)(@types/react@18.2.74)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -548,6 +551,14 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@legendapp/state@3.0.0-beta.30':
+    resolution: {integrity: sha512-TEPb3SEAJPfLjNsZ54Vb+y5YkZ+ROqDYqmQWpQ1+q1ySitD/zJIVtlxqdLrZAT1FECQgkQzd3G8HY5D9V/V0/g==}
+    peerDependencies:
+      expo-sqlite: ^15.0.0
+    peerDependenciesMeta:
+      expo-sqlite:
+        optional: true
 
   '@lifeomic/attempt@3.1.0':
     resolution: {integrity: sha512-QZqem4QuAnAyzfz+Gj5/+SLxqwCAw2qmt7732ZXodr6VDWGeYLG6w1i/vYLa55JQM9wRuBKLmXmiZ2P0LtE5rw==}
@@ -4192,6 +4203,12 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
+
+  '@legendapp/state@3.0.0-beta.30(react@18.2.0)':
+    dependencies:
+      use-sync-external-store: 1.4.0(react@18.2.0)
+    transitivePeerDependencies:
+      - react
 
   '@lifeomic/attempt@3.1.0': {}
 

@@ -15,6 +15,13 @@ import {
   getAuth,
   signInWithPopup
 } from 'firebase/auth'
+import { useObservable } from '@legendapp/state/react'
+import {
+  ObservableHint,
+  type OpaqueObject,
+  type Observable,
+  type ObservableBoolean
+} from '@legendapp/state'
 
 if (typeof window !== 'undefined' && !getApps().length) {
   if (!process.env.NEXT_PUBLIC_FIREBASE_CONFIG) {
@@ -28,23 +35,17 @@ if (typeof window !== 'undefined' && !getApps().length) {
 const AuthContext = createContext<{
   login: () => void
   signout: () => void
-  user: User | null
-  loading: boolean
-  authLoading: boolean
-}>({
-  login: () => null,
-  signout: () => null,
-  user: null,
-  loading: true,
-  authLoading: false
-})
+  user$: Observable<OpaqueObject<User> | null>
+  loading$: ObservableBoolean
+  authLoading$: ObservableBoolean
+}>(undefined as any)
 
 const provider = new GoogleAuthProvider()
 
 const AuthProviderImpl = ({ children }: React.PropsWithChildren) => {
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [authLoading, setAuthLoading] = useState(false)
+  const user$ = useObservable<OpaqueObject<User> | null>(null)
+  const loading$ = useObservable(true)
+  const authLoading$ = useObservable(false)
   const authSub = useRef<Unsubscribe[]>([])
 
   useEffect(() => {
@@ -52,12 +53,16 @@ const AuthProviderImpl = ({ children }: React.PropsWithChildren) => {
     const initAuth = async () => {
       authSub.current.push(
         auth.onIdTokenChanged((user) => {
-          setUser(user)
+          user$.set(user ? ObservableHint.opaque(user) : null)
         })
       )
       await auth.authStateReady()
-      setUser(auth.currentUser)
-      setLoading(false)
+
+      user$.set(
+        auth.currentUser ? ObservableHint.opaque(auth.currentUser) : null
+      )
+
+      loading$.set(false)
     }
 
     initAuth()
@@ -72,13 +77,13 @@ const AuthProviderImpl = ({ children }: React.PropsWithChildren) => {
 
   const login = async () => {
     const auth = getAuth()
-    setAuthLoading(true)
+    authLoading$.set(true)
     try {
       await signInWithPopup(auth, provider)
     } catch (error) {
       console.log('🚀 ~ login ~ error:', error)
     } finally {
-      setAuthLoading(false)
+      authLoading$.set(false)
     }
   }
 
@@ -89,7 +94,7 @@ const AuthProviderImpl = ({ children }: React.PropsWithChildren) => {
 
   return (
     <AuthContext.Provider
-      value={{ login, user, loading, authLoading, signout }}
+      value={{ login, user$, loading$, authLoading$, signout }}
     >
       {children}
     </AuthContext.Provider>
