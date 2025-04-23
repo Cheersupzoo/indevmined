@@ -12,9 +12,41 @@ import {
 } from '@/components/ui/sidebar'
 import { useAuth } from './AuthProvider'
 import UserDropdown from './UserDropdown'
+import { useEffect, useState } from 'react'
+
+type TiptapDoc = {
+  created_at: string
+  name: string
+  size: number
+  updated_at: string
+}
 
 export function AppSidebar() {
   const { user } = useAuth()
+  const [docs, setDocs] = useState<TiptapDoc[] | null>(null)
+
+  useEffect(() => {
+    const init = async () => {
+      const token = await user?.getIdToken()
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT ?? ''}/editor/docs`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      )
+      if (res.status !== 200) {
+        return
+      }
+
+      const data = await res.json()
+      if (data.docs) {
+        setDocs(data.docs)
+      }
+    }
+    init()
+  }, [])
 
   return (
     <Sidebar>
@@ -23,16 +55,19 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>Posts</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <div>
-                    <span>example</span>
-                  </div>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {docs &&
+                docs.map((doc) => (
+                  <SidebarMenuItem key={doc.name}>
+                    <SidebarMenuButton asChild>
+                      <div>
+                        <span>{doc.name}</span>
+                      </div>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
