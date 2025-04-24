@@ -39,16 +39,14 @@ import { useEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import { use$, useObservable } from '@legendapp/state/react'
 import { $React } from '@legendapp/state/react-web'
-import { useTiptapProvider } from './hooks/useTiptapProvider'
 import { useEditorContext } from './hooks/EditorProvider'
 import { Spinner } from '@/components/Spinner'
 
 const TiptapEditor = ({ docId }: { docId: string }) => {
-  const { ydoc$, currentEditor } = useEditorContext()
+  const { ydoc$, currentEditor, syncing$ } = useEditorContext()
   const title$ = useObservable('')
   const category$ = useObservable('')
   const published$ = useObservable('2024-12-20')
-  const [syncing, setSyncing] = useState(true)
   const ydoc = use$(ydoc$)
   const meta = ydoc.getMap<string>('meta')
 
@@ -83,12 +81,6 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
 
     return () => meta.unobserve(observer)
   }, [])
-
-  useTiptapProvider(docId, ydoc, (event) => {
-    if (syncing && event.state) {
-      setSyncing(false)
-    }
-  })
 
   // useEffect(() => {
   //   const localProvider = new IndexeddbPersistence(docId, ydoc)
@@ -151,6 +143,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
   })
 
   const setLink = useSetLink(editor)
+  const syncing = use$(syncing$)
 
   if (syncing) {
     return (

@@ -3,11 +3,11 @@
 import React, { createContext, useContext, useRef } from 'react'
 import { useEffectOnce, useObservable } from '@legendapp/state/react'
 import {
-  Observable,
+  type Observable,
+  type ObservableBoolean,
   ObservableHint,
-  ObservablePrimitive,
-  observe,
-  OpaqueObject
+  type ObservablePrimitive,
+  type OpaqueObject
 } from '@legendapp/state'
 import {
   getDocs,
@@ -16,6 +16,7 @@ import {
 } from '@/apis/editor'
 import * as Y from 'yjs'
 import { Editor } from '@tiptap/core'
+import { useTiptapProvider } from './useTiptapProvider'
 
 export type TiptapDoc = {
   created_at: string
@@ -23,6 +24,10 @@ export type TiptapDoc = {
   size: number
   updated_at: string
 }
+
+export type EditorStatus = ObservablePrimitive<
+  'Connecting' | 'Offline' | 'Connected' | null
+>
 
 const EditorContext = createContext<{
   docs$: Observable<TiptapDoc[] | null>
@@ -32,7 +37,9 @@ const EditorContext = createContext<{
   ydoc$: Observable<OpaqueObject<Y.Doc>>
   exportDoc: (type: 'json' | 'html') => void
   currentEditor: React.MutableRefObject<Editor | null>
-  status$: ObservablePrimitive<'Connecting' | 'Offline' | 'Connected' | null>
+  status$: EditorStatus
+  setDocId: (id: string | null) => void
+  syncing$: ObservableBoolean
 }>(undefined as any)
 
 const EditorProvider = ({ children }: React.PropsWithChildren) => {
@@ -43,11 +50,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
   const status$ = useObservable<null | 'Connecting' | 'Offline' | 'Connected'>(
     null
   )
-
-  observe(docId$, () => {
-    ydoc$.peek().destroy()
-    ydoc$.set(ObservableHint.opaque(new Y.Doc()))
-  })
+  const syncing$ = useObservable<boolean>(true)
 
   const loadDocs = async () => {
     try {
@@ -64,11 +67,40 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
     loadDocs()
   }, [])
 
+  const { createTiptapProvider, destroyProvider } = useTiptapProvider({
+    docId$,
+    status$,
+    syncing$,
+    ydoc$
+  })
+
+  const setDocId = (id: string | null) => {
+    const currentDocId = docId$.peek()
+    if (id === currentDocId) {
+      return
+    }
+
+    const currentYdoc = ydoc$.peek()
+    if (!currentYdoc.isDestroyed) {
+      currentYdoc.destroy()
+    }
+    if (id !== null) {
+      ydoc$.set(ObservableHint.opaque(new Y.Doc()))
+      syncing$.set(true)
+    }
+    docId$.set(id)
+    if (id !== null) {
+      createTiptapProvider()
+    } else {
+      destroyProvider()
+    }
+  }
+
   const createDoc = async () => {
     try {
       const data = await createDocApi()
       await loadDocs()
-      docId$.set(data.id)
+      setDocId(data.id)
     } catch (e) {
       console.error(e)
     }
@@ -78,7 +110,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
     try {
       await deleteDocApi(id)
       await loadDocs()
-      if (docId$.peek() === id) docId$.set(null)
+      if (docId$.peek() === id) setDocId(null)
     } catch (e) {
       console.error(e)
     }
@@ -108,7 +140,9 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
         ydoc$,
         exportDoc,
         currentEditor,
-        status$
+        status$,
+        setDocId,
+        syncing$
       }}
     >
       {children}

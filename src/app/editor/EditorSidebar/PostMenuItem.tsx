@@ -11,7 +11,7 @@ export const PostMenuItem = ({
 }: {
   item$: Observable<TiptapDoc>
 }) => {
-  const { docId$ } = useEditorContext()
+  const { docId$, setDocId } = useEditorContext()
   const name = use$(() => doc$.name.get())
   const selected = use$(() => doc$.name.get() === docId$.get())
 
@@ -19,7 +19,7 @@ export const PostMenuItem = ({
     <SidebarMenuItem className='group/item cursor-pointer select-none'>
       <SidebarMenuButton asChild>
         <div
-          onClick={() => docId$.set(name)}
+          onClick={() => setDocId(name)}
           className={cn('flex justify-between', selected && 'bg-eva-text/5')}
         >
           <div className='max-w-44 overflow-clip text-ellipsis'>{name}</div>
