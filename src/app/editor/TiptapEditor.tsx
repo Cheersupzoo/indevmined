@@ -41,6 +41,7 @@ import { use$, useObservable } from '@legendapp/state/react'
 import { $React } from '@legendapp/state/react-web'
 import { useTiptapProvider } from './hooks/useTiptapProvider'
 import { useEditorContext } from './EditorProvider'
+import { Spinner } from '@/components/Spinner'
 
 const TiptapEditor = ({ docId }: { docId: string }) => {
   const { ydoc$, currentEditor } = useEditorContext()
@@ -152,14 +153,26 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
   const setLink = useSetLink(editor)
 
   if (syncing) {
-    return <></>
+    return (
+      <motion.div
+        key='Tiptap-editor-spinner'
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className='absolute top-16'
+      >
+        <Spinner />
+      </motion.div>
+    )
   }
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
       className='mt-12 relative'
     >
       <SlashCmdProvider>
