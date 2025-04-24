@@ -1,9 +1,9 @@
 import { NormalResponsive } from '@/components/Layout'
 import React from 'react'
 import { Metadata } from 'next'
-import AuthLayout from './AuthLayout'
-import EditorLayout from './EditorLayout'
-import EditorProvider from './EditorProvider'
+import AuthLayout from './Auth/AuthLayout'
+import EditorLayout from './EditorLayout/EditorLayout'
+import EditorProvider from './hooks/EditorProvider'
 import Editor from './Editor'
 
 export const metadata: Metadata = {

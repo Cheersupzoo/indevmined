@@ -2,7 +2,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar'
 import { Memo, use$ } from '@legendapp/state/react'
 import { motion } from 'motion/react'
 import React, { useState } from 'react'
-import { useEditorContext } from './EditorProvider'
+import { useEditorContext } from '../hooks/EditorProvider'
 import {
   DropdownMenu,
   DropdownMenuContent,

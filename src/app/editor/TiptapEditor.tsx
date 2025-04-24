@@ -40,7 +40,7 @@ import { motion } from 'motion/react'
 import { use$, useObservable } from '@legendapp/state/react'
 import { $React } from '@legendapp/state/react-web'
 import { useTiptapProvider } from './hooks/useTiptapProvider'
-import { useEditorContext } from './EditorProvider'
+import { useEditorContext } from './hooks/EditorProvider'
 import { Spinner } from '@/components/Spinner'
 
 const TiptapEditor = ({ docId }: { docId: string }) => {

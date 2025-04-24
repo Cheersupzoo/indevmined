@@ -5,7 +5,7 @@ import {
   SidebarMenu
 } from '@/components/ui/sidebar'
 import React from 'react'
-import { TiptapDoc, useEditorContext } from '../EditorProvider'
+import { TiptapDoc, useEditorContext } from '../hooks/EditorProvider'
 import { For, Memo } from '@legendapp/state/react'
 import { Observable } from '@legendapp/state'
 import { PostMenuItem } from './PostMenuItem'

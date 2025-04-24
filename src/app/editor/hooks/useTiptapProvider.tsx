@@ -9,7 +9,7 @@ import {
 import { useEffectOnce } from '@legendapp/state/react'
 import { useCallback, useRef } from 'react'
 import { type Doc } from 'yjs'
-import { useEditorContext } from '../EditorProvider'
+import { useEditorContext } from './EditorProvider'
 
 export const useTiptapProvider = (
   docId: string,

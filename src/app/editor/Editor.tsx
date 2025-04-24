@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import TiptapEditor from './TiptapEditor'
-import { useEditorContext } from './EditorProvider'
+import { useEditorContext } from './hooks/EditorProvider'
 import { use$ } from '@legendapp/state/react'
 import { AnimatePresence } from 'motion/react'
 

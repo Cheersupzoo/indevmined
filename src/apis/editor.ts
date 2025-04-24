@@ -1,4 +1,4 @@
-import { TiptapDoc } from '@/app/editor/EditorProvider'
+import { TiptapDoc } from '@/app/editor/hooks/EditorProvider'
 import { getAuth } from 'firebase/auth'
 
 export const getDocs = async () => {

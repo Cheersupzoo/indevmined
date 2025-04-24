@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { EllipsisVertical } from 'lucide-react'
 import React from 'react'
-import { useEditorContext } from '../EditorProvider'
+import { useEditorContext } from '../hooks/EditorProvider'
 
 export const PostMenuItemDropdown = ({ docId }: { docId: string }) => {
   const { deleteDoc } = useEditorContext()

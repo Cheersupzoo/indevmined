@@ -1,7 +1,7 @@
 import { SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
 import type { Observable } from '@legendapp/state'
 import React from 'react'
-import { useEditorContext, type TiptapDoc } from '../EditorProvider'
+import { useEditorContext, type TiptapDoc } from '../hooks/EditorProvider'
 import { use$ } from '@legendapp/state/react'
 import { cn } from '@/lib/utils'
 import { PostMenuItemDropdown } from './PostMenuItemDropdown'

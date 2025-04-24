@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import React from 'react'
-import { useAuth } from '../AuthProvider'
+import { useAuth } from '../Auth/AuthProvider'
 import { use$ } from '@legendapp/state/react'
 
 const UserDropdown = () => {

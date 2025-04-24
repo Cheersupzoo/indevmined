@@ -1,7 +1,7 @@
 'use client'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import React from 'react'
-import { AppSidebar } from './EditorSidebar'
+import { AppSidebar } from '../EditorSidebar'
 import { EditorHeader } from './EditorHeader'
 
 const EditorLayout = ({ children }: React.PropsWithChildren) => {
