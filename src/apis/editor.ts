@@ -65,3 +65,25 @@ export const getEditorToken = async () => {
 
   return token as string
 }
+
+export const deleteDoc = async (id: string) => {
+  const token = await getAuth().currentUser?.getIdToken()
+  const res = await fetch(
+    `${
+      process.env.NEXT_PUBLIC_SERVER_ENDPOINT ?? ''
+    }/editor/docs/${encodeURIComponent(id)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      method: 'DELETE'
+    }
+  )
+  console.log(res.status)
+  if (res.status !== 200) {
+    throw new Error('Fail to delete docs')
+  }
+
+  const data = await res.json()
+  return data
+}

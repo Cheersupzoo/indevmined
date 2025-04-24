@@ -4,6 +4,7 @@ import React from 'react'
 import { useEditorContext, type TiptapDoc } from '../EditorProvider'
 import { use$ } from '@legendapp/state/react'
 import { cn } from '@/lib/utils'
+import { PostMenuItemDropdown } from './PostMenuItemDropdown'
 
 export const PostMenuItem = ({
   item$: doc$
@@ -15,13 +16,14 @@ export const PostMenuItem = ({
   const selected = use$(() => doc$.name.get() === docId$.get())
 
   return (
-    <SidebarMenuItem
-      onClick={() => docId$.set(name)}
-      className='cursor-pointer select-none'
-    >
+    <SidebarMenuItem className='group/item cursor-pointer select-none'>
       <SidebarMenuButton asChild>
-        <div className={cn(selected && 'bg-eva-text/5')}>
-          <span>{name}</span>
+        <div
+          onClick={() => docId$.set(name)}
+          className={cn('flex justify-between', selected && 'bg-eva-text/5')}
+        >
+          <div className='max-w-44 overflow-clip text-ellipsis'>{name}</div>
+          <PostMenuItemDropdown docId={name} />
         </div>
       </SidebarMenuButton>
     </SidebarMenuItem>

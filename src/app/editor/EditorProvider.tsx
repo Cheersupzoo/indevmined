@@ -8,7 +8,11 @@ import {
   observe,
   OpaqueObject
 } from '@legendapp/state'
-import { getDocs, createDoc as createDocApi } from '@/apis/editor'
+import {
+  getDocs,
+  createDoc as createDocApi,
+  deleteDoc as deleteDocApi
+} from '@/apis/editor'
 import * as Y from 'yjs'
 
 export type TiptapDoc = {
@@ -22,6 +26,7 @@ const EditorContext = createContext<{
   docs$: Observable<TiptapDoc[] | null>
   docId$: Observable<string | null>
   createDoc: () => void
+  deleteDoc: (id: string) => Promise<void>
   ydoc$: Observable<OpaqueObject<Y.Doc>>
 }>(undefined as any)
 
@@ -31,6 +36,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
   const ydoc$ = useObservable(ObservableHint.opaque(new Y.Doc()))
 
   observe(docId$, () => {
+    ydoc$.peek().destroy()
     ydoc$.set(ObservableHint.opaque(new Y.Doc()))
   })
 
@@ -59,8 +65,20 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
     }
   }
 
+  const deleteDoc = async (id: string) => {
+    try {
+      await deleteDocApi(id)
+      await loadDocs()
+      if (docId$.peek() === id) docId$.set(null)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   return (
-    <EditorContext.Provider value={{ docs$, docId$, createDoc, ydoc$ }}>
+    <EditorContext.Provider
+      value={{ docs$, docId$, createDoc, deleteDoc, ydoc$ }}
+    >
       {children}
     </EditorContext.Provider>
   )

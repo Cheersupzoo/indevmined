@@ -1,7 +1,7 @@
-export { onRequestOptions } from '../../src/utils/function/index'
+export { onRequestOptions } from '../../../src/utils/function/index'
 
-import { getHeader } from '../../src/utils/function/index'
-import { protectedRoute } from '../../src/utils/function/protectedRoute'
+import { getHeader } from '../../../src/utils/function/index'
+import { protectedRoute } from '../../../src/utils/function/protectedRoute'
 
 export const onRequestGet = protectedRoute(async (context) => {
   const res = await fetch(
