@@ -11,7 +11,6 @@ export const useTiptapProvider = (
   ydoc: Doc,
   onSynced: (event: onSyncedParameters) => void
 ) => {
-  const prev = useRef({ docId, ydocId: ydoc.guid })
   const providers = useRef<TiptapCollabProvider[]>([])
 
   const destroyAllProvider = () => {
@@ -44,7 +43,7 @@ export const useTiptapProvider = (
     } catch (e) {
       console.error(e)
     }
-  }, [docId, ydoc])
+  }, [docId])
 
   useEffectOnce(() => {
     const promise = refreshProvider()
@@ -53,7 +52,7 @@ export const useTiptapProvider = (
       destroyAllProvider()
       promise.then(() => destroyAllProvider())
     }
-  }, [docId, ydoc])
+  }, [docId])
 
   return { refreshProvider }
 }

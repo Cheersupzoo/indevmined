@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext } from 'react'
+import React, { createContext, useContext, useRef } from 'react'
 import { useEffectOnce, useObservable } from '@legendapp/state/react'
 import {
   Observable,
@@ -14,6 +14,7 @@ import {
   deleteDoc as deleteDocApi
 } from '@/apis/editor'
 import * as Y from 'yjs'
+import { Editor } from '@tiptap/core'
 
 export type TiptapDoc = {
   created_at: string
@@ -28,12 +29,15 @@ const EditorContext = createContext<{
   createDoc: () => void
   deleteDoc: (id: string) => Promise<void>
   ydoc$: Observable<OpaqueObject<Y.Doc>>
+  exportDoc: (type: 'json' | 'html') => void
+  currentEditor: React.MutableRefObject<Editor | null>
 }>(undefined as any)
 
 const EditorProvider = ({ children }: React.PropsWithChildren) => {
   const docs$ = useObservable<TiptapDoc[] | null>(null)
   const docId$ = useObservable<string | null>(null)
   const ydoc$ = useObservable(ObservableHint.opaque(new Y.Doc()))
+  const currentEditor = useRef<Editor | null>(null)
 
   observe(docId$, () => {
     ydoc$.peek().destroy()
@@ -75,9 +79,31 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
     }
   }
 
+  const exportDoc = (type: 'json' | 'html') => {
+    let exported
+    if (type === 'json') {
+      const ydoc = ydoc$.peek()
+      const content = currentEditor.current?.getJSON()
+      exported = { content, meta: ydoc.getMap('meta').toJSON() }
+    }
+    if (type === 'html') {
+      exported = currentEditor.current?.getHTML()
+    }
+
+    console.log(exported)
+  }
+
   return (
     <EditorContext.Provider
-      value={{ docs$, docId$, createDoc, deleteDoc, ydoc$ }}
+      value={{
+        docs$,
+        docId$,
+        createDoc,
+        deleteDoc,
+        ydoc$,
+        exportDoc,
+        currentEditor
+      }}
     >
       {children}
     </EditorContext.Provider>

@@ -79,7 +79,6 @@ export const deleteDoc = async (id: string) => {
       method: 'DELETE'
     }
   )
-  console.log(res.status)
   if (res.status !== 200) {
     throw new Error('Fail to delete docs')
   }

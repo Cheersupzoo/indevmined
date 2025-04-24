@@ -43,7 +43,7 @@ import { useTiptapProvider } from './hooks/useTiptapProvider'
 import { useEditorContext } from './EditorProvider'
 
 const TiptapEditor = ({ docId }: { docId: string }) => {
-  const { ydoc$ } = useEditorContext()
+  const { ydoc$, currentEditor } = useEditorContext()
   const title$ = useObservable('')
   const category$ = useObservable('')
   const published$ = useObservable('2024-12-20')
@@ -135,17 +135,18 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
         keydown: (_, v) => enableKeyboardNavigation(v)
       }
     },
-//     content: `<h1>H1</h1><h2>H2</h2><h3>H3</h3><h4>H4</h4><p>Hello World! 🌎️</p><pre language="js"><code class="language-javascript">const str = '123';
-// str.replace('1','9')
-// const obj = {a: 'c'}</code></pre><ul><li>list</li></ul>
-//     <code-block lang="js">// !mark
-// const text="test";
-//     // !bg[5:8] gold
-// console.log('hello world')</code-block>
-//     <react-component count="1">
-//       <p>This is editable.</p>
-//       <p>This is editable.</p>
-//     </react-component>`
+    onCreate: (event) => (currentEditor.current = event.editor)
+    //     content: `<h1>H1</h1><h2>H2</h2><h3>H3</h3><h4>H4</h4><p>Hello World! 🌎️</p><pre language="js"><code class="language-javascript">const str = '123';
+    // str.replace('1','9')
+    // const obj = {a: 'c'}</code></pre><ul><li>list</li></ul>
+    //     <code-block lang="js">// !mark
+    // const text="test";
+    //     // !bg[5:8] gold
+    // console.log('hello world')</code-block>
+    //     <react-component count="1">
+    //       <p>This is editable.</p>
+    //       <p>This is editable.</p>
+    //     </react-component>`
   })
 
   const setLink = useSetLink(editor)
@@ -194,15 +195,6 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
           POST
         </div>
         <div className='relative'>
-          <button
-            className='absolute top-0 right-0 z-10'
-            onClick={() => {
-              console.log(editor?.getJSON())
-              console.log(ydoc.toJSON())
-            }}
-          >
-            Export JSON
-          </button>
           <EditorContent className='markdown-body sm:-mx-16' editor={editor} />
           <PreNodeTools editor={editor} />
           <SlashCommand editor={editor} />
