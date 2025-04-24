@@ -1,7 +1,7 @@
 import CodeBlock, { CodeBlockOptions } from '@tiptap/extension-code-block'
 import { LighterPlugin } from './LighterPlugin'
 import { CodeBlockWrapper } from './CodeBlockWraper'
-import { ReactNodeViewRenderer } from '@tiptap/react'
+import { mergeAttributes, ReactNodeViewRenderer } from '@tiptap/react'
 
 export interface CodeBlockLighterOptions extends CodeBlockOptions {}
 
@@ -23,6 +23,23 @@ export const CodeBlockLighter = CodeBlock.extend<CodeBlockLighterOptions>({
         default: () => []
       }
     }
+  },
+  renderHTML({ node, HTMLAttributes }) {
+    return [
+      'pre',
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+      [
+        'code',
+        {
+          class: node.attrs.language
+            ? this.options.languageClassPrefix + node.attrs.language
+            : null,
+          language: node.attrs.language,
+          lineMark: node.attrs.lineMark.join(',')
+        },
+        0
+      ]
+    ]
   },
   marks: 'codeMark',
   addProseMirrorPlugins() {
