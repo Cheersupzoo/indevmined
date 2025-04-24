@@ -5,6 +5,7 @@ import { useEffectOnce, useObservable } from '@legendapp/state/react'
 import {
   Observable,
   ObservableHint,
+  ObservablePrimitive,
   observe,
   OpaqueObject
 } from '@legendapp/state'
@@ -31,6 +32,7 @@ const EditorContext = createContext<{
   ydoc$: Observable<OpaqueObject<Y.Doc>>
   exportDoc: (type: 'json' | 'html') => void
   currentEditor: React.MutableRefObject<Editor | null>
+  status$: ObservablePrimitive<'Connecting' | 'Offline' | 'Connected' | null>
 }>(undefined as any)
 
 const EditorProvider = ({ children }: React.PropsWithChildren) => {
@@ -38,6 +40,9 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
   const docId$ = useObservable<string | null>(null)
   const ydoc$ = useObservable(ObservableHint.opaque(new Y.Doc()))
   const currentEditor = useRef<Editor | null>(null)
+  const status$ = useObservable<null | 'Connecting' | 'Offline' | 'Connected'>(
+    null
+  )
 
   observe(docId$, () => {
     ydoc$.peek().destroy()
@@ -102,7 +107,8 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
         deleteDoc,
         ydoc$,
         exportDoc,
-        currentEditor
+        currentEditor,
+        status$
       }}
     >
       {children}

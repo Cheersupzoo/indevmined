@@ -27,10 +27,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
 
 export const EditorHeader = () => {
-  const { docId$ } = useEditorContext()
+  const { docId$, status$ } = useEditorContext()
   return (
     <div className='text-eva-text relative left-0 right-0 top-0 z-50 mx-auto  w-full bg-transparent px-3'>
       <div className='flex items-center py-2 justify-between'>
@@ -46,7 +45,12 @@ export const EditorHeader = () => {
         >
           InDevMined Editor
         </motion.div>
-        <EditorHeaderDropdown />
+        <div className='flex items-center gap-2'>
+          <div className='text-sm text-eva-text/80 p-1'>
+            <Memo>{status$}</Memo>
+          </div>
+          <EditorHeaderDropdown />
+        </div>
       </div>
     </div>
   )
