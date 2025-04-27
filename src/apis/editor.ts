@@ -66,6 +66,27 @@ export const getEditorToken = async () => {
   return token as string
 }
 
+export const updateDoc = async (id: string, newId: string) => {
+  const token = await getAuth().currentUser?.getIdToken()
+  const res = await fetch(
+    `${
+      process.env.NEXT_PUBLIC_SERVER_ENDPOINT ?? ''
+    }/editor/docs/${encodeURIComponent(id)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      method: 'PUT',
+      body: JSON.stringify({ id: newId })
+    }
+  )
+  if (res.status !== 204) {
+    throw new Error('Fail to update docs')
+  }
+
+  return
+}
+
 export const deleteDoc = async (id: string) => {
   const token = await getAuth().currentUser?.getIdToken()
   const res = await fetch(

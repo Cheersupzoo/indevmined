@@ -11,14 +11,21 @@ export const useTiptapProvider = ({
   docId$,
   status$,
   syncing$,
-  ydoc$
+  ydoc$,
+  setDocId,
+  updateIdRef,
+  loadDocs
 }: {
   docId$: Observable<string | null>
   ydoc$: Observable<Doc>
   syncing$: ObservableBoolean
   status$: EditorStatus
+  setDocId: (id: string | null, updateEditor?: boolean) => void
+  updateIdRef: React.MutableRefObject<Promise<string> | null>
+  loadDocs: () => Promise<void>
 }) => {
   const unsubscribeRef = useRef<Promise<() => void>[]>([])
+  const currentProviderRef = useRef<TiptapCollabProvider | null>(null)
   const createTiptapProviderAsync = async () => {
     const docId = docId$.peek()
     const ydoc = ydoc$.peek()
@@ -50,8 +57,31 @@ export const useTiptapProvider = ({
             status$.set('Connected')
           }
         },
+        onDisconnect(data) {
+          if (data.event.reason === 'Document deleted') {
+            provider.destroy()
+            loadDocs()
+            if (updateIdRef.current) {
+              updateIdRef.current.then((updateId) => {
+                setDocId(updateId, false)
+              })
+              updateIdRef.current = null
+
+              return
+            }
+            setDocId(null)
+          }
+          if (data.event.reason === 'JWT verification failed') {
+            status$.set('Disconnected')
+            createTiptapProvider()
+          }
+        },
+        onDestroy() {
+          currentProviderRef.current = null
+        },
         preserveConnection: false
       })
+      currentProviderRef.current = provider
 
       const offlineListener = () => {
         if (docId) {
@@ -98,5 +128,7 @@ export const useTiptapProvider = ({
     unsubscribeRef.current.push(createTiptapProviderAsync())
   }
 
-  return { createTiptapProvider, destroyProvider }
+  const getCurrentProvider = () => currentProviderRef.current
+
+  return { createTiptapProvider, destroyProvider, getCurrentProvider }
 }

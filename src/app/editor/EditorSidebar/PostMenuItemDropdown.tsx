@@ -12,10 +12,11 @@ import { useEditorContext } from '../hooks/EditorProvider'
 
 export const PostMenuItemDropdown = ({ docId }: { docId: string }) => {
   const { deleteDoc } = useEditorContext()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className='invisible group-hover/item:visible data-[state=open]:visible px-0.5 py-1 hover:bg-eva-text/5 rounded-sm'>
+        <div className='invisible group-hover/item:visible data-[state=open]:visible px-0.5 py-1 hover:bg-eva-text/10 rounded-sm'>
           <EllipsisVertical size={16} />
         </div>
       </DropdownMenuTrigger>

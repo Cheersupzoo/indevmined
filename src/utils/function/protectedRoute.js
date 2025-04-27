@@ -29,18 +29,27 @@ export const protectedRoute = (onRequest) => {
     }
     const token = authorization.replace(/^Bearer /, '')
     const JWKS = createRemoteJWKSet(new URL(jwks_uri))
-    const { payload } = await jwtVerify(token, JWKS, {
-      algorithms: ['RS256'],
-      issuer: 'https://securetoken.google.com/indevmined',
-      audience: 'indevmined'
-    })
-    if (payload.email !== 'cheersupzoo@gmail.com') {
+    try {
+      const { payload } = await jwtVerify(token, JWKS, {
+        algorithms: ['RS256'],
+        issuer: 'https://securetoken.google.com/indevmined',
+        audience: 'indevmined'
+      })
+      if (payload.email !== 'cheersupzoo@gmail.com') {
+        return Response.json(
+          { status: 'unauthorized', message: 'Unauthorized user' },
+          { status: 401, headers }
+        )
+      }
+
+      return onRequest(context, payload)
+    } catch (e) {
+      console.error(e)
+
       return Response.json(
-        { status: 'unauthorized', message: 'Unauthorized user' },
+        { status: 'unauthorized', message: 'Invalid token' },
         { status: 401, headers }
       )
     }
-
-    return onRequest(context, payload)
   }
 }

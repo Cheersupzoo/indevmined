@@ -5,6 +5,8 @@ import { useEditorContext, type TiptapDoc } from '../hooks/EditorProvider'
 import { use$ } from '@legendapp/state/react'
 import { cn } from '@/lib/utils'
 import { PostMenuItemDropdown } from './PostMenuItemDropdown'
+import { useDisplaySlugName } from '../hooks/useDisplaySlugName'
+import './PostMenuItem.css'
 
 export const PostMenuItem = ({
   item$: doc$
@@ -14,6 +16,7 @@ export const PostMenuItem = ({
   const { docId$, setDocId } = useEditorContext()
   const name = use$(() => doc$.name.get())
   const selected = use$(() => doc$.name.get() === docId$.get())
+  const displayName = useDisplaySlugName(name)  
 
   return (
     <SidebarMenuItem className='group/item cursor-pointer select-none'>
@@ -22,7 +25,7 @@ export const PostMenuItem = ({
           onClick={() => setDocId(name)}
           className={cn('flex justify-between', selected && 'bg-eva-text/5')}
         >
-          <div className='max-w-44 overflow-clip text-ellipsis'>{name}</div>
+          <div data-placeholder='Untitled' className='post-menu-item max-w-44 overflow-clip text-ellipsis'>{displayName}</div>
           <PostMenuItemDropdown docId={name} />
         </div>
       </SidebarMenuButton>

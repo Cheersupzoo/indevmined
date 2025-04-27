@@ -16,6 +16,8 @@
 - TestComponent
 - Image [No File management]
 - Code V1 [No proper editor]
+- [ ] Post-It
+- [ ] Excalidraw
 
 ## Marks
 
@@ -51,4 +53,7 @@
 - [x] Add Node Handle
 - [x] Cloud Save
 - [x] Y.js
-- [ ] Authentication
+- [x] Authentication
+- [x] Rename Slug
+- [ ] Mobile Support
+  - [ ] Floating Footer

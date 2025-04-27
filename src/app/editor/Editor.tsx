@@ -19,6 +19,7 @@ const Editor = () => {
 
   return (
     <AnimatePresence>
+      {/* The `key` is for remount editor when docId change and reset state */}
       <TiptapEditor key={docId} docId={docId} />
     </AnimatePresence>
   )

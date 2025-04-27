@@ -27,17 +27,17 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
+import { EditorSlugInput } from './EditorSlugInput'
 
 export const EditorHeader = () => {
   const { docId$, status$ } = useEditorContext()
+
   return (
     <div className='text-eva-text relative left-0 right-0 top-0 z-50 mx-auto  w-full bg-transparent px-3'>
       <div className='flex items-center py-2 justify-between'>
         <div className='flex gap-1 items-center'>
           <SidebarTrigger />
-          <div className='text-eva-text hover:bg-eva-text/5 px-1.5 rounded-md'>
-            <Memo>{docId$}</Memo>
-          </div>
+          <Memo>{() => docId$.get() && <EditorSlugInput />}</Memo>
         </div>
         <motion.div
           layoutId='editor-header'
@@ -68,7 +68,7 @@ const EditorHeaderDropdown = () => {
   return (
     <DropdownMenu open={open} onOpenChange={(open) => !open && setOpen(open)}>
       <DropdownMenuTrigger asChild onClick={() => setOpen(true)}>
-        <div className='px-0.5 py-1 hover:bg-eva-text/5 rounded-sm'>
+        <div className='px-0.5 py-1 hover:bg-eva-text/10 rounded-sm'>
           <EllipsisVertical size={16} />
         </div>
       </DropdownMenuTrigger>
@@ -89,6 +89,9 @@ const EditorHeaderDropdown = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => exportDoc('html')}>
                   HTML
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => exportDoc('yjs')}>
+                  YJS
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>

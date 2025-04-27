@@ -1,0 +1,7 @@
+.editor-slug-input[contenteditable='true']:empty:before,
+.editor-slug-input[contenteditable='plaintext-only']:empty:before {
+  content: attr(data-placeholder);
+  pointer-events: none;
+  display: block; /* For Firefox */
+  @apply text-eva-text/50;
+}

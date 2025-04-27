@@ -21,7 +21,7 @@ const UserDropdown = () => {
     user && (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className='p-2 rounded-md flex items-center gap-2 data-[state=open]:bg-eva-text/5 hover:bg-eva-text/5'>
+          <button className='p-2 rounded-md flex items-center gap-2 data-[state=open]:bg-eva-text/5 hover:bg-eva-text/10'>
             <div className='leading-7 text-center bg-green-800 w-7 h-7 text-sm rounded-full'>
               {user.email?.[0].toUpperCase()}
             </div>

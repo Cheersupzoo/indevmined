@@ -21,7 +21,7 @@ export const PostGroupMenu = () => {
         <div>Posts</div>
         <div
           onClick={createDoc}
-          className='hover:bg-eva-text/5 p-0.5 rounded-sm cursor-pointer'
+          className='hover:bg-eva-text/10 p-0.5 rounded-sm cursor-pointer'
         >
           <Plus size={16} />
         </div>

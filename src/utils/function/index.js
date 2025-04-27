@@ -68,6 +68,9 @@ export const functionWrapper = (onRequest) => {
   }
 }
 
+/**
+ * @param {Context} context
+ */
 export function getHeader(context) {
   const origin = context.request.headers.get('origin') ?? ''
 
@@ -82,7 +85,7 @@ export function getHeader(context) {
     return {
       'Access-Control-Allow-Origin': origin,
       'Access-Control-Allow-Headers': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, DELETE',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, DELETE, PUT',
       'Access-Control-Max-Age': '86400'
     }
   }
@@ -90,7 +93,7 @@ export function getHeader(context) {
   return {
     'Access-Control-Allow-Origin': 'https://www.indevmined.com',
     'Access-Control-Allow-Headers': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, DELETE',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, DELETE, PUT',
     'Access-Control-Max-Age': '86400'
   }
 }
