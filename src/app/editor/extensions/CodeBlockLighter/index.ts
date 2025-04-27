@@ -2,6 +2,7 @@ import CodeBlock, { CodeBlockOptions } from '@tiptap/extension-code-block'
 import { LighterPlugin } from './LighterPlugin'
 import { CodeBlockWrapper } from './CodeBlockWraper'
 import { mergeAttributes, ReactNodeViewRenderer } from '@tiptap/react'
+import { TextSelection } from '@tiptap/pm/state'
 
 export interface CodeBlockLighterOptions extends CodeBlockOptions {}
 
@@ -61,5 +62,26 @@ export const CodeBlockLighter = CodeBlock.extend<CodeBlockLighterOptions>({
         translate: 'no'
       }
     })
+  },
+  addKeyboardShortcuts() {
+    return {
+      'Mod-a': () =>
+        // Select all
+        this.editor.commands.command(({ tr, state }) => {
+          if (state.selection.$from.parent.type.name === this.name) {
+            const start =
+              state.selection.$from.pos - state.selection.$from.parentOffset
+            const end =
+              start + state.selection.$from.parent.firstChild!.nodeSize
+            console.log(state.selection.$from.parent, start, end)
+            const newSelection = TextSelection.create(tr.doc, start, end)
+            tr.setSelection(newSelection)
+
+            return true
+          }
+
+          return false
+        })
+    }
   }
 })
