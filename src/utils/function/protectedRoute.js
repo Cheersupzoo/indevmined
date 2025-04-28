@@ -45,6 +45,7 @@ export const protectedRoute = (onRequest) => {
       return onRequest(context, payload)
     } catch (e) {
       console.error(e)
+      console.error('jwks', JWKS.jwks())
 
       return Response.json(
         { status: 'unauthorized', message: 'Invalid token' },
