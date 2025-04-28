@@ -41,6 +41,11 @@ import { use$, useObservable } from '@legendapp/state/react'
 import { $React } from '@legendapp/state/react-web'
 import { useEditorContext } from './hooks/EditorProvider'
 import { Spinner } from '@/components/Spinner'
+import { useIsMobile } from '@/hooks/use-mobile'
+import dynamic from 'next/dynamic'
+const EditorToolbarMobile = dynamic(() =>
+  import('./EditorToolbarMobile').then((mod) => mod.EditorToolbarMobile)
+)
 
 const TiptapEditor = ({ docId }: { docId: string }) => {
   const { ydoc$, currentEditor, syncing$ } = useEditorContext()
@@ -49,6 +54,8 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
   const published$ = useObservable('2024-12-20')
   const ydoc = use$(ydoc$)
   const meta = ydoc.getMap<string>('meta')
+
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     const yTitle = meta.get('title')
@@ -197,7 +204,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
             }}
           />
         </div>
-        <div className='parallax select-none -z-10 absolute -top-7 -left-3 text-[10rem] leading-none text-foreground'>
+        <div className='parallax select-none -z-10 absolute -top-7 -left-3 text-[9rem] md:text-[10rem] leading-none text-foreground'>
           POST
         </div>
         <div className='relative'>
@@ -319,6 +326,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
           )}
         </div>
         {/* {editor && <CursorInfo editor={editor} />} */}
+        {isMobile && editor && <EditorToolbarMobile editor={editor} />}
       </SlashCmdProvider>
     </motion.div>
   )

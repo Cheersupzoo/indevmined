@@ -46,6 +46,7 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
+				'eva-text-border': 'rgb(59 61 68 / <alpha-value>)',
   			'eva-red': 'rgb(var(--red-color) / <alpha-value>)',
   			'eva-text': 'rgb(var(--text-color) / <alpha-value>)',
   			background: 'rgb(var(--bg-color) / <alpha-value>)',

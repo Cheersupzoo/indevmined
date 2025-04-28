@@ -1,6 +1,21 @@
 import { Editor, Extension } from '@tiptap/core'
 import { TextSelection } from '@tiptap/pm/state'
 
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    moveBlock: {
+      /**
+       * Move current block up by 1 pos
+       */
+      moveBlockUp: () => ReturnType
+      /**
+       * Move current block down by 1 pos
+       */
+      moveBlockDown: () => ReturnType
+    }
+  }
+}
+
 /**
  * Allow to use Alt+ArrowUp/Down to move block
  * Not support: List
@@ -11,6 +26,18 @@ export const MoveNodeShortcut = Extension.create({
     return {
       moveUpShortcut: 'Alt-ArrowUp',
       moveDownShortcut: 'Alt-ArrowDown'
+    }
+  },
+  addCommands() {
+    return {
+      moveBlockUp: () => () => {
+        moveBlock(this.editor, 'up')
+        return true
+      },
+      moveBlockDown: () => () => {
+        moveBlock(this.editor, 'down')
+        return true
+      }
     }
   },
   addKeyboardShortcuts() {

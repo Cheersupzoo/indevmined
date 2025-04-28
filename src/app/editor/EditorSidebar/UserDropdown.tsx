@@ -32,7 +32,14 @@ const UserDropdown = () => {
           <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem onClick={signout}>Log out</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                signout()
+                document.body.style.pointerEvents = ''
+              }}
+            >
+              Log out
+            </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

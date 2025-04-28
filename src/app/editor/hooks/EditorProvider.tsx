@@ -87,12 +87,12 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
     })
 
   function setDocId(id: string | null, updateEditor = true) {
-    batch(()=>{
+    batch(() => {
       const currentDocId = docId$.peek()
       if (id === currentDocId) {
         return
       }
-  
+
       const currentYdoc = ydoc$.peek()
       if (!currentYdoc.isDestroyed && updateEditor) {
         currentYdoc.destroy()
@@ -103,7 +103,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
       }
       docId$.set(id)
       // if (updateEditor) {
-        editorDocId$.set(id)
+      editorDocId$.set(id)
       // }
       if (id !== null) {
         createTiptapProvider()
@@ -111,14 +111,13 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
         destroyProvider()
       }
     })
-    
   }
 
   const createDoc = async () => {
     try {
       const data = await createDocApi()
-      await loadDocs()
       setDocId(data.id)
+      await loadDocs()
     } catch (e) {
       console.error(e)
     }

@@ -2,7 +2,8 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarMenu
+  SidebarMenu,
+  useSidebar
 } from '@/components/ui/sidebar'
 import React from 'react'
 import { TiptapDoc, useEditorContext } from '../hooks/EditorProvider'
@@ -14,13 +15,17 @@ import { Spinner } from '@/components/Spinner'
 
 export const PostGroupMenu = () => {
   const { docs$, createDoc } = useEditorContext()
+  const { toggleSidebar } = useSidebar()
 
   return (
     <SidebarGroup className=''>
       <SidebarGroupLabel className='flex justify-between'>
         <div>Posts</div>
         <div
-          onClick={createDoc}
+          onClick={() => {
+            createDoc()
+            toggleSidebar()
+          }}
           className='hover:bg-eva-text/10 p-0.5 rounded-sm cursor-pointer'
         >
           <Plus size={16} />

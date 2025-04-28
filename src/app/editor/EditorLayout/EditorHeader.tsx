@@ -1,6 +1,6 @@
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { Memo, use$ } from '@legendapp/state/react'
-import { motion } from 'motion/react'
+import { AnimatePresence, motion } from 'motion/react'
 import React, { useState } from 'react'
 import { useEditorContext } from '../hooks/EditorProvider'
 import {
@@ -28,9 +28,13 @@ import {
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
 import { EditorSlugInput } from './EditorSlugInput'
+import { useIsMobile } from '@/hooks/use-mobile'
+import { cn } from '@/lib/utils'
 
 export const EditorHeader = () => {
   const { docId$, status$ } = useEditorContext()
+  const isMobile = useIsMobile()
+  const showBrand = use$(() => !docId$.get() || !isMobile)
 
   return (
     <div className='text-eva-text relative left-0 right-0 top-0 z-50 mx-auto  w-full bg-transparent px-3'>
@@ -39,12 +43,20 @@ export const EditorHeader = () => {
           <SidebarTrigger />
           <Memo>{() => docId$.get() && <EditorSlugInput />}</Memo>
         </div>
-        <motion.div
-          layoutId='editor-header'
-          className='select-none absolute left-1/2 -translate-x-1/2 text-eva-text/50 font-medium text-base'
-        >
-          InDevMined Editor
-        </motion.div>
+        <AnimatePresence>
+          {showBrand && (
+            <motion.div
+              layoutId='editor-header'
+              className={cn(
+                'select-none absolute left-1/2 -translate-x-1/2 text-eva-text/50 font-medium text-base'
+              )}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              InDevMined Editor
+            </motion.div>
+          )}
+        </AnimatePresence>
         <div className='flex items-center gap-2'>
           <div className='text-sm text-eva-text/80 p-1'>
             <Memo>{status$}</Memo>
