@@ -1,9 +1,4 @@
-import {
-  jwtVerify,
-  createRemoteJWKSet,
-  importJWK,
-  decodeProtectedHeader
-} from 'jose'
+import { jwtVerify, decodeProtectedHeader } from 'jose'
 import { getHeader } from './index'
 
 const jwks_uri =
@@ -33,16 +28,12 @@ export const protectedRoute = (onRequest) => {
       )
     }
     const token = authorization.replace(/^Bearer /, '')
-    const JWKS = createRemoteJWKSet(new URL(jwks_uri))
     try {
-      const { kid, alg } = decodeProtectedHeader(token)
-      console.log('kid, alg', kid, alg)
-
+      const { kid } = decodeProtectedHeader(token)
       const pubListReq = await fetch(new URL(jwks_uri))
       const pubList = await pubListReq.json()
       const jwk = pubList.keys.find((key) => key.kid === kid)
-      const JWK = await importJWK(jwk, alg)
-      const { payload } = await jwtVerify(token, JWK, {
+      const { payload } = await jwtVerify(token, jwk, {
         algorithms: ['RS256'],
         issuer: 'https://securetoken.google.com/indevmined',
         audience: 'indevmined'
@@ -57,7 +48,6 @@ export const protectedRoute = (onRequest) => {
       return onRequest(context, payload)
     } catch (e) {
       console.error(e)
-      console.error('jwks', JWKS.jwks())
 
       return Response.json(
         { status: 'unauthorized', message: 'Invalid token' },
