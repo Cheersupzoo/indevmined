@@ -9,6 +9,7 @@ import {
   SlashCmdProvider
 } from '@harshtalks/slash-tiptap'
 import Placeholder from '@tiptap/extension-placeholder'
+import Typography from '@tiptap/extension-typography'
 import TestComponent from './extensions/TestComponent/extension'
 import CodeBlock from './extensions/Code'
 import { SlashCommand, SlashWithConfigure } from './extensions/SlashCommand'
@@ -127,7 +128,8 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
       Collaboration.configure({
         document: ydoc,
         field: 'content'
-      })
+      }),
+      Typography
     ],
     immediatelyRender: false,
     editorProps: {

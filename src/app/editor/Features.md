@@ -32,7 +32,6 @@
   - [x] Line Mark
 - [ ] Inline Code
 - [ ] Text Styling
-  
 
 ## Extensions
 
@@ -55,5 +54,13 @@
 - [x] Y.js
 - [x] Authentication
 - [x] Rename Slug
-- [ ] Mobile Support
-  - [ ] Floating Footer
+- [x] Mobile Support
+  - [x] Floating Footer
+    - [x] Add Block
+    - [ ] Turn into
+    - [x] Delete Block
+    - [x] Move Up
+    - [x] Move Down
+    - [ ] Text Decoration
+    - [ ] Code Decoration
+- [x] Typography
