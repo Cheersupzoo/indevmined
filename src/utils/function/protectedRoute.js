@@ -1,4 +1,4 @@
-import { jwtVerify, decodeProtectedHeader } from 'jose'
+import { jwtVerify, importJWK, decodeProtectedHeader } from 'jose'
 import { getHeader } from './index'
 
 const jwks_uri =
@@ -29,10 +29,16 @@ export const protectedRoute = (onRequest) => {
     }
     const token = authorization.replace(/^Bearer /, '')
     try {
-      const { kid } = decodeProtectedHeader(token)
+      const { kid, alg } = decodeProtectedHeader(token)
       const pubListReq = await fetch(new URL(jwks_uri))
       const pubList = await pubListReq.json()
       const jwk = pubList.keys.find((key) => key.kid === kid)
+      const JWK = await importJWK(jwk, alg)
+      console.log(
+        Symbol.toStringTag,
+        JWK[Symbol.toStringTag],
+        JWK[Symbol.toStringTag] === 'CryptoKey'
+      )
       const { payload } = await jwtVerify(token, jwk, {
         algorithms: ['RS256'],
         issuer: 'https://securetoken.google.com/indevmined',
