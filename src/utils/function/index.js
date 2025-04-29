@@ -75,6 +75,7 @@ export function getHeader(context) {
   const origin = context.request.headers.get('origin') ?? ''
 
   const corsWhitelist = [
+    /^http:\/\/172\.20\.10\.9:3000/,
     /^http:\/\/localhost:3000/,
     /^https:\/\/[0-9a-z]+\.isekai-dev-guide\.pages\.dev/,
     /www\.indevmined\.com/,
