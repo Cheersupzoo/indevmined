@@ -4,6 +4,7 @@ import { useEditorContext } from '../hooks/EditorProvider'
 
 export const InsertImage = () => {
   const { currentEditor } = useEditorContext()
+
   return (
     <div
       className='p-3'

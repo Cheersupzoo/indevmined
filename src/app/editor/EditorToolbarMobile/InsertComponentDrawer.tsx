@@ -13,6 +13,7 @@ import { Editor } from '@tiptap/core'
 
 export const InsertComponentDrawer = ({ editor }: { editor: Editor }) => {
   const [open, setOpen] = useState(false)
+
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>

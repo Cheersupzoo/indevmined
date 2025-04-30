@@ -27,6 +27,7 @@ export const DragHandle = Extension.create({
         if (preNodeContainer) {
           preNodeContainer.style.visibility = 'hidden'
         }
+
         return true
       }
     }

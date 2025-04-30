@@ -23,6 +23,7 @@ const ExcalidrawCanvas = dynamic(
     ssr: false,
     loading: () => {
       console.log('excalidraw')
+
       return <div>Loading</div>
     }
   }

@@ -172,6 +172,7 @@ export const diff: AnnotationHandler = {
   onlyIfAnnotated: true,
   transform: (annotation: BlockAnnotation) => {
     const color = annotation.query == '-' ? '#f85149' : '#3fb950'
+
     return [annotation, { ...annotation, name: 'mark', query: color }]
   },
   Line: ({ annotation, ...props }) => (

@@ -63,6 +63,7 @@ export function dragHandlePlugin(): Plugin<DragHandlePluginState> {
           const top = rect.top - editorRect.top
           preNodeContainer.style.top = `${top}px`
         }
+
         return false
       }
 
@@ -74,6 +75,7 @@ export function dragHandlePlugin(): Plugin<DragHandlePluginState> {
         ) {
           preNodeContainer.style.visibility = 'hidden'
         }
+
         return false
       }
       editorView.dom.addEventListener('mousemove', mousemove)

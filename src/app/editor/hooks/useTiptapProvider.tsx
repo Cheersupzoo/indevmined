@@ -37,6 +37,7 @@ export const useTiptapProvider = ({
       const token = await getEditorToken()
       if (!process.env.NEXT_PUBLIC_TIP_TAP_APP_ID) {
         console.error('Missing Tiptap app id')
+
         return () => {}
       }
 
@@ -105,6 +106,7 @@ export const useTiptapProvider = ({
       }
     } catch (e) {
       console.error(e)
+
       return () => {}
     }
   }

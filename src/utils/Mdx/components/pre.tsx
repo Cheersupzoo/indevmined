@@ -14,6 +14,7 @@ export const pre = (props: { codeblock: RawCode } | any) => {
     const parseMeta = (key: string) => {
       const keyExist = props.codeblock.meta.includes(key)
       if (keyExist) name = name.replace(key, '')
+
       return keyExist
     }
     const isScrollable = parseMeta('scroll')

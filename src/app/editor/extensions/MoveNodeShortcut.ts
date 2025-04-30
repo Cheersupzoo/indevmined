@@ -32,10 +32,12 @@ export const MoveNodeShortcut = Extension.create({
     return {
       moveBlockUp: () => () => {
         moveBlock(this.editor, 'up')
+
         return true
       },
       moveBlockDown: () => () => {
         moveBlock(this.editor, 'down')
+
         return true
       }
     }

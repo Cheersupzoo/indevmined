@@ -16,6 +16,7 @@ export const getDocs = async () => {
   }
 
   const data = (await res.json()) as { docs: TiptapDoc[] }
+
   return data
 }
 
@@ -35,6 +36,7 @@ export const createDoc = async () => {
   }
 
   const data = await res.json()
+
   return data
 }
 
@@ -105,5 +107,6 @@ export const deleteDoc = async (id: string) => {
   }
 
   const data = await res.json()
+
   return data
 }
