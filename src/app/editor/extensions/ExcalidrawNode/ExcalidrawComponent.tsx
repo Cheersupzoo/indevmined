@@ -69,8 +69,8 @@ export const ExcalidrawDialog = (props: NodeViewProps) => {
           </div>
         )}
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[700px] h-full max-h-[500px] grid-rows-[auto_minmax(0,_1fr)_auto]'>
-        <DialogHeader>
+      <DialogContent className='sm:max-w-[700px] h-full max-h-[500px] grid-rows-[auto_minmax(0,_1fr)_auto] px-0'>
+        <DialogHeader className='px-6'>
           <DialogTitle className='text-eva-text'>Excalidraw</DialogTitle>
         </DialogHeader>
         <ExcalidrawCanvas

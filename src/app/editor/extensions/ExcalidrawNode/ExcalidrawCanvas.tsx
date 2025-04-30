@@ -35,7 +35,7 @@ const ExcalidrawCanvas = ({
   return (
     <>
       <div className=''>
-        <div className='h-full w-full border border-eva-text-border rounded-md overflow-hidden'>
+        <div className='h-full w-full border-t border-b border-eva-text-border  overflow-hidden'>
           <Excalidraw
             initialData={{
               elements: initialElements,
@@ -63,7 +63,7 @@ const ExcalidrawCanvas = ({
           />
         </div>
       </div>
-      <DialogFooter>
+      <DialogFooter className='px-6'>
         <Button onClick={onSaveImpl} type='submit'>
           Save changes
         </Button>
