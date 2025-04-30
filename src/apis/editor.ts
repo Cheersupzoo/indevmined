@@ -1,4 +1,5 @@
 import { TiptapDoc } from '@/app/editor/hooks/EditorProvider'
+import { UploadFunction } from '@/components/tiptap-node/image-upload-node'
 import { getAuth } from 'firebase/auth'
 
 export const getDocs = async () => {
@@ -109,4 +110,65 @@ export const deleteDoc = async (id: string) => {
   const data = await res.json()
 
   return data
+}
+
+export const handleImageUpload: UploadFunction = async (
+  file,
+  onProgress,
+  abortSignal
+) => {
+  const formData = new FormData()
+  formData.append('image', file)
+  const token = await getAuth().currentUser?.getIdToken()
+
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    abortSignal?.addEventListener('abort', () => {
+      xhr.abort()
+    })
+    xhr.open(
+      'POST',
+      `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT ?? ''}/editor/image`
+    )
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+    xhr.upload.addEventListener('progress', (e) => {
+      if (e.lengthComputable) {
+        onProgress?.({ progress: Math.ceil((e.loaded / e.total) * 100) })
+      }
+    })
+    xhr.addEventListener('load', () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const data = JSON.parse(xhr.responseText)
+        resolve(data.url)
+      } else {
+        const error = xhr.responseText
+        reject(error)
+      }
+    })
+    xhr.addEventListener('error', () => {
+      reject('Upload failed')
+    })
+    xhr.send(formData)
+  })
+}
+
+export const deleteImage = async (key: string) => {
+  const token = await getAuth().currentUser?.getIdToken()
+  const res = await fetch(
+    `${
+      process.env.NEXT_PUBLIC_SERVER_ENDPOINT ?? ''
+    }/editor/image/${encodeURIComponent(key)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      method: 'DELETE'
+    }
+  )
+
+  if (res.status !== 204) {
+    throw new Error('Fail to delete image')
+  }
+
+  return
 }

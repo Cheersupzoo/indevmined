@@ -15,9 +15,10 @@
 - Text (StarterKit)
 - TestComponent
 - Image [No File management]
+  - [x] Upload Image
 - Code V1 [No proper editor]
 - [ ] Post-It
-- [ ] Excalidraw
+- [x] Excalidraw
 
 ## Marks
 

@@ -23,7 +23,6 @@ import {
 } from 'lucide-react'
 import { LinkWithConfigure, useSetLink } from './extensions/LinkExtension'
 import { Underline } from '@tiptap/extension-underline'
-import Image from '@tiptap/extension-image'
 import { MoveNodeShortcut } from './extensions/MoveNodeShortcut'
 import { CursorInfo } from './extensions/CursorInfo'
 import { DragHandle } from './extensions/DragHandleExtension'
@@ -45,6 +44,9 @@ import { Spinner } from '@/components/Spinner'
 import { useIsMobile } from '@/hooks/use-mobile'
 import dynamic from 'next/dynamic'
 import ExcalidrawNode from './extensions/ExcalidrawNode'
+import { ImageUploadNode } from '@/components/tiptap-node/image-upload-node'
+import { deleteImage, handleImageUpload } from '@/apis/editor'
+import { CustomImage } from './extensions/CustomImage'
 const EditorToolbarMobile = dynamic(() =>
   import('./EditorToolbarMobile').then((mod) => mod.EditorToolbarMobile)
 )
@@ -107,12 +109,27 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
       }),
 
       // Node
-      Image,
+      CustomImage.configure({
+        deleteImage(url) {
+          if (url.startsWith('https://cdn.indevmined.com')) {
+            const key = url.replace('https://cdn.indevmined.com/', '')
+            deleteImage(key)
+          }
+        }
+      }),
       // TODO: Remove TestComponent
       TestComponent,
       CodeBlock,
       CodeBlockLighter,
       Box3dNode,
+      ExcalidrawNode,
+      ImageUploadNode.configure({
+        accept: 'image/*',
+        maxSize: 5 * 1024 * 1024,
+        limit: 3,
+        upload: handleImageUpload,
+        onError: (error) => console.error('Upload failed:', error)
+      }),
 
       // Mark
       Underline,
@@ -130,8 +147,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
         document: ydoc,
         field: 'content'
       }),
-      Typography,
-      ExcalidrawNode
+      Typography
     ],
     immediatelyRender: false,
     editorProps: {

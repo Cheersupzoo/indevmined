@@ -20,7 +20,7 @@ const Editor = () => {
           Select below or tap to{' '}
           <span
             onClick={createDoc}
-            className='border-b border-b-eva-text border-dashed'
+            className='border-b border-b-eva-text border-dashed cursor-pointer'
           >
             create
           </span>{' '}
