@@ -44,6 +44,7 @@ import { useEditorContext } from './hooks/EditorProvider'
 import { Spinner } from '@/components/Spinner'
 import { useIsMobile } from '@/hooks/use-mobile'
 import dynamic from 'next/dynamic'
+import ExcalidrawNode from './extensions/ExcalidrawNode'
 const EditorToolbarMobile = dynamic(() =>
   import('./EditorToolbarMobile').then((mod) => mod.EditorToolbarMobile)
 )
@@ -129,7 +130,8 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
         document: ydoc,
         field: 'content'
       }),
-      Typography
+      Typography,
+      ExcalidrawNode
     ],
     immediatelyRender: false,
     editorProps: {

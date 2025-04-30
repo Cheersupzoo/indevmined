@@ -1,6 +1,4 @@
-import {
-  createSuggestionsItems,
-} from '@harshtalks/slash-tiptap'
+import { createSuggestionsItems } from '@harshtalks/slash-tiptap'
 import {
   Heading1Icon,
   Heading2Icon,
@@ -16,6 +14,8 @@ import {
   TypeIcon
 } from 'lucide-react'
 import { Box3dNode } from './React/Box3d'
+import { ExcalidrawIcon } from './ExcalidrawNode/Icon'
+import ExcalidrawNode from './ExcalidrawNode'
 
 export const suggestionBlock = createSuggestionsItems([
   {
@@ -78,14 +78,12 @@ export const suggestionBlock = createSuggestionsItems([
     title: 'Heading 4',
     searchTerms: ['heading'],
     command: ({ editor, range }) => {
-      const l =editor
+      editor
         .chain()
         .focus()
         .deleteRange(range)
         .toggleHeading({ level: 4 })
         .run()
-        console.log(l);
-        
     },
     icon: Heading4Icon,
     mdShortcut: '####'
@@ -191,5 +189,20 @@ export const suggestionBlock = createSuggestionsItems([
         .run()
     },
     icon: LayoutTemplateIcon
+  },
+  {
+    title: 'Excalidraw',
+    searchTerms: ['react'],
+    command: ({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .insertContent({
+          type: ExcalidrawNode.name
+        })
+        .run()
+    },
+    icon: ExcalidrawIcon
   }
 ])

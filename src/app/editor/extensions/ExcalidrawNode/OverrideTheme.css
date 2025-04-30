@@ -1,0 +1,40 @@
+.excalidraw .Island {
+  --island-bg-color: rgb(var(--bg-color));
+  --icon-fill-color: rgb(var(--text-color));
+  --color-on-surface: rgb(var(--text-color));
+  --text-primary-color: rgb(var(--text-color));
+  --color-on-surface: rgb(var(--text-color));
+  @apply border border-eva-text-border;
+}
+
+.excalidraw .dropdown-menu {
+  max-height: 250px;
+  overflow-x: auto;
+  @apply border border-eva-text-border rounded-xl;
+}
+
+.excalidraw .mobile-misc-tools-container {
+  @apply bg-background border border-eva-text-border text-eva-text;
+}
+
+.excalidraw .sidebar-trigger,
+.excalidraw .main-menu-trigger {
+  box-shadow: 0 0 0 1px var(--tw-shadow);
+  @apply text-eva-text bg-eva-text-border border-eva-text-border shadow-eva-text-border hover:text-background;
+}
+
+.excalidraw .ToolIcon__icon svg {
+  @apply text-eva-text;
+}
+
+.excalidraw .dropdown-menu-group-title {
+  @apply text-eva-text;
+}
+
+.excalidraw .Modal {
+  @apply text-eva-text pointer-events-auto;
+}
+
+.excalidraw .HelpDialog__btn, .excalidraw .HelpDialog__key {
+  @apply text-background;
+}
