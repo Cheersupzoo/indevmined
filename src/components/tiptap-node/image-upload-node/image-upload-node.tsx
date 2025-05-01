@@ -37,6 +37,7 @@ function useFileUpload(options: UploadOptions) {
         `File size exceeds maximum allowed (${options.maxSize / 1024 / 1024}MB)`
       )
       options.onError?.(error)
+
       return null
     }
 
@@ -62,6 +63,7 @@ function useFileUpload(options: UploadOptions) {
         (event: { progress: number }) => {
           setFileItem((prev) => {
             if (!prev) return null
+
             return {
               ...prev,
               progress: event.progress,
@@ -76,6 +78,7 @@ function useFileUpload(options: UploadOptions) {
       if (!abortController.signal.aborted) {
         setFileItem((prev) => {
           if (!prev) return null
+
           return {
             ...prev,
             status: "success",
@@ -84,6 +87,7 @@ function useFileUpload(options: UploadOptions) {
           }
         })
         options.onSuccess?.(url)
+
         return url
       }
 
@@ -92,6 +96,7 @@ function useFileUpload(options: UploadOptions) {
       if (!abortController.signal.aborted) {
         setFileItem((prev) => {
           if (!prev) return null
+
           return {
             ...prev,
             status: "error",
@@ -102,6 +107,7 @@ function useFileUpload(options: UploadOptions) {
           error instanceof Error ? error : new Error("Upload failed")
         )
       }
+
       return null
     }
   }
@@ -109,6 +115,7 @@ function useFileUpload(options: UploadOptions) {
   const uploadFiles = async (files: File[]): Promise<string | null> => {
     if (!files || files.length === 0) {
       options.onError?.(new Error("No files to upload"))
+
       return null
     }
 
@@ -118,12 +125,14 @@ function useFileUpload(options: UploadOptions) {
           `Maximum ${options.limit} file${options.limit === 1 ? "" : "s"} allowed`
         )
       )
+
       return null
     }
 
     const file = files[0]
     if (!file) {
       options.onError?.(new Error("File is undefined"))
+
       return null
     }
 
@@ -264,6 +273,7 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
     const k = 1024
     const sizes = ["Bytes", "KB", "MB", "GB"]
     const i = Math.floor(Math.log(bytes) / Math.log(k))
+
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`
   }
 
@@ -350,6 +360,7 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
     const files = e.target.files
     if (!files || files.length === 0) {
       extension.options.onError?.(new Error("No file selected"))
+
       return
     }
     handleUpload(Array.from(files))

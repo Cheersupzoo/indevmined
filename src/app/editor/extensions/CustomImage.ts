@@ -49,6 +49,7 @@ export const CustomImage = Image.extend<ImageOptions>({
             oldState.doc.descendants((node) => {
               if (node.type.name === 'image') {
                 oldImages.add(node.attrs.src)
+
                 return false
               }
 
@@ -59,6 +60,7 @@ export const CustomImage = Image.extend<ImageOptions>({
             newState.doc.descendants((node) => {
               if (node.type.name === 'image') {
                 newImages.add(node.attrs.src)
+
                 return false
               }
 

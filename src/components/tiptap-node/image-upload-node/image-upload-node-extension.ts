@@ -134,10 +134,12 @@ export const ImageUploadNode = Node.create<ImageUploadNodeOptions>({
             const firstChild = nodeEl.firstChild
             if (firstChild && firstChild instanceof HTMLElement) {
               firstChild.click()
+
               return true
             }
           }
         }
+
         return false
       },
     }
