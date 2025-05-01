@@ -19,6 +19,7 @@
 - Code V1 [No proper editor]
 - [ ] Post-It
 - [x] Excalidraw
+- [x] Task List
 
 ## Marks
 

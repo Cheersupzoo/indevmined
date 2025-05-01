@@ -57,3 +57,11 @@
   outline: 3px solid var(--purple);
   @apply outline outline-[3px] outline-purple-500;
 }
+
+.tiptap input[type="checkbox"]:checked {
+  @apply accent-eva-text-border;
+}
+
+.tiptap input[type="checkbox"] {
+  @apply w-[0.9em] h-[0.9em];
+}

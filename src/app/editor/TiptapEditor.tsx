@@ -10,6 +10,8 @@ import {
 } from '@harshtalks/slash-tiptap'
 import Placeholder from '@tiptap/extension-placeholder'
 import Typography from '@tiptap/extension-typography'
+import TaskItem from '@tiptap/extension-task-item'
+import TaskList from '@tiptap/extension-task-list'
 import TestComponent from './extensions/TestComponent/extension'
 import CodeBlock from './extensions/Code'
 import { SlashCommand, SlashWithConfigure } from './extensions/SlashCommand'
@@ -129,6 +131,10 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
         limit: 3,
         upload: handleImageUpload,
         onError: (error) => console.error('Upload failed:', error)
+      }),
+      TaskList,
+      TaskItem.configure({
+        nested: true
       }),
 
       // Mark
