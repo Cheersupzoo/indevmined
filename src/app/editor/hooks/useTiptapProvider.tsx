@@ -6,13 +6,13 @@ import type { Observable, ObservableBoolean } from '@legendapp/state'
 import { type Doc } from 'yjs'
 import { EditorStatus } from './EditorProvider'
 import { useRef } from 'react'
+import { useRouter } from 'next/navigation'
 
 export const useTiptapProvider = ({
   docId$,
   status$,
   syncing$,
   ydoc$,
-  setDocId,
   updateIdRef,
   loadDocs
 }: {
@@ -20,10 +20,10 @@ export const useTiptapProvider = ({
   ydoc$: Observable<Doc>
   syncing$: ObservableBoolean
   status$: EditorStatus
-  setDocId: (id: string | null, updateEditor?: boolean) => void
   updateIdRef: React.MutableRefObject<Promise<string> | null>
   loadDocs: () => Promise<void>
 }) => {
+  const router = useRouter()
   const unsubscribeRef = useRef<Promise<() => void>[]>([])
   const currentProviderRef = useRef<TiptapCollabProvider | null>(null)
   const createTiptapProviderAsync = async () => {
@@ -64,13 +64,13 @@ export const useTiptapProvider = ({
             loadDocs()
             if (updateIdRef.current) {
               updateIdRef.current.then((updateId) => {
-                setDocId(updateId, false)
+                router.push('/editor?' + new URLSearchParams({ id: updateId }))
               })
               updateIdRef.current = null
 
               return
             }
-            setDocId(null)
+            router.push('/editor')
           }
           if (data.event.reason === 'JWT verification failed') {
             status$.set('Disconnected')

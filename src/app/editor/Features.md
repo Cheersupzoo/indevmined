@@ -66,3 +66,6 @@
     - [ ] Text Decoration
     - [ ] Code Decoration
 - [x] Typography
+
+## Structure
+- [x] URL Search Params

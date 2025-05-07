@@ -12,24 +12,27 @@ import { PostMenuItemDropdown } from './PostMenuItemDropdown'
 import { useDisplaySlugName } from '../hooks/useDisplaySlugName'
 import './PostMenuItem.css'
 import { FileText } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 
 export const PostMenuItem = ({
   item$: doc$
 }: {
   item$: Observable<TiptapDoc>
 }) => {
-  const { docId$, setDocId } = useEditorContext()
+  const { docId$ } = useEditorContext()
   const name = use$(() => doc$.name.get())
   const selected = use$(() => doc$.name.get() === docId$.get())
   const displayName = useDisplaySlugName(name)
   const { toggleSidebar, openMobile } = useSidebar()
+  const pathname = usePathname()
 
   return (
     <SidebarMenuItem className='group/item cursor-pointer select-none'>
       <SidebarMenuButton asChild>
-        <div
+        <Link
+          href={pathname + '?' + new URLSearchParams({ id: name })}
           onClick={() => {
-            setDocId(name)
             if (openMobile) toggleSidebar()
           }}
           className={cn('flex justify-between', selected && 'bg-eva-text/5')}
@@ -44,7 +47,7 @@ export const PostMenuItem = ({
             </div>
           </div>
           <PostMenuItemDropdown docId={name} />
-        </div>
+        </Link>
       </SidebarMenuButton>
     </SidebarMenuItem>
   )

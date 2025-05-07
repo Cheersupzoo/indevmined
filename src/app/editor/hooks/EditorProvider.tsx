@@ -20,6 +20,8 @@ import * as Y from 'yjs'
 import { Editor } from '@tiptap/core'
 import { useTiptapProvider } from './useTiptapProvider'
 import { type TiptapCollabProvider } from '@hocuspocus/provider'
+import { SearchParamHandler } from './SearchParamHandler'
+import { useRouter } from 'next/navigation'
 
 export type TiptapDoc = {
   created_at: string
@@ -46,6 +48,7 @@ const EditorContext = createContext<{
   setDocId: (id: string | null) => void
   syncing$: ObservableBoolean
   getCurrentProvider: () => TiptapCollabProvider | null
+  loadDocsPromiseRef: React.MutableRefObject<Promise<void> | null>
 }>(undefined as any)
 
 const EditorProvider = ({ children }: React.PropsWithChildren) => {
@@ -59,8 +62,10 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
   >(null)
   const syncing$ = useObservable<boolean>(true)
   const updateIdRef = useRef<Promise<string> | null>(null)
+  const loadDocsPromiseRef = useRef<Promise<void> | null>(null)
+  const router = useRouter()
 
-  const loadDocs = async () => {
+  const loadDocsImpl = async () => {
     try {
       const data = await getDocs()
       if (data.docs) {
@@ -71,9 +76,19 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
     }
   }
 
-  useEffectOnce(() => {
-    loadDocs()
-  }, [])
+  const loadDocs = async () => {
+    loadDocsPromiseRef.current = loadDocsImpl()
+    loadDocsPromiseRef.current.then(() => (loadDocsPromiseRef.current = null))
+
+    return loadDocsPromiseRef.current
+  }
+
+  useRef(
+    !loadDocsPromiseRef.current &&
+      (() => {
+        loadDocs()
+      })()
+  )
 
   const { createTiptapProvider, destroyProvider, getCurrentProvider } =
     useTiptapProvider({
@@ -81,12 +96,11 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
       status$,
       syncing$,
       ydoc$,
-      setDocId,
       updateIdRef,
       loadDocs
     })
 
-  function setDocId(id: string | null, updateEditor = true) {
+  function setDocId(id: string | null) {
     batch(() => {
       const currentDocId = docId$.peek()
       if (id === currentDocId) {
@@ -94,7 +108,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
       }
 
       const currentYdoc = ydoc$.peek()
-      if (!currentYdoc.isDestroyed && updateEditor) {
+      if (!currentYdoc.isDestroyed) {
         currentYdoc.destroy()
       }
       if (id !== null) {
@@ -116,8 +130,9 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
   const createDoc = async () => {
     try {
       const data = await createDocApi()
-      setDocId(data.id)
       await loadDocs()
+      // setDocId(data.id)
+      router.push('/editor?' + new URLSearchParams({ id: data.id }))
     } catch (e) {
       console.error(e)
     }
@@ -140,7 +155,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
     try {
       await deleteDocApi(id)
       await loadDocs()
-      if (docId$.peek() === id) setDocId(null)
+      if (docId$.peek() === id) router.push('/editor')
     } catch (e) {
       console.error(e)
     }
@@ -179,9 +194,11 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
         status$,
         setDocId,
         syncing$,
-        getCurrentProvider
+        getCurrentProvider,
+        loadDocsPromiseRef
       }}
     >
+      <SearchParamHandler />
       {children}
     </EditorContext.Provider>
   )
