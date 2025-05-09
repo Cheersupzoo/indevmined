@@ -1,7 +1,7 @@
 import { SidebarTrigger } from '@/components/ui/sidebar'
-import { Memo, use$ } from '@legendapp/state/react'
+import { Memo, use$, useObservable } from '@legendapp/state/react'
 import { AnimatePresence, motion } from 'motion/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useEditorContext } from '../hooks/EditorProvider'
 import {
   DropdownMenu,
@@ -15,7 +15,13 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { EllipsisVertical, Trash2Icon, UploadIcon } from 'lucide-react'
+import {
+  EllipsisVertical,
+  LockKeyholeIcon,
+  LockKeyholeOpenIcon,
+  Trash2Icon,
+  UploadIcon
+} from 'lucide-react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,6 +36,8 @@ import {
 import { EditorSlugInput } from './EditorSlugInput'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { cn } from '@/lib/utils'
+import { Editor, EditorEvents } from '@tiptap/core'
+import { observe } from '@legendapp/state'
 
 export const EditorHeader = () => {
   const { docId$, status$ } = useEditorContext()
@@ -61,9 +69,54 @@ export const EditorHeader = () => {
           <div className='text-sm text-eva-text/80 p-1'>
             <Memo>{status$}</Memo>
           </div>
+          <EditorLockMode />
           <EditorHeaderDropdown />
         </div>
       </div>
+    </div>
+  )
+}
+
+const EditorLockMode = () => {
+  const { docId$, currentEditor } = useEditorContext()
+  const docId = use$(docId$)
+  const isEditable = useObservable(!!currentEditor.peek()?.isEditable)
+
+  useEffect(() => {
+    return observe((e) => {
+      const editor = currentEditor.get() as Editor | null
+      if (!editor) return
+      const onUpdate = ({ editor }: EditorEvents['update']) => {
+        isEditable.set(editor.isEditable)
+      }
+
+      editor.on('update', onUpdate)
+      e.onCleanup = () => {
+        editor.off('update', onUpdate)
+      }
+    })
+  })
+
+  if (!docId) {
+    return <></>
+  }
+
+  return (
+    <div
+      className='px-0.5 py-1 hover:bg-eva-text/10 rounded-sm'
+      onClick={() =>
+        currentEditor.peek()?.setEditable(!currentEditor.peek().isEditable)
+      }
+    >
+      <Memo>
+        {() =>
+          isEditable.get() ? (
+            <LockKeyholeOpenIcon size={16} />
+          ) : (
+            <LockKeyholeIcon size={16} />
+          )
+        }
+      </Memo>
     </div>
   )
 }

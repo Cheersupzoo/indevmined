@@ -8,7 +8,7 @@ export const NodeUp = () => {
   return (
     <div
       onClick={() => {
-        const editor = currentEditor.current
+        const editor = currentEditor.peek()
         if (!editor) return
         editor.chain().moveBlockUp().run()
       }}

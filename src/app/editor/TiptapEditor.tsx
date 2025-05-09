@@ -49,6 +49,7 @@ import ExcalidrawNode from './extensions/ExcalidrawNode'
 import { ImageUploadNode } from '@/components/tiptap-node/image-upload-node'
 import { deleteImage, handleImageUpload } from '@/apis/editor'
 import { CustomImage } from './extensions/CustomImage'
+import { ObservableHint } from '@legendapp/state'
 const EditorToolbarMobile = dynamic(() =>
   import('./EditorToolbarMobile').then((mod) => mod.EditorToolbarMobile)
 )
@@ -161,7 +162,9 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
         keydown: (_, v) => enableKeyboardNavigation(v)
       }
     },
-    onCreate: (event) => (currentEditor.current = event.editor)
+    onCreate: (event) => {
+      currentEditor.set(ObservableHint.opaque(event.editor))
+    }
     //     content: `<h1>H1</h1><h2>H2</h2><h3>H3</h3><h4>H4</h4><p>Hello World! 🌎️</p><pre language="js"><code class="language-javascript">const str = '123';
     // str.replace('1','9')
     // const obj = {a: 'c'}</code></pre><ul><li>list</li></ul>

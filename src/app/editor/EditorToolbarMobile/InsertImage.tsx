@@ -9,7 +9,7 @@ export const InsertImage = () => {
     <div
       className='p-3'
       onClick={() => {
-        const editor = currentEditor.current
+        const editor = currentEditor.peek()
         if (!editor) return
 
         const url = window.prompt('URL')

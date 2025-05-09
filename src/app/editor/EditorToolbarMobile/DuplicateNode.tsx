@@ -9,7 +9,7 @@ export const DuplicateNode = () => {
   return (
     <div
       onClick={() => {
-        const editor = currentEditor.current
+        const editor = currentEditor.peek()
         if (!editor) return
         const nodePos = editor.$pos(editor.state.selection.from)
         const parentNodePos = getParentNode(nodePos)

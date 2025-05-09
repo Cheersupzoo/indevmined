@@ -43,7 +43,9 @@ const EditorContext = createContext<{
   deleteDoc: (id: string) => Promise<void>
   ydoc$: Observable<OpaqueObject<Y.Doc>>
   exportDoc: (type: 'json' | 'html' | 'yjs') => void
-  currentEditor: React.MutableRefObject<Editor | null>
+  currentEditor: {
+    peek: () => Editor
+  } & Observable<OpaqueObject<Editor> | null>
   status$: EditorStatus
   setDocId: (id: string | null) => void
   syncing$: ObservableBoolean
@@ -56,7 +58,9 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
   const docId$ = useObservable<string | null>(null)
   const editorDocId$ = useObservable<string | null>(null)
   const ydoc$ = useObservable(ObservableHint.opaque(new Y.Doc()))
-  const currentEditor = useRef<Editor | null>(null)
+  const currentEditor = useObservable<OpaqueObject<Editor> | null>(null) as {
+    peek: () => Editor
+  } & Observable<OpaqueObject<Editor> | null>
   const status$ = useObservable<
     null | 'Connecting' | 'Offline' | 'Connected' | 'Disconnected'
   >(null)
@@ -165,11 +169,11 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
     let exported
     if (type === 'json') {
       const ydoc = ydoc$.peek()
-      const content = currentEditor.current?.getJSON()
+      const content = currentEditor.peek()?.getJSON()
       exported = { content, meta: ydoc.getMap('meta').toJSON() }
     }
     if (type === 'html') {
-      exported = currentEditor.current?.getHTML()
+      exported = currentEditor.peek()?.getHTML()
     }
     if (type === 'yjs') {
       const ydoc = ydoc$.peek()
