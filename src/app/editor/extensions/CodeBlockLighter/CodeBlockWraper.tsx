@@ -83,6 +83,8 @@ const supportLanguages = [
   'html',
   'javascript',
   'typescript',
+  'jsx',
+  'tsx',
   'python',
   'go',
   'rust'

@@ -13,7 +13,7 @@ export const CodeBlockLighter = CodeBlock.extend<CodeBlockLighterOptions>({
       languageClassPrefix: 'language-',
       exitOnTripleEnter: true,
       exitOnArrowDown: true,
-      defaultLanguage: null,
+      defaultLanguage: 'typescript',
       HTMLAttributes: {}
     }
   },

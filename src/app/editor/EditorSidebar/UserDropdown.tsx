@@ -25,7 +25,7 @@ const UserDropdown = () => {
             <div className='leading-7 text-center bg-green-800 w-7 h-7 text-sm rounded-full'>
               {user.email?.[0].toUpperCase()}
             </div>
-            <div>{user.email}</div>
+            <div className='text-ellipsis w-24 overflow-hidden whitespace-nowrap'>{user.email}</div>
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className='w-56'>
