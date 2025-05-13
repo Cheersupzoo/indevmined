@@ -11,6 +11,19 @@ import tippy from 'tippy.js'
 import { Command } from 'cmdk'
 import './style.css'
 import { cn } from '@/lib/utils'
+import { CodeBlockDropdown } from './CodeBlockDropdown'
+import dynamic from 'next/dynamic'
+const LiveProvider = dynamic(
+  () => import('react-live').then((m) => m.LiveProvider),
+  { ssr: false }
+)
+const LivePreview = dynamic(
+  () => import('react-live').then((m) => m.LivePreview),
+  { ssr: false }
+)
+const LiveError = dynamic(() => import('react-live').then((m) => m.LiveError), {
+  ssr: false
+})
 
 export const CodeBlockWrapper = (props: NodeViewProps) => {
   const codeEl = useRef<HTMLDivElement>(null)
@@ -18,6 +31,17 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
 
   return (
     <NodeViewWrapper className='bg-zinc-800 rounded shadow-xl flex flex-col relative pre group'>
+      <div contentEditable={false} className='absolute top-1.5 right-1.5'>
+        <CodeBlockDropdown
+          preview={props.node.attrs.preview}
+          togglePreview={() => {
+            console.log(props.node.textContent)
+            props.updateAttributes({
+              preview: !props.node.attrs.preview
+            })
+          }}
+        />
+      </div>
       <div
         ref={codeEl}
         contentEditable={false}
@@ -73,7 +97,24 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
           />
         </span>
       </div>
-      <NodeViewContent as='code' className='text-[0.9rem] relative z-0' />
+      {!(
+        props.node.attrs.preview && ['jsx', 'tsx', props.node.attrs.preview]
+      ) ? (
+        <NodeViewContent as='code' className='text-[0.9rem] relative z-0' />
+      ) : (
+        <div className='grid grid-rows-2 sm:grid-rows-none sm:grid-cols-2'>
+          <NodeViewContent
+            as='code'
+            className='text-[0.9rem] relative z-0 border-b sm:border-b-0 sm:border-r border-eva-text-border'
+          />
+          <div contentEditable={false} className='p-2 '>
+            <LiveProvider code={props.node.textContent} noInline>
+              <LiveError className='text-red-800 bg-red-100 mt-2' />
+              <LivePreview />
+            </LiveProvider>
+          </div>
+        </div>
+      )}
     </NodeViewWrapper>
   )
 }

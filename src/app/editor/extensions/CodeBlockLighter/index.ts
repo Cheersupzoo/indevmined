@@ -1,8 +1,12 @@
 import CodeBlock, { CodeBlockOptions } from '@tiptap/extension-code-block'
 import { LighterPlugin } from './LighterPlugin'
-import { CodeBlockWrapper } from './CodeBlockWraper'
+const CodeBlockWrapper = dynamic(
+  () => import('./CodeBlockWraper').then((m) => m.CodeBlockWrapper),
+  { ssr: false }
+)
 import { mergeAttributes, ReactNodeViewRenderer } from '@tiptap/react'
 import { TextSelection } from '@tiptap/pm/state'
+import dynamic from 'next/dynamic'
 
 export interface CodeBlockLighterOptions extends CodeBlockOptions {}
 
@@ -22,6 +26,9 @@ export const CodeBlockLighter = CodeBlock.extend<CodeBlockLighterOptions>({
       ...this.parent?.(),
       lineMark: {
         default: () => []
+      },
+      preview: {
+        default: null
       }
     }
   },
