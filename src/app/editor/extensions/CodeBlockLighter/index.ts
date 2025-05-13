@@ -29,6 +29,9 @@ export const CodeBlockLighter = CodeBlock.extend<CodeBlockLighterOptions>({
       },
       preview: {
         default: null
+      },
+      previewCenter: {
+        default: null
       }
     }
   },

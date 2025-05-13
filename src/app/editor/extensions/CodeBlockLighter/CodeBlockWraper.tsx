@@ -1,18 +1,16 @@
 import {
-  Editor,
   NodeViewContent,
   NodeViewProps,
   NodeViewWrapper,
   ReactRenderer
 } from '@tiptap/react'
 import { ChevronDown } from 'lucide-react'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import tippy from 'tippy.js'
-import { Command } from 'cmdk'
 import './style.css'
-import { cn } from '@/lib/utils'
 import { CodeBlockDropdown } from './CodeBlockDropdown'
 import dynamic from 'next/dynamic'
+import { LanguageSelector } from './LanguageSelector'
 const LiveProvider = dynamic(
   () => import('react-live').then((m) => m.LiveProvider),
   { ssr: false }
@@ -35,11 +33,16 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
         <CodeBlockDropdown
           preview={props.node.attrs.preview}
           togglePreview={() => {
-            console.log(props.node.textContent)
             props.updateAttributes({
               preview: !props.node.attrs.preview
             })
           }}
+          center={props.node.attrs.previewCenter}
+          toggleCenter={() =>
+            props.updateAttributes({
+              previewCenter: !props.node.attrs.previewCenter
+            })
+          }
         />
       </div>
       <div
@@ -102,7 +105,7 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
       ) ? (
         <NodeViewContent as='code' className='text-[0.9rem] relative z-0' />
       ) : (
-        <div className='grid grid-rows-2 sm:grid-rows-none sm:grid-cols-2'>
+        <div className='grid grid-rows-[minmax(0,_1fr)_minmax(100px,_auto)] sm:grid-rows-none sm:grid-cols-2'>
           <NodeViewContent
             as='code'
             className='text-[0.9rem] relative z-0 border-b sm:border-b-0 sm:border-r border-eva-text-border'
@@ -110,86 +113,18 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
           <div contentEditable={false} className='p-2 '>
             <LiveProvider code={props.node.textContent} noInline>
               <LiveError className='text-red-800 bg-red-100 mt-2' />
-              <LivePreview />
+              {!props.node.attrs.previewCenter ? (
+                <LivePreview />
+              ) : (
+                <div className='flex justify-center items-center h-full'>
+                  {' '}
+                  <LivePreview />
+                </div>
+              )}
             </LiveProvider>
           </div>
         </div>
       )}
     </NodeViewWrapper>
-  )
-}
-
-const supportLanguages = [
-  'css',
-  'html',
-  'javascript',
-  'typescript',
-  'jsx',
-  'tsx',
-  'python',
-  'go',
-  'rust'
-]
-
-const LanguageSelector = ({
-  updateLanguage,
-  closePopup,
-  editor,
-  currentLanguage
-}: {
-  updateLanguage: (language: string) => void
-  closePopup: () => void
-  editor: Editor
-  currentLanguage: string
-}) => {
-  const [language, setLanguage] = useState(currentLanguage)
-  const onValueChange = (language: string) => {
-    if (!language?.length) return
-    setLanguage(language)
-  }
-
-  const onSelected = (language: string) => {
-    updateLanguage(language)
-    closePopup()
-    editor?.view.dom.focus()
-  }
-  const inputEl = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    if (editor?.isFocused) {
-      editor?.view.dom.blur()
-    }
-    inputEl.current?.focus()
-  }, [editor])
-
-  return (
-    <Command
-      onKeyDown={(event) => {
-        if (event.code === 'Enter') {
-          event.preventDefault()
-          onSelected(language)
-        }
-      }}
-      value={language}
-      onValueChange={onValueChange}
-    >
-      <Command.Input
-        ref={inputEl}
-        className='bg-transparent outline-none px-3 pt-3 pb-3 border-b border-b-zinc-700 w-full'
-        maxLength={16}
-        placeholder='Programming language'
-      />
-      <Command.List className='px-2 mt-3 mb-3 text-left'>
-        {supportLanguages.map((language) => (
-          <Command.Item
-            key={language}
-            onSelect={onSelected}
-            className={cn(language === currentLanguage && '!font-bold')}
-          >
-            {language}
-          </Command.Item>
-        ))}
-      </Command.List>
-    </Command>
   )
 }
