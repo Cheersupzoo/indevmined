@@ -72,6 +72,7 @@ export const onRequestPost = protectedRoute(
       )
     } catch (error) {
       console.error('Image upload error:', error)
+
       return Response.json(
         { status: 'failed', error: 'Failed to process image upload.' },
         { status: 500, headers }

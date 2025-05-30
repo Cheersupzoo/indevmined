@@ -50,6 +50,7 @@ import { ImageUploadNode } from '@/components/tiptap-node/image-upload-node'
 import { deleteImage, handleImageUpload } from '@/apis/editor'
 import { CustomImage } from './extensions/CustomImage'
 import { ObservableHint } from '@legendapp/state'
+import { DropImageExtension } from './extensions/DropImage'
 const EditorToolbarMobile = dynamic(() =>
   import('./EditorToolbarMobile').then((mod) => mod.EditorToolbarMobile)
 )
@@ -154,7 +155,8 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
         document: ydoc,
         field: 'content'
       }),
-      Typography
+      Typography,
+      DropImageExtension
     ],
     immediatelyRender: false,
     editorProps: {

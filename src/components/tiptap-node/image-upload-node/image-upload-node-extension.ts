@@ -1,6 +1,6 @@
-import { mergeAttributes, Node } from "@tiptap/react"
-import { ReactNodeViewRenderer } from "@tiptap/react"
-import { ImageUploadNode as ImageUploadNodeComponent } from "@/components/tiptap-node/image-upload-node/image-upload-node"
+import { mergeAttributes, Node } from '@tiptap/react'
+import { ReactNodeViewRenderer } from '@tiptap/react'
+import { ImageUploadNode as ImageUploadNodeComponent } from '@/components/tiptap-node/image-upload-node/image-upload-node'
 
 export type UploadFunction = (
   file: File,
@@ -36,9 +36,11 @@ export interface ImageUploadNodeOptions {
    * Callback for successful uploads.
    */
   onSuccess?: (url: string) => void
+
+  files?: File[]
 }
 
-declare module "@tiptap/react" {
+declare module '@tiptap/react' {
   interface Commands<ReturnType> {
     imageUpload: {
       setImageUploadNode: (options?: ImageUploadNodeOptions) => ReturnType
@@ -51,9 +53,9 @@ declare module "@tiptap/react" {
  * @see registry/tiptap-node/image-upload-node/image-upload-node
  */
 export const ImageUploadNode = Node.create<ImageUploadNodeOptions>({
-  name: "imageUpload",
+  name: 'imageUpload',
 
-  group: "block",
+  group: 'block',
 
   draggable: true,
 
@@ -63,26 +65,29 @@ export const ImageUploadNode = Node.create<ImageUploadNodeOptions>({
 
   addOptions() {
     return {
-      accept: "image/*",
+      accept: 'image/*',
       limit: 1,
       maxSize: 0,
       upload: undefined,
       onError: undefined,
-      onSuccess: undefined,
+      onSuccess: undefined
     }
   },
 
   addAttributes() {
     return {
       accept: {
-        default: this.options.accept,
+        default: this.options.accept
       },
       limit: {
-        default: this.options.limit,
+        default: this.options.limit
       },
       maxSize: {
-        default: this.options.maxSize,
+        default: this.options.maxSize
       },
+      files: {
+        default: undefined
+      }
     }
   },
 
@@ -92,8 +97,8 @@ export const ImageUploadNode = Node.create<ImageUploadNodeOptions>({
 
   renderHTML({ HTMLAttributes }) {
     return [
-      "div",
-      mergeAttributes({ "data-type": "image-upload" }, HTMLAttributes),
+      'div',
+      mergeAttributes({ 'data-type': 'image-upload' }, HTMLAttributes)
     ]
   },
 
@@ -108,9 +113,9 @@ export const ImageUploadNode = Node.create<ImageUploadNodeOptions>({
         ({ commands }) => {
           return commands.insertContent({
             type: this.name,
-            attrs: options,
+            attrs: options
           })
-        },
+        }
     }
   },
 
@@ -125,8 +130,8 @@ export const ImageUploadNode = Node.create<ImageUploadNodeOptions>({
 
         if (
           nodeAfter &&
-          nodeAfter.type.name === "imageUpload" &&
-          editor.isActive("imageUpload")
+          nodeAfter.type.name === 'imageUpload' &&
+          editor.isActive('imageUpload')
         ) {
           const nodeEl = editor.view.nodeDOM(selection.$from.pos)
           if (nodeEl && nodeEl instanceof HTMLElement) {
@@ -141,9 +146,9 @@ export const ImageUploadNode = Node.create<ImageUploadNodeOptions>({
         }
 
         return false
-      },
+      }
     }
-  },
+  }
 })
 
 export default ImageUploadNode
