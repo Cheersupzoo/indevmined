@@ -1,6 +1,7 @@
 import { Plugin, PluginKey, EditorState, TextSelection } from '@tiptap/pm/state'
 import { EditorView, Decoration, DecorationSet } from '@tiptap/pm/view'
 import { Fragment, Node } from '@tiptap/pm/model'
+import { Editor } from '@tiptap/core'
 
 // Define plugin state interface
 interface DragHandlePluginState {
@@ -19,7 +20,11 @@ interface DraggedNodeInfo {
 const dragHandlePluginKey = new PluginKey<DragHandlePluginState>('dragHandle')
 
 // Create a new plugin for drag handles
-export function dragHandlePlugin(): Plugin<DragHandlePluginState> {
+export function dragHandlePlugin({
+  editor
+}: {
+  editor: Editor
+}): Plugin<DragHandlePluginState> {
   return new Plugin<DragHandlePluginState>({
     key: dragHandlePluginKey,
     // View method to handle the drag operation
@@ -44,6 +49,11 @@ export function dragHandlePlugin(): Plugin<DragHandlePluginState> {
       handleNode.addEventListener('selectstart', preventDefault)
 
       const mousemove = (event: MouseEvent) => {
+        if (!editor.isEditable) {
+          preNodeContainer.style.visibility = 'hidden'
+
+          return false
+        }
         const pos = editorView.posAtCoords({
           left: event.clientX,
           top: event.clientY

@@ -16,7 +16,7 @@ export const DragHandle = Extension.create({
   name: 'dragHandle',
 
   addProseMirrorPlugins() {
-    return [dragHandlePlugin()]
+    return [dragHandlePlugin({editor: this.editor})]
   },
   addCommands() {
     return {
