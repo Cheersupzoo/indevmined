@@ -25,7 +25,8 @@
   @apply text-xs text-eva-text/50 px-2 py-1.5 font-medium;
 }
 
-[cmdk-item], .cmdk-item {
+[cmdk-item],
+.cmdk-item {
   @apply items-center flex gap-2 p-1.5 rounded-md font-thin text-sm cursor-pointer;
 }
 
@@ -33,7 +34,11 @@
   @apply bg-eva-text/10;
 }
 
-.tiptap p.is-empty::before {
+.tiptap > p.is-empty::before,
+.tiptap h1.is-empty::before,
+.tiptap h2.is-empty::before,
+.tiptap h3.is-empty::before,
+.tiptap h4.is-empty::before {
   color: #adb5bd;
   content: attr(data-placeholder);
   float: left;
@@ -58,10 +63,10 @@
   @apply outline outline-[3px] outline-purple-500;
 }
 
-.tiptap input[type="checkbox"]:checked {
+.tiptap input[type='checkbox']:checked {
   @apply accent-eva-text-border;
 }
 
-.tiptap input[type="checkbox"] {
+.tiptap input[type='checkbox'] {
   @apply w-[0.9em] h-[0.9em];
 }

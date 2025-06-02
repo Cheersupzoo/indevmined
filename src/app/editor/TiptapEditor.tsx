@@ -146,7 +146,14 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
       // Functionality
       SlashWithConfigure,
       Placeholder.configure({
-        placeholder: 'Press / to see available commands'
+        includeChildren: true,
+        placeholder: ({ node }) => {
+          if (node.type.name === 'heading') {
+            return `Header ${node.attrs.level}`
+          }
+
+          return 'Press / to see available commands'
+        }
       }),
       LinkWithConfigure,
       MoveNodeShortcut,
@@ -356,7 +363,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
             </BubbleMenu>
           )}
         </div>
-        {/* {editor && <CursorInfo editor={editor} />} */}
+        {editor && <CursorInfo editor={editor} />}
         {isMobile && editor && <EditorToolbarMobile editor={editor} />}
       </SlashCmdProvider>
     </motion.div>
