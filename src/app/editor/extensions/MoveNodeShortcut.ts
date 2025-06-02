@@ -50,87 +50,66 @@ export const MoveNodeShortcut = Extension.create({
   }
 })
 
+const listType = new Set(['listItem', 'taskItem'])
+
 function moveBlock(editor: Editor, direction: 'up' | 'down') {
   // Get the current selection and state
   const { state, dispatch } = editor.view
   const { selection, doc } = state
 
   // Find the current node and its position
-  const $pos = selection.$from
-  const depth = $pos.depth
+  let $pos = selection.$from
+  let index = $pos.index($pos.depth - 1)
+  let parent = $pos.node(Math.max(0, $pos.depth - 1))
 
-  // We want to move at the block level, so we need to find the closest block node
-  const startPos = $pos.start(depth)
-  const endPos = $pos.end(depth)
-  const nodeSize = endPos - startPos + 1 // +1 for the closing position
-  const selectorPadding = $pos.pos - startPos // for returning to the cursor last pos
-
-  // Find the parent node
-  const parentDepth = depth - 1
-  if (parentDepth < 0) return false // We're at the top level
-
-  const parentPos = $pos.start(parentDepth)
-  const parentNode = $pos.node(parentDepth)
-
-  if (!parentNode) return false
-
-  // Find the index of the current node in its parent
-  const index = $pos.index(parentDepth)
-
-  // Determine the new index based on direction
-  const newIndex =
-    direction === 'up'
-      ? Math.max(0, index - 1)
-      : Math.min(parentNode.childCount - 1, index + 1)
-
-  // If there's no change, exit
-  if (newIndex === index) return false
-
-  // Create a new transaction
-  const tr = state.tr
-
-  // Get the node's position
-  const nodePos = $pos.before(depth)
-
-  // Get the node that we're moving
-  const node = doc.nodeAt(nodePos)
-  if (!node) return false
-
-  // Delete the node from its current position
-  tr.delete(nodePos, nodePos + nodeSize)
-
-  // Calculate the new position for insertion
-  let insertPos
-  if (direction === 'up') {
-    // When moving up, we insert before the previous node
-    insertPos =
-      newIndex === 0 ? parentPos : $pos.posAtIndex(newIndex, parentDepth)
-  } else {
-    // When moving down, we insert after the next node
-    insertPos = $pos.posAtIndex(newIndex, parentDepth)
-    // If we're moving to the end, we need to add any previous node sizes
-    if (newIndex > index) {
-      const nextNode = doc.nodeAt(insertPos)
-      if (nextNode) {
-        insertPos += nextNode.nodeSize
-        insertPos -= node.nodeSize // accounting for the itself size
-      }
-    }
+  if (listType.has(parent.type.name)) {
+    // Move up 1 depth on listItem
+    $pos = doc.resolve($pos.before())
+    index = $pos.index($pos.depth - 1)
+    parent = $pos.node(Math.max(0, $pos.depth - 1))
   }
+  const parentPos = $pos.start(Math.max(0, $pos.depth - 1))
+  const parentResPos = doc.resolve(parentPos)
+  const isMoveInsideParent =
+    direction === 'up' ? 0 < index : index < parent.children.length - 1
 
-  // Insert the node at the new position
-  tr.insert(insertPos, node)
+  if (isMoveInsideParent) {
+    const newIndex = direction === 'up' ? index - 1 : index + 1
 
-  // Set the selection to the moved node
-  const newNodePos = insertPos
-  const newSelection = TextSelection.create(
-    tr.doc,
-    newNodePos + 1 + selectorPadding
-  )
-  tr.setSelection(newSelection)
+    const replacePos = parentResPos.posAtIndex(newIndex)
+    const replaceNode = doc.nodeAt(replacePos)
+    const node = doc.nodeAt($pos.before())
+    const tr = state.tr
+    const nodeRange = $pos.blockRange()
 
-  // Apply the transaction
-  dispatch(tr)
+    if (!nodeRange || !node || !replaceNode) {
+      return false
+    }
+
+    if (direction === 'up') {
+      tr.delete(nodeRange.start, nodeRange.end)
+      tr.insert(replacePos, node)
+    } else {
+      tr.insert(replacePos + replaceNode.nodeSize, node)
+      tr.delete(nodeRange.start, nodeRange.end)
+    }
+
+    const startPos = $pos.start()
+    const selectorPadding = $pos.pos - startPos // for returning to the cursor last pos
+
+    const newSelection = TextSelection.create(
+      tr.doc,
+      1 +
+        (direction === 'up'
+          ? replacePos + selectorPadding
+          : replacePos + replaceNode.nodeSize - node.nodeSize + selectorPadding)
+    )
+    tr.setSelection(newSelection)
+
+    dispatch(tr)
+
+    return true
+  }
 
   return true
 }
