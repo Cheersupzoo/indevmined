@@ -99,10 +99,22 @@ export const useTiptapProvider = ({
 
       window.addEventListener('online', onlineListener)
 
+      const onVisibilityChange = () => {
+        if (document.visibilityState === 'visible') {
+          status$.set(provider.isConnected ? 'Connected' : 'Disconnected')
+          if (provider.status === WebSocketStatus.Disconnected) {
+            createTiptapProvider()
+          }
+        }
+      }
+
+      document.addEventListener('visibilitychange', onVisibilityChange)
+
       return () => {
         provider.destroy()
         window.removeEventListener('offline', offlineListener)
         window.removeEventListener('online', onlineListener)
+        document.removeEventListener('visibilitychange', onVisibilityChange)
       }
     } catch (e) {
       console.error(e)
