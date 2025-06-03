@@ -23,7 +23,8 @@ import {
   StrikethroughIcon,
   UnderlineIcon
 } from 'lucide-react'
-import { LinkWithConfigure, useSetLink } from './extensions/LinkExtension'
+import { LinkWithConfigure, openLinkEditor } from './extensions/LinkExtension'
+import { hideAll } from 'tippy.js'
 import { Underline } from '@tiptap/extension-underline'
 import { MoveNodeShortcut } from './extensions/MoveNodeShortcut'
 import { CursorInfo } from './extensions/CursorInfo'
@@ -187,7 +188,6 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
     //     </react-component>`
   })
 
-  const setLink = useSetLink(editor)
   const syncing = use$(syncing$)
 
   if (syncing) {
@@ -294,7 +294,10 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
                   <UnderlineIcon size={16} />
                 </button>
                 <button
-                  onClick={setLink}
+                  onClick={() => {
+                    hideAll()
+                    openLinkEditor(editor)
+                  }}
                   className={editor.isActive('link') ? 'is-active' : ''}
                 >
                   <LinkIcon size={16} />

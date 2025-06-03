@@ -1,9 +1,11 @@
-import { Editor } from '@tiptap/core'
-import Link from '@tiptap/extension-link'
-import { useCallback } from 'react'
+import { Editor, isNodeSelection, posToDOMRect } from '@tiptap/core'
+import { Link } from '@tiptap/extension-link'
+import { createRoot } from 'react-dom/client'
+import tippy from 'tippy.js'
+import { LinkPopover } from './LinkExtension/LinkPopover'
 
-export const LinkWithConfigure = Link.configure({
-  openOnClick: true,
+export const LinkWithConfigure = Link.extend().configure({
+  openOnClick: 'whenNotEditable',
   autolink: true,
   defaultProtocol: 'https',
   protocols: ['http', 'https'],
@@ -53,34 +55,84 @@ export const LinkWithConfigure = Link.configure({
   linkOnPaste: true
 })
 
-export const useSetLink = (editor: Editor | null) => {
-  return useCallback(() => {
-    if (!editor) return
-    const previousUrl = editor.getAttributes('link').href
-    const url = window.prompt('URL', previousUrl)
+export const openLinkEditor = (editor: Editor | null) => {
+  if (!editor) return
+  const previousUrl = editor.getAttributes('link').href
 
-    // cancelled
-    if (url === null) {
-      return
+  const contentDiv = document.createElement('div')
+
+  const popup = tippy(editor.options.element, {
+    content: contentDiv,
+    getReferenceClientRect: null,
+    interactive: true,
+    placement: 'bottom-start',
+    // appendTo: () => editor.view.dom,
+    trigger: 'manual',
+    maxWidth: 300,
+    zIndex: 1000,
+    onShown: () => {
+      editor.view.dom.blur()
+    },
+    onCreate: (instance) => {
+      instance.setProps({
+        getReferenceClientRect: () => {
+          const { view, state } = editor
+          const { from, to } = state.selection
+          if (isNodeSelection(state.selection)) {
+            let node = view.nodeDOM(from) as HTMLElement
+
+            if (node) {
+              const nodeViewWrapper = node.dataset.nodeViewWrapper
+                ? node
+                : node.querySelector('[data-node-view-wrapper]')
+
+              if (nodeViewWrapper) {
+                node = nodeViewWrapper.firstChild as HTMLElement
+              }
+
+              if (node) {
+                return node.getBoundingClientRect()
+              }
+            }
+          }
+
+          return posToDOMRect(view, from, to)
+        }
+      })
+      const linkPopover = (
+        <LinkPopover
+          editor={editor}
+          closePopup={() => {
+            instance.destroy()
+          }}
+          currentUrl={previousUrl}
+        />
+      )
+
+      // Create a portal to mount the React component
+      const portal = document.createElement('div')
+      contentDiv.appendChild(portal)
+
+      // Mount the React component
+      const unmount = () => {
+        if (portal) {
+          portal.remove()
+        }
+      }
+
+      // Cleanup when the popup is destroyed
+      const originalDestroy = instance.destroy
+
+      // Mount the React component
+      const root = createRoot(portal)
+      root.render(linkPopover)
+      instance.destroy = () => {
+        unmount()
+        originalDestroy()
+        root.unmount()
+      }
     }
+  })
 
-    // empty
-    if (url === '') {
-      editor.chain().focus().extendMarkRange('link').unsetLink().run()
-
-      return
-    }
-
-    // update link
-    try {
-      editor
-        .chain()
-        .focus()
-        .extendMarkRange('link')
-        .setLink({ href: url })
-        .run()
-    } catch (e: any) {
-      alert(e.message)
-    }
-  }, [editor])
+  popup.show()
 }
