@@ -6,6 +6,7 @@ import { LinkPopover } from './LinkExtension/LinkPopover'
 import { getAttributes } from '@tiptap/core'
 import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { isMobile } from '@/hooks/use-mobile'
 
 export const LinkWithConfigure = Link.extend({
   addProseMirrorPlugins() {
@@ -137,11 +138,32 @@ export const openLinkEditor = (editor: Editor | null) => {
       // Mount the React component
       const root = createRoot(portal)
       root.render(linkPopover)
+
+      // tippy.js doesn't seem to hide on mobile when tap outside
+      const onDismiss = (event: MouseEvent) => {
+        if (!isMobile()) {
+          return
+        }
+        if (!portal.contains(event.target as Node)) {
+          instance.destroy()
+        }
+      }
+
       instance.destroy = () => {
+        document.removeEventListener('click', onDismiss)
         unmount()
         originalDestroy()
         root.unmount()
       }
+
+      instance.setProps({
+        onShown() {
+          document.addEventListener('click', onDismiss)
+        },
+        onHidden(instance) {
+          instance.destroy()
+        }
+      })
     }
   })
 
