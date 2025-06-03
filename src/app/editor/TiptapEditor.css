@@ -34,6 +34,10 @@
   @apply bg-eva-text/10;
 }
 
+.tiptap a:read-write {
+  cursor: pointer;
+}
+
 .tiptap > p.is-empty::before,
 .tiptap h1.is-empty::before,
 .tiptap h2.is-empty::before,

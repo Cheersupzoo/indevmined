@@ -3,9 +3,20 @@ import { Link } from '@tiptap/extension-link'
 import { createRoot } from 'react-dom/client'
 import tippy from 'tippy.js'
 import { LinkPopover } from './LinkExtension/LinkPopover'
+import { getAttributes } from '@tiptap/core'
+import { MarkType } from '@tiptap/pm/model'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 
-export const LinkWithConfigure = Link.extend().configure({
-  openOnClick: 'whenNotEditable',
+export const LinkWithConfigure = Link.extend({
+  addProseMirrorPlugins() {
+    const editor = this.editor
+    return [
+      ...(this.parent?.() || []),
+      clickHandler({ type: this.type, editor })
+    ]
+  }
+}).configure({
+  openOnClick: false, // handle onClick with custom clickHandler
   autolink: true,
   defaultProtocol: 'https',
   protocols: ['http', 'https'],
@@ -135,4 +146,56 @@ export const openLinkEditor = (editor: Editor | null) => {
   })
 
   popup.show()
+}
+
+type ClickHandlerOptions = {
+  type: MarkType
+  editor: Editor
+}
+
+export function clickHandler(options: ClickHandlerOptions): Plugin {
+  return new Plugin({
+    key: new PluginKey('handleClickLink'),
+    props: {
+      handleClick: (view, pos, event) => {
+        if (event.button !== 0) {
+          return false
+        }
+
+        if (!view.editable) {
+          return false
+        }
+
+        let a = event.target as HTMLElement
+        const els = []
+
+        while (a.nodeName !== 'DIV') {
+          els.push(a)
+          a = a.parentNode as HTMLElement
+        }
+
+        if (!els.find((value) => value.nodeName === 'A')) {
+          return false
+        }
+
+        const attrs = getAttributes(view.state, options.type.name)
+        const link = event.target as HTMLAnchorElement
+
+        const href = link?.href ?? attrs.href
+
+        if (link && href) {
+          options.editor
+            .chain()
+            .setTextSelection(pos)
+            .extendMarkRange('link')
+            .run()
+          openLinkEditor(options.editor)
+
+          return true
+        }
+
+        return false
+      }
+    }
+  })
 }

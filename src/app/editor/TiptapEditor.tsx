@@ -252,7 +252,8 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
           {editor && (
             <BubbleMenu
               editor={editor}
-              shouldShow={({ state, from, to }) => {
+              shouldShow={({ state, from, to, editor }) => {
+                if (!editor.isEditable) return false
                 if (state.selection.$from.depth === 0) return false
                 if (from === to) return false
 
@@ -308,7 +309,8 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
           {editor && (
             <BubbleMenu
               editor={editor}
-              shouldShow={({ state, from, to }) => {
+              shouldShow={({ state, from, to, editor }) => {
+                if (!editor.isEditable) return false
                 if (state.selection.$from.depth === 0) return false
                 if (from === to) return false
 
@@ -366,7 +368,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
             </BubbleMenu>
           )}
         </div>
-        {editor && <CursorInfo editor={editor} />}
+        {/* {editor && <CursorInfo editor={editor} />} */}
         {isMobile && editor && <EditorToolbarMobile editor={editor} />}
       </SlashCmdProvider>
     </motion.div>
