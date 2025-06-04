@@ -99,6 +99,7 @@ const createReactNode = (name: string, Component: () => React.ReactElement) =>
     group: 'block',
     draggable: true,
     content: '',
+    atom: true,
 
     parseHTML() {
       return [
@@ -109,7 +110,7 @@ const createReactNode = (name: string, Component: () => React.ReactElement) =>
     },
 
     renderHTML({ HTMLAttributes }) {
-      return [this.name, mergeAttributes(HTMLAttributes), 0]
+      return [this.name, mergeAttributes(HTMLAttributes)]
     },
 
     addNodeView() {
