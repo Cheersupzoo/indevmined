@@ -1,12 +1,12 @@
 import { Editor, isNodeSelection, posToDOMRect } from '@tiptap/core'
 import { Link } from '@tiptap/extension-link'
-import { createRoot } from 'react-dom/client'
 import tippy from 'tippy.js'
 import { LinkPopover } from './LinkExtension/LinkPopover'
 import { getAttributes } from '@tiptap/core'
 import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { isMobile } from '@/hooks/use-mobile'
+import { ReactRenderer } from '@tiptap/react'
 
 export const LinkWithConfigure = Link.extend({
   addProseMirrorPlugins() {
@@ -78,14 +78,11 @@ export const openLinkEditor = (editor: Editor | null) => {
     getReferenceClientRect: null,
     interactive: true,
     placement: 'bottom-start',
-    // appendTo: () => editor.view.dom,
     trigger: 'manual',
     maxWidth: 300,
     zIndex: 1000,
-    onShown: () => {
-      editor.view.dom.blur()
-    },
     onCreate: (instance) => {
+      editor.view.dom.blur()
       instance.setProps({
         getReferenceClientRect: () => {
           const { view, state } = editor
@@ -111,54 +108,49 @@ export const openLinkEditor = (editor: Editor | null) => {
           return posToDOMRect(view, from, to)
         }
       })
-      const linkPopover = (
-        <LinkPopover
-          editor={editor}
-          closePopup={() => {
+
+      const linkPopover = new ReactRenderer(LinkPopover, {
+        editor: editor,
+        props: {
+          editor,
+          closePopup: () => {
             instance.destroy()
-          }}
-          currentUrl={previousUrl}
-        />
-      )
-
-      // Create a portal to mount the React component
-      const portal = document.createElement('div')
-      contentDiv.appendChild(portal)
-
-      // Mount the React component
-      const unmount = () => {
-        if (portal) {
-          portal.remove()
+          },
+          currentUrl: previousUrl
         }
-      }
+      })
+
+      contentDiv.appendChild(linkPopover.element)
 
       // Cleanup when the popup is destroyed
       const originalDestroy = instance.destroy
-
-      // Mount the React component
-      const root = createRoot(portal)
-      root.render(linkPopover)
 
       // tippy.js doesn't seem to hide on mobile when tap outside
       const onDismiss = (event: MouseEvent) => {
         if (!isMobile()) {
           return
         }
-        if (!portal.contains(event.target as Node)) {
+        if (!linkPopover.element.contains(event.target as Node)) {
           instance.destroy()
         }
       }
 
       instance.destroy = () => {
         document.removeEventListener('click', onDismiss)
-        unmount()
         originalDestroy()
-        root.unmount()
+        linkPopover.destroy()
       }
 
       instance.setProps({
         onShown() {
           document.addEventListener('click', onDismiss)
+          // TODO: find what cause the input blur
+          // Quick fix to focus input after created
+          ;(
+            document.querySelector(
+              '.tippy-content input#link-popover'
+            ) as HTMLInputElement
+          )?.focus()
         },
         onHidden(instance) {
           instance.destroy()

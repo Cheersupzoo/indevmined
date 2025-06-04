@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 import { Editor } from '@tiptap/core'
 import { Memo, Show, useObservable } from '@legendapp/state/react'
 import { $React } from '@legendapp/state/react-web'
-import { ExternalLink, Link, Unlink } from 'lucide-react'
+import { BanIcon, ExternalLink, Link, Unlink } from 'lucide-react'
 
 interface LinkPopoverProps {
   editor: Editor
@@ -52,6 +52,7 @@ export const LinkPopover = ({
 
   return (
     <Command>
+      <div className='py-0.5 mx-2 text-xs text-eva-text/70'>Set link URL</div>
       <$React.input
         ref={inputRef}
         $value={url$}
@@ -59,18 +60,34 @@ export const LinkPopover = ({
           isEditing$.set(true)
         }}
         placeholder='Enter URL'
-        className='w-full px-3 py-2 border border-zinc-700 rounded-md bg-zinc-900 text-zinc-300 focus:outline-none focus:border-zinc-500'
+        id='link-popover'
+        className='w-full px-3 py-2 border-y border-zinc-700 bg-zinc-900 text-zinc-300 focus:outline-none focus:border-zinc-500'
       />
       <Command.List className='mt-2'>
-        <Show if={() => !isEditing$.get() && currentUrl.length}>
-          {() => <Command.Item
-            onSelect={onOpen}
-            className={cn(
-              'px-3 py-2 cursor-pointer hover:bg-zinc-800 transition-colors text-zinc-300'
-            )}
-          >
-            <ExternalLink size={16} /> Open link in new tab
-          </Command.Item>}
+        <Show
+          if={() => !isEditing$.get() && currentUrl.length}
+          else={() => (
+            <Command.Item
+              onSelect={closePopup}
+              className={cn(
+                'px-3 py-2 cursor-pointer hover:bg-zinc-800 transition-colors text-zinc-300'
+              )}
+            >
+              <BanIcon size={16} />
+              Cancel change
+            </Command.Item>
+          )}
+        >
+          {() => (
+            <Command.Item
+              onSelect={onOpen}
+              className={cn(
+                'px-3 py-2 cursor-pointer hover:bg-zinc-800 transition-colors text-zinc-300'
+              )}
+            >
+              <ExternalLink size={16} /> Open link in new tab
+            </Command.Item>
+          )}
         </Show>
         <Memo>
           {() => (

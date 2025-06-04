@@ -253,7 +253,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
             <BubbleMenu
               editor={editor}
               shouldShow={({ state, from, to, editor }) => {
-                if (!editor.isEditable) return false
+                if (!editor.isEditable || !editor.isFocused) return false
                 if (state.selection.$from.depth === 0) return false
                 if (from === to) return false
 
@@ -310,7 +310,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
             <BubbleMenu
               editor={editor}
               shouldShow={({ state, from, to, editor }) => {
-                if (!editor.isEditable) return false
+                if (!editor.isEditable || !editor.isFocused) return false
                 if (state.selection.$from.depth === 0) return false
                 if (from === to) return false
 
