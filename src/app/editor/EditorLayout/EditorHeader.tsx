@@ -158,6 +158,9 @@ const EditorHeaderDropdown = () => {
                 <DropdownMenuItem onClick={() => exportDoc('yjs')}>
                   YJS
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => exportDoc('md')}>
+                  Markdown
+                </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>

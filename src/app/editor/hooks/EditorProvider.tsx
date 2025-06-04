@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useRef } from 'react'
-import { useEffectOnce, useObservable } from '@legendapp/state/react'
+import { useObservable } from '@legendapp/state/react'
 import {
   type Observable,
   type ObservableBoolean,
@@ -22,6 +22,11 @@ import { useTiptapProvider } from './useTiptapProvider'
 import { type TiptapCollabProvider } from '@hocuspocus/provider'
 import { SearchParamHandler } from './SearchParamHandler'
 import { useRouter } from 'next/navigation'
+import {
+  defaultMarkdownSerializer,
+  MarkdownSerializer
+} from 'prosemirror-markdown'
+import { stringifyMarkdown } from '@/utils/Tiptap/stringifyMarkdown'
 
 export type TiptapDoc = {
   created_at: string
@@ -34,6 +39,8 @@ export type EditorStatus = ObservablePrimitive<
   'Connecting' | 'Offline' | 'Connected' | 'Disconnected' | null
 >
 
+type ExportType = 'json' | 'html' | 'yjs' | 'md'
+
 const EditorContext = createContext<{
   docs$: Observable<TiptapDoc[] | null>
   docId$: Observable<string | null>
@@ -42,7 +49,7 @@ const EditorContext = createContext<{
   updateDoc: (id: string, input: { id: string }) => void
   deleteDoc: (id: string) => Promise<void>
   ydoc$: Observable<OpaqueObject<Y.Doc>>
-  exportDoc: (type: 'json' | 'html' | 'yjs') => void
+  exportDoc: (type: ExportType) => void
   currentEditor: {
     peek: () => Editor
   } & Observable<OpaqueObject<Editor> | null>
@@ -165,7 +172,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
     }
   }
 
-  const exportDoc = (type: 'json' | 'html' | 'yjs') => {
+  const exportDoc = (type: ExportType) => {
     let exported
     if (type === 'json') {
       const ydoc = ydoc$.peek()
@@ -178,6 +185,10 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
     if (type === 'yjs') {
       const ydoc = ydoc$.peek()
       exported = Y.encodeStateAsUpdate(ydoc)
+    }
+    if (type === 'md') {
+      const editor = currentEditor.peek()
+      exported = stringifyMarkdown(editor.state.doc, editor.schema)
     }
 
     console.log(exported)
