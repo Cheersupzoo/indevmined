@@ -74,3 +74,16 @@
 .tiptap input[type='checkbox'] {
   @apply w-[0.9em] h-[0.9em];
 }
+
+.tiptap section > .toggle {
+  float: inline-start;
+  transition: transform 0.2s ease;
+}
+
+.tiptap section > .toggle-content {
+  margin-left: 2em;
+}
+
+.tiptap section[data-collapsed="true"] > div.toggle-content > div[data-type="groupBlock"] {
+  display: none;
+}

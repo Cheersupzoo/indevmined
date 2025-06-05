@@ -1,5 +1,6 @@
 import { createSuggestionsItems } from '@harshtalks/slash-tiptap'
 import {
+  ChevronDownIcon,
   Heading1Icon,
   Heading2Icon,
   Heading3Icon,
@@ -131,6 +132,14 @@ export const suggestionBlock = createSuggestionsItems([
     },
     icon: QuoteIcon,
     mdShortcut: '>'
+  },
+  {
+    title: 'Toggle',
+    searchTerms: ['toggle', 'section','foldable'],
+    command: ({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).toggleSection().run()
+    },
+    icon: ChevronDownIcon,
   },
   {
     title: 'Image',

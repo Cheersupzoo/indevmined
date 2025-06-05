@@ -52,6 +52,8 @@ import { deleteImage, handleImageUpload } from '@/apis/editor'
 import { CustomImage } from './extensions/CustomImage'
 import { ObservableHint } from '@legendapp/state'
 import { DropImageExtension } from './extensions/DropImage'
+import { ToggleSection } from './extensions/ToggleSection'
+import { GroupBlock } from './extensions/GroupBlock'
 const EditorToolbarMobile = dynamic(() =>
   import('./EditorToolbarMobile').then((mod) => mod.EditorToolbarMobile)
 )
@@ -139,6 +141,8 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
       TaskItem.configure({
         nested: true
       }),
+      GroupBlock,
+      ToggleSection,
 
       // Mark
       Underline,
