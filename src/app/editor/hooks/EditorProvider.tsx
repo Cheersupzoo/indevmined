@@ -22,11 +22,11 @@ import { useTiptapProvider } from './useTiptapProvider'
 import { type TiptapCollabProvider } from '@hocuspocus/provider'
 import { SearchParamHandler } from './SearchParamHandler'
 import { useRouter } from 'next/navigation'
-import {
-  defaultMarkdownSerializer,
-  MarkdownSerializer
-} from 'prosemirror-markdown'
 import { stringifyMarkdown } from '@/utils/Tiptap/stringifyMarkdown'
+import { clearDocument } from 'y-indexeddb'
+import { useLocalProvider } from './useLocalProvider'
+import { synced } from '@legendapp/state/sync'
+import { ObservablePersistLocalStorage } from '@legendapp/state/persist-plugins/local-storage'
 
 export type TiptapDoc = {
   created_at: string
@@ -61,7 +61,15 @@ const EditorContext = createContext<{
 }>(undefined as any)
 
 const EditorProvider = ({ children }: React.PropsWithChildren) => {
-  const docs$ = useObservable<TiptapDoc[] | null>(null)
+  const docs$ = useObservable<TiptapDoc[] | null>(
+    synced({
+      initial: null,
+      persist: {
+        name: 'docs',
+        plugin: ObservablePersistLocalStorage
+      }
+    })
+  )
   const docId$ = useObservable<string | null>(null)
   const editorDocId$ = useObservable<string | null>(null)
   const ydoc$ = useObservable(ObservableHint.opaque(new Y.Doc()))
@@ -111,6 +119,12 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
       loadDocs
     })
 
+  const { createLocalProvider, destroyLocalProvider } = useLocalProvider({
+    docId$,
+    syncing$,
+    ydoc$
+  })
+
   function setDocId(id: string | null) {
     batch(() => {
       const currentDocId = docId$.peek()
@@ -131,8 +145,10 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
       editorDocId$.set(id)
       // }
       if (id !== null) {
+        createLocalProvider()
         createTiptapProvider()
       } else {
+        destroyLocalProvider()
         destroyProvider()
       }
     })
@@ -164,6 +180,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
 
   const deleteDoc = async (id: string) => {
     try {
+      clearDocument(id)
       await deleteDocApi(id)
       await loadDocs()
       if (docId$.peek() === id) router.push('/editor')

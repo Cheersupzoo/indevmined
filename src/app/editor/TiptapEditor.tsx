@@ -37,7 +37,6 @@ import { PreNodeTools } from './PreNodeTools'
 import { Box3dNode } from './extensions/React/Box3d'
 import Collaboration from '@tiptap/extension-collaboration'
 import * as Y from 'yjs'
-import { IndexeddbPersistence } from 'y-indexeddb'
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import { use$, useObservable } from '@legendapp/state/react'
@@ -99,14 +98,6 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
 
     return () => meta.unobserve(observer)
   }, [])
-
-  // useEffect(() => {
-  //   const localProvider = new IndexeddbPersistence(docId, ydoc)
-
-  //   return () => {
-  //     localProvider.destroy()
-  //   }
-  // }, [ydoc])
 
   const editor = useEditor({
     extensions: [

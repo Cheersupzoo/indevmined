@@ -1,11 +1,6 @@
 'use client'
 
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-} from 'react'
+import React, { createContext, useContext, useEffect, useRef } from 'react'
 import { initializeApp, getApps } from 'firebase/app'
 import {
   GoogleAuthProvider,
@@ -89,6 +84,13 @@ const AuthProviderImpl = ({ children }: React.PropsWithChildren) => {
   const signout = async () => {
     const auth = getAuth()
     await auth.signOut()
+
+    // Clear storage
+    localStorage.clear()
+    const databases = await indexedDB.databases()
+    databases.forEach((db) => {
+      if (db.name) indexedDB.deleteDatabase(db.name)
+    })
   }
 
   return (

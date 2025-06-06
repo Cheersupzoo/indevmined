@@ -7,6 +7,7 @@ import { type Doc } from 'yjs'
 import { EditorStatus } from './EditorProvider'
 import { useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import { clearDocument } from 'y-indexeddb'
 
 export const useTiptapProvider = ({
   docId$,
@@ -60,6 +61,7 @@ export const useTiptapProvider = ({
         },
         onDisconnect(data) {
           if (data.event.reason === 'Document deleted') {
+            clearDocument(docId) // Clear indexdb
             provider.destroy()
             loadDocs()
             if (updateIdRef.current) {
