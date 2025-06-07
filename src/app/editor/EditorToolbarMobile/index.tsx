@@ -8,6 +8,7 @@ import { DeleteNode } from './DeleteNode'
 import { DuplicateNode } from './DuplicateNode'
 import { NodeUp } from './NodeUp'
 import { NodeDown } from './NodeDown'
+import { UndoRedo } from './UndoRedo'
 
 export const EditorToolbarMobile = ({ editor }: { editor: Editor }) => {
   const divRef = useRef<HTMLDivElement>(null)
@@ -51,20 +52,21 @@ export const EditorToolbarMobile = ({ editor }: { editor: Editor }) => {
   return (
     <div
       ref={divRef}
-      className='select-none fixed mx-4 rounded-lg left-0 right-0 top-0 h-10 border border-eva-text-border flex items-center bg-background'
+      className='touch-manipulation select-none fixed mx-4 rounded-lg left-0 right-0 top-0 h-10 border border-eva-text-border flex items-center bg-background'
       style={{ transform: 'translateY(calc(100vh - 100% - 4px))' }}
     >
+      <UndoRedo editor={editor} />
+      <ToolbarVerticalDivider />
       <InsertComponentDrawer editor={editor} />
       <ToolbarVerticalDivider />
       <InsertImage />
       <ToolbarVerticalDivider />
-      <DeleteNode />
-      <ToolbarVerticalDivider />
       <DuplicateNode />
       <ToolbarVerticalDivider />
       <NodeUp />
-      <ToolbarVerticalDivider />
       <NodeDown />
+      <ToolbarVerticalDivider />
+      <DeleteNode />
     </div>
   )
 }
