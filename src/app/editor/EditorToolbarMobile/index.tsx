@@ -10,6 +10,7 @@ import { NodeUp } from './NodeUp'
 import { NodeDown } from './NodeDown'
 import { UndoRedo } from './UndoRedo'
 import { IsParagraph } from './IsParagraph'
+import { IsCodeBlock } from './isCode'
 
 export const EditorToolbarMobile = ({ editor }: { editor: Editor }) => {
   const divRef = useRef<HTMLDivElement>(null)
@@ -59,6 +60,7 @@ export const EditorToolbarMobile = ({ editor }: { editor: Editor }) => {
       <UndoRedo editor={editor} />
       <ToolbarVerticalDivider />
       <IsParagraph editor={editor} />
+      <IsCodeBlock editor={editor} />
       <InsertComponentDrawer editor={editor} />
       <ToolbarVerticalDivider />
       <InsertImage />

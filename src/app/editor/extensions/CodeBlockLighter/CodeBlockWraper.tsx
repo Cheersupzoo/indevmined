@@ -52,7 +52,7 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
       >
         <span
           ref={spanEl}
-          className='cursor-pointer'
+          className='cursor-pointer select-none'
           data-language-selector
           onClick={(event) => {
             const component = new ReactRenderer(LanguageSelector, {
