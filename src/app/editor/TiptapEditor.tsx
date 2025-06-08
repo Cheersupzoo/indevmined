@@ -247,7 +247,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
           />
           <PreNodeTools editor={editor} />
           <SlashCommand editor={editor} />
-          {editor && (
+          {!isMobile && editor && (
             <BubbleMenu
               editor={editor}
               shouldShow={({ state, from, to, editor }) => {
@@ -304,7 +304,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
               </div>
             </BubbleMenu>
           )}
-          {editor && (
+          {!isMobile && editor && (
             <BubbleMenu
               editor={editor}
               shouldShow={({ state, from, to, editor }) => {

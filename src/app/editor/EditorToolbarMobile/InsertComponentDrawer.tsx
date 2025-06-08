@@ -17,10 +17,10 @@ export const InsertComponentDrawer = ({ editor }: { editor: Editor }) => {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <div className='p-2 flex items-center'>
+        <button className='p-2 flex items-center'>
           <PlusIcon size={16} />
           <ChevronDown size={12} className='text-eva-text/50' />
-        </div>
+        </button>
       </DrawerTrigger>
       <DrawerContent className='text-eva-text max-h-[calc(100%)] '>
         <DrawerHeader className='py-2 border-b border-b-eva-text/20 flex items-stretch justify-center grow-0 shrink-0'>

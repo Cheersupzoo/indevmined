@@ -8,7 +8,6 @@ export const UndoRedo = ({ editor }: { editor: Editor }) => {
     <>
       <button
         className={cn(
-          'p-3',
           !editor?.can().chain().focus().undo().run() && 'text-eva-text-border'
         )}
         onClick={(e) => {
@@ -21,7 +20,6 @@ export const UndoRedo = ({ editor }: { editor: Editor }) => {
       </button>
       <button
         className={cn(
-          'p-3',
           !editor?.can().chain().focus().redo().run() && 'text-eva-text-border'
         )}
         onClick={(e) => {

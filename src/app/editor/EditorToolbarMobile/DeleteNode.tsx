@@ -7,8 +7,7 @@ export const DeleteNode = () => {
   const { currentEditor } = useEditorContext()
 
   return (
-    <div
-      className='p-3'
+    <button
       onClick={() => {
         const editor = currentEditor.peek()
         if (!editor) return
@@ -22,6 +21,6 @@ export const DeleteNode = () => {
       }}
     >
       <Trash2Icon size={16} />
-    </div>
+    </button>
   )
 }

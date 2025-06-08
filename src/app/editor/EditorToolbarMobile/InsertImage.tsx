@@ -6,8 +6,7 @@ export const InsertImage = () => {
   const { currentEditor } = useEditorContext()
 
   return (
-    <div
-      className='p-3'
+    <button
       onClick={() => {
         const editor = currentEditor.peek()
         if (!editor) return
@@ -25,6 +24,6 @@ export const InsertImage = () => {
       }}
     >
       <ImageIcon size={16} />
-    </div>
+    </button>
   )
 }

@@ -7,7 +7,7 @@ export const DuplicateNode = () => {
   const { currentEditor } = useEditorContext()
 
   return (
-    <div
+    <button
       onClick={() => {
         const editor = currentEditor.peek()
         if (!editor) return
@@ -18,9 +18,8 @@ export const DuplicateNode = () => {
           .insertContentAt(parentNodePos.to, parentNodePos.node)
           .run()
       }}
-      className='p-3'
     >
       <CopyIcon size={16} />
-    </div>
+    </button>
   )
 }
