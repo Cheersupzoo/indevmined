@@ -9,6 +9,7 @@ import {
   LayoutTemplateIcon,
   ListIcon,
   ListOrderedIcon,
+  ListTodoIcon,
   MinusIcon,
   QuoteIcon,
   SquareCodeIcon,
@@ -106,6 +107,15 @@ export const suggestionBlock = createSuggestionsItems([
     },
     icon: ListOrderedIcon,
     mdShortcut: '1.'
+  },
+  {
+    title: 'Task List',
+    searchTerms: ['task', 'checkbox'],
+    command: ({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).toggleTaskList().run()
+    },
+    icon: ListTodoIcon,
+    mdShortcut: '[ ]'
   },
   {
     title: 'Divider',
