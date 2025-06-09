@@ -1,6 +1,6 @@
 'use client'
 
-import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react'
+import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import '@/styles/markdown.css'
 import './TiptapEditor.css'
@@ -15,29 +15,20 @@ import TaskList from '@tiptap/extension-task-list'
 import TestComponent from './extensions/TestComponent/extension'
 import CodeBlock from './extensions/Code'
 import { SlashCommand, SlashWithConfigure } from './extensions/SlashCommand'
-import {
-  BoldIcon,
-  HighlighterIcon,
-  ItalicIcon,
-  LinkIcon,
-  StrikethroughIcon,
-  UnderlineIcon
-} from 'lucide-react'
-import { LinkWithConfigure, openLinkEditor } from './extensions/LinkExtension'
-import { hideAll } from 'tippy.js'
+import { LinkWithConfigure } from './extensions/LinkExtension'
+import { TextFormatMenu } from './components/TextFormatMenu'
+import { CodeFormatMenu } from './components/CodeFormatMenu'
 import { Underline } from '@tiptap/extension-underline'
 import { MoveNodeShortcut } from './extensions/MoveNodeShortcut'
 import { CursorInfo } from './extensions/CursorInfo'
 import { DragHandle } from './extensions/DragHandleExtension'
 import { CodeBlockLighter } from './extensions/CodeBlockLighter'
-import { findBlockNodeAt } from './extensions/DragHandleExtension/ProseMirrorPlugin'
 import { CodeMark } from './extensions/CodeBlockLighter/MarkExtension'
-import { cn } from '@/lib/utils'
 import { PreNodeTools } from './PreNodeTools'
 import { Box3dNode } from './extensions/React/Box3d'
 import Collaboration from '@tiptap/extension-collaboration'
 import * as Y from 'yjs'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
 import { motion } from 'motion/react'
 import { use$, useObservable } from '@legendapp/state/react'
 import { $React } from '@legendapp/state/react-web'
@@ -247,124 +238,8 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
           />
           <PreNodeTools editor={editor} />
           <SlashCommand editor={editor} />
-          {!isMobile && editor && (
-            <BubbleMenu
-              editor={editor}
-              shouldShow={({ state, from, to, editor }) => {
-                if (!editor.isEditable || !editor.isFocused) return false
-                if (state.selection.$from.depth === 0) return false
-                if (from === to) return false
-
-                const blockPos = findBlockNodeAt(state, from)
-                if (!blockPos) {
-                  return true
-                }
-                const ignoreBlockNode = ['codeBlock']
-
-                return !ignoreBlockNode.includes(
-                  state.doc.nodeAt(blockPos)?.type.name ?? 'paragraph'
-                )
-              }}
-              tippyOptions={{ duration: 100 }}
-            >
-              <div className='bubble-menu'>
-                <button
-                  onClick={() => editor.chain().focus().toggleBold().run()}
-                  className={editor.isActive('bold') ? 'is-active' : ''}
-                >
-                  <BoldIcon size={16} />
-                </button>
-                <button
-                  onClick={() => editor.chain().focus().toggleItalic().run()}
-                  className={editor.isActive('italic') ? 'is-active' : ''}
-                >
-                  <ItalicIcon size={16} />
-                </button>
-                <button
-                  onClick={() => editor.chain().focus().toggleStrike().run()}
-                  className={editor.isActive('strike') ? 'is-active' : ''}
-                >
-                  <StrikethroughIcon size={16} />
-                </button>
-                <button
-                  onClick={() => editor.chain().focus().toggleUnderline().run()}
-                  className={editor.isActive('underline') ? 'is-active' : ''}
-                >
-                  <UnderlineIcon size={16} />
-                </button>
-                <button
-                  onClick={() => {
-                    hideAll()
-                    openLinkEditor(editor)
-                  }}
-                  className={editor.isActive('link') ? 'is-active' : ''}
-                >
-                  <LinkIcon size={16} />
-                </button>
-              </div>
-            </BubbleMenu>
-          )}
-          {!isMobile && editor && (
-            <BubbleMenu
-              editor={editor}
-              shouldShow={({ state, from, to, editor }) => {
-                if (!editor.isEditable || !editor.isFocused) return false
-                if (state.selection.$from.depth === 0) return false
-                if (from === to) return false
-
-                const blockPos = findBlockNodeAt(state, from)
-                if (!blockPos) {
-                  return true
-                }
-                const triggerBlockNode = ['codeBlock']
-
-                return triggerBlockNode.includes(
-                  state.doc.nodeAt(blockPos)?.type.name ?? 'paragraph'
-                )
-              }}
-              tippyOptions={{ duration: 100 }}
-            >
-              <div className='bubble-menu'>
-                <button
-                  onClick={() =>
-                    editor.isActive('highlightMark')
-                      ? editor.chain().focus().unsetCodeHighlight().run()
-                      : editor.chain().focus().setCodeHighlight().run()
-                  }
-                  className={
-                    editor.isActive('highlightMark') ? 'is-active' : ''
-                  }
-                >
-                  <HighlighterIcon size={16} />
-                </button>
-                {['gold', 'green', 'blue', 'purple', 'red'].map((color) => {
-                  return (
-                    <button
-                      key={color}
-                      onClick={() =>
-                        editor.chain().focus().setCodeHighlight(color).run()
-                      }
-                    >
-                      <div
-                        className={cn(
-                          'h-4 w-4 bg-zinc-800 outline outline-1 outline-eva-text rounded-full',
-                          editor.isActive('highlightMark', { color }) &&
-                            'outline-blue-400'
-                        )}
-                      >
-                        <div
-                          className=' h-4 w-4 rounded-full'
-                          style={{
-                            backgroundColor: `rgb(from ${color} r g b / 0.13)`
-                          }}
-                        />
-                      </div>
-                    </button>
-                  )
-                })}
-              </div>
-            </BubbleMenu>
-          )}
+          {!isMobile && editor && <TextFormatMenu editor={editor} />}
+          {!isMobile && editor && <CodeFormatMenu editor={editor} />}
         </div>
         {/* {editor && <CursorInfo editor={editor} />} */}
         {isMobile && editor && <EditorToolbarMobile editor={editor} />}
