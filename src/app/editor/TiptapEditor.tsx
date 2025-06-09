@@ -233,7 +233,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
         </div>
         <div className='relative'>
           <EditorContent
-            className='markdown-body sm:-mx-16 pb-24'
+            className='markdown-body sm:-mx-16'
             editor={editor}
           />
           <PreNodeTools editor={editor} />

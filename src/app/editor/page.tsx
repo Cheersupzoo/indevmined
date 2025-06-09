@@ -16,7 +16,7 @@ const page = () => {
     <AuthLayout>
       <EditorProvider>
         <EditorLayout>
-          <NormalResponsive className='pb-8 sm:px-20 lg:px-0'>
+          <NormalResponsive className='sm:px-20 lg:px-0'>
             <Editor />
           </NormalResponsive>
         </EditorLayout>
