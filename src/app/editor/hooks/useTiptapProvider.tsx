@@ -2,7 +2,7 @@
 
 import { getEditorToken } from '@/apis/editor'
 import { TiptapCollabProvider, WebSocketStatus } from '@hocuspocus/provider'
-import type { Observable, ObservableBoolean } from '@legendapp/state'
+import type { Observable, ObservableBoolean, ObservablePrimitive } from '@legendapp/state'
 import { type Doc } from 'yjs'
 import { EditorStatus } from './EditorProvider'
 import { useRef } from 'react'
@@ -20,7 +20,7 @@ export const useTiptapProvider = ({
   docId$: Observable<string | null>
   ydoc$: Observable<Doc>
   syncing$: ObservableBoolean
-  status$: EditorStatus
+  status$: ObservablePrimitive<EditorStatus>
   updateIdRef: React.MutableRefObject<Promise<string> | null>
   loadDocs: () => Promise<void>
 }) => {

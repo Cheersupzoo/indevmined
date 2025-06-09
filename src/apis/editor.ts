@@ -1,10 +1,11 @@
 import { TiptapDoc } from '@/app/editor/hooks/EditorProvider'
 import { UploadFunction } from '@/components/tiptap-node/image-upload-node'
+import { fetchAwareOnline } from '@/utils/Network/fetch'
 import { getAuth } from 'firebase/auth'
 
 export const getDocs = async () => {
   const token = await getAuth().currentUser?.getIdToken()
-  const res = await fetch(
+  const res = await fetchAwareOnline(
     `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT ?? ''}/editor/docs`,
     {
       headers: {
@@ -12,6 +13,7 @@ export const getDocs = async () => {
       }
     }
   )
+
   if (res.status !== 200) {
     throw new Error('Fail to fetch docs')
   }
@@ -47,7 +49,7 @@ export const getEditorToken = async () => {
   if (!idToken) {
     return
   }
-  const res = await fetch(
+  const res = await fetchAwareOnline(
     process.env.NEXT_PUBLIC_AUTH_ENDPOINT ?? '/editor/auth',
     {
       headers: {

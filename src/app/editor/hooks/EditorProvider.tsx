@@ -35,9 +35,12 @@ export type TiptapDoc = {
   updated_at: string
 }
 
-export type EditorStatus = ObservablePrimitive<
-  'Connecting' | 'Offline' | 'Connected' | 'Disconnected' | null
->
+export type EditorStatus =
+  | 'Connecting'
+  | 'Offline'
+  | 'Connected'
+  | 'Disconnected'
+  | null
 
 type ExportType = 'json' | 'html' | 'yjs' | 'md'
 
@@ -53,7 +56,7 @@ const EditorContext = createContext<{
   currentEditor: {
     peek: () => Editor
   } & Observable<OpaqueObject<Editor> | null>
-  status$: EditorStatus
+  status$: ObservablePrimitive<EditorStatus>
   setDocId: (id: string | null) => void
   syncing$: ObservableBoolean
   getCurrentProvider: () => TiptapCollabProvider | null
@@ -76,9 +79,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
   const currentEditor = useObservable<OpaqueObject<Editor> | null>(null) as {
     peek: () => Editor
   } & Observable<OpaqueObject<Editor> | null>
-  const status$ = useObservable<
-    null | 'Connecting' | 'Offline' | 'Connected' | 'Disconnected'
-  >(null)
+  const status$ = useObservable<EditorStatus>(null)
   const syncing$ = useObservable<boolean>(true)
   const updateIdRef = useRef<Promise<string> | null>(null)
   const loadDocsPromiseRef = useRef<Promise<void> | null>(null)
