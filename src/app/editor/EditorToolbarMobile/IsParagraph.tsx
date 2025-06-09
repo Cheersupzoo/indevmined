@@ -3,6 +3,7 @@ import {
   BoldIcon,
   ItalicIcon,
   LinkIcon,
+  RemoveFormattingIcon,
   StrikethroughIcon,
   UnderlineIcon
 } from 'lucide-react'
@@ -52,6 +53,12 @@ export const IsParagraph = ({ editor }: { editor: Editor }) => {
         <LinkIcon size={16} />
       </button>
       <ToolbarVerticalDivider />
+      <button
+        onClick={() => editor.chain().focus().unsetAllMarks().run()}
+        title='Clear formatting'
+      >
+        <RemoveFormattingIcon size={16} />
+      </button>
     </>
   )
 }

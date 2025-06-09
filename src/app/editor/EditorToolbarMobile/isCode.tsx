@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/core'
-import { HighlighterIcon } from 'lucide-react'
+import { HighlighterIcon, RemoveFormattingIcon } from 'lucide-react'
 import React from 'react'
 import { ToolbarVerticalDivider } from './ToolbarVerticalDivider'
 import { cn } from '@/lib/utils'
@@ -45,6 +45,12 @@ export const IsCodeBlock = ({ editor }: { editor: Editor }) => {
         )
       })}
       <ToolbarVerticalDivider />
+      <button
+        onClick={() => editor.chain().focus().unsetAllMarks().run()}
+        title='Clear formatting'
+      >
+        <RemoveFormattingIcon size={16} />
+      </button>
     </>
   )
 }
