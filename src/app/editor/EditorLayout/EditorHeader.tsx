@@ -38,6 +38,7 @@ import { useIsMobile } from '@/hooks/use-mobile'
 import { cn } from '@/lib/utils'
 import { Editor, EditorEvents } from '@tiptap/core'
 import { observe } from '@legendapp/state'
+import './EditorHeader.css'
 
 export const EditorHeader = () => {
   const { docId$, status$ } = useEditorContext()
@@ -45,7 +46,7 @@ export const EditorHeader = () => {
   const showBrand = use$(() => !docId$.get() || !isMobile)
 
   return (
-    <div className='text-eva-text relative left-0 right-0 top-0 z-50 mx-auto  w-full bg-transparent px-3'>
+    <div className='text-eva-text left-0 right-0 top-0 z-50 mx-auto  w-full bg-transparent px-3 sticky'>
       <div className='flex items-center py-2 justify-between'>
         <div className='flex gap-1 items-center'>
           <SidebarTrigger />
@@ -73,6 +74,7 @@ export const EditorHeader = () => {
           <EditorHeaderDropdown />
         </div>
       </div>
+      <div className='backdrop' />
     </div>
   )
 }
