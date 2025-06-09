@@ -47,6 +47,13 @@ export const protectedRoute = (onRequest) => {
       console.error(e)
       console.error('jwks', JWKS.jwks())
 
+      if (e.message.startsWith('internal error')) {
+        return Response.json(
+          { status: 'internal error' },
+          { status: 500, headers }
+        )
+      }
+
       return Response.json(
         { status: 'unauthorized', message: 'Invalid token' },
         { status: 401, headers }
