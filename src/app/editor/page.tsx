@@ -13,15 +13,9 @@ export const metadata: Metadata = {
 
 const page = () => {
   return (
-    <AuthLayout>
-      <EditorProvider>
-        <EditorLayout>
-          <NormalResponsive className='sm:px-20 lg:px-0'>
-            <Editor />
-          </NormalResponsive>
-        </EditorLayout>
-      </EditorProvider>
-    </AuthLayout>
+    <NormalResponsive className='sm:px-20 lg:px-0'>
+      <Editor />
+    </NormalResponsive>
   )
 }
 
