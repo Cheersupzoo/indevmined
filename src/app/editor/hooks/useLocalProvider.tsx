@@ -21,8 +21,15 @@ export const useLocalProvider = ({
       return
     }
     destroyLocalProvider()
+    const dbExistPromise = indexedDB
+      .databases()
+      .then((dbs) => !!dbs.find((db) => db.name === docId))
     const localProvider = new IndexeddbPersistence(docId, ydoc)
-    localProvider.whenSynced.then((idb) => idb.synced && syncing$.set(false))
+    localProvider.whenSynced.then(
+      (idb) =>
+        idb.synced &&
+        dbExistPromise.then((exist) => exist && syncing$.set(false))
+    )
     localProviderRef.current = localProvider
   }
 
