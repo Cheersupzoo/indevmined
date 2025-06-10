@@ -11,6 +11,10 @@ export const DropImageExtension = Extension.create({
         props: {
           handleDOMEvents: {
             drop(view, event) {
+              if (event.dataTransfer?.effectAllowed === 'copyMove') {
+                // Called from internal ProseMirror
+                return false
+              }
               event.preventDefault()
               let files = event.dataTransfer?.files
               if (!files || files.length === 0) {
