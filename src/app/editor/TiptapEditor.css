@@ -66,6 +66,7 @@ button.is-active {
 .ProseMirror-selectednode:not(:has(img)),
 .ProseMirror-selectednode img {
   outline: 3px solid var(--purple);
+  cursor: default;
   @apply outline outline-[3px] outline-purple-500;
 }
 

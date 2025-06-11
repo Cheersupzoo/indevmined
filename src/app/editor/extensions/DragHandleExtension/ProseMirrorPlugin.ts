@@ -19,6 +19,8 @@ interface DraggedNodeInfo {
 // Plugin key to allow accessing plugin state from outside
 const dragHandlePluginKey = new PluginKey<DragHandlePluginState>('dragHandle')
 
+const ignoreNode = new Set(['bulletList', 'orderedList', 'taskList'])
+
 // Create a new plugin for drag handles
 export function dragHandlePlugin({
   editor
@@ -42,6 +44,11 @@ export function dragHandlePlugin({
         }
       }
 
+      const hidePreNodeContainer = () => {
+        preNodeContainer.style.visibility = 'hidden'
+        preNodeContainer.dataset.pos = undefined
+      }
+
       const preventDefault = (event: Event) => event.preventDefault()
       // Add mouse events to the handle
       const handleDragStart = (e: DragEvent) => startDrag(e, editorView)
@@ -50,28 +57,48 @@ export function dragHandlePlugin({
 
       const mousemove = (event: MouseEvent) => {
         if (!editor.isEditable) {
-          preNodeContainer.style.visibility = 'hidden'
+          hidePreNodeContainer()
 
           return false
         }
         const pos = editorView.posAtCoords({
-          left: event.clientX,
+          left: Math.max(
+            event.clientX,
+            editor.options.element.getBoundingClientRect().left -
+              editorView.dom.offsetLeft +
+              6
+          ),
           top: event.clientY
         })
-        if (!pos) {
-          preNodeContainer.style.visibility = 'hidden'
+        if (!pos || pos.inside === -1) {
+          hidePreNodeContainer()
 
           return false
         }
 
         const hoveredNode = findBlockNodeAt(editorView.state, pos.pos)
         if (typeof hoveredNode === 'number') {
+          const nodeDetail = editorView.state.doc.nodeAt(hoveredNode)!
+          if (ignoreNode.has(nodeDetail.type.name)) {
+            hidePreNodeContainer()
+
+            return false
+          }
+
           preNodeContainer.style.visibility = 'visible'
           const node = editorView.nodeDOM(hoveredNode)
           const rect = (node as HTMLDivElement).getBoundingClientRect()
           const editorRect = editorView.dom.getBoundingClientRect()
           const top = rect.top - editorRect.top
+          let left = rect.left - editorRect.left + editorView.dom.offsetLeft
+          if (nodeDetail.type.name === 'listItem') {
+            // due to the current implementation of list item, the drag handle is not offset wrong
+            // TODO: when fix the list item implementation, remove this
+            left -= 22
+          }
           preNodeContainer.style.top = `${top}px`
+          preNodeContainer.style.left = `${left}px`
+          preNodeContainer.dataset.pos = hoveredNode.toString()
         }
 
         return false
@@ -83,7 +110,7 @@ export function dragHandlePlugin({
           event.clientX < editorBound.left ||
           event.clientX > editorBound.right
         ) {
-          preNodeContainer.style.visibility = 'hidden'
+          hidePreNodeContainer()
         }
 
         return false
@@ -113,6 +140,8 @@ function getPluginState(state: EditorState): DragHandlePluginState {
   return dragHandlePluginKey.getState(state) as DragHandlePluginState
 }
 
+const parentToReturn = new Set(['listItem', 'taskItem'])
+
 // Find a block node position at or near a given position
 export function findBlockNodeAt(
   state: EditorState,
@@ -124,6 +153,13 @@ export function findBlockNodeAt(
   // Go up the tree to find the nearest block node
   while (depth > 0) {
     const node = $pos.node(depth)
+    const parent = $pos.node(depth - 1)
+    if (
+      node.type.name === 'paragraph' &&
+      parentToReturn.has(parent.type.name)
+    ) {
+      return $pos.before(depth - 1)
+    }
     if (node.isBlock) {
       return $pos.before(depth)
     }

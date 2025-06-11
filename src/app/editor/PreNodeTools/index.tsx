@@ -1,14 +1,16 @@
 import { Editor } from '@tiptap/core'
 import { GripVertical, PlusIcon } from 'lucide-react'
-import React, { memo } from 'react'
+import React, { memo, useRef } from 'react'
 import { findBlockNodeAt } from '../extensions/DragHandleExtension/ProseMirrorPlugin'
 import { ReactRenderer } from '@tiptap/react'
 import tippy from 'tippy.js'
 import { NodeMenu } from './NodeMenu'
 
 const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
+  const container = useRef<HTMLDivElement>(null)
   return (
     <div
+      ref={container}
       style={{ visibility: 'hidden' }}
       className='pre-node-tool-container absolute top-0 left-0 -translate-x-full pr-4 flex flex-row space-x-1'
     >
@@ -52,15 +54,9 @@ const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
         draggable
         onClick={(event) => {
           event.preventDefault()
-          if (!editor) return
-          const pos = editor.view.posAtCoords({
-            left: event.clientX,
-            top: event.clientY
-          })
-          if (!pos) {
-            return
-          }
-          editor.chain().setNodeSelection(pos.pos).run()
+          if (!editor || container.current?.dataset.pos === undefined) return
+          const pos = parseInt(container.current.dataset.pos)
+          editor.chain().setNodeSelection(pos).run()
           const component = new ReactRenderer(NodeMenu, {
             editor,
             props: {

@@ -26,6 +26,7 @@ export const DragHandle = Extension.create({
         ) as HTMLDivElement
         if (preNodeContainer) {
           preNodeContainer.style.visibility = 'hidden'
+          preNodeContainer.dataset.pos = undefined
         }
 
         return true
