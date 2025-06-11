@@ -11,6 +11,7 @@ import { NodeDown } from './NodeDown'
 import { UndoRedo } from './UndoRedo'
 import { IsParagraph } from './IsParagraph'
 import { IsCodeBlock } from './isCode'
+import { SelectNode } from './SelectNode'
 
 export const EditorToolbarMobile = ({ editor }: { editor: Editor }) => {
   const divRef = useRef<HTMLDivElement>(null)
@@ -57,6 +58,8 @@ export const EditorToolbarMobile = ({ editor }: { editor: Editor }) => {
       className='touch-manipulation [&>button]:p-3 select-none fixed mx-4 rounded-lg left-0 right-0 top-0 h-10 border border-eva-text-border flex items-center bg-background overflow-x-auto overflow-y-hidden'
       style={{ transform: 'translateY(calc(100vh - 100% - 4px))' }}
     >
+      <SelectNode editor={editor} />
+      <ToolbarVerticalDivider />
       <UndoRedo editor={editor} />
       <ToolbarVerticalDivider />
       <IsParagraph editor={editor} />
