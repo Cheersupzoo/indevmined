@@ -10,6 +10,27 @@ export const DropImageExtension = Extension.create({
         key: new PluginKey('DropImage'),
         props: {
           handleDOMEvents: {
+            paste(view, event) {
+              let files = event.clipboardData?.files
+              if (!files || files?.length === 0) {
+                return false
+              }
+              const file = files[0]
+
+              if (!file || !file.type.startsWith('image/')) {
+                return false
+              }
+
+              event.preventDefault()
+
+              editor
+                .chain()
+                .focus()
+                .setImageUploadNode({ files: [...files] })
+                .run()
+
+              return true
+            },
             drop(view, event) {
               if (event.dataTransfer?.effectAllowed === 'copyMove') {
                 // Called from internal ProseMirror
