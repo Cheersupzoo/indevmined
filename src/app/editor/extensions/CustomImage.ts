@@ -36,9 +36,13 @@ resizeHandle.innerHTML = `
 const createResizeHandle = (
   view: EditorView,
   pos: number,
-  imgElement: HTMLImageElement
+  imgElement: HTMLImageElement,
+  side: 'left' | 'right' = 'right'
 ) => {
+  const isRight = side === 'right'
   const handle = resizeHandle.cloneNode(true) as HTMLElement
+
+  handle.classList.add(isRight ? 'resize-handle-right' : 'resize-handle-left')
 
   // Store the image reference
   let currentImg = imgElement
@@ -85,7 +89,7 @@ const createResizeHandle = (
   const handleMove = (clientX: number) => {
     if (!currentImg) return
 
-    const deltaX = clientX - startX
+    const deltaX = (clientX - startX) * (isRight ? 2 : -2)
     const newWidth = Math.max(200, startWidth + deltaX) // Minimum width of 200px
     const newHeight = newWidth / originalAspectRatio
 
@@ -170,8 +174,10 @@ export const CustomImage = Image.extend<ImageOptions>({
   },
   addNodeView() {
     return ({ view, getPos, HTMLAttributes }) => {
+      const imgDom = document.createElement('div')
+      imgDom.className = 'align-center'
       // Create a container div that will hold both the image and the resize handle
-      const container = document.createElement('div')
+      const container = imgDom.appendChild(document.createElement('div'))
       container.className = 'image-container' // Add class for styling
 
       // Create and append the image
@@ -189,10 +195,12 @@ export const CustomImage = Image.extend<ImageOptions>({
 
       const rightHandle = createResizeHandle(view, getPos(), img)
       container.appendChild(rightHandle)
+      const leftHandle = createResizeHandle(view, getPos(), img, 'left')
+      container.appendChild(leftHandle)
 
       // The resize handle will be added by the plugin
       return {
-        dom: container,
+        dom: imgDom,
         update: (updatedNode) => {
           if (updatedNode.type !== this.type) {
             return false
