@@ -160,6 +160,13 @@ export function findBlockNodeAt(
     ) {
       return $pos.before(depth - 1)
     }
+    if (
+      node.type.name === 'paragraph' &&
+      parent.type.name === 'toggleSection' &&
+      parent.firstChild === node
+    ) {
+      return $pos.before(depth - 1)
+    }
     if (node.isBlock) {
       return $pos.before(depth)
     }
