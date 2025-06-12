@@ -185,10 +185,11 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
         selectstart: (_, e) => {
           if (
             e.target &&
-            typeof (e.target as HTMLDivElement) === 'function' &&
+            typeof (e.target as HTMLDivElement).closest === 'function' &&
             (e.target as HTMLDivElement).closest('.ProseMirror-selectednode')
           ) {
             e.preventDefault()
+            e.stopPropagation()
             return true
           }
           return false

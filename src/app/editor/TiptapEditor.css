@@ -68,7 +68,7 @@ button .is-active {
 .ProseMirror-selectednode img {
   outline: 3px solid var(--purple);
   cursor: default;
-  @apply outline outline-[3px] outline-purple-500;
+  @apply outline outline-[3px] outline-purple-500 select-none;
 }
 
 .tiptap input[type='checkbox']:checked {

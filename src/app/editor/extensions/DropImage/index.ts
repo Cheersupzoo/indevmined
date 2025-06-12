@@ -36,11 +36,11 @@ export const DropImageExtension = Extension.create({
                 // Called from internal ProseMirror
                 return false
               }
-              event.preventDefault()
               let files = event.dataTransfer?.files
               if (!files || files.length === 0) {
-                return
+                return false
               }
+              event.preventDefault()
 
               let pos = view.posAtCoords({
                 left: event.clientX,
