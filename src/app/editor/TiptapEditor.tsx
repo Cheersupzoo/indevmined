@@ -44,6 +44,7 @@ import { ObservableHint } from '@legendapp/state'
 import { DropImageExtension } from './extensions/DropImage'
 import { ToggleSection } from './extensions/ToggleSection'
 import { GroupBlock } from './extensions/GroupBlock'
+import { ErrorBoundary, useErrorBoundary } from 'react-error-boundary'
 const EditorToolbarMobile = dynamic(() =>
   import('./EditorToolbarMobile').then((mod) => mod.EditorToolbarMobile)
 )
@@ -260,8 +261,12 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
           <EditorContent className='markdown-body sm:-mx-16' editor={editor} />
           <PreNodeTools editor={editor} />
           <SlashCommand editor={editor} />
-          {!isMobile && editor && <TextFormatMenu editor={editor} />}
-          {!isMobile && editor && <CodeFormatMenu editor={editor} />}
+          <ErrorBoundary fallback={<ErrorFallback />}>
+            {!isMobile && editor && <TextFormatMenu editor={editor} />}
+          </ErrorBoundary>
+          <ErrorBoundary fallback={<ErrorFallback />}>
+            {!isMobile && editor && <CodeFormatMenu editor={editor} />}
+          </ErrorBoundary>
         </div>
         {/* {editor && <CursorInfo editor={editor} />} */}
         {isMobile && editor && <EditorToolbarMobile editor={editor} />}
@@ -271,3 +276,14 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
 }
 
 export default TiptapEditor
+
+// TODO: Reimprement BubbleMenu so this ErrorBoundary is not needed
+const ErrorFallback = () => {
+  const { resetBoundary } = useErrorBoundary()
+
+  useEffect(() => {
+    resetBoundary()
+  }, [])
+
+  return <></>
+}
