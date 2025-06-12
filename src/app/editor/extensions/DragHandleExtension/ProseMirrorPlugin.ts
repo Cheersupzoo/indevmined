@@ -1,7 +1,8 @@
 import { Plugin, PluginKey, EditorState, TextSelection } from '@tiptap/pm/state'
-import { EditorView, Decoration, DecorationSet } from '@tiptap/pm/view'
-import { Fragment, Node } from '@tiptap/pm/model'
+import { EditorView } from '@tiptap/pm/view'
+import { Node } from '@tiptap/pm/model'
 import { Editor } from '@tiptap/core'
+import { dropPoint } from '@tiptap/pm/transform'
 
 // Define plugin state interface
 interface DragHandlePluginState {
@@ -225,8 +226,14 @@ function startDrag(event: DragEvent, view: EditorView): void {
     })
     if (!pos) return
 
+    const point = dropPoint(
+      view.state.doc,
+      pos.pos,
+      view.state.doc.slice(nodePos, nodePos + node.nodeSize)
+    )
+
     // Execute the node move
-    moveNode(view, draggedNode, pos.pos)
+    moveNode(view, draggedNode, point ? point : pos.pos)
     view.dom.focus()
   }
 
@@ -242,15 +249,10 @@ function moveNode(
   const state = view.state
   let tr = state.tr
 
-  // Adjust target position if it would be shifted by the deletion
-  const adjustedTargetPos =
-    targetPos > draggedNode.pos
-      ? targetPos - draggedNode.node.nodeSize
-      : targetPos
-
   // Delete the node from its original position
-  tr = tr.delete(draggedNode.pos, draggedNode.end)
-
+  tr = tr.deleteRange(draggedNode.pos, draggedNode.end)
+  // Adjust target position if it would be shifted by the deletion
+  const adjustedTargetPos = tr.mapping.map(targetPos)
   // Insert it at the target position
   tr = tr.insert(adjustedTargetPos, draggedNode.node)
 
