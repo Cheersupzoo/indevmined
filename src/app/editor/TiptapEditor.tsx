@@ -181,7 +181,18 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
     immediatelyRender: false,
     editorProps: {
       handleDOMEvents: {
-        keydown: (_, v) => enableKeyboardNavigation(v)
+        keydown: (_, v) => enableKeyboardNavigation(v),
+        selectstart: (_, e) => {
+          if (
+            e.target &&
+            typeof (e.target as HTMLDivElement) === 'function' &&
+            (e.target as HTMLDivElement).closest('.ProseMirror-selectednode')
+          ) {
+            e.preventDefault()
+            return true
+          }
+          return false
+        }
       }
     },
     onCreate: (event) => {
