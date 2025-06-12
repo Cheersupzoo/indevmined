@@ -7,10 +7,11 @@ export const NodeUp = () => {
 
   return (
     <button
-      onClick={() => {
+      onClick={(e) => {
         const editor = currentEditor.peek()
         if (!editor) return
-        editor.chain().moveBlockUp().run()
+        e.preventDefault()
+        editor.chain().moveBlockUp().focus().run()
       }}
     >
       <PanelTopClose size={16} />

@@ -7,10 +7,11 @@ export const NodeDown = () => {
 
   return (
     <button
-      onClick={() => {
+      onClick={(e) => {
         const editor = currentEditor.peek()
         if (!editor) return
-        editor.chain().moveBlockDown().run()
+        e.preventDefault()
+        editor.chain().moveBlockDown().focus().run()
       }}
     >
       <PanelBottomClose size={16} />
