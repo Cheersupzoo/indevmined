@@ -185,17 +185,14 @@ export function findBlockNodeAt(
 
 // Handler for starting a drag operation
 function startDrag(event: DragEvent, view: EditorView): void {
-  const handle = event.target as HTMLElement
-  const pos = view.posAtCoords({
-    left: event.clientX,
-    top: event.clientY
-  })
-  if (!pos) {
-    return
-  }
+  const handle = event.currentTarget as HTMLElement
+  const handleContainer = handle.closest(
+    '.pre-node-tool-container'
+  ) as HTMLDivElement
+  if (!handleContainer || !handleContainer.dataset.pos) return
+  const nodePos = parseInt(handleContainer.dataset.pos)
 
-  const nodePos = findBlockNodeAt(view.state, pos.pos)
-  if (!view || typeof nodePos !== 'number') return
+  if (!view) return
 
   const node = view.state.doc.nodeAt(nodePos)
   if (!node) return
