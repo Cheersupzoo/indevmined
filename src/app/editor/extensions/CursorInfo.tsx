@@ -1,12 +1,13 @@
-import { Editor, EditorEvents } from '@tiptap/core'
+import { Editor } from '@tiptap/core'
 import { Transaction } from '@tiptap/pm/state'
-import React, { useEffect, useState } from 'react'
+import { useObservable, Memo } from '@legendapp/state/react'
+import React, { useEffect } from 'react'
 
 export const CursorInfo = ({ editor }: { editor: Editor }) => {
-  const [position, setPosition] = useState({ from: 0, to: 0, sharedDepth: 0 })
+  const position$ = useObservable({ from: 0, to: 0, sharedDepth: 0 })
   useEffect(() => {
     const fn = ({ editor }: { editor: Editor; transaction: Transaction }) => {
-      setPosition({
+      position$.set({
         from: editor.view.state.selection.from,
         to: editor.view.state.selection.to,
         sharedDepth: editor.view.state.selection.$from.sharedDepth(
@@ -24,9 +25,9 @@ export const CursorInfo = ({ editor }: { editor: Editor }) => {
   return (
     <div className='fixed top-20 right-0 text-slate-200 bg-slate-900'>
       <div>
-        From {position.from} To {position.to}
+        From <Memo>{position$.from}</Memo> To <Memo>{position$.to}</Memo>
       </div>
-      <div>SharedDepth {position.sharedDepth}</div>
+      <div>SharedDepth <Memo>{position$.sharedDepth}</Memo></div>
     </div>
   )
 }

@@ -44,6 +44,17 @@ export type EditorStatus =
 
 type ExportType = 'json' | 'html' | 'yjs' | 'md'
 
+type IsActive = {
+  bold: boolean
+  italic: boolean
+  strike: boolean
+  underline: boolean
+  link: boolean
+  highlightMark: boolean
+  codeBlock: boolean
+  paragraph: boolean
+}
+
 const EditorContext = createContext<{
   docs$: Observable<TiptapDoc[] | null>
   docId$: Observable<string | null>
@@ -56,6 +67,7 @@ const EditorContext = createContext<{
   currentEditor: {
     peek: () => Editor
   } & Observable<OpaqueObject<Editor> | null>
+  isActive$: Observable<IsActive>
   status$: ObservablePrimitive<EditorStatus>
   setDocId: (id: string | null) => void
   syncing$: ObservableBoolean
@@ -79,6 +91,16 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
   const currentEditor = useObservable<OpaqueObject<Editor> | null>(null) as {
     peek: () => Editor
   } & Observable<OpaqueObject<Editor> | null>
+  const isActive$ = useObservable<IsActive>({
+    bold: false,
+    italic: false,
+    strike: false,
+    underline: false,
+    link: false,
+    highlightMark: false,
+    codeBlock: false,
+    paragraph: false,
+  })
   const status$ = useObservable<EditorStatus>(null)
   const syncing$ = useObservable<boolean>(true)
   const updateIdRef = useRef<Promise<string> | null>(null)
@@ -224,6 +246,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
         ydoc$,
         exportDoc,
         currentEditor,
+        isActive$,
         status$,
         setDocId,
         syncing$,

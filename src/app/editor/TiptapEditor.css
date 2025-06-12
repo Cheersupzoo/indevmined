@@ -59,7 +59,8 @@
 }
 
 .bubble-menu button.is-active,
-button.is-active {
+button.is-active,
+button .is-active {
   @apply text-blue-400;
 }
 

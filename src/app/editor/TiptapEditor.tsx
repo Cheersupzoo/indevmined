@@ -49,7 +49,7 @@ const EditorToolbarMobile = dynamic(() =>
 )
 
 const TiptapEditor = ({ docId }: { docId: string }) => {
-  const { ydoc$, currentEditor, syncing$ } = useEditorContext()
+  const { ydoc$, currentEditor, syncing$, isActive$ } = useEditorContext()
   const title$ = useObservable('')
   const category$ = useObservable('')
   const published$ = useObservable('2024-12-20')
@@ -91,6 +91,31 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
   }, [])
 
   const editor = useEditor({
+    shouldRerenderOnTransaction: false,
+    onSelectionUpdate: ({ editor }) => {
+      isActive$.set({
+        bold: editor.isActive('bold'),
+        italic: editor.isActive('italic'),
+        strike: editor.isActive('strike'),
+        underline: editor.isActive('underline'),
+        link: editor.isActive('link'),
+        highlightMark: editor.isActive('highlightMark'),
+        codeBlock: editor.isActive('codeBlock'),
+        paragraph: editor.isActive('paragraph')
+      })
+    },
+    onUpdate: ({ editor }) => {
+      isActive$.set({
+        bold: editor.isActive('bold'),
+        italic: editor.isActive('italic'),
+        strike: editor.isActive('strike'),
+        underline: editor.isActive('underline'),
+        link: editor.isActive('link'),
+        highlightMark: editor.isActive('highlightMark'),
+        codeBlock: editor.isActive('codeBlock'),
+        paragraph: editor.isActive('paragraph')
+      })
+    },
     extensions: [
       StarterKit.configure({
         heading: { levels: [1, 2, 3, 4] },
@@ -232,10 +257,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
           POST
         </div>
         <div className='relative'>
-          <EditorContent
-            className='markdown-body sm:-mx-16'
-            editor={editor}
-          />
+          <EditorContent className='markdown-body sm:-mx-16' editor={editor} />
           <PreNodeTools editor={editor} />
           <SlashCommand editor={editor} />
           {!isMobile && editor && <TextFormatMenu editor={editor} />}

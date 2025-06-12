@@ -11,46 +11,74 @@ import React from 'react'
 import { hideAll } from 'tippy.js'
 import { openLinkEditor } from '../extensions/LinkExtension'
 import { ToolbarVerticalDivider } from './ToolbarVerticalDivider'
+import { useEditorContext } from '../hooks/EditorProvider'
+import { Memo, use$ } from '@legendapp/state/react'
 
 export const IsParagraph = ({ editor }: { editor: Editor }) => {
-  if (!editor.isActive('paragraph')) {
-    return <></>
+  const { isActive$ } = useEditorContext()
+
+  const isParagraph = use$(isActive$.paragraph)
+
+  if (!isParagraph) {
+    return null
   }
 
   return (
     <>
-      <button
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        className={editor.isActive('bold') ? 'is-active' : ''}
-      >
-        <BoldIcon size={16} />
+      <button onClick={() => editor.chain().focus().toggleBold().run()}>
+        <Memo>
+          {() => (
+            <BoldIcon
+              size={16}
+              className={isActive$.bold.get() ? 'is-active' : ''}
+            />
+          )}
+        </Memo>
       </button>
-      <button
-        onClick={() => editor.chain().focus().toggleItalic().run()}
-        className={editor.isActive('italic') ? 'is-active' : ''}
-      >
-        <ItalicIcon size={16} />
+      <button onClick={() => editor.chain().focus().toggleItalic().run()}>
+        <Memo>
+          {() => (
+            <ItalicIcon
+              size={16}
+              className={isActive$.italic.get() ? 'is-active' : ''}
+            />
+          )}
+        </Memo>
       </button>
-      <button
-        onClick={() => editor.chain().focus().toggleStrike().run()}
-        className={editor.isActive('strike') ? 'is-active' : ''}
-      >
-        <StrikethroughIcon size={16} />
+      <button onClick={() => editor.chain().focus().toggleStrike().run()}>
+        <Memo>
+          {() => (
+            <StrikethroughIcon
+              size={16}
+              className={isActive$.strike.get() ? 'is-active' : ''}
+            />
+          )}
+        </Memo>
       </button>
-      <button
-        onClick={() => editor.chain().focus().toggleUnderline().run()}
-        className={editor.isActive('underline') ? 'is-active' : ''}
-      >
-        <UnderlineIcon size={16} />
+      <button onClick={() => editor.chain().focus().toggleUnderline().run()}>
+        <Memo>
+          {() => (
+            <UnderlineIcon
+              size={16}
+              className={isActive$.underline.get() ? 'is-active' : ''}
+            />
+          )}
+        </Memo>
       </button>
       <button
         onClick={() => {
           hideAll()
           openLinkEditor(editor)
         }}
-        className={editor.isActive('link') ? 'is-active' : ''}
       >
-        <LinkIcon size={16} />
+        <Memo>
+          {() => (
+            <LinkIcon
+              size={16}
+              className={isActive$.link.get() ? 'is-active' : ''}
+            />
+          )}
+        </Memo>
       </button>
       <ToolbarVerticalDivider />
       <button
