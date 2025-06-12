@@ -12,7 +12,17 @@ const inter = Ubuntu({
 
 export const metadata: Metadata = {
   title: '404 | In Dev Mined',
-  description: '404 Page not found'
+  description: '404 Page not found',
+  applicationName: 'InDevMined',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'InDevMined'
+  },
+  other: {
+    'mobile-web-app-capable': 'yes'
+  }
 }
 
 export default function RootLayout({

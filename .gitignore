@@ -46,3 +46,7 @@ vault/.obsidian/plugins
 # cloudflare
 /.wrangler
 .dev.vars
+
+# Serwist
+public/sw*
+public/swe-worker*
