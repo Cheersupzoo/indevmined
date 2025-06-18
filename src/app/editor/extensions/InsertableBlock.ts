@@ -11,6 +11,7 @@ import {
   ListOrderedIcon,
   ListTodoIcon,
   MinusIcon,
+  PencilRulerIcon,
   QuoteIcon,
   SquareCodeIcon,
   TypeIcon
@@ -18,6 +19,7 @@ import {
 import { Box3dNode } from './React/Box3d'
 import { ExcalidrawIcon } from './ExcalidrawNode/Icon'
 import ExcalidrawNode from './ExcalidrawNode'
+import { DebugEditor } from './DebugEditor'
 
 export const suggestionBlock = createSuggestionsItems([
   {
@@ -219,5 +221,20 @@ export const suggestionBlock = createSuggestionsItems([
         .run()
     },
     icon: ExcalidrawIcon
-  }
+  },
+   {
+    title: 'Debug Editor',
+    searchTerms: ['debug'],
+    command: ({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .insertContent({
+          type: DebugEditor.name
+        })
+        .run()
+    },
+    icon: PencilRulerIcon
+   }
 ])

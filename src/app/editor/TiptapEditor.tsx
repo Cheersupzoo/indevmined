@@ -45,6 +45,7 @@ import { DropImageExtension } from './extensions/DropImage'
 import { ToggleSection } from './extensions/ToggleSection'
 import { GroupBlock } from './extensions/GroupBlock'
 import { ErrorBoundary, useErrorBoundary } from 'react-error-boundary'
+import { DebugEditor } from './extensions/DebugEditor'
 const EditorToolbarMobile = dynamic(() =>
   import('./EditorToolbarMobile').then((mod) => mod.EditorToolbarMobile)
 )
@@ -151,6 +152,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
       }),
       GroupBlock,
       ToggleSection,
+      DebugEditor,
 
       // Mark
       Underline,

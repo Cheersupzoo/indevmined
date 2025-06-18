@@ -1,0 +1,15 @@
+.debug-editor-container {
+  @apply grid grid-cols-2;
+}
+
+.debug-view {
+  @apply whitespace-pre;
+}
+
+/* .position-decoration {
+  @apply inline bg-eva-text-border text-xs text-white;
+} */
+
+.triangle-clip {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
