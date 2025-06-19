@@ -11,7 +11,7 @@ oneLight['pre[class*="language-"]'].borderRadius = '0'
 
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import python from 'react-syntax-highlighter/dist/esm/languages/prism/python'
-import { cn } from '@/utils/cn'
+import { cn } from '@/lib/utils'
 SyntaxHighlighter.registerLanguage('python', python)
 const SquareLoader = () => <span className='square-loader bg-slate-700' />
 

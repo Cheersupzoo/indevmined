@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './AutoAnimateHeight.css'
-import { cn } from '@/utils/cn'
+import { cn } from '@/lib/utils'
 
 export const AutoAnimateHeight = ({
   children,

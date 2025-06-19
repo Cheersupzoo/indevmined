@@ -5,7 +5,7 @@ import './style.css'
 import { micromark } from 'micromark'
 import { getAnswerIterator } from '@/apis'
 import { AutoAnimateHeight } from '../AutoAnimateHeight'
-import { cn } from '@/utils/cn'
+import { cn } from '@/lib/utils'
 
 const squareLoader = `<span class='square-loader' />`
 

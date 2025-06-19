@@ -2,7 +2,7 @@
 import type { Metadata } from 'next'
 import { Ubuntu, Playpen_Sans } from 'next/font/google'
 import './globals.css'
-import { cn } from '@/utils/cn'
+import { cn } from '@/lib/utils'
 import Script from 'next/script'
 
 const inter = Ubuntu({

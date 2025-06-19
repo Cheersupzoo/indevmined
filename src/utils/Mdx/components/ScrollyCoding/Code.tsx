@@ -12,7 +12,7 @@ import {
 import { tokenTransitions } from './tokenTransitions'
 import { FloatCopyButton } from '@/components/CopyButton'
 import { MermaidLanguageRenderer } from './MermaidLanguageRenderer'
-import { cn } from '@/utils/cn'
+import { cn } from '@/lib/utils'
 import { CodeCollapsible } from './CodeCollapsible.client'
 import { bgHandler, callout, diff, lineNumbers, mark, wordWrap } from './CodeAnotationHandler'
 
