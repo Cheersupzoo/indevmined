@@ -6,7 +6,7 @@ import { HighlighterIcon } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
-import { findBlockNodeAt } from '../extensions/DragHandleExtension/ProseMirrorPlugin'
+import { findBlockNodeAt } from '../extensions/functionality/DragHandleExtension/ProseMirrorPlugin'
 import { useEditorContext } from '../hooks/EditorProvider'
 
 type CodeFormatMenuProps = {

@@ -1,7 +1,7 @@
 import { Slash, SlashCmd } from '@harshtalks/slash-tiptap'
 import { Editor } from '@tiptap/core'
 
-import { suggestionBlock } from './InsertableBlock'
+import { suggestionBlock } from '../nodes/nodes'
 
 export const SlashWithConfigure = Slash.configure({
   suggestion: {

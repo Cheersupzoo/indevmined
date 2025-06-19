@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/core'
 import { SquareDashedBottomIcon } from 'lucide-react'
 
-import { findBlockNodeAt } from '../extensions/DragHandleExtension/ProseMirrorPlugin'
+import { findBlockNodeAt } from '../extensions/functionality/DragHandleExtension/ProseMirrorPlugin'
 
 export const SelectNode = ({ editor }: { editor: Editor }) => {
   return (

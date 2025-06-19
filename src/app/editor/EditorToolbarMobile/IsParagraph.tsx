@@ -15,7 +15,7 @@ import { hideAll } from 'tippy.js'
 
 import { cn } from '@/lib/utils'
 
-import { openLinkEditor } from '../extensions/LinkExtension'
+import { openLinkEditor } from '../extensions/marks/LinkExtension'
 import { useEditorContext } from '../hooks/EditorProvider'
 import { ToolbarVerticalDivider } from './ToolbarVerticalDivider'
 

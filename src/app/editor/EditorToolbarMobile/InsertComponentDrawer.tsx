@@ -12,7 +12,7 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer'
 
-import { suggestionBlock } from '../extensions/InsertableBlock'
+import { suggestionBlock } from '../extensions/nodes/nodes'
 
 export const InsertComponentDrawer = ({ editor }: { editor: Editor }) => {
   const [open, setOpen] = useState(false)

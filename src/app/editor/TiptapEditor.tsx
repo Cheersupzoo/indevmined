@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic'
 import { useEffect } from 'react'
 
 import * as Y from 'yjs'
-import { deleteImage, handleImageUpload } from '@/apis/editor'
 import { useIsMobile } from '@/hooks/use-mobile'
 import {
   SlashCmdProvider,
@@ -14,41 +13,22 @@ import { ObservableHint } from '@legendapp/state'
 import { use$, useObservable } from '@legendapp/state/react'
 import { $React } from '@legendapp/state/react-web'
 import Collaboration from '@tiptap/extension-collaboration'
-import Placeholder from '@tiptap/extension-placeholder'
-import TaskItem from '@tiptap/extension-task-item'
-import TaskList from '@tiptap/extension-task-list'
-import Typography from '@tiptap/extension-typography'
-import { Underline } from '@tiptap/extension-underline'
 import { Editor, EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
 import { motion } from 'motion/react'
 import { ErrorBoundary, useErrorBoundary } from 'react-error-boundary'
 
 import { Spinner } from '@/components/Spinner'
-import { ImageUploadNode } from '@/components/tiptap-node/image-upload-node'
 import '@/styles/markdown.css'
 
 import { PreNodeTools } from './PreNodeTools'
 import './TiptapEditor.css'
 import { CodeFormatMenu } from './components/CodeFormatMenu'
 import { TextFormatMenu } from './components/TextFormatMenu'
-import CodeBlock from './extensions/Code'
-import { CodeBlockLighter } from './extensions/CodeBlockLighter'
-import { CodeMark } from './extensions/CodeBlockLighter/MarkExtension'
 import { CursorInfo } from './extensions/CursorInfo'
-import { CustomImage } from './extensions/CustomImage'
-import { DebugEditor } from './extensions/DebugEditor'
-import { DragHandle } from './extensions/DragHandleExtension'
-import { DropImageExtension } from './extensions/DropImage'
-import ExcalidrawNode from './extensions/ExcalidrawNode'
-import { GroupBlock } from './extensions/GroupBlock'
-import { LinkWithConfigure } from './extensions/LinkExtension'
-import { MoveNodeShortcut } from './extensions/MoveNodeShortcut'
-import { Box3dNode } from './extensions/React/Box3d'
-import { SlashCommand, SlashWithConfigure } from './extensions/SlashCommand'
-import TestComponent from './extensions/TestComponent/extension'
-import { ToggleSection } from './extensions/ToggleSection'
-import { Playful } from './extensions/marks/Playful/Playful'
+import { SlashCommand } from './extensions/functionality/SlashCommand'
+import { functionalityExtensions } from './extensions/functionality/functionality'
+import { markExtensions } from './extensions/marks/marks'
+import { nodeExtensions } from './extensions/nodes/nodes'
 import { useEditorContext } from './hooks/EditorProvider'
 
 const EditorToolbarMobile = dynamic(() =>
@@ -118,67 +98,15 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
     onSelectionUpdate: updateActive,
     onUpdate: updateActive,
     extensions: [
-      StarterKit.configure({
-        heading: { levels: [1, 2, 3, 4] },
-        history: false,
-      }),
+      ...nodeExtensions,
+      ...markExtensions,
+      ...functionalityExtensions,
 
-      // Node
-      CustomImage.configure({
-        deleteImage(url) {
-          if (url.startsWith('https://cdn.indevmined.com')) {
-            const key = url.replace('https://cdn.indevmined.com/', '')
-            deleteImage(key)
-          }
-        },
-      }),
-      // TODO: Remove TestComponent
-      TestComponent,
-      CodeBlock,
-      CodeBlockLighter,
-      Box3dNode,
-      ExcalidrawNode,
-      ImageUploadNode.configure({
-        accept: 'image/*',
-        maxSize: 5 * 1024 * 1024,
-        limit: 3,
-        upload: handleImageUpload,
-        onError: (error) => console.error('Upload failed:', error),
-      }),
-      TaskList,
-      TaskItem.configure({
-        nested: true,
-      }),
-      GroupBlock,
-      ToggleSection,
-      DebugEditor,
-
-      // Mark
-      Underline,
-      CodeMark,
-      Playful,
-
-      // Functionality
-      SlashWithConfigure,
-      Placeholder.configure({
-        includeChildren: true,
-        placeholder: ({ node }) => {
-          if (node.type.name === 'heading') {
-            return `Header ${node.attrs.level}`
-          }
-
-          return 'Press / to see available commands'
-        },
-      }),
-      LinkWithConfigure,
-      MoveNodeShortcut,
-      DragHandle,
+      // Collaboration
       Collaboration.configure({
         document: ydoc,
         field: 'content',
       }),
-      Typography,
-      DropImageExtension,
     ],
     immediatelyRender: false,
     editorProps: {

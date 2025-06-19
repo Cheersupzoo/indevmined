@@ -7,7 +7,7 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { ReactRenderer } from '@tiptap/react'
 import tippy from 'tippy.js'
 
-import { LinkPopover } from './LinkExtension/LinkPopover'
+import { LinkPopover } from '../functionality/LinkExtension/LinkPopover'
 
 export const LinkWithConfigure = Link.extend({
   addProseMirrorPlugins() {

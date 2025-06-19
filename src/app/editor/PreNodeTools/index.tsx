@@ -5,7 +5,7 @@ import { ReactRenderer } from '@tiptap/react'
 import { GripVertical, PlusIcon } from 'lucide-react'
 import tippy from 'tippy.js'
 
-import { findBlockNodeAt } from '../extensions/DragHandleExtension/ProseMirrorPlugin'
+import { findBlockNodeAt } from '../extensions/functionality/DragHandleExtension/ProseMirrorPlugin'
 import { NodeMenu } from './NodeMenu'
 
 const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {

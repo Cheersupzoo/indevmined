@@ -12,8 +12,8 @@ import { hideAll } from 'tippy.js'
 
 import { cn } from '@/lib/utils'
 
-import { findBlockNodeAt } from '../extensions/DragHandleExtension/ProseMirrorPlugin'
-import { openLinkEditor } from '../extensions/LinkExtension'
+import { findBlockNodeAt } from '../extensions/functionality/DragHandleExtension/ProseMirrorPlugin'
+import { openLinkEditor } from '../extensions/marks/LinkExtension'
 import { useEditorContext } from '../hooks/EditorProvider'
 
 type TextFormatMenuProps = {
