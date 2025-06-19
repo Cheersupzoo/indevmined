@@ -1,6 +1,7 @@
-export { onRequestOptions } from '../../../src/utils/function/index'
 import { getHeader } from '../../../src/utils/function/index'
 import { protectedRoute } from '../../../src/utils/function/protectedRoute'
+
+export { onRequestOptions } from '../../../src/utils/function/index'
 
 export const onRequestDelete = protectedRoute(async (context, tokenPayload) => {
   const id = context.params['id']
@@ -19,9 +20,9 @@ export const onRequestDelete = protectedRoute(async (context, tokenPayload) => {
     {
       headers: {
         Authorization: context.env.TIP_TAP_API_SECRET,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      method: 'DELETE'
+      method: 'DELETE',
     }
   )
 
@@ -66,8 +67,8 @@ export const onRequestPut = protectedRoute(async (context, tokenPayload) => {
     `https://${context.env.TIP_TAP_APP_ID}.collab.tiptap.cloud/api/documents/${encodedId}?format=yjs`,
     {
       headers: {
-        Authorization: context.env.TIP_TAP_API_SECRET
-      }
+        Authorization: context.env.TIP_TAP_API_SECRET,
+      },
     }
   )
 
@@ -83,10 +84,10 @@ export const onRequestPut = protectedRoute(async (context, tokenPayload) => {
       `https://${context.env.TIP_TAP_APP_ID}.collab.tiptap.cloud/api/documents/${encodedNewId}`,
       {
         headers: {
-          Authorization: context.env.TIP_TAP_API_SECRET
+          Authorization: context.env.TIP_TAP_API_SECRET,
         },
         method: 'POST',
-        body: doc
+        body: doc,
       }
     ),
     fetch(
@@ -94,11 +95,11 @@ export const onRequestPut = protectedRoute(async (context, tokenPayload) => {
       {
         headers: {
           Authorization: context.env.TIP_TAP_API_SECRET,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        method: 'DELETE'
+        method: 'DELETE',
       }
-    )
+    ),
   ])
 
   if (createRes.status !== 204) {

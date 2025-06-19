@@ -1,15 +1,15 @@
-export { onRequestOptions } from '../../../src/utils/function/index'
-
 import { getHeader } from '../../../src/utils/function/index'
 import { protectedRoute } from '../../../src/utils/function/protectedRoute'
+
+export { onRequestOptions } from '../../../src/utils/function/index'
 
 export const onRequestGet = protectedRoute(async (context) => {
   const res = await fetch(
     `https://${context.env.TIP_TAP_APP_ID}.collab.tiptap.cloud/api/documents`,
     {
       headers: {
-        Authorization: context.env.TIP_TAP_API_SECRET
-      }
+        Authorization: context.env.TIP_TAP_API_SECRET,
+      },
     }
   )
   const docs = await res.json()
@@ -18,7 +18,7 @@ export const onRequestGet = protectedRoute(async (context) => {
 
   return Response.json(
     {
-      docs: docs.map((doc) => ({ ...doc, name: doc.name }))
+      docs: docs.map((doc) => ({ ...doc, name: doc.name })),
     },
     { headers }
   )
@@ -37,7 +37,7 @@ export const onRequestPost = protectedRoute(async (context, tokenPayload) => {
     {
       headers: {
         Authorization: context.env.TIP_TAP_API_SECRET,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       method: 'POST',
       body: JSON.stringify({
@@ -48,12 +48,12 @@ export const onRequestPost = protectedRoute(async (context, tokenPayload) => {
             content: [
               {
                 type: 'text',
-                text: 'This is your content.'
-              }
-            ]
-          }
-        ]
-      })
+                text: 'This is your content.',
+              },
+            ],
+          },
+        ],
+      }),
     }
   )
 

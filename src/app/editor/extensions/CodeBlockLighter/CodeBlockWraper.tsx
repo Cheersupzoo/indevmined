@@ -1,16 +1,19 @@
+import dynamic from 'next/dynamic'
+import React, { useRef } from 'react'
+
 import {
   NodeViewContent,
   NodeViewProps,
   NodeViewWrapper,
-  ReactRenderer
+  ReactRenderer,
 } from '@tiptap/react'
 import { ChevronDown } from 'lucide-react'
-import React, { useRef } from 'react'
 import tippy from 'tippy.js'
-import './style.css'
+
 import { CodeBlockDropdown } from './CodeBlockDropdown'
-import dynamic from 'next/dynamic'
 import { LanguageSelector } from './LanguageSelector'
+import './style.css'
+
 const LiveProvider = dynamic(
   () => import('react-live').then((m) => m.LiveProvider),
   { ssr: false }
@@ -20,7 +23,7 @@ const LivePreview = dynamic(
   { ssr: false }
 )
 const LiveError = dynamic(() => import('react-live').then((m) => m.LiveError), {
-  ssr: false
+  ssr: false,
 })
 
 export const CodeBlockWrapper = (props: NodeViewProps) => {
@@ -28,19 +31,19 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
   const spanEl = useRef<HTMLDivElement>(null)
 
   return (
-    <NodeViewWrapper className='bg-zinc-800 rounded shadow-xl flex flex-col relative pre group'>
-      <div contentEditable={false} className='absolute top-1.5 right-1.5'>
+    <NodeViewWrapper className='pre group relative flex flex-col rounded bg-zinc-800 shadow-xl'>
+      <div contentEditable={false} className='absolute right-1.5 top-1.5'>
         <CodeBlockDropdown
           preview={props.node.attrs.preview}
           togglePreview={() => {
             props.updateAttributes({
-              preview: !props.node.attrs.preview
+              preview: !props.node.attrs.preview,
             })
           }}
           center={props.node.attrs.previewCenter}
           toggleCenter={() =>
             props.updateAttributes({
-              previewCenter: !props.node.attrs.previewCenter
+              previewCenter: !props.node.attrs.previewCenter,
             })
           }
         />
@@ -48,7 +51,7 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
       <div
         ref={codeEl}
         contentEditable={false}
-        className='text-center text-zinc-400 text-xs py-2 font-mono '
+        className='py-2 text-center font-mono text-xs text-zinc-400'
       >
         <span
           ref={spanEl}
@@ -58,8 +61,8 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
             const component = new ReactRenderer(LanguageSelector, {
               editor: props.editor,
               props: {
-                currentLanguage: props.node.attrs.language
-              }
+                currentLanguage: props.node.attrs.language,
+              },
             })
 
             const popup = tippy(event.currentTarget, {
@@ -72,7 +75,7 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
                     left: 0,
                     right: 0,
                     top: 0,
-                    bottom: 0
+                    bottom: 0,
                   } as DOMRect
                 }
                 const pos = spanEl.current.getBoundingClientRect()
@@ -83,19 +86,19 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
               showOnCreate: true,
               interactive: true,
               trigger: 'manual',
-              placement: 'bottom-start'
+              placement: 'bottom-start',
             })
             component.updateProps({
               editor: props.editor,
               updateLanguage: (language: string) =>
                 props.updateAttributes({ language }),
-              closePopup: () => popup.hide()
+              closePopup: () => popup.hide(),
             })
           }}
         >
           {props.node.attrs.language}
           <ChevronDown
-            className='inline group-hover:opacity-100 opacity-0'
+            className='inline opacity-0 group-hover:opacity-100'
             size={16}
           />
         </span>
@@ -103,20 +106,20 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
       {!(
         props.node.attrs.preview && ['jsx', 'tsx', props.node.attrs.preview]
       ) ? (
-        <NodeViewContent as='code' className='text-[0.9rem] relative z-0' />
+        <NodeViewContent as='code' className='relative z-0 text-[0.9rem]' />
       ) : (
-        <div className='grid grid-rows-[minmax(0,_1fr)_minmax(100px,_auto)] sm:grid-rows-none sm:grid-cols-2'>
+        <div className='grid grid-rows-[minmax(0,_1fr)_minmax(100px,_auto)] sm:grid-cols-2 sm:grid-rows-none'>
           <NodeViewContent
             as='code'
-            className='text-[0.9rem] relative z-0 border-b sm:border-b-0 sm:border-r border-eva-text-border'
+            className='relative z-0 border-b border-eva-text-border text-[0.9rem] sm:border-b-0 sm:border-r'
           />
-          <div contentEditable={false} className='p-2 '>
+          <div contentEditable={false} className='p-2'>
             <LiveProvider code={props.node.textContent} noInline>
-              <LiveError className='text-red-800 bg-red-100 mt-2' />
+              <LiveError className='mt-2 bg-red-100 text-red-800' />
               {!props.node.attrs.previewCenter ? (
                 <LivePreview />
               ) : (
-                <div className='flex justify-center items-center h-full'>
+                <div className='flex h-full items-center justify-center'>
                   {' '}
                   <LivePreview />
                 </div>

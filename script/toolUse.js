@@ -4,13 +4,13 @@ const codeParser = (functionObj) => {
   if (!functionObj?.function?.arguments || !functionObj?.id) {
     return {
       id: functionObj.id,
-      error: 'Fail to execute function'
+      error: 'Fail to execute function',
     }
   }
 
   return {
     id: functionObj.id,
-    code: JSON.parse(functionObj.function.arguments).code
+    code: JSON.parse(functionObj.function.arguments).code,
   }
 }
 
@@ -24,12 +24,12 @@ const codeParser = (functionObj) => {
     messages: [
       {
         role: 'system',
-        content: systemPrompt
+        content: systemPrompt,
       },
       {
         role: 'user',
-        content: question
-      }
+        content: question,
+      },
     ],
     model: 'llama3-groq-70b-8192-tool-use-preview',
     temperature: 0.1,
@@ -47,23 +47,23 @@ const codeParser = (functionObj) => {
             properties: {
               code: {
                 type: 'string',
-                description: 'The python code to execute in a single cell'
-              }
+                description: 'The python code to execute in a single cell',
+              },
             },
-            required: ['code']
-          }
-        }
-      }
+            required: ['code'],
+          },
+        },
+      },
     ],
-    tool_choice: 'auto'
+    tool_choice: 'auto',
   }
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`
+      Authorization: `Bearer ${apiKey}`,
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   })
 
   const result = await response.json()
@@ -75,11 +75,11 @@ const codeParser = (functionObj) => {
         if (error) {
           return {
             id,
-            error
+            error,
           }
         }
         const sandbox = await Sandbox.create({
-          apiKey: process.env.E2B_API_KEY
+          apiKey: process.env.E2B_API_KEY,
         })
         console.log(sandbox)
 
@@ -89,7 +89,7 @@ const codeParser = (functionObj) => {
 
         return {
           id,
-          result: exeResult
+          result: exeResult,
         }
       })
     )
@@ -98,31 +98,31 @@ const codeParser = (functionObj) => {
       messages: [
         {
           role: 'system',
-          content: systemPrompt
+          content: systemPrompt,
         },
         {
           role: 'user',
-          content: question
+          content: question,
         },
         aiChoice,
         {
           role: 'function',
           name: 'execute_python',
-          content: JSON.stringify(results)
-        }
+          content: JSON.stringify(results),
+        },
       ],
       model: 'llama-3.1-70b-versatile',
       temperature: 0.1,
       max_tokens: 1500,
-      stream: false
+      stream: false,
     }
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`
+        Authorization: `Bearer ${apiKey}`,
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     })
 
     const output = await response.json()

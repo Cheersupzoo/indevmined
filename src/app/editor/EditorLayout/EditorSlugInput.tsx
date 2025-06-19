@@ -1,6 +1,8 @@
 import React from 'react'
-import { useEditorContext } from '../hooks/EditorProvider'
+
 import { use$ } from '@legendapp/state/react'
+
+import { useEditorContext } from '../hooks/EditorProvider'
 import { useDisplaySlugName } from '../hooks/useDisplaySlugName'
 import './EditorSlugInput.css'
 
@@ -58,7 +60,7 @@ export const EditorSlugInput = () => {
           updateDoc(currentDocId, { id: newId })
         }
       }}
-      className='editor-slug-input text-eva-text bg-transparent focus-visible:outline-none focus-visible:bg-eva-text/10 hover:bg-eva-text/10 px-1.5 rounded-md min-w-16'
+      className='editor-slug-input min-w-16 rounded-md bg-transparent px-1.5 text-eva-text hover:bg-eva-text/10 focus-visible:bg-eva-text/10 focus-visible:outline-none'
     >
       {currentSlug}
     </div>

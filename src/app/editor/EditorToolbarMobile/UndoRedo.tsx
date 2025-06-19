@@ -1,8 +1,10 @@
-import { cn } from '@/lib/utils'
+import React, { useEffect } from 'react'
+
 import { Memo, useObservable } from '@legendapp/state/react'
 import { Editor, EditorEvents } from '@tiptap/react'
 import { Redo2Icon, Undo2Icon } from 'lucide-react'
-import React, { useEffect } from 'react'
+
+import { cn } from '@/lib/utils'
 
 export const UndoRedo = ({ editor }: { editor: Editor }) => {
   const canUndo = useObservable(false)

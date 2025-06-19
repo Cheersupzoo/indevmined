@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+import { Metadata } from 'next'
+import Link from 'next/link'
+
 import Layout, { NormalResponsive } from '@/components/Layout'
 import Question from '@/components/Question'
 import StuntingBackground from '@/components/StuntingBackground'
-import { Metadata } from 'next'
-import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -11,10 +12,10 @@ export default function Home() {
       <NormalResponsive>
         <div className='relative flex'>
           <div className='h-40 w-64' />
-          <div className='mt-2 sm:mt-10 space-y-4'>
+          <div className='mt-2 space-y-4 sm:mt-10'>
             <div className='text-xl sm:text-2xl'>
-              Ask <span className='text-color2 font-semibold '>Ham</span> the AI
-              about <span className='text-color1 font-medium'>InDevMined</span>!
+              Ask <span className='font-semibold text-color2'>Ham</span> the AI
+              about <span className='font-medium text-color1'>InDevMined</span>!
             </div>
             <div className='text-sm sm:text-base'>
               He knows all the FB posts and can respond in both English and
@@ -22,17 +23,17 @@ export default function Home() {
             </div>
           </div>
           <img
-            className='absolute top-0 -left-16 w-[200px] sm:w-[300px]'
+            className='absolute -left-16 top-0 w-[200px] sm:w-[300px]'
             src='/ham.png'
             alt='Ham the ai assistance'
           />
         </div>
-        <div className='bg-foreground/90 p-2 rounded-3xl'>
+        <div className='rounded-3xl bg-foreground/90 p-2'>
           <Question />
-          <div className='text-sm text-center text-zinc-500 mt-2'>
+          <div className='mt-2 text-center text-sm text-zinc-500'>
             AI can make mistakes. Check important info.
           </div>
-          <div className='text-sm text-center text-zinc-500 mt-2 mb-8'>
+          <div className='mb-8 mt-2 text-center text-sm text-zinc-500'>
             Made for fun with{' '}
             <a className='text-text' href='https://nextjs.org' target='_blank'>
               Next.js
@@ -52,10 +53,10 @@ export default function Home() {
           </div>
 
           <div className='px-4 py-2'>
-            <div className='font-medium text-2xl mb-4'>Q&A</div>
+            <div className='mb-4 text-2xl font-medium'>Q&A</div>
 
-            <div className='font-medium mb-2'>What is Ham?</div>
-            <div className='text-sm text-justify'>
+            <div className='mb-2 font-medium'>What is Ham?</div>
+            <div className='text-justify text-sm'>
               This is a Q&A AI system that has been trained using information
               from the{' '}
               <a
@@ -70,8 +71,8 @@ export default function Home() {
               be accurate.
             </div>
 
-            <div className='font-medium mb-2 mt-4'>How is Ham made?</div>
-            <div className='text-sm text-justify'>
+            <div className='mb-2 mt-4 font-medium'>How is Ham made?</div>
+            <div className='text-justify text-sm'>
               The core of this AI system is based on the LLM{' '}
               <a
                 className='underline underline-offset-4 hover:text-color2'
@@ -96,10 +97,10 @@ export default function Home() {
               is fed into the LLM Llama 3.1 model, and the generated answer is
               streamed to the client.
             </div>
-            <div className='font-medium mb-2 mt-4'>
+            <div className='mb-2 mt-4 font-medium'>
               Where can I read the information that AI acquires?
             </div>
-            <div className='text-sm text-justify'>
+            <div className='text-justify text-sm'>
               The information is provided as posts in Thai on the{' '}
               <a
                 className='underline underline-offset-4 hover:text-color2'
@@ -125,7 +126,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className='flex justify-center mt-8'>
+        <div className='mt-8 flex justify-center'>
           <a
             href='https://github.com/Cheersupzoo/indevmined'
             className='text-sm hover:underline'
@@ -142,5 +143,5 @@ export default function Home() {
 export const metadata: Metadata = {
   title: 'Home | In Dev Mined',
   description:
-    'All In Dev Mined Home page. Ask AI question about InDevMined post.'
+    'All In Dev Mined Home page. Ask AI question about InDevMined post.',
 }

@@ -42,8 +42,8 @@ export const functionWrapper = (onRequest) => {
       return new Response(response, {
         headers: {
           ...headers,
-          'content-type': 'text/event-stream'
-        }
+          'content-type': 'text/event-stream',
+        },
       })
     }
 
@@ -53,8 +53,8 @@ export const functionWrapper = (onRequest) => {
         {
           headers: {
             ...headers,
-            'content-type': 'application/json'
-          }
+            'content-type': 'application/json',
+          },
         }
       )
     }
@@ -62,8 +62,8 @@ export const functionWrapper = (onRequest) => {
     return new Response(response.body, {
       headers: {
         ...headers,
-        'content-type': response.headers.get('content-type')
-      }
+        'content-type': response.headers.get('content-type'),
+      },
     })
   }
 }
@@ -78,7 +78,7 @@ export function getHeader(context) {
     /^http:\/\/localhost:3000/,
     /^https:\/\/[0-9a-z]+\.isekai-dev-guide\.pages\.dev/,
     /www\.indevmined\.com/,
-    /indevmined\.com/
+    /indevmined\.com/,
   ]
 
   if (corsWhitelist.some((whitelist) => whitelist.test(origin))) {
@@ -86,7 +86,7 @@ export function getHeader(context) {
       'Access-Control-Allow-Origin': origin,
       'Access-Control-Allow-Headers': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, DELETE, PUT',
-      'Access-Control-Max-Age': '86400'
+      'Access-Control-Max-Age': '86400',
     }
   }
 
@@ -94,13 +94,13 @@ export function getHeader(context) {
     'Access-Control-Allow-Origin': 'https://www.indevmined.com',
     'Access-Control-Allow-Headers': '*',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, DELETE, PUT',
-    'Access-Control-Max-Age': '86400'
+    'Access-Control-Max-Age': '86400',
   }
 }
 
 export const onRequestOptions = async (context) => {
   return new Response(null, {
     status: 204,
-    headers: getHeader(context)
+    headers: getHeader(context),
   })
 }

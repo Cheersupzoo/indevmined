@@ -1,5 +1,7 @@
-import { PanelTopClose } from 'lucide-react'
 import React from 'react'
+
+import { PanelTopClose } from 'lucide-react'
+
 import { useEditorContext } from '../hooks/EditorProvider'
 
 export const NodeUp = () => {

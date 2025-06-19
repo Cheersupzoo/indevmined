@@ -10,17 +10,17 @@
 .excalidraw .dropdown-menu {
   max-height: 250px;
   overflow-x: auto;
-  @apply border border-eva-text-border rounded-xl;
+  @apply rounded-xl border border-eva-text-border;
 }
 
 .excalidraw .mobile-misc-tools-container {
-  @apply bg-background border border-eva-text-border text-eva-text;
+  @apply border border-eva-text-border bg-background text-eva-text;
 }
 
 .excalidraw .sidebar-trigger,
 .excalidraw .main-menu-trigger {
   box-shadow: 0 0 0 1px var(--tw-shadow);
-  @apply text-eva-text bg-eva-text-border border-eva-text-border shadow-eva-text-border hover:text-background;
+  @apply border-eva-text-border bg-eva-text-border text-eva-text shadow-eva-text-border hover:text-background;
 }
 
 .excalidraw .ToolIcon__icon svg {
@@ -32,9 +32,10 @@
 }
 
 .excalidraw .Modal {
-  @apply text-eva-text pointer-events-auto;
+  @apply pointer-events-auto text-eva-text;
 }
 
-.excalidraw .HelpDialog__btn, .excalidraw .HelpDialog__key {
+.excalidraw .HelpDialog__btn,
+.excalidraw .HelpDialog__key {
   @apply text-background;
 }

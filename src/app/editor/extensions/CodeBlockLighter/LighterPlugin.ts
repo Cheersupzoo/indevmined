@@ -1,9 +1,10 @@
+import type { CSSProperties } from 'react'
+
+import { highlightSync, preload } from '@code-hike/lighter'
 import { findChildren } from '@tiptap/core'
 import { Node as ProsemirrorNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet, EditorView } from '@tiptap/pm/view'
-import { highlightSync, preload } from '@code-hike/lighter'
-import type { CSSProperties } from 'react'
 
 function styleJSToCSS(JS: CSSProperties) {
   let cssString = ''
@@ -26,7 +27,7 @@ function parseNodes(
     .map((node) => {
       const classes = [
         ...className,
-        ...(node.properties ? node.properties.className : [])
+        ...(node.properties ? node.properties.className : []),
       ]
 
       if (node.children) {
@@ -35,7 +36,7 @@ function parseNodes(
 
       return {
         text: node.value,
-        classes
+        classes,
       }
     })
     .flat()
@@ -60,7 +61,7 @@ function getDecorations({
   doc,
   name,
   defaultLanguage,
-  editor
+  editor,
 }: {
   doc: ProsemirrorNode
   name: string
@@ -146,7 +147,7 @@ function getDecorations({
         const to = from + node.content.length
         if (Object.keys(node.style).length) {
           const decoration = Decoration.inline(from, to, {
-            style: styleJSToCSS(node.style) + 'display: inline-block;'
+            style: styleJSToCSS(node.style) + 'display: inline-block;',
           })
 
           decorations.push(decoration)
@@ -167,7 +168,7 @@ function isFunction(param: any): param is Function {
 
 export function LighterPlugin({
   name,
-  defaultLanguage
+  defaultLanguage,
 }: {
   name: string
   defaultLanguage: string | null | undefined
@@ -238,18 +239,18 @@ export function LighterPlugin({
             doc: transaction.doc,
             name,
             defaultLanguage,
-            editor
+            editor,
           })
         }
 
         return decorationSet.map(transaction.mapping, transaction.doc)
-      }
+      },
     },
 
     props: {
       decorations(state) {
         return lighterPlugin.getState(state)
-      }
+      },
     },
     view: (editorView) => {
       editor = editorView
@@ -263,9 +264,9 @@ export function LighterPlugin({
 
       return {
         update: () => {},
-        destroy: () => {}
+        destroy: () => {},
       }
-    }
+    },
   })
 
   return lighterPlugin

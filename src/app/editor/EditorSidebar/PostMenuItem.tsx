@@ -1,22 +1,25 @@
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import React from 'react'
+
+import type { Observable } from '@legendapp/state'
+import { use$ } from '@legendapp/state/react'
+import { FileText } from 'lucide-react'
+
 import {
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar
+  useSidebar,
 } from '@/components/ui/sidebar'
-import type { Observable } from '@legendapp/state'
-import React from 'react'
-import { useEditorContext, type TiptapDoc } from '../hooks/EditorProvider'
-import { use$ } from '@legendapp/state/react'
 import { cn } from '@/lib/utils'
-import { PostMenuItemDropdown } from './PostMenuItemDropdown'
+
+import { type TiptapDoc, useEditorContext } from '../hooks/EditorProvider'
 import { useDisplaySlugName } from '../hooks/useDisplaySlugName'
 import './PostMenuItem.css'
-import { FileText } from 'lucide-react'
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
+import { PostMenuItemDropdown } from './PostMenuItemDropdown'
 
 export const PostMenuItem = ({
-  item$: doc$
+  item$: doc$,
 }: {
   item$: Observable<TiptapDoc>
 }) => {

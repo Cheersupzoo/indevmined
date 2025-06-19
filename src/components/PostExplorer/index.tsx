@@ -1,15 +1,17 @@
 import React from 'react'
-import PostList from './PostList'
-import { NormalResponsive } from '../Layout'
-import { FaFacebookSquare } from 'react-icons/fa'
-import './style.css'
+
 import { PostMeta } from '@/utils/Mdx/compileMdx'
+import { FaFacebookSquare } from 'react-icons/fa'
+
+import { NormalResponsive } from '../Layout'
+import PostList from './PostList'
+import './style.css'
 
 const PostExplorer = ({ posts, en }: { posts: PostMeta[]; en?: boolean }) => {
   return (
     <>
       <NormalResponsive>
-        <div className='text-[2rem] leading-none text-text mb-4 mt-6'>Post</div>
+        <div className='mb-4 mt-6 text-[2rem] leading-none text-text'>Post</div>
         <div>
           {en ? (
             <>
@@ -19,7 +21,7 @@ const PostExplorer = ({ posts, en }: { posts: PostMeta[]; en?: boolean }) => {
                 title={`Facebook In Dev Mined`}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='text-eva-text text-[1.2rem] hover:text-[#1877F2] inline-block'
+                className='inline-block text-[1.2rem] text-eva-text hover:text-[#1877F2]'
               >
                 <FaFacebookSquare />
               </a>{' '}
@@ -33,7 +35,7 @@ const PostExplorer = ({ posts, en }: { posts: PostMeta[]; en?: boolean }) => {
                 title={`Facebook In Dev Mined`}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='text-eva-text text-[1.2rem] hover:text-[#1877F2] inline-block'
+                className='inline-block text-[1.2rem] text-eva-text hover:text-[#1877F2]'
               >
                 <FaFacebookSquare />
               </a>{' '}
@@ -41,7 +43,7 @@ const PostExplorer = ({ posts, en }: { posts: PostMeta[]; en?: boolean }) => {
             </>
           )}
         </div>
-        <div className='post-dot-grid absolute -top-4 -right-6 h-32 w-32 -z-10'>
+        <div className='post-dot-grid absolute -right-6 -top-4 -z-10 h-32 w-32'>
           {[...Array(100)].map((_, index) => (
             <div key={index} className='dot'></div>
           ))}

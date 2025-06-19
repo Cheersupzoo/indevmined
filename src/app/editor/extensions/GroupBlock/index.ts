@@ -1,4 +1,4 @@
-import { mergeAttributes, Node } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 import { Selection } from '@tiptap/pm/state'
 
 export interface GroupBlockOptions {
@@ -27,15 +27,15 @@ export const GroupBlock = Node.create<GroupBlockOptions>({
   addOptions() {
     return {
       exitOnDoubleEnter: true,
-      HTMLAttributes: {}
+      HTMLAttributes: {},
     }
   },
 
   parseHTML() {
     return [
       {
-        tag: `div[data-type="${this.name}"]`
-      }
+        tag: `div[data-type="${this.name}"]`,
+      },
     ]
   },
 
@@ -43,9 +43,9 @@ export const GroupBlock = Node.create<GroupBlockOptions>({
     return [
       'div',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
-        'data-type': this.name
+        'data-type': this.name,
       }),
-      0
+      0,
     ]
   },
 
@@ -63,7 +63,7 @@ export const GroupBlock = Node.create<GroupBlockOptions>({
           }
 
           return true
-        }
+        },
       }
     }
   },
@@ -125,7 +125,7 @@ export const GroupBlock = Node.create<GroupBlockOptions>({
 
           return true
         })
-      }
+      },
     }
-  }
+  },
 })

@@ -4,7 +4,7 @@ export default function centerImageDescription(_options: any) {
   return async function transformer(tree: any, _file: any) {
     visit(tree, 'element', (node: any, _, parent) => {
       if (node.tagName === 'img') {
-        if(parent?.children?.[1] && parent.children[1].type === 'text') {
+        if (parent?.children?.[1] && parent.children[1].type === 'text') {
           const textNode = parent.children[1]
           parent.children[1] = {
             type: 'element',
@@ -13,6 +13,6 @@ export default function centerImageDescription(_options: any) {
           }
         }
       }
-    });
+    })
   }
 }

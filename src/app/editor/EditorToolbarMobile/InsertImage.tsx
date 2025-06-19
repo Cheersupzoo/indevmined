@@ -1,5 +1,7 @@
-import { ImageIcon } from 'lucide-react'
 import React from 'react'
+
+import { ImageIcon } from 'lucide-react'
+
 import { useEditorContext } from '../hooks/EditorProvider'
 
 export const InsertImage = () => {

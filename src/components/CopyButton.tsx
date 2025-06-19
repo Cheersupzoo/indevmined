@@ -1,14 +1,15 @@
 'use client'
 
-import { Copy, Check } from 'lucide-react'
 import { useState } from 'react'
+
+import { Check, Copy } from 'lucide-react'
 
 export function FloatCopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false)
 
   return (
     <button
-      className='hover:bg-gray-400/20 p-1 rounded absolute top-1 right-1 text-zinc-300'
+      className='absolute right-1 top-1 rounded p-1 text-zinc-300 hover:bg-gray-400/20'
       aria-label='Copy to clipboard'
       onClick={() => {
         navigator.clipboard.writeText(text)

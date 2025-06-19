@@ -1,4 +1,4 @@
-import { mergeAttributes, Node } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 import { ReactNodeViewRenderer } from '@tiptap/react'
 
 import Component from './index'
@@ -13,8 +13,8 @@ export default Node.create({
   addAttributes() {
     return {
       count: {
-        default: 0
-      }
+        default: 0,
+      },
     }
   },
 
@@ -23,8 +23,8 @@ export default Node.create({
   parseHTML() {
     return [
       {
-        tag: 'react-component'
-      }
+        tag: 'react-component',
+      },
     ]
   },
 
@@ -34,5 +34,5 @@ export default Node.create({
 
   addNodeView() {
     return ReactNodeViewRenderer(Component)
-  }
+  },
 })

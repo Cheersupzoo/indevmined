@@ -7,20 +7,29 @@ import {
   InnerToken,
   Pre,
   RawCode,
-  highlight
+  highlight,
 } from 'codehike/code'
-import { tokenTransitions } from './tokenTransitions'
+
 import { FloatCopyButton } from '@/components/CopyButton'
-import { MermaidLanguageRenderer } from './MermaidLanguageRenderer'
 import { cn } from '@/lib/utils'
+
+import {
+  bgHandler,
+  callout,
+  diff,
+  lineNumbers,
+  mark,
+  wordWrap,
+} from './CodeAnotationHandler'
 import { CodeCollapsible } from './CodeCollapsible.client'
-import { bgHandler, callout, diff, lineNumbers, mark, wordWrap } from './CodeAnotationHandler'
+import { MermaidLanguageRenderer } from './MermaidLanguageRenderer'
+import { tokenTransitions } from './tokenTransitions'
 
 export async function Code({
   codeblock,
   copy,
   collapse,
-  noWrap
+  noWrap,
 }: {
   codeblock: RawCode
   copy?: boolean
@@ -39,15 +48,17 @@ export async function Code({
     code = (
       <Pre
         code={highlighted}
-        handlers={[
-          tokenTransitions,
-          bgHandler,
-          mark,
-          !noWrap && wordWrap,
-          lineNumbers,
-          callout,
-          diff
-        ].filter(Boolean) as AnnotationHandler[]}
+        handlers={
+          [
+            tokenTransitions,
+            bgHandler,
+            mark,
+            !noWrap && wordWrap,
+            lineNumbers,
+            callout,
+            diff,
+          ].filter(Boolean) as AnnotationHandler[]
+        }
         className='bg-transparent text-[0.9rem]'
       />
     )
@@ -56,7 +67,7 @@ export async function Code({
   return (
     <>
       {!!highlighted.meta.length && (
-        <div className='text-center text-zinc-400 text-xs py-2 font-mono'>
+        <div className='py-2 text-center font-mono text-xs text-zinc-400'>
           {highlighted.meta}
         </div>
       )}
@@ -71,4 +82,3 @@ export async function Code({
     </>
   )
 }
-

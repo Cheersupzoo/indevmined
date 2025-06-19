@@ -1,21 +1,22 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useRef } from 'react'
-import { initializeApp, getApps } from 'firebase/app'
+
+import {
+  type Observable,
+  type ObservableBoolean,
+  ObservableHint,
+  type OpaqueObject,
+} from '@legendapp/state'
+import { useObservable } from '@legendapp/state/react'
+import { getApps, initializeApp } from 'firebase/app'
 import {
   GoogleAuthProvider,
   Unsubscribe,
   User,
   getAuth,
-  signInWithPopup
+  signInWithPopup,
 } from 'firebase/auth'
-import { useObservable } from '@legendapp/state/react'
-import {
-  ObservableHint,
-  type OpaqueObject,
-  type Observable,
-  type ObservableBoolean
-} from '@legendapp/state'
 
 if (typeof window !== 'undefined' && !getApps().length) {
   if (!process.env.NEXT_PUBLIC_FIREBASE_CONFIG) {

@@ -1,9 +1,12 @@
 import React from 'react'
+
+import { RawCode } from 'codehike/code'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+
+import { Code } from './ScrollyCoding/Code'
+
 oneDark['pre[class*="language-"]'].margin = '0'
 oneDark['pre[class*="language-"]'].borderRadius = '0'
-import { Code } from './ScrollyCoding/Code'
-import { RawCode } from 'codehike/code'
 
 export const pre = (props: { codeblock: RawCode } | any) => {
   if (props.codeblock?.lang) {
@@ -25,18 +28,18 @@ export const pre = (props: { codeblock: RawCode } | any) => {
 
     return (
       <div
-        className='bg-zinc-800 rounded shadow-xl flex flex-col relative pre'
+        className='pre relative flex flex-col rounded bg-zinc-800 shadow-xl'
         style={{
           ...(isScrollable && {
-            maxHeight: '400px'
-          })
+            maxHeight: '400px',
+          }),
         }}
       >
         <Code
           codeblock={{
             lang: language,
             value: code,
-            meta: `${language}${name.length ? ' | ' + name : ''}`
+            meta: `${language}${name.length ? ' | ' + name : ''}`,
           }}
           copy={isCopyable}
           collapse={isCollapsible}

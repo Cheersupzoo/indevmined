@@ -1,17 +1,19 @@
-import { debounce } from '@/utils/debounce'
 import React, { useEffect, useRef } from 'react'
-import { InsertComponentDrawer } from './InsertComponentDrawer'
+
+import { debounce } from '@/utils/debounce'
 import { Editor } from '@tiptap/core'
-import { InsertImage } from './InsertImage'
-import { ToolbarVerticalDivider } from './ToolbarVerticalDivider'
+
 import { DeleteNode } from './DeleteNode'
 import { DuplicateNode } from './DuplicateNode'
-import { NodeUp } from './NodeUp'
-import { NodeDown } from './NodeDown'
-import { UndoRedo } from './UndoRedo'
+import { InsertComponentDrawer } from './InsertComponentDrawer'
+import { InsertImage } from './InsertImage'
 import { IsParagraph } from './IsParagraph'
-import { IsCodeBlock } from './isCode'
+import { NodeDown } from './NodeDown'
+import { NodeUp } from './NodeUp'
 import { SelectNode } from './SelectNode'
+import { ToolbarVerticalDivider } from './ToolbarVerticalDivider'
+import { UndoRedo } from './UndoRedo'
+import { IsCodeBlock } from './isCode'
 
 export const EditorToolbarMobile = ({ editor }: { editor: Editor }) => {
   const divRef = useRef<HTMLDivElement>(null)
@@ -55,7 +57,7 @@ export const EditorToolbarMobile = ({ editor }: { editor: Editor }) => {
   return (
     <div
       ref={divRef}
-      className='touch-manipulation [&>button]:p-3 select-none fixed mx-4 rounded-lg left-0 right-0 top-0 h-10 border border-eva-text-border flex items-center bg-background overflow-x-auto overflow-y-hidden'
+      className='fixed left-0 right-0 top-0 mx-4 flex h-10 touch-manipulation select-none items-center overflow-x-auto overflow-y-hidden rounded-lg border border-eva-text-border bg-background [&>button]:p-3'
       style={{ transform: 'translateY(calc(100vh - 100% - 4px))' }}
     >
       <SelectNode editor={editor} />
@@ -74,7 +76,6 @@ export const EditorToolbarMobile = ({ editor }: { editor: Editor }) => {
       <NodeDown />
       <ToolbarVerticalDivider />
       <DeleteNode />
-      
     </div>
   )
 }

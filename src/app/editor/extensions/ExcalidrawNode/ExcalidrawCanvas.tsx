@@ -1,17 +1,19 @@
-import { Button } from '@/components/ui/button'
-import { DialogFooter } from '@/components/ui/dialog'
+import React, { useRef } from 'react'
+
 import { Excalidraw, exportToSvg } from '@excalidraw/excalidraw'
 import type {
   ExcalidrawElement,
   NonDeletedExcalidrawElement,
-  Ordered
+  Ordered,
 } from '@excalidraw/excalidraw/element/types'
 import { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types'
-import React, { useRef } from 'react'
+
+import { Button } from '@/components/ui/button'
+import { DialogFooter } from '@/components/ui/dialog'
 
 const ExcalidrawCanvas = ({
   initialElements,
-  onSave
+  onSave,
 }: {
   initialElements: readonly ExcalidrawElement[]
   onSave: (update: {
@@ -35,7 +37,7 @@ const ExcalidrawCanvas = ({
   return (
     <>
       <div className=''>
-        <div className='h-full w-full border-t border-b border-eva-text-border  overflow-hidden'>
+        <div className='h-full w-full overflow-hidden border-b border-t border-eva-text-border'>
           <Excalidraw
             initialData={{
               elements: initialElements,
@@ -43,8 +45,8 @@ const ExcalidrawCanvas = ({
                 zenModeEnabled: true,
                 viewBackgroundColor: `rgb(${getComputedStyle(
                   document.body
-                ).getPropertyValue('--bg-color')})`
-              }
+                ).getPropertyValue('--bg-color')})`,
+              },
             }}
             // onChange={(element) => (state.current = element)}
             excalidrawAPI={(api) => (excalidrawApi.current = api)}
@@ -56,8 +58,8 @@ const ExcalidrawCanvas = ({
                 changeViewBackgroundColor: false,
                 loadScene: false,
                 toggleTheme: false,
-                saveToActiveFile: false
-              }
+                saveToActiveFile: false,
+              },
             }}
             theme='light'
           />

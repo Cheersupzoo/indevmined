@@ -1,7 +1,10 @@
 import React from 'react'
-import { Header } from './Header'
-import Footer from './Footer'
+
 import { cn } from '@/lib/utils'
+
+import Footer from './Footer'
+import { Header } from './Header'
+
 type Props = React.PropsWithChildren<{
   en?: string
   th?: string
@@ -15,7 +18,7 @@ export default function Layout({
   th,
   className,
   isEN,
-  footer = <Footer className={className} />
+  footer = <Footer className={className} />,
 }: Props) {
   return (
     <div className={cn('flex flex-col', className)}>
@@ -28,12 +31,12 @@ export default function Layout({
 
 export function NormalResponsive({
   children,
-  className
+  className,
 }: React.PropsWithChildren<{ className?: string }>) {
   return (
     <div
       className={cn(
-        'text-text relative mx-auto max-w-2xl w-full text-lg px-4 sm:px-0',
+        'relative mx-auto w-full max-w-2xl px-4 text-lg text-text sm:px-0',
         className
       )}
     >

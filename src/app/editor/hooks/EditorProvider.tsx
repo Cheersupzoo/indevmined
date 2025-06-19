@@ -1,32 +1,34 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import React, { createContext, useContext, useRef } from 'react'
-import { useObservable } from '@legendapp/state/react'
+
+import * as Y from 'yjs'
+import {
+  createDoc as createDocApi,
+  deleteDoc as deleteDocApi,
+  getDocs,
+  updateDoc as updateDocApi,
+} from '@/apis/editor'
+import { stringifyMarkdown } from '@/utils/Tiptap/stringifyMarkdown'
+import { type TiptapCollabProvider } from '@hocuspocus/provider'
 import {
   type Observable,
   type ObservableBoolean,
   ObservableHint,
   type ObservablePrimitive,
   type OpaqueObject,
-  batch
+  batch,
 } from '@legendapp/state'
-import {
-  getDocs,
-  createDoc as createDocApi,
-  updateDoc as updateDocApi,
-  deleteDoc as deleteDocApi
-} from '@/apis/editor'
-import * as Y from 'yjs'
-import { Editor } from '@tiptap/core'
-import { useTiptapProvider } from './useTiptapProvider'
-import { type TiptapCollabProvider } from '@hocuspocus/provider'
-import { SearchParamHandler } from './SearchParamHandler'
-import { useRouter } from 'next/navigation'
-import { stringifyMarkdown } from '@/utils/Tiptap/stringifyMarkdown'
-import { clearDocument } from 'y-indexeddb'
-import { useLocalProvider } from './useLocalProvider'
-import { synced } from '@legendapp/state/sync'
 import { ObservablePersistLocalStorage } from '@legendapp/state/persist-plugins/local-storage'
+import { useObservable } from '@legendapp/state/react'
+import { synced } from '@legendapp/state/sync'
+import { Editor } from '@tiptap/core'
+import { clearDocument } from 'y-indexeddb'
+
+import { SearchParamHandler } from './SearchParamHandler'
+import { useLocalProvider } from './useLocalProvider'
+import { useTiptapProvider } from './useTiptapProvider'
 
 export type TiptapDoc = {
   created_at: string
@@ -83,8 +85,8 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
       initial: null,
       persist: {
         name: 'docs',
-        plugin: ObservablePersistLocalStorage
-      }
+        plugin: ObservablePersistLocalStorage,
+      },
     })
   )
   const docId$ = useObservable<string | null>(null)
@@ -103,7 +105,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
     codeBlock: false,
     paragraph: false,
     code: false,
-    playful: false
+    playful: false,
   })
   const status$ = useObservable<EditorStatus>(null)
   const syncing$ = useObservable<boolean>(true)
@@ -143,13 +145,13 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
       syncing$,
       ydoc$,
       updateIdRef,
-      loadDocs
+      loadDocs,
     })
 
   const { createLocalProvider, destroyLocalProvider } = useLocalProvider({
     docId$,
     syncing$,
-    ydoc$
+    ydoc$,
   })
 
   function setDocId(id: string | null) {
@@ -255,7 +257,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
         setDocId,
         syncing$,
         getCurrentProvider,
-        loadDocsPromiseRef
+        loadDocsPromiseRef,
       }}
     >
       <SearchParamHandler />

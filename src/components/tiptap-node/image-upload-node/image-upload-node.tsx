@@ -1,11 +1,13 @@
 'use client'
 
 import * as React from 'react'
+
+import { useEffectOnce } from '@legendapp/state/react'
 import type { NodeViewProps } from '@tiptap/react'
 import { NodeViewWrapper } from '@tiptap/react'
+
 import { CloseIcon } from '@/components/tiptap-icons/close-icon'
 import '@/components/tiptap-node/image-upload-node/image-upload-node.scss'
-import { useEffectOnce } from '@legendapp/state/react'
 
 export interface FileItem {
   id: string
@@ -49,7 +51,7 @@ function useFileUpload(options: UploadOptions) {
       file,
       progress: 0,
       status: 'uploading',
-      abortController
+      abortController,
     }
 
     setFileItem(newFileItem)
@@ -67,7 +69,7 @@ function useFileUpload(options: UploadOptions) {
 
             return {
               ...prev,
-              progress: event.progress
+              progress: event.progress,
             }
           })
         },
@@ -84,7 +86,7 @@ function useFileUpload(options: UploadOptions) {
             ...prev,
             status: 'success',
             url,
-            progress: 100
+            progress: 100,
           }
         })
         options.onSuccess?.(url)
@@ -101,7 +103,7 @@ function useFileUpload(options: UploadOptions) {
           return {
             ...prev,
             status: 'error',
-            progress: 0
+            progress: 0,
           }
         })
         options.onError?.(
@@ -157,7 +159,7 @@ function useFileUpload(options: UploadOptions) {
   return {
     fileItem,
     uploadFiles,
-    clearFileItem
+    clearFileItem,
   }
 }
 
@@ -223,7 +225,7 @@ interface ImageUploadDragAreaProps {
 
 const ImageUploadDragArea: React.FC<ImageUploadDragAreaProps> = ({
   onFile,
-  children
+  children,
 }) => {
   const [dragover, setDragover] = React.useState(false)
 
@@ -271,7 +273,7 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
   file,
   progress,
   status,
-  onRemove
+  onRemove,
 }) => {
   const formatFileSize = (bytes: number) => {
     if (bytes === 0) return '0 Bytes'
@@ -350,11 +352,11 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
 
   const onDrop = React.useRef(false)
   useEffectOnce(() => {
-    if(!onDrop.current && files) {
+    if (!onDrop.current && files) {
       onDrop.current = true
       handleUpload(Array.from(files))
     }
-  },[])
+  }, [])
 
   const inputRef = React.useRef<HTMLInputElement>(null)
   const extension = props.extension
@@ -365,7 +367,7 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
     accept,
     upload: extension.options.upload,
     onSuccess: extension.options.onSuccess,
-    onError: extension.options.onError
+    onError: extension.options.onError,
   }
 
   const { fileItem, uploadFiles, clearFileItem } = useFileUpload(uploadOptions)
@@ -394,8 +396,8 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
         .insertContentAt(pos, [
           {
             type: 'image',
-            attrs: { src: url, alt: filename, title: filename }
-          }
+            attrs: { src: url, alt: filename, title: filename },
+          },
         ])
         .run()
     }

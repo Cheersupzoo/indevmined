@@ -1,17 +1,20 @@
+import React from 'react'
+
+import { Observable } from '@legendapp/state'
+import { For, Memo } from '@legendapp/state/react'
+import { Plus } from 'lucide-react'
+
+import { Spinner } from '@/components/Spinner'
 import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
-  useSidebar
+  useSidebar,
 } from '@/components/ui/sidebar'
-import React from 'react'
+
 import { TiptapDoc, useEditorContext } from '../hooks/EditorProvider'
-import { For, Memo } from '@legendapp/state/react'
-import { Observable } from '@legendapp/state'
 import { PostMenuItem } from './PostMenuItem'
-import { Plus } from 'lucide-react'
-import { Spinner } from '@/components/Spinner'
 
 export const PostGroupMenu = () => {
   const { docs$, createDoc } = useEditorContext()
@@ -26,7 +29,7 @@ export const PostGroupMenu = () => {
             createDoc()
             toggleSidebar()
           }}
-          className='hover:bg-eva-text/10 p-0.5 rounded-sm cursor-pointer'
+          className='cursor-pointer rounded-sm p-0.5 hover:bg-eva-text/10'
         >
           <Plus size={16} />
         </div>

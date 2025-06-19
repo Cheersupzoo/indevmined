@@ -1,18 +1,20 @@
+import { Memo } from '@legendapp/state/react'
 import { BubbleMenu, Editor } from '@tiptap/react'
-import { findBlockNodeAt } from '../extensions/DragHandleExtension/ProseMirrorPlugin'
-import { hideAll } from 'tippy.js'
 import {
   BoldIcon,
   CodeIcon,
   ItalicIcon,
   LinkIcon,
   StrikethroughIcon,
-  UnderlineIcon
+  UnderlineIcon,
 } from 'lucide-react'
+import { hideAll } from 'tippy.js'
+
+import { cn } from '@/lib/utils'
+
+import { findBlockNodeAt } from '../extensions/DragHandleExtension/ProseMirrorPlugin'
 import { openLinkEditor } from '../extensions/LinkExtension'
 import { useEditorContext } from '../hooks/EditorProvider'
-import { Memo } from '@legendapp/state/react'
-import { cn } from '@/lib/utils'
 
 type TextFormatMenuProps = {
   editor: Editor

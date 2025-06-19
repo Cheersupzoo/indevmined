@@ -27,7 +27,7 @@ export const onRequestDelete = protectedRoute(
         return Response.json(
           {
             status: 'failed',
-            error: 'No key provided.'
+            error: 'No key provided.',
           },
           { status: 400, headers }
         )
@@ -37,7 +37,7 @@ export const onRequestDelete = protectedRoute(
         return Response.json(
           {
             status: 'failed',
-            error: 'Invalid key.'
+            error: 'Invalid key.',
           },
           { status: 400, headers }
         )

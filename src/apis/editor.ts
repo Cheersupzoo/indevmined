@@ -1,7 +1,8 @@
 import { TiptapDoc } from '@/app/editor/hooks/EditorProvider'
-import { UploadFunction } from '@/components/tiptap-node/image-upload-node'
 import { fetchAwareOnline } from '@/utils/Network/fetch'
 import { getAuth } from 'firebase/auth'
+
+import { UploadFunction } from '@/components/tiptap-node/image-upload-node'
 
 export const getDocs = async () => {
   const token = await getAuth().currentUser?.getIdToken()
@@ -9,8 +10,8 @@ export const getDocs = async () => {
     `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT ?? ''}/editor/docs`,
     {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     }
   )
 
@@ -29,9 +30,9 @@ export const createDoc = async () => {
     `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT ?? ''}/editor/docs`,
     {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
-      method: 'POST'
+      method: 'POST',
     }
   )
   if (res.status !== 200) {
@@ -53,8 +54,8 @@ export const getEditorToken = async () => {
     process.env.NEXT_PUBLIC_AUTH_ENDPOINT ?? '/editor/auth',
     {
       headers: {
-        Authorization: `Bearer ${idToken}`
-      }
+        Authorization: `Bearer ${idToken}`,
+      },
     }
   )
 
@@ -79,10 +80,10 @@ export const updateDoc = async (id: string, newId: string) => {
     }/editor/docs/${encodeURIComponent(id)}`,
     {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       method: 'PUT',
-      body: JSON.stringify({ id: newId })
+      body: JSON.stringify({ id: newId }),
     }
   )
   if (res.status !== 204) {
@@ -100,9 +101,9 @@ export const deleteDoc = async (id: string) => {
     }/editor/docs/${encodeURIComponent(id)}`,
     {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
-      method: 'DELETE'
+      method: 'DELETE',
     }
   )
   if (res.status !== 200) {
@@ -162,9 +163,9 @@ export const deleteImage = async (key: string) => {
     }/editor/image/${encodeURIComponent(key)}`,
     {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
-      method: 'DELETE'
+      method: 'DELETE',
     }
   )
 

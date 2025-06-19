@@ -139,7 +139,7 @@ const createResizeHandle = (
     const transaction = view.state.tr.setNodeMarkup(pos, undefined, {
       ...view.state.doc.nodeAt(pos)?.attrs,
       width: lastWidth,
-      height: lastHeight
+      height: lastHeight,
     })
 
     view.dispatch(transaction)
@@ -161,15 +161,15 @@ export const CustomImage = Image.extend<ImageOptions>({
   addOptions() {
     return {
       ...this.parent?.(),
-      deleteImage: undefined
+      deleteImage: undefined,
     }
   },
   addAttributes() {
     return {
       ...(this.parent?.() || {}),
       width: {
-        default: null
-      }
+        default: null,
+      },
     }
   },
   addNodeView() {
@@ -217,7 +217,7 @@ export const CustomImage = Image.extend<ImageOptions>({
           })
 
           return true
-        }
+        },
       }
     }
   },
@@ -263,12 +263,12 @@ export const CustomImage = Image.extend<ImageOptions>({
               }
 
               return DecorationSet.empty
-            }
-          }
+            },
+          },
         })
       )
     }
 
     return [...parentPlugins, ...plugins]
-  }
+  },
 })

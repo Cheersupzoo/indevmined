@@ -1,18 +1,22 @@
 'use client'
-import { CornerDownRight, MessageCircleQuestion, Search, X } from 'lucide-react'
+
 import React, { useRef, useState } from 'react'
-import './style.css'
-import { micromark } from 'micromark'
+
 import { getAnswerIterator } from '@/apis'
-import { AutoAnimateHeight } from '../AutoAnimateHeight'
+import { CornerDownRight, MessageCircleQuestion, Search, X } from 'lucide-react'
+import { micromark } from 'micromark'
+
 import { cn } from '@/lib/utils'
+
+import { AutoAnimateHeight } from '../AutoAnimateHeight'
+import './style.css'
 
 const squareLoader = `<span class='square-loader' />`
 
 const exampleQuestions = [
   'Why use Generative AI?',
   'เมื่อไหร่ควรนำ Gen AI มาใช้',
-  'How to update Generative AI knowledge'
+  'How to update Generative AI knowledge',
 ]
 
 const Question = () => {
@@ -88,13 +92,13 @@ const Question = () => {
       className={cn(
         {
           'bg-foreground/90': isActive,
-          'border-text bg-foreground/60': !isActive
+          'border-text bg-foreground/60': !isActive,
         },
-        'border rounded-2xl py-3 pl-6 pr-6',
+        'rounded-2xl border py-3 pl-6 pr-6',
         'backdrop-blur-sm transition-colors'
       )}
     >
-      <div className='flex relative items-center'>
+      <div className='relative flex items-center'>
         <Search size={20} strokeWidth={3} />
         <input
           value={question}
@@ -102,7 +106,7 @@ const Question = () => {
           onChange={(e) => setQuestion(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && onSubmit()}
           placeholder='Ask Ham about any posts on InDevMined in 🇬🇧 or 🇹🇭'
-          className='bg-transparent  w-full mx-2 focus:outline-none'
+          className='mx-2 w-full bg-transparent focus:outline-none'
         />
         <button
           className='mr-4 cursor-pointer disabled:hidden'
@@ -112,33 +116,33 @@ const Question = () => {
           <X strokeWidth={2} />
         </button>
         <button
-          className='bg-color1 rounded-xl cursor-pointer disabled:bg-slate-600'
+          className='cursor-pointer rounded-xl bg-color1 disabled:bg-slate-600'
           disabled={isLoading}
           onClick={() => onSubmit()}
         >
           <CornerDownRight
-            className='-scale-x-100 p-1 w-10 h-7'
+            className='h-7 w-10 -scale-x-100 p-1'
             strokeWidth={2}
           />
         </button>
       </div>
       <div className='h-3'></div>
-      <div className='h-[0.05rem] mx-16 bg-text' />
+      <div className='mx-16 h-[0.05rem] bg-text' />
       <div className='h-4'></div>
-      <div className='text-color2 text-center'>{error}</div>
+      <div className='text-center text-color2'>{error}</div>
       <AutoAnimateHeight expanded={!isActive}>
         <div className='mb-1'>Try Ask</div>
         {exampleQuestions.map((question) => (
           <div
             key={question}
             onClick={() => onChooseExampleQuestion(question)}
-            className='cursor-pointer flex items-center hover:bg-slate-200/15 mb-1 px-1 py-1 rounded-xl'
+            className='mb-1 flex cursor-pointer items-center rounded-xl px-1 py-1 hover:bg-slate-200/15'
           >
             <MessageCircleQuestion className='mr-2' /> {question}
           </div>
         ))}
       </AutoAnimateHeight>
-      <div className='answer px-2 ' ref={answerRef}></div>
+      <div className='answer px-2' ref={answerRef}></div>
       <AutoAnimateHeight expanded={isActive}>
         <div className='h-1'></div>
       </AutoAnimateHeight>

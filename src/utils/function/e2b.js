@@ -13,14 +13,14 @@ export const callE2B = async (e2bApiKey, id, code) => {
     const config = {
       apiKey: e2bApiKey,
       apiUrl: 'https://api.e2b.dev',
-      debug: false
+      debug: false,
     }
     const apiClient = new ApiClient(config)
     const createRes = await apiClient.api.POST('/sandboxes', {
       body: {
         templateID: 'code-interpreter-v1',
-        timeout: 10
-      }
+        timeout: 10,
+      },
     })
     const host = getHost(
       49999,
@@ -31,16 +31,16 @@ export const callE2B = async (e2bApiKey, id, code) => {
     const resExecute = await fetch(`https://${host}/execute`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        code
+        code,
         // context_id: opts?.context?.id,
         // language: opts?.language,
         // env_vars: opts?.envs,
       }),
       // signal: controller.signal,
-      keepalive: true
+      keepalive: true,
     })
 
     const stdout = []
@@ -70,7 +70,7 @@ export const callE2B = async (e2bApiKey, id, code) => {
     return {
       id,
       result: stdout.join('\n'),
-      error: stderr.length ? stderr.join('\n') : undefined
+      error: stderr.length ? stderr.join('\n') : undefined,
     }
   } catch (error) {
     console.trace(error)
@@ -78,7 +78,7 @@ export const callE2B = async (e2bApiKey, id, code) => {
 
     return {
       id,
-      error: error?.message
+      error: error?.message,
     }
   }
 }

@@ -29,7 +29,7 @@ export const ToggleSection = Node.create<ToggleSectionOptions>({
 
   addOptions() {
     return {
-      HTMLAttributes: {}
+      HTMLAttributes: {},
     }
   },
 
@@ -38,20 +38,20 @@ export const ToggleSection = Node.create<ToggleSectionOptions>({
       collapsed: {
         default: false,
         parseHTML: (element) => ({
-          collapsed: element.getAttribute('data-collapsed') === 'true'
+          collapsed: element.getAttribute('data-collapsed') === 'true',
         }),
         renderHTML: (attributes) => ({
-          'data-collapsed': attributes.collapsed
-        })
-      }
+          'data-collapsed': attributes.collapsed,
+        }),
+      },
     }
   },
 
   parseHTML() {
     return [
       {
-        tag: 'section'
-      }
+        tag: 'section',
+      },
     ]
   },
 
@@ -120,7 +120,7 @@ export const ToggleSection = Node.create<ToggleSectionOptions>({
             : 'rotate(0deg)'
 
           return true
-        }
+        },
       }
     }
   },
@@ -135,8 +135,8 @@ export const ToggleSection = Node.create<ToggleSectionOptions>({
             attrs: { collapsed: false, ...attributes },
             content: [
               { type: 'paragraph' },
-              { type: 'groupBlock', content: [{ type: 'paragraph' }] }
-            ]
+              { type: 'groupBlock', content: [{ type: 'paragraph' }] },
+            ],
           })
         },
       toggleSectionCollapse:
@@ -147,20 +147,20 @@ export const ToggleSection = Node.create<ToggleSectionOptions>({
 
           if (node.type.name === this.name) {
             return commands.updateAttributes(this.name, {
-              collapsed: !node.attrs.collapsed
+              collapsed: !node.attrs.collapsed,
             })
           }
           return false
-        }
+        },
     }
   },
 
   addKeyboardShortcuts() {
     return {
       'Mod-Alt-t': () => this.editor.commands.toggleSection(),
-      'Mod-Alt-c': () => this.editor.commands.toggleSectionCollapse()
+      'Mod-Alt-c': () => this.editor.commands.toggleSectionCollapse(),
     }
-  }
+  },
 })
 
 export default ToggleSection

@@ -1,16 +1,18 @@
 // @ts-check
 import { franc } from 'franc-min'
+
 import {
   knowledge,
-  postMeta,
-  numberOfPost,
   latestPostTitle,
-  titleSlugMap
+  numberOfPost,
+  postMeta,
+  titleSlugMap,
 } from '../script/knowledge'
 import { functionWrapper } from '../src/utils/function'
+
 const dontKnowPrompt = {
   eng: `Sorry, I don't know how to help with that.`,
-  tha: 'ขออภัย ฉันไม่สามารถตอบคำถามดังกล่าวได้'
+  tha: 'ขออภัย ฉันไม่สามารถตอบคำถามดังกล่าวได้',
 }
 
 export const onRequest = functionWrapper(async (context, reqBody) => {
@@ -40,28 +42,28 @@ extracted: '{  "summarize": "Improve Gen AI accuracy by attaching relevant docum
     messages: [
       {
         role: 'system',
-        content: systemRetrievalPrompt
+        content: systemRetrievalPrompt,
       },
       {
         role: 'user',
-        content: reqBody.question
-      }
+        content: reqBody.question,
+      },
     ],
     model: 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo',
     temperature: 0.1,
     max_tokens: 1500,
     top_p: 1,
     stream: false,
-    stop: null
+    stop: null,
   }
 
   const retrievalResponse = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${togetherAIApiKey}`
+      Authorization: `Bearer ${togetherAIApiKey}`,
     },
-    body: JSON.stringify(retrievalBody)
+    body: JSON.stringify(retrievalBody),
   })
   const retrievalResponseBody = await retrievalResponse.json()
 
@@ -88,27 +90,27 @@ extracted: '{  "summarize": "Improve Gen AI accuracy by attaching relevant docum
     messages: [
       {
         role: 'system',
-        content: systemPrompt
+        content: systemPrompt,
       },
       {
         role: 'user',
-        content: reqBody.question
-      }
+        content: reqBody.question,
+      },
     ],
     model: 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo',
     temperature: 0.1,
     max_tokens: 1500,
     top_p: 1,
     stream: reqBody.stream ?? false,
-    stop: null
+    stop: null,
   }
   const response = await fetch('https://api.together.xyz/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${togetherAIApiKey}`
+      Authorization: `Bearer ${togetherAIApiKey}`,
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   })
 
   return response
@@ -121,7 +123,7 @@ function getHeader(context) {
     /^http:\/\/localhost:3000/,
     /^https:\/\/[0-9a-z]+\.isekai-dev-guide\.pages\.dev/,
     /www\.indevmined\.com/,
-    /indevmined\.com/
+    /indevmined\.com/,
   ]
 
   if (corsWhitelist.some((whitelist) => whitelist.test(origin))) {
@@ -129,7 +131,7 @@ function getHeader(context) {
       'Access-Control-Allow-Origin': origin,
       'Access-Control-Allow-Headers': '*',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Max-Age': '86400'
+      'Access-Control-Max-Age': '86400',
     }
   }
 
@@ -137,7 +139,7 @@ function getHeader(context) {
     'Access-Control-Allow-Origin': 'https://www.indevmined.com',
     'Access-Control-Allow-Headers': '*',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Max-Age': '86400'
+    'Access-Control-Max-Age': '86400',
   }
 }
 

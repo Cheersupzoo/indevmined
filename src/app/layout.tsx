@@ -1,19 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from 'next'
-import { Ubuntu, Playpen_Sans } from 'next/font/google'
-import './globals.css'
-import { cn } from '@/lib/utils'
+import { Playpen_Sans, Ubuntu } from 'next/font/google'
 import Script from 'next/script'
+
+import { cn } from '@/lib/utils'
+
+import './globals.css'
 
 const inter = Ubuntu({
   weight: ['300', '400', '500', '700'],
-  subsets: ['greek']
+  subsets: ['greek'],
 })
 
 const playpenSans = Playpen_Sans({
   weight: ['200', '400', '600', '700'],
   subsets: ['latin'],
-  variable: '--font-playful'
+  variable: '--font-playful',
 })
 
 export const metadata: Metadata = {
@@ -24,15 +26,15 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'InDevMined'
+    title: 'InDevMined',
   },
   other: {
-    'mobile-web-app-capable': 'yes'
-  }
+    'mobile-web-app-capable': 'yes',
+  },
 }
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
   children: React.ReactNode
 }>) {

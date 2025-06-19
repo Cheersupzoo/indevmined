@@ -4,7 +4,7 @@
   aspect-ratio: 1;
   border-radius: 50%;
   animation: l2 1.2s infinite linear;
-  @apply border-solid border-2 border-slate-800 border-r-slate-400;
+  @apply border-2 border-solid border-slate-800 border-r-slate-400;
 }
 @keyframes l2 {
   to {

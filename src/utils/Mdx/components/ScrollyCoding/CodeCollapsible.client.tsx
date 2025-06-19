@@ -1,11 +1,14 @@
 'use client'
+
+import React, { useState } from 'react'
+
 import {
   Collapsible,
   CollapsibleContent,
-  CollapsibleTrigger
+  CollapsibleTrigger,
 } from '@radix-ui/react-collapsible'
 import { ChevronRight } from 'lucide-react'
-import React, { useState } from 'react'
+
 import './CodeCollapsible.style.css'
 
 export const CodeCollapsible = ({ children }: React.PropsWithChildren) => {
@@ -14,7 +17,7 @@ export const CodeCollapsible = ({ children }: React.PropsWithChildren) => {
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen} className='collapsible'>
       <CollapsibleTrigger asChild>
-        <div className='collapsible-trigger absolute top-2 left-2 group'>
+        <div className='collapsible-trigger group absolute left-2 top-2'>
           <ChevronRight className='h-4 w-4 group-hover:text-text' />
         </div>
       </CollapsibleTrigger>

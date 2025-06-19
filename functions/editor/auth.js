@@ -1,13 +1,14 @@
-export { onRequestOptions } from '../../src/utils/function/index'
-
-import { protectedRoute } from '../../src/utils/function/protectedRoute'
-import { getHeader } from '../../src/utils/function/index'
 import { SignJWT } from 'jose'
+
+import { getHeader } from '../../src/utils/function/index'
+import { protectedRoute } from '../../src/utils/function/protectedRoute'
+
+export { onRequestOptions } from '../../src/utils/function/index'
 
 export const onRequestGet = protectedRoute(async (context, tokenPayload) => {
   const data = {
     sub: tokenPayload.email,
-    allowedDocumentNames: ['example-document', `${tokenPayload.email}/*`]
+    allowedDocumentNames: ['example-document', `${tokenPayload.email}/*`],
   }
   const secret = new TextEncoder().encode(context.env.TIP_TAP_APP_SECRET)
 

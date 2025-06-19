@@ -25,7 +25,7 @@ export const MoveNodeShortcut = Extension.create({
   addOptions() {
     return {
       moveUpShortcut: 'Alt-ArrowUp',
-      moveDownShortcut: 'Alt-ArrowDown'
+      moveDownShortcut: 'Alt-ArrowDown',
     }
   },
   addCommands() {
@@ -39,15 +39,15 @@ export const MoveNodeShortcut = Extension.create({
         moveBlock(this.editor, 'down')
 
         return true
-      }
+      },
     }
   },
   addKeyboardShortcuts() {
     return {
       [this.options.moveUpShortcut]: () => moveBlock(this.editor, 'up'),
-      [this.options.moveDownShortcut]: () => moveBlock(this.editor, 'down')
+      [this.options.moveDownShortcut]: () => moveBlock(this.editor, 'down'),
     }
-  }
+  },
 })
 
 const listType = new Set(['listItem', 'taskItem'])

@@ -1,5 +1,6 @@
 import React from 'react'
-import { highlight, HighlightedCode, Inline, RawCode } from 'codehike/code'
+
+import { HighlightedCode, Inline, RawCode, highlight } from 'codehike/code'
 
 export const InlineCode = async (props: any) => {
   let highlighted: HighlightedCode

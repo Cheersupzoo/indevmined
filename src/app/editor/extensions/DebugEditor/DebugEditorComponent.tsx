@@ -1,8 +1,10 @@
-import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
-import { NodeViewWrapper } from '@tiptap/react'
-import { schema } from '@tiptap/pm/schema-basic'
 import React, { useRef, useState } from 'react'
+
+import { schema } from '@tiptap/pm/schema-basic'
+import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import { NodeViewWrapper } from '@tiptap/react'
+
 import { ReactStateRenderer } from './ReactStateRenderer'
 
 export const DebugEditorComponent = () => {
@@ -10,7 +12,7 @@ export const DebugEditorComponent = () => {
     EditorState.create({
       schema,
       doc: schema.nodes.doc.create(null, [
-        schema.nodes.paragraph.create(null, [schema.text('hello')])
+        schema.nodes.paragraph.create(null, [schema.text('hello')]),
       ]),
       plugins: [
         // new Plugin({
@@ -51,7 +53,7 @@ export const DebugEditorComponent = () => {
         //     }
         //   }
         // })
-      ]
+      ],
     })
   )
 
@@ -93,38 +95,38 @@ export const DebugEditorComponent = () => {
 
   return (
     <NodeViewWrapper>
-      <div className='relative border-2 border-dashed border-eva-text rounded-xl p-2 '>
-        <div className='absolute top-0 right-2 border-b-2 border-x-2 border-dashed border-eva-text rounded-b-xl px-1'>
+      <div className='relative rounded-xl border-2 border-dashed border-eva-text p-2'>
+        <div className='absolute right-2 top-0 rounded-b-xl border-x-2 border-b-2 border-dashed border-eva-text px-1'>
           Demo Insert Text at position
         </div>
         <div className='mt-4'>Initial Doc</div>
         <div className='relative font-mono'>
           <ReactStateRenderer state={editorStateRef.current} />
           <div
-            className='absolute bottom-2 '
+            className='absolute bottom-2'
             style={{
               left: `1rem`,
-              width: '7ch'
+              width: '7ch',
             }}
           >
             <div className='relative' style={{ left: `${pos}ch` }}>
               <div
                 onTouchStart={onMouseDown}
                 onMouseDown={onMouseDown}
-                className='bg-yellow-200 triangle-text-clip w-4 h-8 absolute -translate-x-1/2 -bottom-4 touch-none text-yellow-800 flex justify-center items-end'
+                className='triangle-text-clip absolute -bottom-4 flex h-8 w-4 -translate-x-1/2 touch-none items-end justify-center bg-yellow-200 text-yellow-800'
               >
                 <div className='-m-[6px]'>{pos}</div>
               </div>
               <div
                 onTouchStart={onMouseDown}
                 onMouseDown={onMouseDown}
-                className='text-yellow-200 w-[1px] h-6 absolute bottom-4 -translate-x-1/2 animate-blinking'
+                className='absolute bottom-4 h-6 w-[1px] -translate-x-1/2 animate-blinking text-yellow-200'
               />
             </div>
           </div>
         </div>
         <div className='mt-4'>Transactions to apply</div>
-        <div className='font-mono text-sm bg-gray-600/70 px-1'>
+        <div className='bg-gray-600/70 px-1 font-mono text-sm'>
           tr.insertText('world', pos) // pos ={' '}
           <span className='bg-yellow-200 text-yellow-800'>{pos}</span>
         </div>
@@ -136,7 +138,7 @@ export const DebugEditorComponent = () => {
               )
             )
           }}
-          className='bg-orange-600 px-2 py-1 rounded-md hover:bg-orange-700 mt-2'
+          className='mt-2 rounded-md bg-orange-600 px-2 py-1 hover:bg-orange-700'
         >
           Apply
         </button>

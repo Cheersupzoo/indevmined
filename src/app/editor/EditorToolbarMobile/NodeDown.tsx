@@ -1,5 +1,7 @@
-import { PanelBottomClose } from 'lucide-react'
 import React from 'react'
+
+import { PanelBottomClose } from 'lucide-react'
+
 import { useEditorContext } from '../hooks/EditorProvider'
 
 export const NodeDown = () => {

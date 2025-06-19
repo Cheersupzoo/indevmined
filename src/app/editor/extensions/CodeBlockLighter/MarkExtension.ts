@@ -42,10 +42,10 @@ export const CodeMark = Mark.create<CodeHighlightOptions>({
           }
 
           return {
-            style: `background-color: rgb(from ${attributes.color} r g b / 0.13); display: inline-block;`
+            style: `background-color: rgb(from ${attributes.color} r g b / 0.13); display: inline-block;`,
           }
-        }
-      }
+        },
+      },
     }
   },
   addCommands() {
@@ -64,14 +64,14 @@ export const CodeMark = Mark.create<CodeHighlightOptions>({
         () =>
         ({ commands }) => {
           return commands.unsetMark(this.name)
-        }
+        },
     }
   },
   renderHTML({ HTMLAttributes }) {
     return [
       'span',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-      0
+      0,
     ]
-  }
+  },
 })

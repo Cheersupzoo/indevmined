@@ -1,8 +1,8 @@
-import { Plugin, PluginKey, EditorState, TextSelection } from '@tiptap/pm/state'
-import { EditorView } from '@tiptap/pm/view'
-import { Node } from '@tiptap/pm/model'
 import { Editor } from '@tiptap/core'
+import { Node } from '@tiptap/pm/model'
+import { EditorState, Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
 import { dropPoint } from '@tiptap/pm/transform'
+import { EditorView } from '@tiptap/pm/view'
 
 // Define plugin state interface
 interface DragHandlePluginState {
@@ -24,7 +24,7 @@ const ignoreNode = new Set(['bulletList', 'orderedList', 'taskList'])
 
 // Create a new plugin for drag handles
 export function dragHandlePlugin({
-  editor
+  editor,
 }: {
   editor: Editor
 }): Plugin<DragHandlePluginState> {
@@ -41,7 +41,7 @@ export function dragHandlePlugin({
       if (!handleNode || !preNodeContainer) {
         return {
           update: () => {},
-          destroy: () => {}
+          destroy: () => {},
         }
       }
 
@@ -69,7 +69,7 @@ export function dragHandlePlugin({
               editorView.dom.offsetLeft +
               6
           ),
-          top: event.clientY
+          top: event.clientY,
         })
         if (!pos || pos.inside === -1) {
           hidePreNodeContainer()
@@ -125,9 +125,9 @@ export function dragHandlePlugin({
           handleNode.removeEventListener('dragstart', handleDragStart)
           editorView.dom.removeEventListener('mousemove', mousemove)
           editorView.dom.removeEventListener('mouseleave', mouseleave)
-        }
+        },
       }
-    }
+    },
   })
 }
 
@@ -210,7 +210,7 @@ function startDrag(event: DragEvent, view: EditorView): void {
   const draggedNode: DraggedNodeInfo = {
     node,
     pos: nodePos,
-    end: nodePos + node.nodeSize
+    end: nodePos + node.nodeSize,
   }
 
   const endDrag = (endEvent: MouseEvent) => {
@@ -222,7 +222,7 @@ function startDrag(event: DragEvent, view: EditorView): void {
 
     const pos = view.posAtCoords({
       left: endEvent.clientX,
-      top: endEvent.clientY
+      top: endEvent.clientY,
     })
     if (!pos) return
 

@@ -1,10 +1,13 @@
-import { BubbleMenu, Editor } from '@tiptap/react'
-import { findBlockNodeAt } from '../extensions/DragHandleExtension/ProseMirrorPlugin'
-import { HighlighterIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { useEditorContext } from '../hooks/EditorProvider'
-import { Memo, useObservable } from '@legendapp/state/react'
 import { useEffect } from 'react'
+
+import { Memo, useObservable } from '@legendapp/state/react'
+import { BubbleMenu, Editor } from '@tiptap/react'
+import { HighlighterIcon } from 'lucide-react'
+
+import { cn } from '@/lib/utils'
+
+import { findBlockNodeAt } from '../extensions/DragHandleExtension/ProseMirrorPlugin'
+import { useEditorContext } from '../hooks/EditorProvider'
 
 type CodeFormatMenuProps = {
   editor: Editor
@@ -74,14 +77,14 @@ export const CodeFormatMenu = ({ editor }: CodeFormatMenuProps) => {
               {() => (
                 <div
                   className={cn(
-                    'h-4 w-4 bg-zinc-800 outline outline-1 outline-eva-text rounded-full',
+                    'h-4 w-4 rounded-full bg-zinc-800 outline outline-1 outline-eva-text',
                     activeColor.get() === color && 'outline-blue-400'
                   )}
                 >
                   <div
                     className='h-4 w-4 rounded-full'
                     style={{
-                      backgroundColor: `rgb(from ${color} r g b / 0.13)`
+                      backgroundColor: `rgb(from ${color} r g b / 0.13)`,
                     }}
                   />
                 </div>

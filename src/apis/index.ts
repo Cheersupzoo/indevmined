@@ -1,4 +1,4 @@
-import { openAIStreamToIterator, TextStreamUpdate } from '@/utils/Stream'
+import { TextStreamUpdate, openAIStreamToIterator } from '@/utils/Stream'
 import { EventSourceParserStream } from 'eventsource-parser/stream'
 
 export const getAnswerIterator = async (question: string) => {
@@ -7,12 +7,12 @@ export const getAnswerIterator = async (question: string) => {
     {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         question,
-        stream: true
-      })
+        stream: true,
+      }),
     }
   )
   if (response.status > 299) {
@@ -42,12 +42,12 @@ export const getMathAnswerIterator: (
     {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         question,
-        stream: true
-      })
+        stream: true,
+      }),
     }
   )
   if (response.status > 299) {

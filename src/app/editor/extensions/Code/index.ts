@@ -1,4 +1,4 @@
-import { mergeAttributes, Node } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 import { ReactNodeViewRenderer } from '@tiptap/react'
 
 import { CodeBlock } from './Component'
@@ -9,14 +9,14 @@ export default Node.create({
   group: 'block',
 
   draggable: false,
-  code:true,
+  code: true,
   defining: true,
 
   addAttributes() {
     return {
       lang: {
-        default: 'js'
-      }
+        default: 'js',
+      },
     }
   },
 
@@ -25,8 +25,9 @@ export default Node.create({
   parseHTML() {
     return [
       {
-        tag: 'code-block',preserveWhitespace: "full"
-      }
+        tag: 'code-block',
+        preserveWhitespace: 'full',
+      },
     ]
   },
 
@@ -36,5 +37,5 @@ export default Node.create({
 
   addNodeView() {
     return ReactNodeViewRenderer(CodeBlock)
-  }
+  },
 })

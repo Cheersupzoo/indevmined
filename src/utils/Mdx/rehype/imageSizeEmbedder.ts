@@ -48,7 +48,9 @@ function imageSizeEmbedder() {
           return
         }
         try {
-          const result = await extractImageMeta(path.join('public', decodeURIComponent(url)))
+          const result = await extractImageMeta(
+            path.join('public', decodeURIComponent(url))
+          )
 
           imgCache[url] = result
         } catch (error) {

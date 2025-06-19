@@ -1,5 +1,6 @@
-import { mergeAttributes, Node } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 import { ReactNodeViewRenderer } from '@tiptap/react'
+
 import { ExcalidrawComponent } from './ExcalidrawComponent'
 
 export default Node.create({
@@ -12,11 +13,11 @@ export default Node.create({
   addAttributes() {
     return {
       state: {
-        default: null
+        default: null,
       },
       svg: {
-        default: null
-      }
+        default: null,
+      },
     }
   },
 
@@ -25,8 +26,8 @@ export default Node.create({
   parseHTML() {
     return [
       {
-        tag: 'excalidraw'
-      }
+        tag: 'excalidraw',
+      },
     ]
   },
 
@@ -36,5 +37,5 @@ export default Node.create({
 
   addNodeView() {
     return ReactNodeViewRenderer(ExcalidrawComponent)
-  }
+  },
 })

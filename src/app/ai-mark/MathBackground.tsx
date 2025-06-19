@@ -15,7 +15,7 @@ const EnhancedMathBackground = () => {
     return {
       x: col * cellWidth + Math.random() * cellWidth,
       y: row * cellHeight + Math.random() * cellHeight,
-      rotation: Math.random() * 360
+      rotation: Math.random() * 360,
     }
   }
 
@@ -106,8 +106,8 @@ const EnhancedMathBackground = () => {
   }
 
   return (
-    <div className='z-0 absolute inset-0 top-24 overflow-hidden select-none'>
-      <svg className='w-full h-full'>
+    <div className='absolute inset-0 top-24 z-0 select-none overflow-hidden'>
+      <svg className='h-full w-full'>
         {/* {renderBrainWaves()} */}
         {/* {renderNeurons()} */}
         {renderSymbols()}

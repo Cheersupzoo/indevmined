@@ -2,7 +2,7 @@ const {
   createInsertedInfoPrompt,
   createInsertedPostMeta,
   queryNumberOfPost,
-  queryLatestPostTitle
+  queryLatestPostTitle,
 } = require('./prompt-gen-ans')
 const fs = require('fs')
 

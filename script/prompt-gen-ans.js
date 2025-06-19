@@ -124,7 +124,7 @@ function queryLatestPostTitle() {
   const enMdFile = latestFile.languageEnLink.slice(0, -3).split('|')[1]
 
   const enMdFileText = fs.readFileSync(`${baseVaultEN}/${enMdFile}.md`, {
-    encoding: 'utf-8'
+    encoding: 'utf-8',
   })
   const enMeta = extractEnTitle(enMdFileText)
 
@@ -135,5 +135,5 @@ module.exports = {
   createInsertedInfoPrompt,
   createInsertedPostMeta,
   queryNumberOfPost,
-  queryLatestPostTitle
+  queryLatestPostTitle,
 }

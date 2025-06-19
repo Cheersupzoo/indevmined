@@ -1,44 +1,46 @@
 /* eslint-disable @next/next/no-img-element */
+import { Metadata } from 'next'
+
 import Layout, { NormalResponsive } from '@/components/Layout'
 import MathQuestion from '@/components/MathQuestion'
-import { Metadata } from 'next'
+
 import EnhancedMathBackground from './MathBackground'
 import './style.css'
 
 export default function Home() {
   return (
     <Layout isEN className='bg-slate-200 text-slate-800'>
-      <div className='-z-10 fixed inset-0 bg-slate-200' />
+      <div className='fixed inset-0 -z-10 bg-slate-200' />
       <EnhancedMathBackground />
-      <NormalResponsive className='overflow-hidden sm:overflow-visible pb-4'>
-        <div className='relative flex '>
+      <NormalResponsive className='overflow-hidden pb-4 sm:overflow-visible'>
+        <div className='relative flex'>
           <div>
-            <div className='mt-4 text-xl sm:text-3xl font-thin text-amber-700'>
-              <span className='text-2xl sm:text-4xl bg-gradient p-1 rounded-xl text-slate-50 '>
+            <div className='mt-4 text-xl font-thin text-amber-700 sm:text-3xl'>
+              <span className='bg-gradient rounded-xl p-1 text-2xl text-slate-50 sm:text-4xl'>
                 Mark
               </span>{' '}
               - The Mathematician AI
             </div>
-            <div className='mt-4 mb-4 text-sm text-slate-800'>
+            <div className='mb-4 mt-4 text-sm text-slate-800'>
               Mark is exceptional at calculations and counting. As a Generative
               AI enhanced with a code interpreter, he can leverage programming
               skills to overcome limitations that probability alone cannot
               address. Why not put his abilities to the test?
             </div>
           </div>
-          <div className='w-[27rem] sm:w-[20rem] h-[12rem]' />
+          <div className='h-[12rem] w-[27rem] sm:w-[20rem]' />
           <img
-            className='absolute top-4 -right-10 sm:-right-16 w-[150px] sm:w-[250px]'
+            className='absolute -right-10 top-4 w-[150px] sm:-right-16 sm:w-[250px]'
             src='/mark.png'
             alt='Mark the mathematician ai'
           />
         </div>
-        <div className='bg-slate-50/70 shadow-lg p-2 rounded-3xl relative'>
+        <div className='relative rounded-3xl bg-slate-50/70 p-2 shadow-lg'>
           <MathQuestion />
-          <div className='text-sm text-center text-zinc-500 mt-2'>
+          <div className='mt-2 text-center text-sm text-zinc-500'>
             Mark remains still far from perfection. Check important info.
           </div>
-          <div className='text-sm text-center text-zinc-500 mt-2'>
+          <div className='mt-2 text-center text-sm text-zinc-500'>
             Made for fun with{' '}
             <a
               className='text-amber-600'
@@ -73,10 +75,10 @@ export default function Home() {
             </a>
           </div>
         </div>
-        <div className='flex justify-center mt-8'>
+        <div className='mt-8 flex justify-center'>
           <a
             href='https://github.com/Cheersupzoo/indevmined'
-            className='text-slate-600 text-sm hover:underline'
+            className='text-sm text-slate-600 hover:underline'
           >
             View on GitHub
           </a>
@@ -89,5 +91,5 @@ export default function Home() {
 export const metadata: Metadata = {
   title: 'AI Mark | In Dev Mined',
   description:
-    'All In Dev Mined Home page. Ask AI question about InDevMined post.'
+    'All In Dev Mined Home page. Ask AI question about InDevMined post.',
 }

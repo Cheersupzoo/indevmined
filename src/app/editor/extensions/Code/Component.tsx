@@ -1,28 +1,30 @@
 'use client'
 
-import { FloatCopyButton } from '@/components/CopyButton'
+import React, { useEffect, useState } from 'react'
+
 import {
   bgHandler,
-  mark,
+  callout,
   lineNumbers,
-  callout
+  mark,
 } from '@/utils/Mdx/components/ScrollyCoding/CodeAnotationHandler'
 import { MermaidLanguageRenderer } from '@/utils/Mdx/components/ScrollyCoding/MermaidLanguageRenderer'
 import { NodeViewProps, NodeViewWrapper } from '@tiptap/react'
-import { highlight, HighlightedCode, Pre, RawCode } from 'codehike/code'
+import { HighlightedCode, Pre, RawCode, highlight } from 'codehike/code'
 import { EditIcon } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
 import diff from 'react-syntax-highlighter/dist/esm/languages/hljs/diff'
+
+import { FloatCopyButton } from '@/components/CopyButton'
 
 export const CodeBlock = (props: NodeViewProps) => {
   return (
     <NodeViewWrapper>
       <div
-        className='bg-zinc-800 rounded shadow-xl flex flex-col relative pre group'
+        className='pre group relative flex flex-col rounded bg-zinc-800 shadow-xl'
         contentEditable={false}
       >
         {!!props.node.attrs.lang.length && (
-          <div className='text-center text-zinc-400 text-xs py-2 font-mono'>
+          <div className='py-2 text-center font-mono text-xs text-zinc-400'>
             <span
               className='cursor-pointer'
               onClick={() => {
@@ -42,12 +44,12 @@ export const CodeBlock = (props: NodeViewProps) => {
           codeblock={{
             value: props.node.textContent ?? '',
             lang: props.node.attrs.lang,
-            meta: props.node.attrs.lang
+            meta: props.node.attrs.lang,
           }}
           copy
         />
         <button
-          className='transition-opacity hover:bg-gray-400/20 group-hover:opacity-100 opacity-0 p-1 rounded absolute top-1 right-7 text-zinc-300'
+          className='absolute right-7 top-1 rounded p-1 text-zinc-300 opacity-0 transition-opacity hover:bg-gray-400/20 group-hover:opacity-100'
           aria-label='Edit code'
           onClick={() => {
             const code = window.prompt('Edit Code', props.node.textContent)
@@ -76,7 +78,7 @@ export function CodeSync({
   codeblock,
   copy,
   collapse,
-  noWrap
+  noWrap,
 }: {
   codeblock: RawCode
   copy?: boolean

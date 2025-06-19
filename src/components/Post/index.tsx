@@ -1,10 +1,13 @@
-import { CompileMDXResult } from 'next-mdx-remote/rsc'
 import React from 'react'
-import './style.css'
-import { NormalResponsive } from '../Layout'
+
 import { FrontmatterContent } from '@/utils/Mdx/compileMdx'
+import { CompileMDXResult } from 'next-mdx-remote/rsc'
 import { z } from 'zod'
+
 import '@/styles/markdown.css'
+
+import { NormalResponsive } from '../Layout'
+import './style.css'
 
 type Props = {
   post: CompileMDXResult<FrontmatterContent>
@@ -13,17 +16,17 @@ type Props = {
 const Schema = z.any()
 const Post = ({ post }: Props) => {
   return (
-    <NormalResponsive className='text-eva-text/70 markdown-body'>
-      <h1 className='text-4xl font-bold mb-3'>
+    <NormalResponsive className='markdown-body text-eva-text/70'>
+      <h1 className='mb-3 text-4xl font-bold'>
         {post.frontmatter.title as string}
       </h1>
-      <div className='text-xs text-text bg-color2 inline py-1 px-2 rounded-full '>
+      <div className='inline rounded-full bg-color2 px-2 py-1 text-xs text-text'>
         {post.frontmatter.categories}
       </div>
-      <div className='text-sm font-thin text-text mt-1 mb-8'>
+      <div className='mb-8 mt-1 text-sm font-thin text-text'>
         Published {post.frontmatter.published}
       </div>
-      <div className='parallax select-none -z-10 absolute -top-7 -left-3 text-[10rem] leading-none text-foreground'>
+      <div className='parallax absolute -left-3 -top-7 -z-10 select-none text-[10rem] leading-none text-foreground'>
         POST
       </div>
       {post.content}

@@ -1,3 +1,6 @@
+import React from 'react'
+
+import { Memo, use$ } from '@legendapp/state/react'
 import { Editor } from '@tiptap/core'
 import {
   BoldIcon,
@@ -6,15 +9,15 @@ import {
   LinkIcon,
   RemoveFormattingIcon,
   StrikethroughIcon,
-  UnderlineIcon
+  UnderlineIcon,
 } from 'lucide-react'
-import React from 'react'
 import { hideAll } from 'tippy.js'
-import { openLinkEditor } from '../extensions/LinkExtension'
-import { ToolbarVerticalDivider } from './ToolbarVerticalDivider'
-import { useEditorContext } from '../hooks/EditorProvider'
-import { Memo, use$ } from '@legendapp/state/react'
+
 import { cn } from '@/lib/utils'
+
+import { openLinkEditor } from '../extensions/LinkExtension'
+import { useEditorContext } from '../hooks/EditorProvider'
+import { ToolbarVerticalDivider } from './ToolbarVerticalDivider'
 
 export const IsParagraph = ({ editor }: { editor: Editor }) => {
   const { isActive$ } = useEditorContext()

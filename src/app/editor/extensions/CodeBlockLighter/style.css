@@ -1,6 +1,6 @@
 pre code .line-highlighter {
   border-left: solid transparent 2px;
-  @apply absolute w-full -z-10 select-none hover:border-l-4;
+  @apply absolute -z-10 w-full select-none hover:border-l-4;
 }
 
 pre code .line-number {

@@ -1,12 +1,13 @@
-import { cn } from '@/lib/utils'
 import {
   AnnotationHandler,
-  InnerLine,
+  BlockAnnotation,
   InlineAnnotation,
+  InnerLine,
   InnerPre,
   InnerToken,
-  BlockAnnotation
 } from 'codehike/code'
+
+import { cn } from '@/lib/utils'
 
 export const bgHandler: AnnotationHandler = {
   name: 'bg',
@@ -21,13 +22,13 @@ export const bgHandler: AnnotationHandler = {
         style={{
           display: 'inline-block',
           textIndent: '0',
-          backgroundColor: color
+          backgroundColor: color,
         }}
       >
         {children}
       </span>
     )
-  }
+  },
 }
 
 export const mark: AnnotationHandler = {
@@ -40,10 +41,10 @@ export const mark: AnnotationHandler = {
         style={{
           borderLeft: '2px solid transparent',
           borderLeftColor: annotation ? color : 'transparent',
-          backgroundColor: annotation && `rgb(from ${color} r g b / 0.1)`
+          backgroundColor: annotation && `rgb(from ${color} r g b / 0.1)`,
         }}
       >
-        <InnerLine merge={props} className='px-2 flex-1' />
+        <InnerLine merge={props} className='flex-1 px-2' />
       </div>
     )
   },
@@ -52,16 +53,16 @@ export const mark: AnnotationHandler = {
 
     return (
       <span
-        className='rounded px-0.5 py-0 -mx-0.5'
+        className='-mx-0.5 rounded px-0.5 py-0'
         style={{
           outline: `solid 1px rgb(from ${color} r g b / 0.5)`,
-          background: `rgb(from ${color} r g b / 0.13)`
+          background: `rgb(from ${color} r g b / 0.13)`,
         }}
       >
         {children}
       </span>
     )
-  }
+  },
 }
 
 export const specialCallouts = ['info', 'warn', 'error']
@@ -100,8 +101,8 @@ export const callout: AnnotationHandler = {
       data: {
         ...data,
         column: (fromColumn + toColumn) / 2,
-        className
-      }
+        className,
+      },
     }
   },
   AnnotatedLine: (props) => {
@@ -112,22 +113,22 @@ export const callout: AnnotationHandler = {
         {props.children}
         <div
           style={{
-            minWidth: `${column + 4}ch`
+            minWidth: `${column + 4}ch`,
           }}
           className={cn(
-            'w-fit border bg-background border-current rounded px-2 relative -ml-[1ch] mt-1 whitespace-break-spaces',
+            'relative -ml-[1ch] mt-1 w-fit whitespace-break-spaces rounded border border-current bg-background px-2',
             className
           )}
         >
           <div
             style={{ left: `${column}ch` }}
-            className='absolute border-l border-t border-current w-2 h-2 rotate-45 -translate-y-1/2 -top-[1px] bg-background'
+            className='absolute -top-[1px] h-2 w-2 -translate-y-1/2 rotate-45 border-l border-t border-current bg-background'
           />
           {props.annotation.query}
         </div>
       </InnerLine>
     )
-  }
+  },
 }
 
 export const wordWrap: AnnotationHandler = {
@@ -138,14 +139,14 @@ export const wordWrap: AnnotationHandler = {
       <div
         style={{
           textIndent: `${-props.indentation}ch`,
-          marginLeft: `${props.indentation}ch`
+          marginLeft: `${props.indentation}ch`,
         }}
       >
         {props.children}
       </div>
     </InnerLine>
   ),
-  Token: (props) => <InnerToken merge={props} style={{ textIndent: 0 }} />
+  Token: (props) => <InnerToken merge={props} style={{ textIndent: 0 }} />,
 }
 
 export const lineNumbers: AnnotationHandler = {
@@ -156,7 +157,7 @@ export const lineNumbers: AnnotationHandler = {
     return (
       <div className='flex'>
         <span
-          className='text-right text-zinc-500 select-none'
+          className='select-none text-right text-zinc-500'
           style={{ minWidth: `${width}ch` }}
         >
           {props.lineNumber}
@@ -164,7 +165,7 @@ export const lineNumbers: AnnotationHandler = {
         <InnerLine merge={props} />
       </div>
     )
-  }
+  },
 }
 
 export const diff: AnnotationHandler = {
@@ -177,10 +178,10 @@ export const diff: AnnotationHandler = {
   },
   Line: ({ annotation, ...props }) => (
     <>
-      <div className='min-w-[1ch] box-content opacity-70 pl-2 select-none'>
+      <div className='box-content min-w-[1ch] select-none pl-2 opacity-70'>
         {annotation?.query}
       </div>
       <InnerLine merge={props} />
     </>
-  )
+  ),
 }

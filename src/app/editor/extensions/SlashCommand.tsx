@@ -1,11 +1,12 @@
 import { Slash, SlashCmd } from '@harshtalks/slash-tiptap'
 import { Editor } from '@tiptap/core'
+
 import { suggestionBlock } from './InsertableBlock'
 
 export const SlashWithConfigure = Slash.configure({
   suggestion: {
-    items: () => suggestionBlock
-  }
+    items: () => suggestionBlock,
+  },
 })
 
 export const SlashCommand = ({ editor }: { editor: Editor | null }) => {
@@ -24,7 +25,7 @@ export const SlashCommand = ({ editor }: { editor: Editor | null }) => {
                   }}
                   key={item.title}
                 >
-                  <item.icon size={10} className='w-4 h-4 text-eva-text/50' />
+                  <item.icon size={10} className='h-4 w-4 text-eva-text/50' />
                   <p>{item.title}</p>
                   <div className='ml-auto text-eva-text/50'>
                     {item.mdShortcut}

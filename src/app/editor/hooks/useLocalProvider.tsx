@@ -1,12 +1,13 @@
-import { Observable, ObservableBoolean } from '@legendapp/state'
 import { useRef } from 'react'
+
+import { Observable, ObservableBoolean } from '@legendapp/state'
 import { IndexeddbPersistence } from 'y-indexeddb'
 import { Doc } from 'yjs'
 
 export const useLocalProvider = ({
   docId$,
   ydoc$,
-  syncing$
+  syncing$,
 }: {
   docId$: Observable<string | null>
   ydoc$: Observable<Doc>
@@ -41,6 +42,6 @@ export const useLocalProvider = ({
 
   return {
     createLocalProvider,
-    destroyLocalProvider
+    destroyLocalProvider,
   }
 }

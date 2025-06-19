@@ -6,13 +6,14 @@ A post/blog site of Facebook Page [In Dev Mined](https://www.facebook.com/profil
 
 This is site is made with `Next.js` app router. It is built as static site. The post/blog is with in markdown and render using `next-mdx-remote`.
 
-
 ## Getting Started
 
 ### Prepare env
+
 ```bash
 cp .env.example .env
 ```
+
 Make sure to update the api key with your personal key or the AI won't work.
 
 ### Run dev server

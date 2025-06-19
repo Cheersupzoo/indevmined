@@ -1,7 +1,9 @@
-import { Trash2Icon } from 'lucide-react'
 import React from 'react'
-import { useEditorContext } from '../hooks/EditorProvider'
+
 import { getParentNode } from '@/utils/Tiptap/getParentNodePos'
+import { Trash2Icon } from 'lucide-react'
+
+import { useEditorContext } from '../hooks/EditorProvider'
 
 export const DeleteNode = () => {
   const { currentEditor } = useEditorContext()

@@ -1,9 +1,11 @@
-import { Editor } from '@tiptap/core'
-import { GripVertical, PlusIcon } from 'lucide-react'
 import React, { memo, useRef } from 'react'
-import { findBlockNodeAt } from '../extensions/DragHandleExtension/ProseMirrorPlugin'
+
+import { Editor } from '@tiptap/core'
 import { ReactRenderer } from '@tiptap/react'
+import { GripVertical, PlusIcon } from 'lucide-react'
 import tippy from 'tippy.js'
+
+import { findBlockNodeAt } from '../extensions/DragHandleExtension/ProseMirrorPlugin'
 import { NodeMenu } from './NodeMenu'
 
 const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
@@ -12,14 +14,14 @@ const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
     <div
       ref={container}
       style={{ visibility: 'hidden' }}
-      className='pre-node-tool-container absolute top-0 left-0 -translate-x-full pr-4 flex flex-row space-x-1'
+      className='pre-node-tool-container absolute left-0 top-0 flex -translate-x-full flex-row space-x-1 pr-4'
     >
       <div
         onClick={(event) => {
           if (!editor) return
           const pos = editor.view.posAtCoords({
             left: event.clientX,
-            top: event.clientY
+            top: event.clientY,
           })
           if (!pos) {
             return
@@ -38,19 +40,19 @@ const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
             .insertContentAt(
               nodePos + node.nodeSize,
               editor.schema.nodes.paragraph.create(null, [
-                editor.schema.text('/')
+                editor.schema.text('/'),
               ])
             )
             .setTextSelection(nodePos + node.nodeSize + 2)
             .scrollIntoView()
             .run()
         }}
-        className='text-eva-text/60 hover:text-eva-text/70 hover:bg-eva-text/10 py-1 px-1 rounded-md cursor-pointer'
+        className='cursor-pointer rounded-md px-1 py-1 text-eva-text/60 hover:bg-eva-text/10 hover:text-eva-text/70'
       >
         <PlusIcon size={16} />
       </div>
       <div
-        className='drag-handle text-eva-text/60 hover:text-eva-text/70 hover:bg-eva-text/10 py-1 px-1 rounded-md cursor-grab'
+        className='drag-handle cursor-grab rounded-md px-1 py-1 text-eva-text/60 hover:bg-eva-text/10 hover:text-eva-text/70'
         draggable
         onClick={(event) => {
           event.preventDefault()
@@ -60,8 +62,8 @@ const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
           const component = new ReactRenderer(NodeMenu, {
             editor,
             props: {
-              editor
-            }
+              editor,
+            },
           })
           const popup = tippy(event.currentTarget, {
             content: component.element,
@@ -75,7 +77,7 @@ const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
             },
             onHide: () => {
               editor.view.dom.style.pointerEvents = ''
-            }
+            },
           })
         }}
       >

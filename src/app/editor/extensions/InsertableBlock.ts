@@ -14,12 +14,13 @@ import {
   PencilRulerIcon,
   QuoteIcon,
   SquareCodeIcon,
-  TypeIcon
+  TypeIcon,
 } from 'lucide-react'
-import { Box3dNode } from './React/Box3d'
-import { ExcalidrawIcon } from './ExcalidrawNode/Icon'
-import ExcalidrawNode from './ExcalidrawNode'
+
 import { DebugEditor } from './DebugEditor'
+import ExcalidrawNode from './ExcalidrawNode'
+import { ExcalidrawIcon } from './ExcalidrawNode/Icon'
+import { Box3dNode } from './React/Box3d'
 
 export const suggestionBlock = createSuggestionsItems([
   {
@@ -34,7 +35,7 @@ export const suggestionBlock = createSuggestionsItems([
         .run()
     },
     icon: TypeIcon,
-    mdShortcut: ''
+    mdShortcut: '',
   },
   {
     title: 'Heading 1',
@@ -48,7 +49,7 @@ export const suggestionBlock = createSuggestionsItems([
         .run()
     },
     icon: Heading1Icon,
-    mdShortcut: '#'
+    mdShortcut: '#',
   },
   {
     title: 'Heading 2',
@@ -62,7 +63,7 @@ export const suggestionBlock = createSuggestionsItems([
         .run()
     },
     icon: Heading2Icon,
-    mdShortcut: '##'
+    mdShortcut: '##',
   },
   {
     title: 'Heading 3',
@@ -76,7 +77,7 @@ export const suggestionBlock = createSuggestionsItems([
         .run()
     },
     icon: Heading3Icon,
-    mdShortcut: '###'
+    mdShortcut: '###',
   },
   {
     title: 'Heading 4',
@@ -90,7 +91,7 @@ export const suggestionBlock = createSuggestionsItems([
         .run()
     },
     icon: Heading4Icon,
-    mdShortcut: '####'
+    mdShortcut: '####',
   },
   {
     title: 'Bullet List',
@@ -99,7 +100,7 @@ export const suggestionBlock = createSuggestionsItems([
       editor.chain().focus().deleteRange(range).toggleBulletList().run()
     },
     icon: ListIcon,
-    mdShortcut: '-'
+    mdShortcut: '-',
   },
   {
     title: 'Ordered List',
@@ -108,7 +109,7 @@ export const suggestionBlock = createSuggestionsItems([
       editor.chain().focus().deleteRange(range).toggleOrderedList().run()
     },
     icon: ListOrderedIcon,
-    mdShortcut: '1.'
+    mdShortcut: '1.',
   },
   {
     title: 'Task List',
@@ -117,7 +118,7 @@ export const suggestionBlock = createSuggestionsItems([
       editor.chain().focus().deleteRange(range).toggleTaskList().run()
     },
     icon: ListTodoIcon,
-    mdShortcut: '[ ]'
+    mdShortcut: '[ ]',
   },
   {
     title: 'Divider',
@@ -134,7 +135,7 @@ export const suggestionBlock = createSuggestionsItems([
         .run()
     },
     icon: MinusIcon,
-    mdShortcut: '---'
+    mdShortcut: '---',
   },
   {
     title: 'Quote',
@@ -143,11 +144,11 @@ export const suggestionBlock = createSuggestionsItems([
       editor.chain().focus().deleteRange(range).toggleBlockquote().run()
     },
     icon: QuoteIcon,
-    mdShortcut: '>'
+    mdShortcut: '>',
   },
   {
     title: 'Toggle',
-    searchTerms: ['toggle', 'section','foldable'],
+    searchTerms: ['toggle', 'section', 'foldable'],
     command: ({ editor, range }) => {
       editor.chain().focus().deleteRange(range).toggleSection().run()
     },
@@ -159,7 +160,7 @@ export const suggestionBlock = createSuggestionsItems([
     command: ({ editor, range }) => {
       editor.chain().focus().deleteRange(range).setImageUploadNode().run()
     },
-    icon: ImageIcon
+    icon: ImageIcon,
   },
   {
     title: 'Code Block',
@@ -173,7 +174,7 @@ export const suggestionBlock = createSuggestionsItems([
         .run()
     },
     icon: SquareCodeIcon,
-    mdShortcut: '```'
+    mdShortcut: '```',
   },
   {
     title: 'React Component',
@@ -186,11 +187,11 @@ export const suggestionBlock = createSuggestionsItems([
         .insertContent({
           type: 'reactComponent',
           attrs: { count: 9 },
-          content: [{ type: 'paragraph' }]
+          content: [{ type: 'paragraph' }],
         })
         .run()
     },
-    icon: LayoutTemplateIcon
+    icon: LayoutTemplateIcon,
   },
   {
     title: 'React Component - 3D Box',
@@ -201,11 +202,11 @@ export const suggestionBlock = createSuggestionsItems([
         .focus()
         .deleteRange(range)
         .insertContent({
-          type: Box3dNode.name
+          type: Box3dNode.name,
         })
         .run()
     },
-    icon: LayoutTemplateIcon
+    icon: LayoutTemplateIcon,
   },
   {
     title: 'Excalidraw',
@@ -216,13 +217,13 @@ export const suggestionBlock = createSuggestionsItems([
         .focus()
         .deleteRange(range)
         .insertContent({
-          type: ExcalidrawNode.name
+          type: ExcalidrawNode.name,
         })
         .run()
     },
-    icon: ExcalidrawIcon
+    icon: ExcalidrawIcon,
   },
-   {
+  {
     title: 'Debug Editor',
     searchTerms: ['debug'],
     command: ({ editor, range }) => {
@@ -231,10 +232,10 @@ export const suggestionBlock = createSuggestionsItems([
         .focus()
         .deleteRange(range)
         .insertContent({
-          type: DebugEditor.name
+          type: DebugEditor.name,
         })
         .run()
     },
-    icon: PencilRulerIcon
-   }
+    icon: PencilRulerIcon,
+  },
 ])

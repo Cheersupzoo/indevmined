@@ -1,5 +1,5 @@
-import { visit } from 'unist-util-visit'
 import fs from 'fs'
+import { visit } from 'unist-util-visit'
 
 export default function imageVaultToPublic(options: any) {
   return async function transformer(tree: any, file: any) {

@@ -39,15 +39,15 @@ export const Playful = Mark.create<PlayfulOptions>({
 
   addOptions() {
     return {
-      HTMLAttributes: {}
+      HTMLAttributes: {},
     }
   },
 
   parseHTML() {
     return [
       {
-        tag: 'span.playful'
-      }
+        tag: 'span.playful',
+      },
     ]
   },
 
@@ -55,9 +55,9 @@ export const Playful = Mark.create<PlayfulOptions>({
     return [
       'span',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
-        class: 'playful'
+        class: 'playful',
       }),
-      0
+      0,
     ]
   },
 
@@ -77,7 +77,7 @@ export const Playful = Mark.create<PlayfulOptions>({
         () =>
         ({ commands }) => {
           return commands.unsetMark(this.name)
-        }
+        },
     }
-  }
+  },
 })

@@ -1,4 +1,9 @@
 'use client'
+
+import React, { useEffect } from 'react'
+
+import { Memo, use$, useObservable } from '@legendapp/state/react'
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,11 +11,10 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import React, { useEffect } from 'react'
+
 import { useAuth } from '../Auth/AuthProvider'
-import { Memo, use$, useObservable } from '@legendapp/state/react'
 
 const UserDropdown = () => {
   const { user$, signout } = useAuth()
@@ -42,11 +46,11 @@ const UserDropdown = () => {
     user && (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className='p-2 rounded-md flex items-center gap-2 data-[state=open]:bg-eva-text/5 hover:bg-eva-text/10'>
-            <div className='leading-7 text-center bg-green-800 w-7 h-7 text-sm rounded-full'>
+          <button className='flex items-center gap-2 rounded-md p-2 hover:bg-eva-text/10 data-[state=open]:bg-eva-text/5'>
+            <div className='h-7 w-7 rounded-full bg-green-800 text-center text-sm leading-7'>
               {user.email?.[0].toUpperCase()}
             </div>
-            <div className='text-ellipsis w-24 overflow-hidden whitespace-nowrap'>
+            <div className='w-24 overflow-hidden text-ellipsis whitespace-nowrap'>
               {user.email}
             </div>
           </button>
@@ -64,7 +68,7 @@ const UserDropdown = () => {
               Log out
             </DropdownMenuItem>
           </DropdownMenuGroup>
-          <div className='px-2 mt-2 text-xs text-eva-text-border'>
+          <div className='mt-2 px-2 text-xs text-eva-text-border'>
             SW Status: <Memo>{swStatus$}</Memo>
           </div>
         </DropdownMenuContent>

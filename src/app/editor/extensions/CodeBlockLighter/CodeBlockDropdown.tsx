@@ -1,26 +1,29 @@
 'use client'
+
+import React from 'react'
+
+import { useIsMobile } from '@/hooks/use-mobile'
+import {
+  EllipsisVertical,
+  ImageIcon,
+  ImageOffIcon,
+  SquareSquareIcon,
+} from 'lucide-react'
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  EllipsisVertical,
-  ImageIcon,
-  ImageOffIcon,
-  SquareSquareIcon
-} from 'lucide-react'
-import React from 'react'
-import { useIsMobile } from '@/hooks/use-mobile'
 import { cn } from '@/lib/utils'
 
 export const CodeBlockDropdown = ({
   preview,
   togglePreview,
   center,
-  toggleCenter
+  toggleCenter,
 }: {
   preview?: boolean
   togglePreview: () => void
@@ -35,7 +38,7 @@ export const CodeBlockDropdown = ({
         onClick={toggleCenter}
         className={cn(
           center && 'bg-eva-text/15',
-          'px-0.5 py-1 hover:bg-eva-text/10 rounded-sm',
+          'rounded-sm px-0.5 py-1 hover:bg-eva-text/10',
           !isMobile && 'invisible group-hover:visible data-[state=open]:visible'
         )}
       >
@@ -45,7 +48,7 @@ export const CodeBlockDropdown = ({
         <DropdownMenuTrigger asChild>
           <div
             className={cn(
-              'px-0.5 py-1 hover:bg-eva-text/10 rounded-sm',
+              'rounded-sm px-0.5 py-1 hover:bg-eva-text/10',
               !isMobile &&
                 'invisible group-hover:visible data-[state=open]:visible'
             )}

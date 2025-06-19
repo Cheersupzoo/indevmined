@@ -1,10 +1,12 @@
 'use client'
 
 import React from 'react'
-import { FaGoogle, FaTruckLoading } from 'react-icons/fa'
-import AuthProvider, { useAuth } from './AuthProvider'
-import { motion } from 'motion/react'
+
 import { Memo, use$ } from '@legendapp/state/react'
+import { motion } from 'motion/react'
+import { FaGoogle, FaTruckLoading } from 'react-icons/fa'
+
+import AuthProvider, { useAuth } from './AuthProvider'
 
 const AuthLayoutImpl = ({ children }: React.PropsWithChildren) => {
   const { loading$, login, user$, authLoading$ } = useAuth()
@@ -18,17 +20,17 @@ const AuthLayoutImpl = ({ children }: React.PropsWithChildren) => {
 
   if (!user) {
     return (
-      <div className='flex flex-col justify-center h-screen items-center gap-8'>
+      <div className='flex h-screen flex-col items-center justify-center gap-8'>
         <motion.div
           layoutId='editor-header'
-          className='select-none text-eva-text/80 font-medium text-base'
+          className='select-none text-base font-medium text-eva-text/80'
         >
           InDevMined Editor
         </motion.div>
         <motion.button layout onClick={() => login()}>
           <motion.div
             layout='position'
-            className='px-2 py-1 bg-slate-50 rounded-full flex items-center gap-1'
+            className='flex items-center gap-1 rounded-full bg-slate-50 px-2 py-1'
           >
             <FaGoogle /> Signin with Google{' '}
             <Memo>{() => authLoading$.get() && <FaTruckLoading />}</Memo>

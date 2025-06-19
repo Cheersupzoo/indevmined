@@ -1,4 +1,5 @@
 import { Extension } from '@tiptap/core'
+
 import { dragHandlePlugin } from './ProseMirrorPlugin'
 
 declare module '@tiptap/core' {
@@ -16,7 +17,7 @@ export const DragHandle = Extension.create({
   name: 'dragHandle',
 
   addProseMirrorPlugins() {
-    return [dragHandlePlugin({editor: this.editor})]
+    return [dragHandlePlugin({ editor: this.editor })]
   },
   addCommands() {
     return {
@@ -30,7 +31,7 @@ export const DragHandle = Extension.create({
         }
 
         return true
-      }
+      },
     }
-  }
+  },
 })

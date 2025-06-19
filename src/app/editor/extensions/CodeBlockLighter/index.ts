@@ -1,12 +1,15 @@
+import dynamic from 'next/dynamic'
+
 import CodeBlock, { CodeBlockOptions } from '@tiptap/extension-code-block'
+import { TextSelection } from '@tiptap/pm/state'
+import { ReactNodeViewRenderer, mergeAttributes } from '@tiptap/react'
+
 import { LighterPlugin } from './LighterPlugin'
+
 const CodeBlockWrapper = dynamic(
   () => import('./CodeBlockWraper').then((m) => m.CodeBlockWrapper),
   { ssr: false }
 )
-import { mergeAttributes, ReactNodeViewRenderer } from '@tiptap/react'
-import { TextSelection } from '@tiptap/pm/state'
-import dynamic from 'next/dynamic'
 
 export interface CodeBlockLighterOptions extends CodeBlockOptions {}
 
@@ -18,21 +21,21 @@ export const CodeBlockLighter = CodeBlock.extend<CodeBlockLighterOptions>({
       exitOnTripleEnter: true,
       exitOnArrowDown: true,
       defaultLanguage: 'typescript',
-      HTMLAttributes: {}
+      HTMLAttributes: {},
     }
   },
   addAttributes() {
     return {
       ...this.parent?.(),
       lineMark: {
-        default: () => []
+        default: () => [],
       },
       preview: {
-        default: null
+        default: null,
       },
       previewCenter: {
-        default: null
-      }
+        default: null,
+      },
     }
   },
   renderHTML({ node, HTMLAttributes }) {
@@ -46,10 +49,10 @@ export const CodeBlockLighter = CodeBlock.extend<CodeBlockLighterOptions>({
             ? this.options.languageClassPrefix + node.attrs.language
             : null,
           language: node.attrs.language,
-          lineMark: node.attrs.lineMark.join(',')
+          lineMark: node.attrs.lineMark.join(','),
         },
-        0
-      ]
+        0,
+      ],
     ]
   },
   marks: 'codeMark',
@@ -58,8 +61,8 @@ export const CodeBlockLighter = CodeBlock.extend<CodeBlockLighterOptions>({
       ...(this.parent?.() || []),
       LighterPlugin({
         name: this.name,
-        defaultLanguage: this.options.defaultLanguage
-      })
+        defaultLanguage: this.options.defaultLanguage,
+      }),
     ]
   },
   addNodeView() {
@@ -69,8 +72,8 @@ export const CodeBlockLighter = CodeBlock.extend<CodeBlockLighterOptions>({
         spellcheck: 'false',
         autocorrect: 'off',
         autocapitalize: 'off',
-        translate: 'no'
-      }
+        translate: 'no',
+      },
     })
   },
   addKeyboardShortcuts() {
@@ -91,7 +94,7 @@ export const CodeBlockLighter = CodeBlock.extend<CodeBlockLighterOptions>({
           }
 
           return false
-        })
+        }),
     }
-  }
+  },
 })

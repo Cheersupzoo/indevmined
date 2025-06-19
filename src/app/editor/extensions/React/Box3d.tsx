@@ -1,9 +1,10 @@
 'use client'
 
-import { useAnimationFrame } from 'motion/react'
 import { ComponentType, useRef } from 'react'
-import { mergeAttributes, Node, NodeViewProps } from '@tiptap/core'
+
+import { Node, NodeViewProps, mergeAttributes } from '@tiptap/core'
 import { NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
+import { useAnimationFrame } from 'motion/react'
 
 export const Box3d = () => {
   const ref = useRef<HTMLDivElement>(null)
@@ -104,8 +105,8 @@ const createReactNode = (name: string, Component: () => React.ReactElement) =>
     parseHTML() {
       return [
         {
-          tag: this.name
-        }
+          tag: this.name,
+        },
       ]
     },
 
@@ -119,7 +120,7 @@ const createReactNode = (name: string, Component: () => React.ReactElement) =>
           <Component />
         </NodeViewWrapper>
       ))
-    }
+    },
   })
 
 export const Box3dNode = createReactNode('react-component-box3d', Box3d)

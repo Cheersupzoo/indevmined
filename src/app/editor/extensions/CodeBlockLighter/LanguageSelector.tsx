@@ -1,7 +1,9 @@
-import { cn } from '@/lib/utils'
+import { useEffect, useRef, useState } from 'react'
+
 import { type Editor } from '@tiptap/core'
 import { Command } from 'cmdk'
-import { useEffect, useRef, useState } from 'react'
+
+import { cn } from '@/lib/utils'
 
 const supportLanguages = [
   'css',
@@ -12,14 +14,14 @@ const supportLanguages = [
   'tsx',
   'python',
   'go',
-  'rust'
+  'rust',
 ]
 
 export const LanguageSelector = ({
   updateLanguage,
   closePopup,
   editor,
-  currentLanguage
+  currentLanguage,
 }: {
   updateLanguage: (language: string) => void
   closePopup: () => void
@@ -59,11 +61,11 @@ export const LanguageSelector = ({
     >
       <Command.Input
         ref={inputEl}
-        className='bg-transparent outline-none px-3 pt-3 pb-3 border-b border-b-zinc-700 w-full'
+        className='w-full border-b border-b-zinc-700 bg-transparent px-3 pb-3 pt-3 outline-none'
         maxLength={16}
         placeholder='Programming language'
       />
-      <Command.List className='px-2 mt-3 mb-3 text-left'>
+      <Command.List className='mb-3 mt-3 px-2 text-left'>
         {supportLanguages.map((language) => (
           <Command.Item
             key={language}

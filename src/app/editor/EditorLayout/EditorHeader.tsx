@@ -1,8 +1,29 @@
-import { SidebarTrigger } from '@/components/ui/sidebar'
-import { Memo, use$, useObservable } from '@legendapp/state/react'
-import { AnimatePresence, motion } from 'motion/react'
 import React, { useEffect, useState } from 'react'
-import { useEditorContext } from '../hooks/EditorProvider'
+
+import { useIsMobile } from '@/hooks/use-mobile'
+import { observe } from '@legendapp/state'
+import { Memo, use$, useObservable } from '@legendapp/state/react'
+import { Editor, EditorEvents } from '@tiptap/core'
+import {
+  EllipsisVertical,
+  LockKeyholeIcon,
+  LockKeyholeOpenIcon,
+  Trash2Icon,
+  UploadIcon,
+} from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,32 +34,14 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  EllipsisVertical,
-  LockKeyholeIcon,
-  LockKeyholeOpenIcon,
-  Trash2Icon,
-  UploadIcon
-} from 'lucide-react'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
-} from '@/components/ui/alert-dialog'
-import { EditorSlugInput } from './EditorSlugInput'
-import { useIsMobile } from '@/hooks/use-mobile'
+import { SidebarTrigger } from '@/components/ui/sidebar'
 import { cn } from '@/lib/utils'
-import { Editor, EditorEvents } from '@tiptap/core'
-import { observe } from '@legendapp/state'
+
+import { useEditorContext } from '../hooks/EditorProvider'
 import './EditorHeader.css'
+import { EditorSlugInput } from './EditorSlugInput'
 
 export const EditorHeader = () => {
   const { docId$, status$ } = useEditorContext()
@@ -46,9 +49,9 @@ export const EditorHeader = () => {
   const showBrand = use$(() => !docId$.get() || !isMobile)
 
   return (
-    <div className='text-eva-text left-0 right-0 top-0 z-50 mx-auto  w-full bg-transparent px-3 sticky'>
-      <div className='flex items-center py-2 justify-between'>
-        <div className='flex gap-1 items-center'>
+    <div className='sticky left-0 right-0 top-0 z-50 mx-auto w-full bg-transparent px-3 text-eva-text'>
+      <div className='flex items-center justify-between py-2'>
+        <div className='flex items-center gap-1'>
           <SidebarTrigger />
           <Memo>{() => docId$.get() && <EditorSlugInput />}</Memo>
         </div>
@@ -57,7 +60,7 @@ export const EditorHeader = () => {
             <motion.div
               layoutId='editor-header'
               className={cn(
-                'select-none absolute left-1/2 -translate-x-1/2 text-eva-text/50 font-medium text-base'
+                'absolute left-1/2 -translate-x-1/2 select-none text-base font-medium text-eva-text/50'
               )}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -67,7 +70,7 @@ export const EditorHeader = () => {
           )}
         </AnimatePresence>
         <div className='flex items-center gap-2'>
-          <div className='text-sm text-eva-text/80 p-1'>
+          <div className='p-1 text-sm text-eva-text/80'>
             <Memo>{status$}</Memo>
           </div>
           <EditorLockMode />
@@ -105,7 +108,7 @@ const EditorLockMode = () => {
 
   return (
     <div
-      className='px-0.5 py-1 hover:bg-eva-text/10 rounded-sm'
+      className='rounded-sm px-0.5 py-1 hover:bg-eva-text/10'
       onClick={() =>
         currentEditor.peek()?.setEditable(!currentEditor.peek().isEditable)
       }
@@ -135,7 +138,7 @@ const EditorHeaderDropdown = () => {
   return (
     <DropdownMenu open={open} onOpenChange={(open) => !open && setOpen(open)}>
       <DropdownMenuTrigger asChild onClick={() => setOpen(true)}>
-        <div className='px-0.5 py-1 hover:bg-eva-text/10 rounded-sm'>
+        <div className='rounded-sm px-0.5 py-1 hover:bg-eva-text/10'>
           <EllipsisVertical size={16} />
         </div>
       </DropdownMenuTrigger>
@@ -183,7 +186,7 @@ const EditorHeaderDropdown = () => {
 
 export const DeleteDialog = ({
   onDelete,
-  closeDropDown
+  closeDropDown,
 }: {
   onDelete: () => void
   closeDropDown?: () => void

@@ -1,10 +1,12 @@
-import { Command } from 'cmdk'
 import { useEffect, useRef, useState } from 'react'
-import { cn } from '@/lib/utils'
-import { Editor } from '@tiptap/core'
+
 import { Memo, Show, useObservable } from '@legendapp/state/react'
 import { $React } from '@legendapp/state/react-web'
+import { Editor } from '@tiptap/core'
+import { Command } from 'cmdk'
 import { BanIcon, ExternalLink, Link, Unlink } from 'lucide-react'
+
+import { cn } from '@/lib/utils'
 
 interface LinkPopoverProps {
   editor: Editor
@@ -15,7 +17,7 @@ interface LinkPopoverProps {
 export const LinkPopover = ({
   editor,
   closePopup,
-  currentUrl = ''
+  currentUrl = '',
 }: LinkPopoverProps) => {
   const url$ = useObservable(currentUrl)
   const isEditing$ = useObservable(false)
@@ -52,7 +54,7 @@ export const LinkPopover = ({
 
   return (
     <Command>
-      <div className='py-0.5 mx-2 text-xs text-eva-text/70'>Set link URL</div>
+      <div className='mx-2 py-0.5 text-xs text-eva-text/70'>Set link URL</div>
       <$React.input
         ref={inputRef}
         $value={url$}
@@ -61,7 +63,7 @@ export const LinkPopover = ({
         }}
         placeholder='Enter URL'
         id='link-popover'
-        className='w-full px-3 py-2 border-y border-zinc-700 bg-zinc-900 text-zinc-300 focus:outline-none focus:border-zinc-500'
+        className='w-full border-y border-zinc-700 bg-zinc-900 px-3 py-2 text-zinc-300 focus:border-zinc-500 focus:outline-none'
       />
       <Command.List className='mt-2'>
         <Show
@@ -70,7 +72,7 @@ export const LinkPopover = ({
             <Command.Item
               onSelect={closePopup}
               className={cn(
-                'px-3 py-2 cursor-pointer hover:bg-zinc-800 transition-colors text-zinc-300'
+                'cursor-pointer px-3 py-2 text-zinc-300 transition-colors hover:bg-zinc-800'
               )}
             >
               <BanIcon size={16} />
@@ -82,7 +84,7 @@ export const LinkPopover = ({
             <Command.Item
               onSelect={onOpen}
               className={cn(
-                'px-3 py-2 cursor-pointer hover:bg-zinc-800 transition-colors text-zinc-300'
+                'cursor-pointer px-3 py-2 text-zinc-300 transition-colors hover:bg-zinc-800'
               )}
             >
               <ExternalLink size={16} /> Open link in new tab
@@ -94,10 +96,10 @@ export const LinkPopover = ({
             <Command.Item
               onSelect={onConfirm}
               className={cn(
-                'px-3 py-2 cursor-pointer hover:bg-zinc-800 transition-colors',
+                'cursor-pointer px-3 py-2 transition-colors hover:bg-zinc-800',
                 url$.get()
                   ? 'text-zinc-300'
-                  : 'text-zinc-500 cursor-not-allowed'
+                  : 'cursor-not-allowed text-zinc-500'
               )}
               disabled={!url$.get()}
             >
@@ -107,7 +109,7 @@ export const LinkPopover = ({
         </Memo>
         <Command.Item
           onSelect={onRemove}
-          className='px-3 py-2 cursor-pointer hover:bg-zinc-800 transition-colors text-red-500'
+          className='cursor-pointer px-3 py-2 text-red-500 transition-colors hover:bg-zinc-800'
         >
           <Unlink size={16} /> Remove Link
         </Command.Item>

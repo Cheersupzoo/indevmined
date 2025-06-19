@@ -6,13 +6,13 @@ const codeParser = (functionObj) => {
   if (!functionObj?.function?.arguments || !functionObj?.id) {
     return {
       id: functionObj.id,
-      error: 'Fail to execute function'
+      error: 'Fail to execute function',
     }
   }
 
   return {
     id: functionObj.id,
-    code: JSON.parse(functionObj.function.arguments).code
+    code: JSON.parse(functionObj.function.arguments).code,
   }
 }
 
@@ -27,12 +27,12 @@ export const onRequest = functionWrapper(async (context, reqBody) => {
     messages: [
       {
         role: 'system',
-        content: systemPrompt
+        content: systemPrompt,
       },
       {
         role: 'user',
-        content: question
-      }
+        content: question,
+      },
     ],
     model: 'llama-3.3-70b-versatile',
     temperature: 0.1,
@@ -50,31 +50,31 @@ export const onRequest = functionWrapper(async (context, reqBody) => {
             properties: {
               code: {
                 type: 'string',
-                description: 'The python code to execute in a single cell'
-              }
+                description: 'The python code to execute in a single cell',
+              },
             },
-            required: ['code']
-          }
-        }
+            required: ['code'],
+          },
+        },
       },
       {
         type: 'function',
         function: {
           name: 'unable_to_answer',
           description:
-            'When question is not able to transform into python code will be handle by this function'
-        }
-      }
+            'When question is not able to transform into python code will be handle by this function',
+        },
+      },
     ],
-    tool_choice: 'auto'
+    tool_choice: 'auto',
   }
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${groqApiKey}`
+      Authorization: `Bearer ${groqApiKey}`,
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   })
 
   const result = await response.json()
@@ -95,7 +95,7 @@ export const onRequest = functionWrapper(async (context, reqBody) => {
       try {
         const jsonText = JSON.stringify({
           object: 'code.execute',
-          id: 'code.execute'
+          id: 'code.execute',
         })
         await sendMessage(jsonText, writable)
 
@@ -111,7 +111,7 @@ export const onRequest = functionWrapper(async (context, reqBody) => {
             if (error) {
               return {
                 id,
-                error
+                error,
               }
             }
 
@@ -121,7 +121,7 @@ export const onRequest = functionWrapper(async (context, reqBody) => {
               object: 'code.source.result',
               id,
               result: output.result,
-              error: output.error
+              error: output.error,
             })
             await sendMessage(jsonText, writable)
 
@@ -135,31 +135,31 @@ export const onRequest = functionWrapper(async (context, reqBody) => {
           messages: [
             {
               role: 'system',
-              content: systemPrompt
+              content: systemPrompt,
             },
             {
               role: 'user',
-              content: question
+              content: question,
             },
             aiChoice,
             {
               role: 'function',
               name: 'execute_python',
-              content: JSON.stringify(results)
-            }
+              content: JSON.stringify(results),
+            },
           ],
           model: 'llama-3.3-70b-versatile',
           temperature: 0.1,
           max_tokens: 1500,
-          stream: reqBody.stream ?? false
+          stream: reqBody.stream ?? false,
         }
         const response = await fetch(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${groqApiKey}`
+            Authorization: `Bearer ${groqApiKey}`,
           },
-          body: JSON.stringify(body)
+          body: JSON.stringify(body),
         })
 
         response.body.pipeTo(writable)

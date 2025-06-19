@@ -1,11 +1,12 @@
+import { ForwardRefExoticComponent, RefAttributes } from 'react'
+
 import { Editor } from '@tiptap/core'
 import {
-  LucideProps,
-  Trash2Icon,
   CopyIcon,
-  RemoveFormattingIcon
+  LucideProps,
+  RemoveFormattingIcon,
+  Trash2Icon,
 } from 'lucide-react'
-import { ForwardRefExoticComponent, RefAttributes } from 'react'
 import { hideAll } from 'tippy.js'
 
 const nodeMenuActions: {
@@ -23,7 +24,7 @@ const nodeMenuActions: {
       editor.chain().deleteSelection().hideDragHandle().run()
       hideAll()
     },
-    shortcut: 'Del'
+    shortcut: 'Del',
   },
   {
     title: 'Duplicate',
@@ -38,7 +39,7 @@ const nodeMenuActions: {
         .run()
 
       hideAll()
-    }
+    },
   },
   {
     title: 'Clear Formatting',
@@ -46,15 +47,15 @@ const nodeMenuActions: {
     command: (editor) => {
       editor.chain().focus().unsetAllMarks().run()
       hideAll()
-    }
-  }
+    },
+  },
 ]
 
 export const NodeMenu = ({
-  editor
+  editor,
 }: React.PropsWithoutRef<{ editor: Editor }>) => {
   return (
-    <div className='bg-zinc-800 border border-zinc-700 shadow-xl rounded-xl min-w-48 px-1 py-2'>
+    <div className='min-w-48 rounded-xl border border-zinc-700 bg-zinc-800 px-1 py-2 shadow-xl'>
       <div className='px-1 py-1'>
         {nodeMenuActions.map((action) => (
           <div
@@ -62,7 +63,7 @@ export const NodeMenu = ({
             key={action.title}
             className='cmdk-item hover:bg-text/10'
           >
-            <action.icon className='w-4 h-4 text-eva-text/50' />
+            <action.icon className='h-4 w-4 text-eva-text/50' />
             <p>{action.title}</p>
             <div className='ml-auto text-eva-text/50'>{action.shortcut}</div>
           </div>

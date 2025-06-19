@@ -1,8 +1,10 @@
-import { join } from 'path'
+import type { Metadata } from 'next'
+
 import fs from 'fs'
 import { type CompileMDXResult } from 'next-mdx-remote/rsc'
-import type { Metadata } from 'next'
-import { compiledOptionMDX, FrontmatterContent, PostMeta } from './compileMdx'
+import { join } from 'path'
+
+import { FrontmatterContent, PostMeta, compiledOptionMDX } from './compileMdx'
 
 const postsDirectory = join(process.cwd(), 'vault')
 
@@ -26,7 +28,7 @@ export async function getPostsMeta(): Promise<PostMeta[]> {
   postTHs = postTHs
     .map((post, index) => ({
       ...post,
-      frontmatter: { ...post.frontmatter, slug: slugs[index] }
+      frontmatter: { ...post.frontmatter, slug: slugs[index] },
     }))
     .filter((post) => {
       return !post.frontmatter.draft
@@ -55,9 +57,9 @@ export async function getPostsMeta(): Promise<PostMeta[]> {
       ? {
           title: postENs?.[index]?.frontmatter.title,
           url: parseMarkdownLink(post.frontmatter['language-en-link']!).url,
-          description: postENs?.[index]?.frontmatter.description
+          description: postENs?.[index]?.frontmatter.description,
         }
-      : null
+      : null,
   }))
 }
 
@@ -81,14 +83,14 @@ export async function getPostBySlug(rawSlug: string, lang?: Language) {
     post = fs.readFileSync(
       join(postsDirectory, lang ? `/${lang}` : '', `${slug}.md`),
       {
-        encoding: 'utf-8'
+        encoding: 'utf-8',
       }
     )
   } catch {
     post = fs.readFileSync(
       join(postsDirectory, lang ? `/${lang}` : '', `${slug}.mdx`),
       {
-        encoding: 'utf-8'
+        encoding: 'utf-8',
       }
     )
   }
@@ -119,14 +121,14 @@ export function generatePostsStaticParams(lang?: Language) {
 
   if (process.env.NODE_ENV === 'development') {
     const encodedFiles = files.map((file) => ({
-      slug: encodeURI(fileToSlug(file))
+      slug: encodeURI(fileToSlug(file)),
     }))
 
     return encodedFiles
   }
 
   return files.map((file) => ({
-    slug: fileToSlug(file)
+    slug: fileToSlug(file),
   }))
 }
 
@@ -138,7 +140,7 @@ export async function generatePostMetadata(
   if (!post.frontmatter.extracted) {
     return {
       title: post.frontmatter.title as string,
-      description: post.frontmatter.description
+      description: post.frontmatter.description,
     }
   }
   const extracted = JSON.parse(post.frontmatter.extracted)
@@ -146,7 +148,7 @@ export async function generatePostMetadata(
   return {
     title: post.frontmatter.title as string,
     description: post.frontmatter.description ?? extracted.summarize,
-    keywords: extracted.keywords
+    keywords: extracted.keywords,
   }
 }
 
@@ -158,6 +160,6 @@ export function parseMarkdownLink(mdLink: string, lang = 'en') {
 
   return {
     url: lang === 'th' ? `/post/${slug}` : `/${lang}/post/${slug}`,
-    slug
+    slug,
   }
 }

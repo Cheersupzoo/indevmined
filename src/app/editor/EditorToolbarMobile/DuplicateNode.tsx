@@ -1,7 +1,9 @@
-import { CopyIcon } from 'lucide-react'
 import React from 'react'
-import { useEditorContext } from '../hooks/EditorProvider'
+
 import { getParentNode } from '@/utils/Tiptap/getParentNodePos'
+import { CopyIcon } from 'lucide-react'
+
+import { useEditorContext } from '../hooks/EditorProvider'
 
 export const DuplicateNode = () => {
   const { currentEditor } = useEditorContext()

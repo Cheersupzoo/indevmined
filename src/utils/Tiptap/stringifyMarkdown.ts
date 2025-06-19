@@ -1,7 +1,7 @@
 import { Mark, Node, Schema } from '@tiptap/pm/model'
 import {
   MarkdownSerializer,
-  MarkdownSerializerState
+  MarkdownSerializerState,
 } from 'prosemirror-markdown'
 
 type MarkSerializerSpec = {
@@ -141,7 +141,7 @@ const defaultNode: {
   text(state, node) {
     // @ts-ignore
     state.text(node.text!, !state.inAutolink)
-  }
+  },
 }
 
 const defaultMark: {
@@ -151,25 +151,25 @@ const defaultMark: {
     open: '*',
     close: '*',
     mixable: true,
-    expelEnclosingWhitespace: true
+    expelEnclosingWhitespace: true,
   },
   strike: {
     open: '~~',
     close: '~~',
     mixable: true,
-    expelEnclosingWhitespace: true
+    expelEnclosingWhitespace: true,
   },
   underline: {
     open: '<ins>',
     close: '</ins>',
     mixable: true,
-    expelEnclosingWhitespace: true
+    expelEnclosingWhitespace: true,
   },
   bold: {
     open: '**',
     close: '**',
     mixable: true,
-    expelEnclosingWhitespace: true
+    expelEnclosingWhitespace: true,
   },
   link: {
     open(state, mark, parent, index) {
@@ -192,7 +192,7 @@ const defaultMark: {
               : '') +
             ')'
     },
-    mixable: true
+    mixable: true,
   },
   code: {
     open(_state, _mark, parent, index) {
@@ -201,8 +201,8 @@ const defaultMark: {
     close(_state, _mark, parent, index) {
       return backticksFor(parent.child(index - 1), 1)
     },
-    escape: false
-  }
+    escape: false,
+  },
 }
 
 function backticksFor(node: Node, side: number) {
@@ -264,10 +264,10 @@ export const stringifyMarkdown = (node: Node, schema?: Schema) => {
             state.renderContent(node)
             state.write(`</${nodeType}>`)
             state.closeBlock(node)
-          }
+          },
         }),
         {} as typeof defaultNode
-      )
+      ),
     },
     defaultMark
   )

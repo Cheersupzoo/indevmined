@@ -1,5 +1,6 @@
-import { mergeAttributes, Node } from '@tiptap/react'
+import { Node, mergeAttributes } from '@tiptap/react'
 import { ReactNodeViewRenderer } from '@tiptap/react'
+
 import { ImageUploadNode as ImageUploadNodeComponent } from '@/components/tiptap-node/image-upload-node/image-upload-node'
 
 export type UploadFunction = (
@@ -70,24 +71,24 @@ export const ImageUploadNode = Node.create<ImageUploadNodeOptions>({
       maxSize: 0,
       upload: undefined,
       onError: undefined,
-      onSuccess: undefined
+      onSuccess: undefined,
     }
   },
 
   addAttributes() {
     return {
       accept: {
-        default: this.options.accept
+        default: this.options.accept,
       },
       limit: {
-        default: this.options.limit
+        default: this.options.limit,
       },
       maxSize: {
-        default: this.options.maxSize
+        default: this.options.maxSize,
       },
       files: {
-        default: undefined
-      }
+        default: undefined,
+      },
     }
   },
 
@@ -98,7 +99,7 @@ export const ImageUploadNode = Node.create<ImageUploadNodeOptions>({
   renderHTML({ HTMLAttributes }) {
     return [
       'div',
-      mergeAttributes({ 'data-type': 'image-upload' }, HTMLAttributes)
+      mergeAttributes({ 'data-type': 'image-upload' }, HTMLAttributes),
     ]
   },
 
@@ -113,9 +114,9 @@ export const ImageUploadNode = Node.create<ImageUploadNodeOptions>({
         ({ commands }) => {
           return commands.insertContent({
             type: this.name,
-            attrs: options
+            attrs: options,
           })
-        }
+        },
     }
   },
 
@@ -146,9 +147,9 @@ export const ImageUploadNode = Node.create<ImageUploadNodeOptions>({
         }
 
         return false
-      }
+      },
     }
-  }
+  },
 })
 
 export default ImageUploadNode

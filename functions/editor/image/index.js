@@ -31,7 +31,7 @@ export const onRequestPost = protectedRoute(
         return Response.json(
           {
             status: 'failed',
-            error: 'No image file uploaded or invalid format.'
+            error: 'No image file uploaded or invalid format.',
           },
           { status: 400, headers }
         )
@@ -48,8 +48,8 @@ export const onRequestPost = protectedRoute(
         await imageFile.arrayBuffer(),
         {
           httpMetadata: {
-            contentType: imageFile.type
-          }
+            contentType: imageFile.type,
+          },
           // You might want to add custom metadata, e.g., uploader email
           // customMetadata: {
           //   uploader: tokenPayload.email,
@@ -66,7 +66,7 @@ export const onRequestPost = protectedRoute(
       return Response.json(
         {
           status: 'success',
-          url: `${context.env.CDN_URL}/${uploadedObject.key}`
+          url: `${context.env.CDN_URL}/${uploadedObject.key}`,
         },
         { headers }
       )

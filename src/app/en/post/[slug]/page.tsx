@@ -1,12 +1,14 @@
+import { Metadata } from 'next'
+import React from 'react'
+
 import {
   generatePostMetadata,
   generatePostsStaticParams,
   getPostBySlug,
-  parseMarkdownLink
+  parseMarkdownLink,
 } from '@/utils/Mdx'
-import React from 'react'
+
 import Layout from '@/components/Layout'
-import { Metadata } from 'next'
 import Post from '@/components/Post'
 
 type Props = { params: { slug: string } }
@@ -22,7 +24,7 @@ export default async function page({ params }: Props) {
   post.frontmatter = {
     ...post.frontmatter,
     published,
-    categories
+    categories,
   }
 
   return (

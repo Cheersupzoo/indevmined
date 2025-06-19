@@ -44,7 +44,7 @@ export const DropImageExtension = Extension.create({
 
               let pos = view.posAtCoords({
                 left: event.clientX,
-                top: event.clientY
+                top: event.clientY,
               })
               if (!pos) return
 
@@ -54,10 +54,10 @@ export const DropImageExtension = Extension.create({
                 // Reuse and apply Upload feature from ImageUploadNode
                 .setImageUploadNode({ files: [...files] })
                 .run()
-            }
-          }
-        }
-      })
+            },
+          },
+        },
+      }),
     ]
-  }
+  },
 })

@@ -1,5 +1,5 @@
 .tiptap.ProseMirror {
-  @apply sm:border-x-[64px] border-l-transparent border-r-transparent pb-24;
+  @apply border-l-transparent border-r-transparent pb-24 sm:border-x-[64px];
 }
 
 .tiptap {
@@ -18,16 +18,16 @@
 }
 
 [cmdk-root] {
-  @apply text-eva-text bg-zinc-800 border border-zinc-700 shadow-xl rounded-xl;
+  @apply rounded-xl border border-zinc-700 bg-zinc-800 text-eva-text shadow-xl;
 }
 
 [cmdk-group-heading] {
-  @apply text-xs text-eva-text/50 px-2 py-1.5 font-medium;
+  @apply px-2 py-1.5 text-xs font-medium text-eva-text/50;
 }
 
 [cmdk-item],
 .cmdk-item {
-  @apply items-center flex gap-2 p-1.5 rounded-md font-thin text-sm cursor-pointer;
+  @apply flex cursor-pointer items-center gap-2 rounded-md p-1.5 text-sm font-thin;
 }
 
 [cmdk-item][data-selected='true'] {
@@ -51,11 +51,11 @@
 }
 
 .bubble-menu {
-  @apply p-1 pb-0.5 text-eva-text bg-zinc-800 border border-zinc-700 shadow-xl rounded-xl space-x-1;
+  @apply space-x-1 rounded-xl border border-zinc-700 bg-zinc-800 p-1 pb-0.5 text-eva-text shadow-xl;
 }
 
 .bubble-menu button {
-  @apply p-1.5 rounded-lg hover:bg-eva-text/10;
+  @apply rounded-lg p-1.5 hover:bg-eva-text/10;
 }
 
 .bubble-menu button.is-active,
@@ -68,7 +68,7 @@ button .is-active {
 .ProseMirror-selectednode img {
   outline: 3px solid var(--purple);
   cursor: default;
-  @apply outline outline-[3px] outline-purple-500 select-none;
+  @apply select-none outline outline-[3px] outline-purple-500;
 }
 
 .tiptap input[type='checkbox']:checked {
@@ -76,7 +76,7 @@ button .is-active {
 }
 
 .tiptap input[type='checkbox'] {
-  @apply w-[0.9em] h-[0.9em];
+  @apply h-[0.9em] w-[0.9em];
 }
 
 .tiptap section > .toggle {

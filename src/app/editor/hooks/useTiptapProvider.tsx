@@ -1,13 +1,19 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+import { useRef } from 'react'
+
 import { getEditorToken } from '@/apis/editor'
 import { TiptapCollabProvider, WebSocketStatus } from '@hocuspocus/provider'
-import type { Observable, ObservableBoolean, ObservablePrimitive } from '@legendapp/state'
-import { type Doc } from 'yjs'
-import { EditorStatus } from './EditorProvider'
-import { useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import type {
+  Observable,
+  ObservableBoolean,
+  ObservablePrimitive,
+} from '@legendapp/state'
 import { clearDocument } from 'y-indexeddb'
+import { type Doc } from 'yjs'
+
+import { EditorStatus } from './EditorProvider'
 
 export const useTiptapProvider = ({
   docId$,
@@ -15,7 +21,7 @@ export const useTiptapProvider = ({
   syncing$,
   ydoc$,
   updateIdRef,
-  loadDocs
+  loadDocs,
 }: {
   docId$: Observable<string | null>
   ydoc$: Observable<Doc>
@@ -82,7 +88,7 @@ export const useTiptapProvider = ({
         onDestroy() {
           currentProviderRef.current = null
         },
-        preserveConnection: false
+        preserveConnection: false,
       })
       currentProviderRef.current = provider
 

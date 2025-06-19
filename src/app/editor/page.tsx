@@ -1,14 +1,16 @@
-import { NormalResponsive } from '@/components/Layout'
-import React from 'react'
 import { Metadata } from 'next'
+import React from 'react'
+
+import { NormalResponsive } from '@/components/Layout'
+
 import AuthLayout from './Auth/AuthLayout'
+import Editor from './Editor'
 import EditorLayout from './EditorLayout/EditorLayout'
 import EditorProvider from './hooks/EditorProvider'
-import Editor from './Editor'
 
 export const metadata: Metadata = {
   title: 'Editor | In Dev Mined',
-  description: 'In Dev Mined WYSIWYG Editor'
+  description: 'In Dev Mined WYSIWYG Editor',
 }
 
 const page = () => {

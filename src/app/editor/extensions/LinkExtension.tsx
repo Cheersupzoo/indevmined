@@ -1,21 +1,22 @@
+import { isMobile } from '@/hooks/use-mobile'
 import { Editor, isNodeSelection, posToDOMRect } from '@tiptap/core'
-import { Link } from '@tiptap/extension-link'
-import tippy from 'tippy.js'
-import { LinkPopover } from './LinkExtension/LinkPopover'
 import { getAttributes } from '@tiptap/core'
+import { Link } from '@tiptap/extension-link'
 import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { isMobile } from '@/hooks/use-mobile'
 import { ReactRenderer } from '@tiptap/react'
+import tippy from 'tippy.js'
+
+import { LinkPopover } from './LinkExtension/LinkPopover'
 
 export const LinkWithConfigure = Link.extend({
   addProseMirrorPlugins() {
     const editor = this.editor
     return [
       ...(this.parent?.() || []),
-      clickHandler({ type: this.type, editor })
+      clickHandler({ type: this.type, editor }),
     ]
-  }
+  },
 }).configure({
   openOnClick: false, // handle onClick with custom clickHandler
   autolink: true,
@@ -64,7 +65,7 @@ export const LinkWithConfigure = Link.extend({
       return false
     }
   },
-  linkOnPaste: true
+  linkOnPaste: true,
 })
 
 export const openLinkEditor = (editor: Editor | null) => {
@@ -106,7 +107,7 @@ export const openLinkEditor = (editor: Editor | null) => {
           }
 
           return posToDOMRect(view, from, to)
-        }
+        },
       })
 
       const linkPopover = new ReactRenderer(LinkPopover, {
@@ -116,8 +117,8 @@ export const openLinkEditor = (editor: Editor | null) => {
           closePopup: () => {
             instance.destroy()
           },
-          currentUrl: previousUrl
-        }
+          currentUrl: previousUrl,
+        },
       })
 
       contentDiv.appendChild(linkPopover.element)
@@ -154,9 +155,9 @@ export const openLinkEditor = (editor: Editor | null) => {
         },
         onHidden(instance) {
           instance.destroy()
-        }
+        },
       })
-    }
+    },
   })
 
   popup.show()
@@ -209,7 +210,7 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
         }
 
         return false
-      }
-    }
+      },
+    },
   })
 }

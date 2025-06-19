@@ -2,16 +2,16 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarHeader
+  SidebarHeader,
 } from '@/components/ui/sidebar'
-import UserDropdown from './UserDropdown'
 
 import { PostGroupMenu } from './PostGroupMenu'
+import UserDropdown from './UserDropdown'
 
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarHeader className='text-slate-300 text-sm'>
+      <SidebarHeader className='text-sm text-slate-300'>
         <UserDropdown />
       </SidebarHeader>
       <SidebarContent>

@@ -1,19 +1,20 @@
+import { CodeHikeConfig, recmaCodeHike, remarkCodeHike } from 'codehike/mdx'
 import { compileMDX } from 'next-mdx-remote/rsc'
-import imageUrlTransformer from './rehype/imageUrlTransformer'
-import wikiLinkPlugin from 'remark-wiki-link'
-import imageSizeEmbedder from './rehype/imageSizeEmbedder'
-import imageVaultToPublic from './rehype/imageVaultToPublic'
-import centerImageDescription from './rehype/centerImageDescription'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeSlug from 'rehype-slug'
 import remarkDirective from 'remark-directive'
-import { pre } from './components/pre'
-import { InlineCode } from './components/InlineCode'
-import { img } from './components/img'
-import rehypePreExtra from './rehype/rehypePreExtra'
-import { ScrollyCoding } from './components/ScrollyCoding'
+import wikiLinkPlugin from 'remark-wiki-link'
+
 import { CodeWithMermaid } from './components/CodeWithMermaid'
-import { remarkCodeHike, recmaCodeHike, CodeHikeConfig } from 'codehike/mdx'
+import { InlineCode } from './components/InlineCode'
+import { ScrollyCoding } from './components/ScrollyCoding'
+import { img } from './components/img'
+import { pre } from './components/pre'
+import centerImageDescription from './rehype/centerImageDescription'
+import imageSizeEmbedder from './rehype/imageSizeEmbedder'
+import imageUrlTransformer from './rehype/imageUrlTransformer'
+import imageVaultToPublic from './rehype/imageVaultToPublic'
+import rehypePreExtra from './rehype/rehypePreExtra'
 
 export type PostMeta = FrontmatterContent & {
   slug: string
@@ -41,7 +42,7 @@ export type FrontmatterContent = {
 }
 
 const chConfig: CodeHikeConfig = {
-  components: { code: 'Pre', inlineCode: 'Code' }
+  components: { code: 'Pre', inlineCode: 'Code' },
 }
 
 export function compiledOptionMDX(post: string) {
@@ -53,7 +54,7 @@ export function compiledOptionMDX(post: string) {
       Code: InlineCode,
       img,
       ScrollyCoding,
-      CodeWithMermaid
+      CodeWithMermaid,
     },
     options: {
       parseFrontmatter: true,
@@ -61,7 +62,7 @@ export function compiledOptionMDX(post: string) {
         remarkPlugins: [
           wikiLinkPlugin,
           remarkDirective,
-          [remarkCodeHike, chConfig]
+          [remarkCodeHike, chConfig],
         ],
         rehypePlugins: [
           imageVaultToPublic,
@@ -70,10 +71,10 @@ export function compiledOptionMDX(post: string) {
           centerImageDescription,
           rehypePreExtra,
           rehypeSlug,
-          rehypeAutolinkHeadings
+          rehypeAutolinkHeadings,
         ],
-        recmaPlugins: [[recmaCodeHike, chConfig]]
-      }
-    }
+        recmaPlugins: [[recmaCodeHike, chConfig]],
+      },
+    },
   })
 }

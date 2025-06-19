@@ -1,16 +1,20 @@
 'use client'
+
+import React from 'react'
+
+import { useIsMobile } from '@/hooks/use-mobile'
+import { EllipsisVertical } from 'lucide-react'
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { EllipsisVertical } from 'lucide-react'
-import React from 'react'
-import { useEditorContext } from '../hooks/EditorProvider'
-import { useIsMobile } from '@/hooks/use-mobile'
 import { cn } from '@/lib/utils'
+
+import { useEditorContext } from '../hooks/EditorProvider'
 
 export const PostMenuItemDropdown = ({ docId }: { docId: string }) => {
   const { deleteDoc } = useEditorContext()
@@ -21,7 +25,7 @@ export const PostMenuItemDropdown = ({ docId }: { docId: string }) => {
       <DropdownMenuTrigger asChild>
         <div
           className={cn(
-            'px-0.5 py-1 hover:bg-eva-text/10 rounded-sm',
+            'rounded-sm px-0.5 py-1 hover:bg-eva-text/10',
             !isMobile &&
               'invisible group-hover/item:visible data-[state=open]:visible'
           )}

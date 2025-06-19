@@ -1,22 +1,27 @@
 'use client'
+
+import dynamic from 'next/dynamic'
+import React, { useState } from 'react'
+
+import type {
+  NonDeletedExcalidrawElement,
+  Ordered,
+} from '@excalidraw/excalidraw/element/types'
+import '@excalidraw/excalidraw/index.css'
+import { NodeViewProps, NodeViewWrapper } from '@tiptap/react'
+import { Edit2Icon } from 'lucide-react'
+
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from '@/components/ui/dialog'
-import { NodeViewProps, NodeViewWrapper } from '@tiptap/react'
-import React, { useState } from 'react'
-import dynamic from 'next/dynamic'
-import '@excalidraw/excalidraw/index.css'
+
 import './OverrideTheme.css'
-import { Edit2Icon } from 'lucide-react'
-import type {
-  NonDeletedExcalidrawElement,
-  Ordered
-} from '@excalidraw/excalidraw/element/types'
+
 const ExcalidrawCanvas = dynamic(
   async () => (await import('./ExcalidrawCanvas')).default,
   {
@@ -25,7 +30,7 @@ const ExcalidrawCanvas = dynamic(
       console.log('excalidraw')
 
       return <div>Loading</div>
-    }
+    },
   }
 )
 
@@ -34,7 +39,7 @@ export const ExcalidrawComponent = (props: NodeViewProps) => {
     <NodeViewWrapper>
       <div
         data-drag-handle
-        className='h-56 flex items-center justify-center relative'
+        className='relative flex h-56 items-center justify-center'
       >
         <ExcalidrawDialog {...props} />
         {props.node.attrs.svg && (
@@ -64,12 +69,12 @@ export const ExcalidrawDialog = (props: NodeViewProps) => {
         {!props.node.attrs.state ? (
           <Button variant='outline'>Open Excalidraw Canvas</Button>
         ) : (
-          <div className='absolute top-2 right-2 rounded-md border border-eva-text-border p-1.5 cursor-pointer hover:bg-eva-text-border'>
+          <div className='absolute right-2 top-2 cursor-pointer rounded-md border border-eva-text-border p-1.5 hover:bg-eva-text-border'>
             <Edit2Icon size={16} />
           </div>
         )}
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[700px] h-full max-h-[500px] grid-rows-[auto_minmax(0,_1fr)_auto] px-0'>
+      <DialogContent className='h-full max-h-[500px] grid-rows-[auto_minmax(0,_1fr)_auto] px-0 sm:max-w-[700px]'>
         <DialogHeader className='px-6'>
           <DialogTitle className='text-eva-text'>Excalidraw</DialogTitle>
         </DialogHeader>

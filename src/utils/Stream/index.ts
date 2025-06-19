@@ -55,7 +55,7 @@ export async function* openAIStreamToIterator(
         yield {
           id: parsedData.id,
           done: false,
-          value: 'Executing Python Code'
+          value: 'Executing Python Code',
         }
       }
 
@@ -65,7 +65,7 @@ export async function* openAIStreamToIterator(
           done: false,
           value: '',
           codeId: parsedData.id,
-          code: parsedData.code
+          code: parsedData.code,
         }
       }
 
@@ -75,7 +75,7 @@ export async function* openAIStreamToIterator(
           done: false,
           value: parsedData.result,
           codeId: parsedData.id,
-          error: parsedData.error
+          error: parsedData.error,
         }
       }
 
@@ -83,7 +83,7 @@ export async function* openAIStreamToIterator(
         done: false,
         id: parsedData.id,
         value: parsedData.choices?.[0]?.delta?.content ?? '',
-        usage: parsedData.usage
+        usage: parsedData.usage,
       }
     } catch (e) {
       console.error(data)

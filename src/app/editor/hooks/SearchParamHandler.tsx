@@ -1,5 +1,6 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
+
 import { useEditorContext } from './EditorProvider'
 
 export const SearchParamHandler = () => {

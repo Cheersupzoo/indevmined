@@ -1,4 +1,5 @@
-import { jwtVerify, createRemoteJWKSet } from 'jose'
+import { createRemoteJWKSet, jwtVerify } from 'jose'
+
 import { getHeader } from './index'
 
 const jwks_uri =
@@ -33,7 +34,7 @@ export const protectedRoute = (onRequest) => {
       const { payload } = await jwtVerify(token, JWKS, {
         algorithms: ['RS256'],
         issuer: 'https://securetoken.google.com/indevmined',
-        audience: 'indevmined'
+        audience: 'indevmined',
       })
       if (payload.email !== 'cheersupzoo@gmail.com') {
         return Response.json(

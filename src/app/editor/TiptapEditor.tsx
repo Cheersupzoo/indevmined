@@ -1,52 +1,56 @@
 'use client'
 
-import { useEditor, EditorContent, Editor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import '@/styles/markdown.css'
-import './TiptapEditor.css'
-import {
-  enableKeyboardNavigation,
-  SlashCmdProvider
-} from '@harshtalks/slash-tiptap'
-import Placeholder from '@tiptap/extension-placeholder'
-import Typography from '@tiptap/extension-typography'
-import TaskItem from '@tiptap/extension-task-item'
-import TaskList from '@tiptap/extension-task-list'
-import TestComponent from './extensions/TestComponent/extension'
-import CodeBlock from './extensions/Code'
-import { SlashCommand, SlashWithConfigure } from './extensions/SlashCommand'
-import { LinkWithConfigure } from './extensions/LinkExtension'
-import { TextFormatMenu } from './components/TextFormatMenu'
-import { CodeFormatMenu } from './components/CodeFormatMenu'
-import { Underline } from '@tiptap/extension-underline'
-import { MoveNodeShortcut } from './extensions/MoveNodeShortcut'
-import { CursorInfo } from './extensions/CursorInfo'
-import { DragHandle } from './extensions/DragHandleExtension'
-import { CodeBlockLighter } from './extensions/CodeBlockLighter'
-import { CodeMark } from './extensions/CodeBlockLighter/MarkExtension'
-import { PreNodeTools } from './PreNodeTools'
-import { Box3dNode } from './extensions/React/Box3d'
-import Collaboration from '@tiptap/extension-collaboration'
-import * as Y from 'yjs'
+import dynamic from 'next/dynamic'
 import { useEffect } from 'react'
-import { motion } from 'motion/react'
+
+import * as Y from 'yjs'
+import { deleteImage, handleImageUpload } from '@/apis/editor'
+import { useIsMobile } from '@/hooks/use-mobile'
+import {
+  SlashCmdProvider,
+  enableKeyboardNavigation,
+} from '@harshtalks/slash-tiptap'
+import { ObservableHint } from '@legendapp/state'
 import { use$, useObservable } from '@legendapp/state/react'
 import { $React } from '@legendapp/state/react-web'
-import { useEditorContext } from './hooks/EditorProvider'
-import { Spinner } from '@/components/Spinner'
-import { useIsMobile } from '@/hooks/use-mobile'
-import dynamic from 'next/dynamic'
-import ExcalidrawNode from './extensions/ExcalidrawNode'
-import { ImageUploadNode } from '@/components/tiptap-node/image-upload-node'
-import { deleteImage, handleImageUpload } from '@/apis/editor'
-import { CustomImage } from './extensions/CustomImage'
-import { ObservableHint } from '@legendapp/state'
-import { DropImageExtension } from './extensions/DropImage'
-import { ToggleSection } from './extensions/ToggleSection'
-import { GroupBlock } from './extensions/GroupBlock'
+import Collaboration from '@tiptap/extension-collaboration'
+import Placeholder from '@tiptap/extension-placeholder'
+import TaskItem from '@tiptap/extension-task-item'
+import TaskList from '@tiptap/extension-task-list'
+import Typography from '@tiptap/extension-typography'
+import { Underline } from '@tiptap/extension-underline'
+import { Editor, EditorContent, useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import { motion } from 'motion/react'
 import { ErrorBoundary, useErrorBoundary } from 'react-error-boundary'
+
+import { Spinner } from '@/components/Spinner'
+import { ImageUploadNode } from '@/components/tiptap-node/image-upload-node'
+import '@/styles/markdown.css'
+
+import { PreNodeTools } from './PreNodeTools'
+import './TiptapEditor.css'
+import { CodeFormatMenu } from './components/CodeFormatMenu'
+import { TextFormatMenu } from './components/TextFormatMenu'
+import CodeBlock from './extensions/Code'
+import { CodeBlockLighter } from './extensions/CodeBlockLighter'
+import { CodeMark } from './extensions/CodeBlockLighter/MarkExtension'
+import { CursorInfo } from './extensions/CursorInfo'
+import { CustomImage } from './extensions/CustomImage'
 import { DebugEditor } from './extensions/DebugEditor'
+import { DragHandle } from './extensions/DragHandleExtension'
+import { DropImageExtension } from './extensions/DropImage'
+import ExcalidrawNode from './extensions/ExcalidrawNode'
+import { GroupBlock } from './extensions/GroupBlock'
+import { LinkWithConfigure } from './extensions/LinkExtension'
+import { MoveNodeShortcut } from './extensions/MoveNodeShortcut'
+import { Box3dNode } from './extensions/React/Box3d'
+import { SlashCommand, SlashWithConfigure } from './extensions/SlashCommand'
+import TestComponent from './extensions/TestComponent/extension'
+import { ToggleSection } from './extensions/ToggleSection'
 import { Playful } from './extensions/marks/Playful/Playful'
+import { useEditorContext } from './hooks/EditorProvider'
+
 const EditorToolbarMobile = dynamic(() =>
   import('./EditorToolbarMobile').then((mod) => mod.EditorToolbarMobile)
 )
@@ -104,7 +108,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
       codeBlock: editor.isActive('codeBlock'),
       paragraph: editor.isActive('paragraph'),
       code: editor.isActive('code'),
-      playful: editor.isActive('playful')
+      playful: editor.isActive('playful'),
     })
   }
 
@@ -115,7 +119,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
     extensions: [
       StarterKit.configure({
         heading: { levels: [1, 2, 3, 4] },
-        history: false
+        history: false,
       }),
 
       // Node
@@ -125,7 +129,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
             const key = url.replace('https://cdn.indevmined.com/', '')
             deleteImage(key)
           }
-        }
+        },
       }),
       // TODO: Remove TestComponent
       TestComponent,
@@ -138,11 +142,11 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
         maxSize: 5 * 1024 * 1024,
         limit: 3,
         upload: handleImageUpload,
-        onError: (error) => console.error('Upload failed:', error)
+        onError: (error) => console.error('Upload failed:', error),
       }),
       TaskList,
       TaskItem.configure({
-        nested: true
+        nested: true,
       }),
       GroupBlock,
       ToggleSection,
@@ -163,17 +167,17 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
           }
 
           return 'Press / to see available commands'
-        }
+        },
       }),
       LinkWithConfigure,
       MoveNodeShortcut,
       DragHandle,
       Collaboration.configure({
         document: ydoc,
-        field: 'content'
+        field: 'content',
       }),
       Typography,
-      DropImageExtension
+      DropImageExtension,
     ],
     immediatelyRender: false,
     editorProps: {
@@ -190,8 +194,8 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
             return true
           }
           return false
-        }
-      }
+        },
+      },
     },
     onCreate: (event) => {
       currentEditor.set(ObservableHint.opaque(event.editor))
@@ -217,7 +221,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
       alert(
         'Currently Editor is outdated. Please refresh this page or continue in read-only mode'
       )
-    }
+    },
   })
 
   const syncing = use$(syncing$)
@@ -243,11 +247,11 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className='mt-12 relative'
+      className='relative mt-12'
     >
       <SlashCmdProvider>
         <$React.input
-          className='text-4xl font-bold mb-3 bg-transparent w-full outline-none'
+          className='mb-3 w-full bg-transparent text-4xl font-bold outline-none'
           type='text'
           $value={title$}
           onChange={(e) => {
@@ -257,14 +261,14 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
           placeholder='Title'
         />
         <$React.input
-          className='text-xs text-text bg-color2 inline py-1 px-2 rounded-full outline-none min-w-0 w-fit'
+          className='inline w-fit min-w-0 rounded-full bg-color2 px-2 py-1 text-xs text-text outline-none'
           $value={category$}
           onChange={(e) => {
             meta.set('category', e.target.value)
           }}
         />
 
-        <div className='text-sm font-thin text-text mt-1 mb-8'>
+        <div className='mb-8 mt-1 text-sm font-thin text-text'>
           <span className='select-none'>Published </span>
           <$React.input
             $value={published$}
@@ -274,7 +278,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
             }}
           />
         </div>
-        <div className='parallax select-none -z-10 absolute -top-7 -left-3 text-[9rem] md:text-[10rem] leading-none text-foreground'>
+        <div className='parallax absolute -left-3 -top-7 -z-10 select-none text-[9rem] leading-none text-foreground md:text-[10rem]'>
           POST
         </div>
         <div className='relative'>

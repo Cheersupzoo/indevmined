@@ -1,6 +1,5 @@
-import path from 'path'
-
 import withSerwistInit from '@serwist/next'
+import path from 'path'
 
 // You may want to use a more robust revision to cache
 // files more efficiently.
@@ -13,7 +12,7 @@ const withSerwist = withSerwistInit({
   swSrc: 'src/app/sw.ts',
   swDest: 'public/sw.js',
   disable: process.env.NODE_ENV === 'development',
-  additionalPrecacheEntries: [{ url: '/~offline', revision }]
+  additionalPrecacheEntries: [{ url: '/~offline', revision }],
 })
 
 /** @type {import('next').NextConfig} */
@@ -24,7 +23,7 @@ const nextConfig = {
     // See https://webpack.js.org/configuration/resolve/#resolvealias
     config.resolve.alias = {
       ...config.resolve.alias,
-      'onnxruntime-node$': false
+      'onnxruntime-node$': false,
     }
 
     if (!isServer) {
@@ -33,7 +32,7 @@ const nextConfig = {
     }
 
     return config
-  }
+  },
 }
 
 export default withSerwist(nextConfig)
