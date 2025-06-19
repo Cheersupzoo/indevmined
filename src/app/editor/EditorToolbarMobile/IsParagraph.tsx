@@ -14,6 +14,7 @@ import { openLinkEditor } from '../extensions/LinkExtension'
 import { ToolbarVerticalDivider } from './ToolbarVerticalDivider'
 import { useEditorContext } from '../hooks/EditorProvider'
 import { Memo, use$ } from '@legendapp/state/react'
+import { cn } from '@/lib/utils'
 
 export const IsParagraph = ({ editor }: { editor: Editor }) => {
   const { isActive$ } = useEditorContext()
@@ -73,6 +74,20 @@ export const IsParagraph = ({ editor }: { editor: Editor }) => {
               size={16}
               className={isActive$.code.get() ? 'is-active' : ''}
             />
+          )}
+        </Memo>
+      </button>
+      <button onClick={() => editor.chain().focus().togglePlayful().run()}>
+        <Memo>
+          {() => (
+            <div
+              className={cn(
+                'playful',
+                isActive$.playful.get() ? 'is-active' : ''
+              )}
+            >
+              P
+            </div>
           )}
         </Memo>
       </button>

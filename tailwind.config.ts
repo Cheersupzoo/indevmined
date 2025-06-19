@@ -111,9 +111,9 @@ const config: Config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)'
       },
-			animation: {
-				blinking: 'blinking 1s step-end infinite',
-			},
+      animation: {
+        blinking: 'blinking 1s step-end infinite'
+      },
       keyframes: {
         blinking: {
           'from, to': {
@@ -123,6 +123,9 @@ const config: Config = {
             backgroundColor: 'currentColor'
           }
         }
+      },
+      fontFamily: {
+        playful: ['var(--font-playful)']
       }
     }
   }

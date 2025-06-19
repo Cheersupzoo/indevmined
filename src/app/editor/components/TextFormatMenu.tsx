@@ -12,6 +12,7 @@ import {
 import { openLinkEditor } from '../extensions/LinkExtension'
 import { useEditorContext } from '../hooks/EditorProvider'
 import { Memo } from '@legendapp/state/react'
+import { cn } from '@/lib/utils'
 
 type TextFormatMenuProps = {
   editor: Editor
@@ -88,6 +89,20 @@ export const TextFormatMenu = ({ editor }: TextFormatMenuProps) => {
                 size={16}
                 className={isActive$.code.get() ? 'is-active' : ''}
               />
+            )}
+          </Memo>
+        </button>
+        <button onClick={() => editor.chain().focus().togglePlayful().run()}>
+          <Memo>
+            {() => (
+              <div
+                className={cn(
+                  'playful',
+                  isActive$.playful.get() ? 'is-active' : ''
+                )}
+              >
+                P
+              </div>
             )}
           </Memo>
         </button>

@@ -46,6 +46,7 @@ import { ToggleSection } from './extensions/ToggleSection'
 import { GroupBlock } from './extensions/GroupBlock'
 import { ErrorBoundary, useErrorBoundary } from 'react-error-boundary'
 import { DebugEditor } from './extensions/DebugEditor'
+import { Playful } from './extensions/marks/Playful/Playful'
 const EditorToolbarMobile = dynamic(() =>
   import('./EditorToolbarMobile').then((mod) => mod.EditorToolbarMobile)
 )
@@ -102,7 +103,8 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
       highlightMark: editor.isActive('highlightMark'),
       codeBlock: editor.isActive('codeBlock'),
       paragraph: editor.isActive('paragraph'),
-      code: editor.isActive('code')
+      code: editor.isActive('code'),
+      playful: editor.isActive('playful')
     })
   }
 
@@ -149,6 +151,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
       // Mark
       Underline,
       CodeMark,
+      Playful,
 
       // Functionality
       SlashWithConfigure,

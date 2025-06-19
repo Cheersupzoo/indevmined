@@ -149,3 +149,7 @@ button .is-active {
 .tiptap img:hover ~ .resize-handle {
   opacity: 1;
 }
+
+.playful {
+  @apply font-playful;
+}
