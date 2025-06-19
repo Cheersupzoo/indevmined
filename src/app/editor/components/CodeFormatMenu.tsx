@@ -6,7 +6,6 @@ import { HighlighterIcon } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
-import { findBlockNodeAt } from '../extensions/functionality/DragHandleExtension/ProseMirrorPlugin'
 import { useEditorContext } from '../hooks/EditorProvider'
 
 type CodeFormatMenuProps = {
@@ -14,6 +13,7 @@ type CodeFormatMenuProps = {
 }
 
 const colors = ['gold', 'green', 'blue', 'purple', 'red']
+const triggerBlockNode = new Set(['codeBlock'])
 export const CodeFormatMenu = ({ editor }: CodeFormatMenuProps) => {
   const { isActive$ } = useEditorContext()
   const activeColor = useObservable<string | null>(null)
@@ -40,16 +40,10 @@ export const CodeFormatMenu = ({ editor }: CodeFormatMenuProps) => {
         if (!editor.isEditable || !editor.isFocused) return false
         if (state.selection.$from.depth === 0) return false
         if (from === to) return false
+        if (state.selection.$from.parent !== state.selection.$to.parent)
+          return false
 
-        const blockPos = findBlockNodeAt(state, from)
-        if (!blockPos) {
-          return true
-        }
-        const triggerBlockNode = ['codeBlock']
-
-        return triggerBlockNode.includes(
-          state.doc.nodeAt(blockPos)?.type.name ?? 'paragraph'
-        )
+        return triggerBlockNode.has(state.selection.$from.parent.type.name)
       }}
       tippyOptions={{ duration: 100 }}
     >
