@@ -93,8 +93,11 @@ export const DebugEditorComponent = () => {
 
   return (
     <NodeViewWrapper>
-      <div className='border-2 border-dashed border-eva-text rounded-xl p-2 '>
-        <div>Initial Doc</div>
+      <div className='relative border-2 border-dashed border-eva-text rounded-xl p-2 '>
+        <div className='absolute top-0 right-2 border-b-2 border-x-2 border-dashed border-eva-text rounded-b-xl px-1'>
+          Demo Insert Text at position
+        </div>
+        <div className='mt-4'>Initial Doc</div>
         <div className='relative font-mono'>
           <ReactStateRenderer state={editorStateRef.current} />
           <div
@@ -108,13 +111,19 @@ export const DebugEditorComponent = () => {
               <div
                 onTouchStart={onMouseDown}
                 onMouseDown={onMouseDown}
-                className='bg-yellow-200 triangle-clip w-4 h-4 absolute -translate-x-1/2 bottom-0 touch-none'
+                className='bg-yellow-200 triangle-text-clip w-4 h-8 absolute -translate-x-1/2 -bottom-4 touch-none text-yellow-800 flex justify-center items-end'
+              >
+                <div className='-m-[6px]'>{pos}</div>
+              </div>
+              <div
+                onTouchStart={onMouseDown}
+                onMouseDown={onMouseDown}
+                className='text-yellow-200 w-[1px] h-6 absolute bottom-4 -translate-x-1/2 animate-blinking'
               />
-              <div className='text-yellow-200 w-[1px] h-6 absolute bottom-4 -translate-x-1/2 animate-blinking' />
             </div>
           </div>
         </div>
-        <div>Transactions to apply</div>
+        <div className='mt-4'>Transactions to apply</div>
         <div className='font-mono text-sm bg-gray-600/70 px-1'>
           tr.insertText('world', pos) // pos ={' '}
           <span className='bg-yellow-200 text-yellow-800'>{pos}</span>
@@ -127,12 +136,12 @@ export const DebugEditorComponent = () => {
               )
             )
           }}
-          className='bg-orange-600 px-2 py-1 rounded-md hover:bg-orange-700'
+          className='bg-orange-600 px-2 py-1 rounded-md hover:bg-orange-700 mt-2'
         >
           Apply
         </button>
         {appliedState && (
-          <div className='mt-2'>
+          <div className='mt-4'>
             <div>Final Doc</div>
             <ReactStateRenderer state={appliedState} />
           </div>

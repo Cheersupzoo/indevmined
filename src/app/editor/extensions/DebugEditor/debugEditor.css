@@ -13,3 +13,7 @@
 .triangle-clip {
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
+
+.triangle-text-clip {
+  clip-path: polygon(0% 50%, 0% 100%, 100% 100%, 100% 50%, 50% 0%);
+}
