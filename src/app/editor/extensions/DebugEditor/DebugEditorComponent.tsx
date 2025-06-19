@@ -93,7 +93,7 @@ export const DebugEditorComponent = () => {
 
   return (
     <NodeViewWrapper>
-      <div className='border-2 border-dashed border-yellow-100 rounded-xl p-2 '>
+      <div className='border-2 border-dashed border-eva-text rounded-xl p-2 '>
         <div>Initial Doc</div>
         <div className='relative font-mono'>
           <ReactStateRenderer state={editorStateRef.current} />
