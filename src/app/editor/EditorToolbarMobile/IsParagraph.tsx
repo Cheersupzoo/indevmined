@@ -1,6 +1,7 @@
 import { Editor } from '@tiptap/core'
 import {
   BoldIcon,
+  CodeIcon,
   ItalicIcon,
   LinkIcon,
   RemoveFormattingIcon,
@@ -61,6 +62,16 @@ export const IsParagraph = ({ editor }: { editor: Editor }) => {
             <UnderlineIcon
               size={16}
               className={isActive$.underline.get() ? 'is-active' : ''}
+            />
+          )}
+        </Memo>
+      </button>
+      <button onClick={() => editor.chain().focus().toggleCode().run()}>
+        <Memo>
+          {() => (
+            <CodeIcon
+              size={16}
+              className={isActive$.code.get() ? 'is-active' : ''}
             />
           )}
         </Memo>

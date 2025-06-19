@@ -3,6 +3,7 @@ import { findBlockNodeAt } from '../extensions/DragHandleExtension/ProseMirrorPl
 import { hideAll } from 'tippy.js'
 import {
   BoldIcon,
+  CodeIcon,
   ItalicIcon,
   LinkIcon,
   StrikethroughIcon,
@@ -76,6 +77,16 @@ export const TextFormatMenu = ({ editor }: TextFormatMenuProps) => {
               <UnderlineIcon
                 size={16}
                 className={isActive$.underline.get() ? 'is-active' : ''}
+              />
+            )}
+          </Memo>
+        </button>
+        <button onClick={() => editor.chain().focus().toggleCode().run()}>
+          <Memo>
+            {() => (
+              <CodeIcon
+                size={16}
+                className={isActive$.code.get() ? 'is-active' : ''}
               />
             )}
           </Memo>

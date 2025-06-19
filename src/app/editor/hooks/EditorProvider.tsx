@@ -53,6 +53,7 @@ type IsActive = {
   highlightMark: boolean
   codeBlock: boolean
   paragraph: boolean
+  code: boolean
 }
 
 const EditorContext = createContext<{
@@ -100,6 +101,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
     highlightMark: false,
     codeBlock: false,
     paragraph: false,
+    code: false
   })
   const status$ = useObservable<EditorStatus>(null)
   const syncing$ = useObservable<boolean>(true)

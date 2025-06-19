@@ -1,6 +1,6 @@
 'use client'
 
-import { useEditor, EditorContent } from '@tiptap/react'
+import { useEditor, EditorContent, Editor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import '@/styles/markdown.css'
 import './TiptapEditor.css'
@@ -92,32 +92,24 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
     return () => meta.unobserve(observer)
   }, [])
 
+  const updateActive = ({ editor }: { editor: Editor }) => {
+    isActive$.set({
+      bold: editor.isActive('bold'),
+      italic: editor.isActive('italic'),
+      strike: editor.isActive('strike'),
+      underline: editor.isActive('underline'),
+      link: editor.isActive('link'),
+      highlightMark: editor.isActive('highlightMark'),
+      codeBlock: editor.isActive('codeBlock'),
+      paragraph: editor.isActive('paragraph'),
+      code: editor.isActive('code')
+    })
+  }
+
   const editor = useEditor({
     shouldRerenderOnTransaction: false,
-    onSelectionUpdate: ({ editor }) => {
-      isActive$.set({
-        bold: editor.isActive('bold'),
-        italic: editor.isActive('italic'),
-        strike: editor.isActive('strike'),
-        underline: editor.isActive('underline'),
-        link: editor.isActive('link'),
-        highlightMark: editor.isActive('highlightMark'),
-        codeBlock: editor.isActive('codeBlock'),
-        paragraph: editor.isActive('paragraph')
-      })
-    },
-    onUpdate: ({ editor }) => {
-      isActive$.set({
-        bold: editor.isActive('bold'),
-        italic: editor.isActive('italic'),
-        strike: editor.isActive('strike'),
-        underline: editor.isActive('underline'),
-        link: editor.isActive('link'),
-        highlightMark: editor.isActive('highlightMark'),
-        codeBlock: editor.isActive('codeBlock'),
-        paragraph: editor.isActive('paragraph')
-      })
-    },
+    onSelectionUpdate: updateActive,
+    onUpdate: updateActive,
     extensions: [
       StarterKit.configure({
         heading: { levels: [1, 2, 3, 4] },
