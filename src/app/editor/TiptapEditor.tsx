@@ -56,7 +56,8 @@ const EditorToolbarMobile = dynamic(() =>
 )
 
 const TiptapEditor = ({ docId }: { docId: string }) => {
-  const { ydoc$, currentEditor, syncing$, isActive$ } = useEditorContext()
+  const { ydoc$, currentEditor, syncing$, isActive$, error$ } =
+    useEditorContext()
   const title$ = useObservable('')
   const category$ = useObservable('')
   const published$ = useObservable('2024-12-20')
@@ -214,13 +215,10 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
     enableContentCheck: true,
     onContentError: ({ editor, error, disableCollaboration }) => {
       console.error('onContentError', error)
+      error$.set('mismatch_version')
       disableCollaboration()
 
       editor.setEditable(false, false)
-
-      alert(
-        'Currently Editor is outdated. Please refresh this page or continue in read-only mode'
-      )
     },
   })
 

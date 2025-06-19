@@ -59,7 +59,10 @@ type IsActive = {
   playful: boolean
 }
 
+type EditorError = 'mismatch_version' | null
+
 const EditorContext = createContext<{
+  error$: Observable<EditorError>
   docs$: Observable<TiptapDoc[] | null>
   docId$: Observable<string | null>
   editorDocId$: ObservablePrimitive<string | null>
@@ -80,6 +83,7 @@ const EditorContext = createContext<{
 }>(undefined as any)
 
 const EditorProvider = ({ children }: React.PropsWithChildren) => {
+  const error$ = useObservable<EditorError>(null)
   const docs$ = useObservable<TiptapDoc[] | null>(
     synced({
       initial: null,
@@ -159,6 +163,10 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
       const currentDocId = docId$.peek()
       if (id === currentDocId) {
         return
+      }
+
+      if (error$.peek()) {
+        error$.set(null)
       }
 
       const currentYdoc = ydoc$.peek()
@@ -243,6 +251,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
   return (
     <EditorContext.Provider
       value={{
+        error$,
         docs$,
         docId$,
         editorDocId$,

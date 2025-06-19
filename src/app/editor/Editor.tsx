@@ -14,8 +14,24 @@ import TiptapEditor from './TiptapEditor'
 import { TiptapDoc, useEditorContext } from './hooks/EditorProvider'
 
 const Editor = () => {
-  const { docId$, docs$, createDoc } = useEditorContext()
+  const { docId$, docs$, createDoc, error$ } = useEditorContext()
   const docId = use$(docId$)
+  const error = use$(error$)
+
+  if (error) {
+    return (
+      <>
+        <div className='mt-8 text-lg font-medium'>
+          Sorry, Something seems wrong
+        </div>
+        {error === 'mismatch_version' && (
+          <div className='text-sm text-eva-text/70'>
+            The Editor is outdated. Please refresh the page.
+          </div>
+        )}
+      </>
+    )
+  }
 
   if (!docId) {
     return (
