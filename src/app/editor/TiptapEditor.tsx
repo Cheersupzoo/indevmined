@@ -192,7 +192,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
     },
     onCreate: (event) => {
       currentEditor.set(ObservableHint.opaque(event.editor))
-    }
+    },
     //     content: `<h1>H1</h1><h2>H2</h2><h3>H3</h3><h4>H4</h4><p>Hello World! 🌎️</p><pre language="js"><code class="language-javascript">const str = '123';
     // str.replace('1','9')
     // const obj = {a: 'c'}</code></pre><ul><li>list</li></ul>
@@ -204,6 +204,17 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
     //       <p>This is editable.</p>
     //       <p>This is editable.</p>
     //     </react-component>`
+    enableContentCheck: true,
+    onContentError: ({ editor, error, disableCollaboration }) => {
+      console.error('onContentError', error)
+      disableCollaboration()
+
+      editor.setEditable(false, false)
+
+      alert(
+        'Currently Editor is outdated. Please refresh this page or continue in read-only mode'
+      )
+    }
   })
 
   const syncing = use$(syncing$)
