@@ -1,10 +1,20 @@
 import withSerwistInit from '@serwist/next'
+import { execSync } from 'child_process'
 import path from 'path'
 
-// You may want to use a more robust revision to cache
-// files more efficiently.
-// A viable option is `git rev-parse HEAD`.
-const revision = crypto.randomUUID()
+function getGitCommitHash() {
+  try {
+    return execSync('git rev-parse --short HEAD').toString().trim()
+  } catch (error) {
+    console.warn('Could not get git commit hash, using fallback revision')
+    return 'dev-build-' + Date.now()
+  }
+}
+
+const gitCommitHash = getGitCommitHash()
+
+const revision =
+  process.env.NODE_ENV === 'production' ? gitCommitHash : 'dev-' + Date.now()
 
 const withSerwist = withSerwistInit({
   cacheOnNavigation: true,
@@ -18,7 +28,8 @@ const withSerwist = withSerwistInit({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  webpack: (config, { isServer }) => {
+  generateBuildId: () => gitCommitHash,
+  webpack: (config, { webpack, isServer, buildId }) => {
     // Ignore node-specific modules when bundling for the browser
     // See https://webpack.js.org/configuration/resolve/#resolvealias
     config.resolve.alias = {
@@ -29,6 +40,12 @@ const nextConfig = {
     if (!isServer) {
       // Ensure that all imports of 'yjs' resolve to the same instance
       config.resolve.alias['yjs'] = path.resolve('node_modules/yjs')
+
+      config.plugins.push(
+        new webpack.DefinePlugin({
+          'process.env.NEXT_PUBLIC_BUILD_ID': JSON.stringify(buildId), // Need to stringtify because webpack inject env as exact value with out double quote causing Error Identifier directly after number
+        })
+      )
     }
 
     return config

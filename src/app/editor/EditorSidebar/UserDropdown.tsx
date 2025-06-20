@@ -71,6 +71,9 @@ const UserDropdown = () => {
           <div className='mt-2 px-2 text-xs text-eva-text-border'>
             SW Status: <Memo>{swStatus$}</Memo>
           </div>
+          <div className='mt-2 px-2 text-xs text-eva-text-border'>
+            Build ID: {process.env.NEXT_PUBLIC_BUILD_ID}
+          </div>
         </DropdownMenuContent>
       </DropdownMenu>
     )
