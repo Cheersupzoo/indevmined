@@ -126,7 +126,7 @@ export const Type3 = () => {
       {appliedState && (
         <div className='mt-4'>
           <div>Final Doc</div>
-          <ReactStateRenderer node={appliedState.doc} />
+          <ReactStateRenderer animate node={appliedState.doc} />
         </div>
       )}
     </>

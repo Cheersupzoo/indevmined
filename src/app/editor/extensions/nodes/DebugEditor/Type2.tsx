@@ -102,7 +102,6 @@ export const Type2 = () => {
               editorStateRef.current.tr.insert(pos, blockquote)
             )
           )
-          console.log(editorStateRef.current.doc.resolve(pos).end(),editorStateRef.current.doc.resolve(pos).after())
         }}
         className='mt-2 rounded-md bg-orange-600 px-2 py-1 hover:bg-orange-700'
       >
@@ -111,7 +110,7 @@ export const Type2 = () => {
       {appliedState && (
         <div className='mt-4'>
           <div>Final Doc</div>
-          <ReactStateRenderer node={appliedState.doc} />
+          <ReactStateRenderer animate node={appliedState.doc} />
         </div>
       )}
     </>
