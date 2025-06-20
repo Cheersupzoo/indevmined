@@ -1,154 +1,86 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect } from 'react'
 
-import { schema } from '@tiptap/pm/schema-basic'
-import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
-import { NodeViewWrapper } from '@tiptap/react'
+import { Show, useObservable } from '@legendapp/state/react'
+import { Editor, NodeViewProps, NodeViewWrapper } from '@tiptap/react'
 
-import { ReactStateRenderer } from './ReactStateRenderer'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { cn } from '@/lib/utils'
 
-export const DebugEditorComponent = () => {
-  const editorStateRef = useRef<EditorState>(
-    EditorState.create({
-      schema,
-      doc: schema.nodes.doc.create(null, [
-        schema.nodes.paragraph.create(null, [schema.text('hello')]),
-      ]),
-      plugins: [
-        // new Plugin({
-        //   key: new PluginKey('positionDecoration'),
-        //   state: {
-        //     init: (config, state) => {
-        //       const decorations = []
-        //       const total = state.doc.nodeSize
-        //       for (let i = 0; i < total; i++) {
-        //         const decoration = Decoration.widget(i, () => {
-        //           const div = document.createElement('div')
-        //           div.textContent = i.toString()
-        //           div.className = 'position-decoration'
-        //           return div
-        //         })
-        //         decorations.push(decoration)
-        //       }
-        //       return DecorationSet.create(state.doc, decorations)
-        //     },
-        //     apply: (tr, decorationSet) => {
-        //       const decorations = []
-        //       const total = tr.doc.nodeSize
-        //       for (let i = 0; i < total; i++) {
-        //         const decoration = Decoration.widget(i, () => {
-        //           const div = document.createElement('div')
-        //           div.textContent = i.toString()
-        //           div.className = 'position-decoration'
-        //           return div
-        //         })
-        //         decorations.push(decoration)
-        //       }
-        //       return DecorationSet.create(tr.doc, decorations)
-        //     }
-        //   },
-        //   props: {
-        //     decorations(state) {
-        //       return this.getState(state)
-        //     }
-        //   }
-        // })
-      ],
-    })
-  )
+import { Type1 } from './Type1'
+import { Type2 } from './Type2'
+import { Type3 } from './Type3'
 
-  const [appliedState, setAppliedState] = useState<EditorState | null>(null)
-  const [pos, setPos] = useState(1)
+export const DebugEditorComponent = (props: NodeViewProps) => {
+  const type = props.node.attrs.type ?? 1
+  const isEditable$ = useObservable(props.editor.isEditable)
 
-  const onMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
-    const parent = e.currentTarget.parentElement
-    if (!parent) return
-    const parentParent = parent.parentElement
-    if (!parentParent) return
-    const startLeft = parentParent.getBoundingClientRect().left
-    const width = parentParent.offsetWidth
-    if (!startLeft || !width) return
-
-    const getPos = (pageX: number) => {
-      const left = pageX - startLeft
-      const pos = Math.round(Math.max(0, Math.min(left / (width / 7), 7)))
-      return pos
+  useEffect(() => {
+    const update = ({ editor }: { editor: Editor }) => {
+      isEditable$.set(editor.isEditable)
     }
-    const onMouseMove = (e: MouseEvent | TouchEvent) => {
-      const pos =
-        e instanceof MouseEvent ? getPos(e.pageX) : getPos(e.touches[0].pageX)
-      setPos(pos)
+
+    props.editor.on('update', update)
+    return () => {
+      props.editor.off('update', update)
     }
-    document.addEventListener('mousemove', onMouseMove)
-    document.addEventListener('touchmove', onMouseMove, { passive: false })
-    const clear = () => {
-      document.removeEventListener('mousemove', onMouseMove)
-      document.removeEventListener('touchmove', onMouseMove)
-      document.removeEventListener('mouseup', clear)
-      document.removeEventListener('touchend', clear)
-      document.removeEventListener('blur', clear)
-    }
-    document.addEventListener('mouseup', clear)
-    document.addEventListener('touchend', clear)
-    document.addEventListener('blur', clear)
-  }
+  }, [])
 
   return (
     <NodeViewWrapper>
       <div className='relative rounded-xl border-2 border-dashed border-eva-text p-2'>
-        <div className='absolute right-2 top-0 rounded-b-xl border-x-2 border-b-2 border-dashed border-eva-text px-1'>
-          Demo Insert Text at position
-        </div>
-        <div className='mt-4'>Initial Doc</div>
-        <div className='relative font-mono'>
-          <ReactStateRenderer state={editorStateRef.current} />
-          <div
-            className='absolute bottom-2'
-            style={{
-              left: `1rem`,
-              width: '7ch',
-            }}
-          >
-            <div className='relative' style={{ left: `${pos}ch` }}>
-              <div
-                onTouchStart={onMouseDown}
-                onMouseDown={onMouseDown}
-                className='triangle-text-clip absolute -bottom-4 flex h-8 w-4 -translate-x-1/2 touch-none items-end justify-center bg-yellow-200 text-yellow-800'
-              >
-                <div className='-m-[6px]'>{pos}</div>
-              </div>
-              <div
-                onTouchStart={onMouseDown}
-                onMouseDown={onMouseDown}
-                className='absolute bottom-4 h-6 w-[1px] -translate-x-1/2 animate-blinking text-yellow-200'
+        <Show if={isEditable$}>
+          {() => (
+            <div className='absolute left-0 top-0'>
+              <TypeSelector
+                type={type}
+                setType={(type) => props.updateAttributes({ type })}
               />
             </div>
-          </div>
-        </div>
-        <div className='mt-4'>Transactions to apply</div>
-        <div className='bg-gray-600/70 px-1 font-mono text-sm'>
-          tr.insertText('world', pos) // pos ={' '}
-          <span className='bg-yellow-200 text-yellow-800'>{pos}</span>
-        </div>
-        <button
-          onClick={() => {
-            setAppliedState(
-              editorStateRef.current.apply(
-                editorStateRef.current.tr.insertText('world', pos)
-              )
-            )
-          }}
-          className='mt-2 rounded-md bg-orange-600 px-2 py-1 hover:bg-orange-700'
-        >
-          Apply
-        </button>
-        {appliedState && (
-          <div className='mt-4'>
-            <div>Final Doc</div>
-            <ReactStateRenderer state={appliedState} />
-          </div>
-        )}
+          )}
+        </Show>
+        {type === 1 && <Type1 />}
+        {type === 2 && <Type2 />}
+        {type === 3 && <Type3 />}
       </div>
     </NodeViewWrapper>
+  )
+}
+
+const types = [1, 2, 3]
+
+const TypeSelector = ({
+  type,
+  setType,
+}: {
+  type: number
+  setType: (type: number) => void
+}) => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <div className={cn('rounded-sm px-0.5 py-1 hover:bg-eva-text/10')}>
+          {type}
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+        className='w-52'
+      >
+        <DropdownMenuGroup>
+          {types.map((type) => (
+            <DropdownMenuItem key={type} onClick={() => setType(type)}>
+              {type}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
