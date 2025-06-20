@@ -31,8 +31,9 @@ import { markExtensions } from './extensions/marks/marks'
 import { nodeExtensions } from './extensions/nodes/nodes'
 import { useEditorContext } from './hooks/EditorProvider'
 
-const EditorToolbarMobile = dynamic(() =>
-  import('./EditorToolbarMobile').then((mod) => mod.EditorToolbarMobile)
+const EditorToolbarMobile = dynamic(
+  () => import('./EditorToolbarMobile').then((mod) => mod.EditorToolbarMobile),
+  { ssr: false }
 )
 
 const TiptapEditor = ({ docId }: { docId: string }) => {

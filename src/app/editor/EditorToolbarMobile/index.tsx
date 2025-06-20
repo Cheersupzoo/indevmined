@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { debounce } from '@/utils/debounce'
 import { Editor } from '@tiptap/core'
@@ -17,10 +17,21 @@ import { IsCodeBlock } from './isCode'
 
 export const EditorToolbarMobile = ({ editor }: { editor: Editor }) => {
   const divRef = useRef<HTMLDivElement>(null)
+  const [isEditable, setIsEditable] = useState(editor.isEditable)
+
+  useEffect(() => {
+    const update = ({ editor }: { editor: Editor }) => {
+      setIsEditable(editor.isEditable)
+    }
+    editor.on('update', update)
+    return () => {
+      editor.off('update', update)
+    }
+  }, [editor])
 
   useEffect(() => {
     function resizeHandler() {
-      if (!divRef.current || !window.visualViewport) {
+      if (!isEditable || !divRef.current || !window.visualViewport) {
         return
       }
       // viewport height
@@ -52,7 +63,11 @@ export const EditorToolbarMobile = ({ editor }: { editor: Editor }) => {
         debouncedResizeHandler
       )
     }
-  }, [])
+  }, [isEditable])
+
+  if (!isEditable) {
+    return <></>
+  }
 
   return (
     <div
