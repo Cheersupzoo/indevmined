@@ -150,10 +150,9 @@ export const TextFormatMenu = ({ editor }: TextFormatMenuProps) => {
           A
         </button>
         {[1, 2, 3, 4, 5].map((num) => (
-          <Memo>
+          <Memo key={num}>
             {() => (
               <button
-                key={num}
                 className={cn(
                   activeColor.get() === num
                     ? 'is-active outline outline-2 -outline-offset-2 outline-eva-text-border'
