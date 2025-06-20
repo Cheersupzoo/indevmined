@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { Memo, use$ } from '@legendapp/state/react'
+import { Memo, use$, useObservable } from '@legendapp/state/react'
 import { Editor } from '@tiptap/core'
 import {
   BoldIcon,
@@ -23,6 +23,24 @@ export const IsParagraph = ({ editor }: { editor: Editor }) => {
   const { isActive$ } = useEditorContext()
 
   const isParagraph = use$(isActive$.paragraph)
+
+  const activeColor = useObservable<number | null>(null)
+
+  useEffect(() => {
+    const onColorChange = () => {
+      const num = editor.isActive('textDecorationMark')
+        ? editor.getAttributes('textDecorationMark').num
+        : null
+      activeColor.set(num)
+    }
+
+    editor.on('update', onColorChange)
+    editor.on('selectionUpdate', onColorChange)
+    return () => {
+      editor.off('update', onColorChange)
+      editor.off('selectionUpdate', onColorChange)
+    }
+  }, [editor])
 
   if (!isParagraph) {
     return null
@@ -109,6 +127,33 @@ export const IsParagraph = ({ editor }: { editor: Editor }) => {
           )}
         </Memo>
       </button>
+      <ToolbarVerticalDivider />
+      {[1, 2, 3, 4, 5].map((num) => (
+        <Memo key={num}>
+          {() => (
+            <button
+              className={cn(
+                activeColor.get() === num
+                  ? 'is-active rounded-md outline outline-2 -outline-offset-2 outline-eva-text-border'
+                  : ''
+              )}
+              style={{ padding: '2px 12px' }}
+              onClick={() =>
+                editor.chain().focus().toggleTextDecoration(num).run()
+              }
+            >
+              <span
+                className='text-decoration font-bold'
+                style={{
+                  color: `rgb(var(--color${num}))`,
+                }}
+              >
+                A
+              </span>
+            </button>
+          )}
+        </Memo>
+      ))}
       <ToolbarVerticalDivider />
       <button
         onClick={() => editor.chain().focus().unsetAllMarks().run()}

@@ -51,11 +51,11 @@
 }
 
 .bubble-menu {
-  @apply space-x-1 rounded-xl border border-zinc-700 bg-zinc-800 p-1 pb-0.5 text-eva-text shadow-xl;
+  @apply flex flex-row items-center space-x-1 rounded-xl border border-zinc-700 bg-zinc-800 p-1 pb-0.5 text-eva-text shadow-xl;
 }
 
 .bubble-menu button {
-  @apply rounded-lg p-1.5 hover:bg-eva-text/10;
+  @apply rounded-lg p-1.5 hover:bg-eva-text/10 text-[0.9rem] leading-none;
 }
 
 .bubble-menu button.is-active,

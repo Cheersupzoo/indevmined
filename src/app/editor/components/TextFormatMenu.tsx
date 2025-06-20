@@ -1,4 +1,6 @@
-import { Memo } from '@legendapp/state/react'
+import { useEffect } from 'react'
+
+import { Memo, useObservable } from '@legendapp/state/react'
 import { BubbleMenu, Editor } from '@tiptap/react'
 import {
   BoldIcon,
@@ -22,6 +24,23 @@ type TextFormatMenuProps = {
 
 export const TextFormatMenu = ({ editor }: TextFormatMenuProps) => {
   const { isActive$ } = useEditorContext()
+  const activeColor = useObservable<number | null>(null)
+
+  useEffect(() => {
+    const onColorChange = () => {
+      const num = editor.isActive('textDecorationMark')
+        ? editor.getAttributes('textDecorationMark').num
+        : null
+      activeColor.set(num)
+    }
+
+    editor.on('update', onColorChange)
+    editor.on('selectionUpdate', onColorChange)
+    return () => {
+      editor.off('update', onColorChange)
+      editor.off('selectionUpdate', onColorChange)
+    }
+  }, [editor])
 
   return (
     <BubbleMenu
@@ -41,7 +60,7 @@ export const TextFormatMenu = ({ editor }: TextFormatMenuProps) => {
           state.doc.nodeAt(blockPos)?.type.name ?? 'paragraph'
         )
       }}
-      tippyOptions={{ duration: 100 }}
+      tippyOptions={{ duration: 100, maxWidth: 'none' }}
     >
       <div className='bubble-menu'>
         <button onClick={() => editor.chain().focus().toggleBold().run()}>
@@ -123,6 +142,39 @@ export const TextFormatMenu = ({ editor }: TextFormatMenuProps) => {
             )}
           </Memo>
         </button>
+        <div className='mx-1 inline-block h-6 w-[1px] bg-eva-text-border' />
+        <button
+          className='font-bold'
+          onClick={() => editor.chain().focus().unsetTextDecoration().run()}
+        >
+          A
+        </button>
+        {[1, 2, 3, 4, 5].map((num) => (
+          <Memo>
+            {() => (
+              <button
+                key={num}
+                className={cn(
+                  activeColor.get() === num
+                    ? 'is-active outline outline-2 -outline-offset-2 outline-eva-text-border'
+                    : ''
+                )}
+                onClick={() =>
+                  editor.chain().focus().setTextDecoration(num).run()
+                }
+              >
+                <span
+                  className='text-decoration font-bold'
+                  style={{
+                    color: `rgb(var(--color${num}))`,
+                  }}
+                >
+                  A
+                </span>
+              </button>
+            )}
+          </Memo>
+        ))}
       </div>
     </BubbleMenu>
   )

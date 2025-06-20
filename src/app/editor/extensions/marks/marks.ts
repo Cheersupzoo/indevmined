@@ -1,7 +1,13 @@
 import { type Extensions } from '@tiptap/core'
 import Underline from '@tiptap/extension-underline'
 
-import { CodeMark } from '../nodes/CodeBlockLighter/MarkExtension'
+import { CodeMark } from './MarkExtension'
 import { Playful } from './Playful/Playful'
+import { TextDecorationMark } from './TextDecorationMark'
 
-export const markExtensions: Extensions = [Underline, CodeMark, Playful]
+export const markExtensions: Extensions = [
+  Underline,
+  CodeMark,
+  Playful,
+  TextDecorationMark,
+]
