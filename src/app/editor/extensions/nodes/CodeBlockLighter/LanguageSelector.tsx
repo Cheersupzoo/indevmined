@@ -12,9 +12,12 @@ const supportLanguages = [
   'typescript',
   'jsx',
   'tsx',
+  'json',
+  'jsonc',
   'python',
   'go',
   'rust',
+  'sql',
 ]
 
 export const LanguageSelector = ({
