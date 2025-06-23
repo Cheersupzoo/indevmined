@@ -71,7 +71,7 @@ export const NodeRenderer = ({
 
   if (node.type.name === schema.nodes.paragraph.name) {
     return (
-      <div className='paragraph overflow-hidden rounded-xl bg-blue-900'>
+      <div className='paragraph w-fit overflow-hidden rounded-xl bg-blue-900'>
         <div className='p-2'>
           <div className='text-sm text-eva-text/70'>p</div>
           <span className='text-[0.33rem] text-gray-500'>{'<p>'}</span>

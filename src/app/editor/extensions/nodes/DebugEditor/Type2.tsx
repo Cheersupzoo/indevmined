@@ -74,7 +74,10 @@ export const Type2 = () => {
             width: '7ch',
           }}
         >
-          <div className='relative' style={{ left: `${pos}ch` }}>
+          <div
+            className='relative'
+            style={{ left: `${pos === 0 ? -1 : pos > 6 ? pos + 1 : pos}ch` }}
+          >
             <div
               onTouchStart={onMouseDown}
               onMouseDown={onMouseDown}
