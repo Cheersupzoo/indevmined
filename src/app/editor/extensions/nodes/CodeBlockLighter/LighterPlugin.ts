@@ -257,6 +257,7 @@ export function LighterPlugin({
       const init = async () => {
         await preload([], 'dark-plus')
         loading = false
+        forceRerender = true
         editorView.dispatch(editorView.state.tr)
       }
       reloadView = () => editorView.dispatch(editorView.state.tr)
