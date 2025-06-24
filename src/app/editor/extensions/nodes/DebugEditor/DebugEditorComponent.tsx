@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils'
 import { Type1 } from './Type1'
 import { Type2 } from './Type2'
 import { Type3 } from './Type3'
+import { Type4 } from './Type4'
 
 export const DebugEditorComponent = (props: NodeViewProps) => {
   const type = props.node.attrs.type ?? 1
@@ -47,12 +48,13 @@ export const DebugEditorComponent = (props: NodeViewProps) => {
         {type === 1 && <Type1 />}
         {type === 2 && <Type2 />}
         {type === 3 && <Type3 />}
+        {type === 4 && <Type4 />}
       </div>
     </NodeViewWrapper>
   )
 }
 
-const types = [1, 2, 3]
+const types = [1, 2, 3, 4]
 
 const TypeSelector = ({
   type,
