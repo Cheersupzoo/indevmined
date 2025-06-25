@@ -139,7 +139,7 @@ export const NodeRenderer = ({
 export const ReactStateRenderer = React.memo(NodeRenderer)
 
 const NodePos = ({ pos }: { pos: number }) => (
-  <span className='inline-block translate-y-2 text-xs text-gray-400'>
+  <span className='inline-block translate-y-2 text-xs text-color3'>
     {pos}
   </span>
 )

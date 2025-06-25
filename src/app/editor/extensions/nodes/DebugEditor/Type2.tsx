@@ -4,6 +4,7 @@ import { schema } from '@tiptap/pm/schema-basic'
 import { EditorState } from '@tiptap/pm/state'
 
 import { ReactStateRenderer } from './ReactStateRenderer'
+import { LineCursor } from './LineCursor'
 
 const blockquote = schema.nodes.blockquote.create(null, [
   schema.nodes.paragraph.create(null, [schema.text('this is blockquote')]),
@@ -22,39 +23,6 @@ export const Type2 = () => {
   const [appliedState, setAppliedState] = useState<EditorState | null>(null)
   const [pos, setPos] = useState(1)
 
-  const onMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
-    const parent = e.currentTarget.parentElement
-    if (!parent) return
-    const parentParent = parent.parentElement
-    if (!parentParent) return
-    const startLeft = parentParent.getBoundingClientRect().left
-    const width = parentParent.offsetWidth
-    if (!startLeft || !width) return
-
-    const getPos = (pageX: number) => {
-      const left = pageX - startLeft
-      const pos = Math.round(Math.max(0, Math.min(left / (width / 7), 7)))
-      return pos
-    }
-    const onMouseMove = (e: MouseEvent | TouchEvent) => {
-      const pos =
-        e instanceof MouseEvent ? getPos(e.pageX) : getPos(e.touches[0].pageX)
-      setPos(pos)
-    }
-    document.addEventListener('mousemove', onMouseMove)
-    document.addEventListener('touchmove', onMouseMove, { passive: false })
-    const clear = () => {
-      document.removeEventListener('mousemove', onMouseMove)
-      document.removeEventListener('touchmove', onMouseMove)
-      document.removeEventListener('mouseup', clear)
-      document.removeEventListener('touchend', clear)
-      document.removeEventListener('blur', clear)
-    }
-    document.addEventListener('mouseup', clear)
-    document.addEventListener('touchend', clear)
-    document.addEventListener('blur', clear)
-  }
-
   return (
     <>
       {' '}
@@ -67,31 +35,7 @@ export const Type2 = () => {
           <ReactStateRenderer node={editorStateRef.current.doc} />
           <ReactStateRenderer node={blockquote} />
         </div>
-        <div
-          className='absolute top-[6rem]'
-          style={{
-            left: `1rem`,
-            width: '7ch',
-          }}
-        >
-          <div
-            className='relative'
-            style={{ left: `${pos === 0 ? -1 : pos > 6 ? pos + 1 : pos}ch` }}
-          >
-            <div
-              onTouchStart={onMouseDown}
-              onMouseDown={onMouseDown}
-              className='triangle-text-clip absolute -bottom-4 flex h-8 w-4 -translate-x-1/2 touch-none items-end justify-center bg-yellow-200 text-yellow-800'
-            >
-              <div className='-m-[6px]'>{pos}</div>
-            </div>
-            <div
-              onTouchStart={onMouseDown}
-              onMouseDown={onMouseDown}
-              className='absolute bottom-4 h-6 w-[1px] -translate-x-1/2 animate-blinking text-yellow-200'
-            />
-          </div>
-        </div>
+        <LineCursor pos={pos} setPos={setPos} />
       </div>
       <div className='mt-4'>Transactions to apply</div>
       <div className='bg-gray-600/70 px-1 font-mono text-sm'>
