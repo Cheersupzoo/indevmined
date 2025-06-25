@@ -55,7 +55,7 @@
 }
 
 .bubble-menu button {
-  @apply rounded-lg p-1.5 hover:bg-eva-text/10 text-[0.9rem] leading-none;
+  @apply rounded-lg p-1.5 text-[0.9rem] leading-none hover:bg-eva-text/10;
 }
 
 .bubble-menu button.is-active,
@@ -69,30 +69,6 @@ button .is-active {
   outline: 3px solid var(--purple);
   cursor: default;
   @apply select-none outline outline-[3px] outline-purple-500;
-}
-
-.tiptap input[type='checkbox']:checked {
-  @apply accent-eva-text-border;
-}
-
-.tiptap input[type='checkbox'] {
-  @apply h-[0.9em] w-[0.9em];
-}
-
-.tiptap section > .toggle {
-  float: inline-start;
-  transition: transform 0.2s ease;
-}
-
-.tiptap section > .toggle-content {
-  margin-left: 2em;
-}
-
-.tiptap
-  section[data-collapsed='true']
-  > div.toggle-content
-  > div[data-type='groupBlock'] {
-  display: none;
 }
 
 /* Image resize handle styles */

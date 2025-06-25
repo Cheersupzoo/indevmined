@@ -8,7 +8,7 @@ import type {
   Ordered,
 } from '@excalidraw/excalidraw/element/types'
 import '@excalidraw/excalidraw/index.css'
-import { NodeViewProps, NodeViewWrapper } from '@tiptap/react'
+import { NodeViewProps, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
 import { Edit2Icon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -86,3 +86,5 @@ export const ExcalidrawDialog = (props: NodeViewProps) => {
     </Dialog>
   )
 }
+
+export const ExcalidrawComponentRenderer = ReactNodeViewRenderer(ExcalidrawComponent)

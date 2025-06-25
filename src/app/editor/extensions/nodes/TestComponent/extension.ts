@@ -1,7 +1,6 @@
 import { Node, mergeAttributes } from '@tiptap/core'
-import { ReactNodeViewRenderer } from '@tiptap/react'
 
-import Component from './index'
+import { TestComponentRenderer } from './index'
 
 export default Node.create({
   name: 'reactComponent',
@@ -33,6 +32,6 @@ export default Node.create({
   },
 
   addNodeView() {
-    return ReactNodeViewRenderer(Component)
+    return TestComponentRenderer
   },
 })

@@ -1,6 +1,7 @@
+'use client'
 import React from 'react'
 
-import { NodeViewContent, NodeViewProps, NodeViewWrapper } from '@tiptap/react'
+import { NodeViewContent, NodeViewProps, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
 
 const index = (props: NodeViewProps) => {
   const increase = () => {
@@ -32,3 +33,5 @@ const index = (props: NodeViewProps) => {
 }
 
 export default index
+
+export const TestComponentRenderer = ReactNodeViewRenderer(index)

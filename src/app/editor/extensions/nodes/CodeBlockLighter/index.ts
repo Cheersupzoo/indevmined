@@ -4,6 +4,7 @@ import CodeBlock, { CodeBlockOptions } from '@tiptap/extension-code-block'
 import { TextSelection } from '@tiptap/pm/state'
 import { ReactNodeViewRenderer, mergeAttributes } from '@tiptap/react'
 
+import { CodeBlockWrapperRenderer } from './CodeBlockWraper'
 import { LighterPlugin } from './LighterPlugin'
 
 const CodeBlockWrapper = dynamic(
@@ -66,15 +67,7 @@ export const CodeBlockLighter = CodeBlock.extend<CodeBlockLighterOptions>({
     ]
   },
   addNodeView() {
-    return ReactNodeViewRenderer(CodeBlockWrapper, {
-      as: 'pre',
-      attrs: {
-        spellcheck: 'false',
-        autocorrect: 'off',
-        autocapitalize: 'off',
-        translate: 'no',
-      },
-    })
+    return CodeBlockWrapperRenderer
   },
   addKeyboardShortcuts() {
     return {

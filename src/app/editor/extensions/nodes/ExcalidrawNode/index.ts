@@ -1,7 +1,6 @@
 import { Node, mergeAttributes } from '@tiptap/core'
-import { ReactNodeViewRenderer } from '@tiptap/react'
 
-import { ExcalidrawComponent } from './ExcalidrawComponent'
+import { ExcalidrawComponentRenderer } from './ExcalidrawComponent'
 
 export default Node.create({
   name: 'ExcalidrawBlock',
@@ -36,6 +35,6 @@ export default Node.create({
   },
 
   addNodeView() {
-    return ReactNodeViewRenderer(ExcalidrawComponent)
+    return ExcalidrawComponentRenderer
   },
 })

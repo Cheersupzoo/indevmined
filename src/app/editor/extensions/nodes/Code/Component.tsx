@@ -9,7 +9,7 @@ import {
   mark,
 } from '@/utils/Mdx/components/ScrollyCoding/CodeAnotationHandler'
 import { MermaidLanguageRenderer } from '@/utils/Mdx/components/ScrollyCoding/MermaidLanguageRenderer'
-import { NodeViewProps, NodeViewWrapper } from '@tiptap/react'
+import { NodeViewProps, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
 import { HighlightedCode, Pre, RawCode, highlight } from 'codehike/code'
 import { EditIcon } from 'lucide-react'
 import diff from 'react-syntax-highlighter/dist/esm/languages/hljs/diff'
@@ -123,3 +123,5 @@ export function CodeSync({
     </>
   )
 }
+
+export const CodeBlockRenderer = ReactNodeViewRenderer(CodeBlock)

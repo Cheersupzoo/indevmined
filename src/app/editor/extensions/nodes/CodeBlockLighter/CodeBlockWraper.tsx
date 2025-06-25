@@ -1,3 +1,4 @@
+'use client'
 import dynamic from 'next/dynamic'
 import React, { useRef } from 'react'
 
@@ -5,6 +6,7 @@ import {
   NodeViewContent,
   NodeViewProps,
   NodeViewWrapper,
+  ReactNodeViewRenderer,
   ReactRenderer,
 } from '@tiptap/react'
 import { ChevronDown } from 'lucide-react'
@@ -131,3 +133,13 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
     </NodeViewWrapper>
   )
 }
+
+export const CodeBlockWrapperRenderer =  ReactNodeViewRenderer(CodeBlockWrapper, {
+  as: 'pre',
+  attrs: {
+    spellcheck: 'false',
+    autocorrect: 'off',
+    autocapitalize: 'off',
+    translate: 'no',
+  },
+})

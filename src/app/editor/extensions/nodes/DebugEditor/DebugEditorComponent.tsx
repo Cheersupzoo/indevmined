@@ -1,7 +1,9 @@
+'use client'
+
 import React, { useEffect } from 'react'
 
 import { Show, useObservable } from '@legendapp/state/react'
-import { Editor, NodeViewProps, NodeViewWrapper } from '@tiptap/react'
+import { Editor, NodeViewProps, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
 
 import {
   DropdownMenu,
@@ -86,3 +88,5 @@ const TypeSelector = ({
     </DropdownMenu>
   )
 }
+
+export const DebugEditorComponentRenderer = ReactNodeViewRenderer(DebugEditorComponent)

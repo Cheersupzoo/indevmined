@@ -236,3 +236,27 @@
 .markdown-body ul[data-type='taskList'] ul[data-type='taskList'] {
   margin: 0;
 }
+
+.markdown-body input[type='checkbox']:checked {
+  @apply accent-eva-text-border;
+}
+
+.markdown-body input[type='checkbox'] {
+  @apply h-[0.9em] w-[0.9em];
+}
+
+.markdown-body section > .toggle {
+  float: inline-start;
+  transition: transform 0.2s ease;
+}
+
+.markdown-body section > .toggle-content {
+  margin-left: 2em;
+}
+
+.markdown-body
+  section[data-collapsed='true']
+  > div.toggle-content
+  > div[data-type='groupBlock'] {
+  display: none;
+}

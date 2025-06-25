@@ -2,7 +2,6 @@ import { type Extensions } from '@tiptap/core'
 import Placeholder from '@tiptap/extension-placeholder'
 import Typography from '@tiptap/extension-typography'
 
-import { LinkWithConfigure } from '../marks/LinkExtension'
 import { DragHandle } from './DragHandleExtension'
 import { DropImageExtension } from './DropImage'
 import { MoveNodeShortcut } from './MoveNodeShortcut'
@@ -20,7 +19,6 @@ export const functionalityExtensions: Extensions = [
       return 'Press / to see available commands'
     },
   }),
-  LinkWithConfigure,
   MoveNodeShortcut,
   DragHandle,
   Typography,

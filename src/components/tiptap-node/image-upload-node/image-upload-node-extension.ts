@@ -1,7 +1,6 @@
 import { Node, mergeAttributes } from '@tiptap/react'
-import { ReactNodeViewRenderer } from '@tiptap/react'
 
-import { ImageUploadNode as ImageUploadNodeComponent } from '@/components/tiptap-node/image-upload-node/image-upload-node'
+import { ImageUploadNodeRenderer } from '@/components/tiptap-node/image-upload-node/image-upload-node'
 
 export type UploadFunction = (
   file: File,
@@ -104,7 +103,7 @@ export const ImageUploadNode = Node.create<ImageUploadNodeOptions>({
   },
 
   addNodeView() {
-    return ReactNodeViewRenderer(ImageUploadNodeComponent)
+    return ImageUploadNodeRenderer
   },
 
   addCommands() {

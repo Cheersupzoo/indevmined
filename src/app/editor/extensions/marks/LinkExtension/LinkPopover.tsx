@@ -1,8 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+'use client'
+
+import { useEffect, useRef } from 'react'
 
 import { Memo, Show, useObservable } from '@legendapp/state/react'
 import { $React } from '@legendapp/state/react-web'
 import { Editor } from '@tiptap/core'
+import { ReactRenderer, ReactRendererOptions } from '@tiptap/react'
 import { Command } from 'cmdk'
 import { BanIcon, ExternalLink, Link, Unlink } from 'lucide-react'
 
@@ -117,3 +120,6 @@ export const LinkPopover = ({
     </Command>
   )
 }
+
+export const LinkPopoverRenderer = (props: ReactRendererOptions) =>
+  new ReactRenderer(LinkPopover, props)

@@ -4,10 +4,9 @@ import { getAttributes } from '@tiptap/core'
 import { Link } from '@tiptap/extension-link'
 import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { ReactRenderer } from '@tiptap/react'
 import tippy from 'tippy.js'
 
-import { LinkPopover } from '../functionality/LinkExtension/LinkPopover'
+import { LinkPopoverRenderer } from './LinkExtension/LinkPopover'
 
 export const LinkWithConfigure = Link.extend({
   addProseMirrorPlugins() {
@@ -110,7 +109,7 @@ export const openLinkEditor = (editor: Editor | null) => {
         },
       })
 
-      const linkPopover = new ReactRenderer(LinkPopover, {
+      const linkPopover = LinkPopoverRenderer({
         editor: editor,
         props: {
           editor,

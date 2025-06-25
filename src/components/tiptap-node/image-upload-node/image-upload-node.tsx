@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import { useEffectOnce } from '@legendapp/state/react'
 import type { NodeViewProps } from '@tiptap/react'
-import { NodeViewWrapper } from '@tiptap/react'
+import { NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
 
 import { CloseIcon } from '@/components/tiptap-icons/close-icon'
 import '@/components/tiptap-node/image-upload-node/image-upload-node.scss'
@@ -442,3 +442,5 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
     </NodeViewWrapper>
   )
 }
+
+export const ImageUploadNodeRenderer = ReactNodeViewRenderer(ImageUploadNode)

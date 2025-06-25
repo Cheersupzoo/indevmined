@@ -27,12 +27,6 @@ export interface ImageOptions {
   deleteImage: ((key: string) => void) | undefined
 }
 
-const resizeHandle = document.createElement('div')
-resizeHandle.className = 'resize-handle'
-resizeHandle.innerHTML = `
-  <div class='resize-handle-line'></div>
-`
-
 const createResizeHandle = (
   view: EditorView,
   pos: number,
@@ -40,7 +34,11 @@ const createResizeHandle = (
   side: 'left' | 'right' = 'right'
 ) => {
   const isRight = side === 'right'
-  const handle = resizeHandle.cloneNode(true) as HTMLElement
+  const handle = document.createElement('div')
+  handle.className = 'resize-handle'
+  handle.innerHTML = `
+  <div class='resize-handle-line'></div>
+`
 
   handle.classList.add(isRight ? 'resize-handle-right' : 'resize-handle-left')
 

@@ -1,7 +1,7 @@
 import { Node, mergeAttributes } from '@tiptap/core'
 import { ReactNodeViewRenderer } from '@tiptap/react'
 
-import { CodeBlock } from './Component'
+import { CodeBlock, CodeBlockRenderer } from './Component'
 
 export default Node.create({
   name: 'CodeBlock',
@@ -36,6 +36,6 @@ export default Node.create({
   },
 
   addNodeView() {
-    return ReactNodeViewRenderer(CodeBlock)
+    return CodeBlockRenderer
   },
 })
