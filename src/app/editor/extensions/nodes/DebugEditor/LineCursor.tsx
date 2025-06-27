@@ -40,7 +40,7 @@ export const LineCursor = ({
 
   return (
     <div
-      className='selector-container absolute top-[5rem]'
+      className='selector-container absolute top-[5rem] select-none'
       style={{
         left: '1rem',
         width: '7ch',

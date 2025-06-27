@@ -1,7 +1,6 @@
 import { Node, mergeAttributes } from '@tiptap/core'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { AttrStep } from '@tiptap/pm/transform'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+
+import { ToggleSectionStatic } from './static'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -66,11 +65,6 @@ export const ToggleSection = Node.create<ToggleSectionOptions>({
       toggle.innerHTML =
         '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon lucide-chevron-down"><path fill="currentColor" d="m 6 9 l 6 6 l 6 -6 Z"/></svg>'
       toggle.className = 'toggle'
-      toggle.style.display = 'inline-block'
-      toggle.style.cursor = 'pointer'
-      toggle.style.transform = node.attrs.collapsed
-        ? 'rotate(-90deg)'
-        : 'rotate(0deg)'
       const content = section.appendChild(document.createElement('div'))
       content.className = 'toggle-content'
 
@@ -115,9 +109,6 @@ export const ToggleSection = Node.create<ToggleSectionOptions>({
           }
 
           section.dataset.collapsed = updatedNode.attrs.collapsed.toString()
-          toggle.style.transform = updatedNode.attrs.collapsed
-            ? 'rotate(-90deg)'
-            : 'rotate(0deg)'
 
           return true
         },
@@ -161,6 +152,8 @@ export const ToggleSection = Node.create<ToggleSectionOptions>({
       'Mod-Alt-c': () => this.editor.commands.toggleSectionCollapse(),
     }
   },
+
+  reactNode: ToggleSectionStatic,
 })
 
 export default ToggleSection

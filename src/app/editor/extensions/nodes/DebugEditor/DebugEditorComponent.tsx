@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react'
 
 import { Show, useObservable } from '@legendapp/state/react'
-import { Editor, NodeViewProps, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
+import { Editor, NodeViewProps, NodeViewWrapper } from '@tiptap/react'
 
 import {
   DropdownMenu,
@@ -14,15 +14,11 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 
-import { Type1 } from './Type1'
-import { Type2 } from './Type2'
-import { Type3 } from './Type3'
-import { Type4 } from './Type4'
+import { TypeRenderer } from './TypeRenderer'
 
 export const DebugEditorComponent = (props: NodeViewProps) => {
   const type = props.node.attrs.type ?? 1
-  const isEditable$ = useObservable(props.editor.isEditable)
-
+  const isEditable$ = useObservable(props.editor?.isEditable ?? false)
   useEffect(() => {
     const update = ({ editor }: { editor: Editor }) => {
       isEditable$.set(editor.isEditable)
@@ -33,7 +29,6 @@ export const DebugEditorComponent = (props: NodeViewProps) => {
       props.editor.off('update', update)
     }
   }, [])
-
   return (
     <NodeViewWrapper>
       <div className='relative rounded-xl border-2 border-dashed border-eva-text p-2'>
@@ -47,10 +42,7 @@ export const DebugEditorComponent = (props: NodeViewProps) => {
             </div>
           )}
         </Show>
-        {type === 1 && <Type1 />}
-        {type === 2 && <Type2 />}
-        {type === 3 && <Type3 />}
-        {type === 4 && <Type4 />}
+        <TypeRenderer type={type} />
       </div>
     </NodeViewWrapper>
   )
@@ -88,5 +80,3 @@ const TypeSelector = ({
     </DropdownMenu>
   )
 }
-
-export const DebugEditorComponentRenderer = ReactNodeViewRenderer(DebugEditorComponent)

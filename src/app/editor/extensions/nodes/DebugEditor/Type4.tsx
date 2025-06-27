@@ -1,3 +1,5 @@
+'use client'
+
 import { useRef, useState } from 'react'
 
 import { schema } from '@tiptap/pm/schema-basic'
@@ -25,8 +27,12 @@ export const Type4 = () => {
       <div className='absolute right-2 top-0 rounded-b-xl border-x-2 border-b-2 border-dashed border-eva-text px-1'>
         How is position calculated
       </div>
-      <div className='mt-8 relative font-mono'>
-        <ReactStateRenderer node={editorStateRef.current.doc} showPos={showPos} groupClassName='flex-row items-center' />
+      <div className='relative mt-8 font-mono'>
+        <ReactStateRenderer
+          node={editorStateRef.current.doc}
+          showPos={showPos}
+          groupClassName='flex-row items-center'
+        />
       </div>
       <div className='mt-4 flex items-center space-x-2'>
         <Switch

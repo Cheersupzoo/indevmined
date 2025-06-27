@@ -246,12 +246,15 @@
 }
 
 .markdown-body section > .toggle {
+  cursor: pointer;
   float: inline-start;
+  user-select: none;
+  transform: rotate(0deg);
   transition: transform 0.2s ease;
 }
 
-.markdown-body section > .toggle-content {
-  margin-left: 2em;
+.markdown-body section[data-collapsed='true'] > .toggle {
+  transform: rotate(-90deg);
 }
 
 .markdown-body

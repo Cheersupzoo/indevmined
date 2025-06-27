@@ -1,21 +1,12 @@
-import { Node, mergeAttributes } from '@tiptap/core'
+import { mergeAttributes } from '@tiptap/core'
 
-import { TestComponentRenderer } from './index'
+import { TestComponentBased } from './based'
+import { TestComponentRenderer } from './component'
 
-export default Node.create({
-  name: 'reactComponent',
-
+export default TestComponentBased.extend({
   group: 'block',
 
   draggable: true,
-
-  addAttributes() {
-    return {
-      count: {
-        default: 0,
-      },
-    }
-  },
 
   content: 'block*',
 

@@ -1,22 +1,13 @@
-import { Node, mergeAttributes } from '@tiptap/core'
+import { mergeAttributes } from '@tiptap/core'
+import { ReactNodeViewRenderer } from '@tiptap/react'
 
-import {
-  DebugEditorComponentRenderer,
-} from './DebugEditorComponent'
-import './debugEditor.css'
+import { DebugEditorComponent } from './DebugEditorComponent'
+import { DebugEditorBased } from './based'
 
-export const DebugEditor = Node.create({
-  name: 'debugEditor',
+export const DebugEditor = DebugEditorBased.extend({
   atom: true,
   draggable: true,
   group: 'block',
-  addAttributes() {
-    return {
-      type: {
-        default: 1,
-      },
-    }
-  },
   parseHTML() {
     return [
       {
@@ -28,6 +19,6 @@ export const DebugEditor = Node.create({
     return ['div', mergeAttributes(HTMLAttributes, { class: 'debug-editor' })]
   },
   addNodeView() {
-    return DebugEditorComponentRenderer
+    return ReactNodeViewRenderer(DebugEditorComponent)
   },
 })

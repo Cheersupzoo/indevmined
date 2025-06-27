@@ -1,24 +1,13 @@
-import { Node, mergeAttributes } from '@tiptap/core'
-import { ReactNodeViewRenderer } from '@tiptap/react'
+import { mergeAttributes } from '@tiptap/core'
 
-import { CodeBlock, CodeBlockRenderer } from './Component'
+import { CodeBlockRenderer } from './Component'
+import { CodeBased } from './based'
 
-export default Node.create({
-  name: 'CodeBlock',
-
+export default CodeBased.extend({
   group: 'block',
 
   draggable: false,
-  code: true,
   defining: true,
-
-  addAttributes() {
-    return {
-      lang: {
-        default: 'js',
-      },
-    }
-  },
 
   content: 'text*',
 

@@ -9,7 +9,11 @@ import {
   mark,
 } from '@/utils/Mdx/components/ScrollyCoding/CodeAnotationHandler'
 import { MermaidLanguageRenderer } from '@/utils/Mdx/components/ScrollyCoding/MermaidLanguageRenderer'
-import { NodeViewProps, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
+import {
+  NodeViewProps,
+  NodeViewWrapper,
+  ReactNodeViewRenderer,
+} from '@tiptap/react'
 import { HighlightedCode, Pre, RawCode, highlight } from 'codehike/code'
 import { EditIcon } from 'lucide-react'
 import diff from 'react-syntax-highlighter/dist/esm/languages/hljs/diff'
@@ -28,6 +32,7 @@ export const CodeBlock = (props: NodeViewProps) => {
             <span
               className='cursor-pointer'
               onClick={() => {
+                if (!props.editor) return
                 const language = window.prompt(
                   'Change language',
                   props.node.attrs.lang
@@ -52,6 +57,7 @@ export const CodeBlock = (props: NodeViewProps) => {
           className='absolute right-7 top-1 rounded p-1 text-zinc-300 opacity-0 transition-opacity hover:bg-gray-400/20 group-hover:opacity-100'
           aria-label='Edit code'
           onClick={() => {
+            if (!props.editor) return
             const code = window.prompt('Edit Code', props.node.textContent)
             if (!code || props.node.textContent === code) return
             const parentFrom = props.getPos()

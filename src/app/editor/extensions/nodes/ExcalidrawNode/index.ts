@@ -1,24 +1,14 @@
-import { Node, mergeAttributes } from '@tiptap/core'
+import { mergeAttributes } from '@tiptap/core'
 
 import { ExcalidrawComponentRenderer } from './ExcalidrawComponent'
+import { ExcalidrawNodeBased } from './based'
 
-export default Node.create({
+export default ExcalidrawNodeBased.extend({
   name: 'ExcalidrawBlock',
 
   group: 'block',
 
   draggable: true,
-
-  addAttributes() {
-    return {
-      state: {
-        default: null,
-      },
-      svg: {
-        default: null,
-      },
-    }
-  },
 
   content: '',
 

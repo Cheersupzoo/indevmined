@@ -1,4 +1,5 @@
 'use client'
+
 import dynamic from 'next/dynamic'
 import React, { useRef } from 'react'
 
@@ -35,20 +36,22 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
   return (
     <NodeViewWrapper className='pre group relative flex flex-col rounded bg-zinc-800 shadow-xl'>
       <div contentEditable={false} className='absolute right-1.5 top-1.5'>
-        <CodeBlockDropdown
-          preview={props.node.attrs.preview}
-          togglePreview={() => {
-            props.updateAttributes({
-              preview: !props.node.attrs.preview,
-            })
-          }}
-          center={props.node.attrs.previewCenter}
-          toggleCenter={() =>
-            props.updateAttributes({
-              previewCenter: !props.node.attrs.previewCenter,
-            })
-          }
-        />
+        {props.editor && (
+          <CodeBlockDropdown
+            preview={props.node.attrs.preview}
+            togglePreview={() => {
+              props.updateAttributes({
+                preview: !props.node.attrs.preview,
+              })
+            }}
+            center={props.node.attrs.previewCenter}
+            toggleCenter={() =>
+              props.updateAttributes({
+                previewCenter: !props.node.attrs.previewCenter,
+              })
+            }
+          />
+        )}
       </div>
       <div
         ref={codeEl}
@@ -60,6 +63,7 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
           className='cursor-pointer select-none'
           data-language-selector
           onClick={(event) => {
+            if (!props.editor) return
             const component = new ReactRenderer(LanguageSelector, {
               editor: props.editor,
               props: {
@@ -134,12 +138,15 @@ export const CodeBlockWrapper = (props: NodeViewProps) => {
   )
 }
 
-export const CodeBlockWrapperRenderer =  ReactNodeViewRenderer(CodeBlockWrapper, {
-  as: 'pre',
-  attrs: {
-    spellcheck: 'false',
-    autocorrect: 'off',
-    autocapitalize: 'off',
-    translate: 'no',
-  },
-})
+export const CodeBlockWrapperRenderer = ReactNodeViewRenderer(
+  CodeBlockWrapper,
+  {
+    as: 'pre',
+    attrs: {
+      spellcheck: 'false',
+      autocorrect: 'off',
+      autocapitalize: 'off',
+      translate: 'no',
+    },
+  }
+)

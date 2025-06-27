@@ -1,10 +1,12 @@
+'use client'
+
 import { useRef, useState } from 'react'
 
 import { schema } from '@tiptap/pm/schema-basic'
 import { EditorState } from '@tiptap/pm/state'
 
-import { ReactStateRenderer } from './ReactStateRenderer'
 import { LineCursor } from './LineCursor'
+import { ReactStateRenderer } from './ReactStateRenderer'
 
 const blockquote = schema.nodes.blockquote.create(null, [
   schema.nodes.paragraph.create(null, [schema.text('this is blockquote')]),

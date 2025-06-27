@@ -1,9 +1,9 @@
-import { Node, mergeAttributes } from '@tiptap/core'
+import { mergeAttributes } from '@tiptap/core'
 
 import { Renderer } from './Renderer'
+import { Box3dNodeBased } from './based'
 
-export const Box3dNode = Node.create({
-  name: 'react-component-box3d',
+export const Box3dNode = Box3dNodeBased.extend({
   group: 'block',
   draggable: true,
   content: '',
