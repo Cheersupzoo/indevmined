@@ -26,13 +26,18 @@ type TextFormatMenuProps = {
 export const TextFormatMenu = ({ editor }: TextFormatMenuProps) => {
   const { isActive$ } = useEditorContext()
   const activeColor = useObservable<number | null>(null)
+  const isBGColor = useObservable<boolean | null>(null)
 
   useEffect(() => {
     const onColorChange = () => {
-      const num = editor.isActive('textDecorationMark')
-        ? editor.getAttributes('textDecorationMark').num
-        : null
-      activeColor.set(num)
+      if (editor.isActive('textDecorationMark')) {
+        activeColor.set(editor.getAttributes('textDecorationMark').num)
+        isBGColor.set(editor.getAttributes('textDecorationMark').isBg)
+      } else {
+        activeColor.set(null)
+        // @ts-ignore
+        isBGColor.set(null)
+      }
     }
 
     editor.on('update', onColorChange)
@@ -155,7 +160,7 @@ export const TextFormatMenu = ({ editor }: TextFormatMenuProps) => {
             {() => (
               <button
                 className={cn(
-                  activeColor.get() === num
+                  activeColor.get() === num && !isBGColor.get()
                     ? 'is-active outline outline-2 -outline-offset-2 outline-eva-text-border'
                     : ''
                 )}
@@ -171,6 +176,27 @@ export const TextFormatMenu = ({ editor }: TextFormatMenuProps) => {
                 >
                   A
                 </span>
+              </button>
+            )}
+          </Memo>
+        ))}
+        {[1, 2, 5].map((num) => (
+          <Memo key={num}>
+            {() => (
+              <button
+                className={cn(
+                  activeColor.get() === num && isBGColor.get()
+                    ? 'outline-3 outline -outline-offset-2 outline-eva-text-border'
+                    : ''
+                )}
+                style={{
+                  backgroundColor: `rgb(var(--color${num}) / 0.5)`,
+                }}
+                onClick={() =>
+                  editor.chain().focus().setTextDecoration(num, true).run()
+                }
+              >
+                <span className='text-decoration font-bold'>A</span>
               </button>
             )}
           </Memo>

@@ -6,11 +6,11 @@ declare module '@tiptap/core' {
       /**
        * Set a text decoration mark
        */
-      setTextDecoration: (num?: number) => ReturnType
+      setTextDecoration: (num?: number, isBg?: boolean) => ReturnType
       /**
        * Toggle a text decoration mark
        */
-      toggleTextDecoration: (num?: number) => ReturnType
+      toggleTextDecoration: (num?: number, isBg?: boolean) => ReturnType
       /**
        * Unset a text decoration mark
        */
@@ -32,16 +32,27 @@ export const TextDecorationMark = Mark.create({
           }
 
           return {
-            style: `color: rgb(var(--color${attributes.num}))`,
+            style: attributes.isBg
+              ? `background-color: rgb(var(--color${attributes.num}) / 0.5)`
+              : `color: rgb(var(--color${attributes.num}))`,
           }
         },
         parseHTML(element) {
-          const color = element.style.color
+          const color = element.style.color || element.style.backgroundColor
           if (color && color.startsWith('rgb(var(--color')) {
             return parseInt(color.slice(15, 16))
           }
 
           return null
+        },
+      },
+      isBg: {
+        default: false,
+        renderHTML: (attributes) => {
+          return {}
+        },
+        parseHTML(element) {
+          return !!element.style.backgroundColor
         },
       },
     }
@@ -50,14 +61,14 @@ export const TextDecorationMark = Mark.create({
   addCommands() {
     return {
       setTextDecoration:
-        (num: number = 3) =>
+        (num: number = 3, isBg: boolean = false) =>
         ({ commands }) => {
-          return commands.setMark(this.name, { num })
+          return commands.setMark(this.name, { num, isBg })
         },
       toggleTextDecoration:
-        (num: number = 3) =>
+        (num: number = 3, isBg: boolean = false) =>
         ({ commands }) => {
-          return commands.toggleMark(this.name, { num })
+          return commands.toggleMark(this.name, { num, isBg })
         },
       unsetTextDecoration:
         () =>
