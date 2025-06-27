@@ -27,9 +27,6 @@ export const useLongTouch = (editor: Editor) => {
         const $pos = editor.state.doc.resolve(pos.pos)
         if (pos.pos !== $pos.end()) return
 
-        e.preventDefault()
-        e.stopPropagation()
-
         const blockNodePos = findBlockNodeAt(editor.state, pos.pos)
         if (typeof blockNodePos !== 'number') return
         const node = editor.state.doc.nodeAt(blockNodePos)
