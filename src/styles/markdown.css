@@ -263,3 +263,7 @@
   > div[data-type='groupBlock'] {
   display: none;
 }
+
+.markdown-body .blinking {
+  @apply animate-blinking
+}

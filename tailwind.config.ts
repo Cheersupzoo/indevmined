@@ -115,10 +115,10 @@ const config: Config = {
       keyframes: {
         blinking: {
           'from, to': {
-            backgroundColor: 'transparent',
+            opacity: '0',
           },
           '50%': {
-            backgroundColor: 'currentColor',
+            opacity: '1',
           },
         },
       },

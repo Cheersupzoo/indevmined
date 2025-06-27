@@ -7,6 +7,7 @@ import {
   CodeIcon,
   ItalicIcon,
   LinkIcon,
+  OrigamiIcon,
   StrikethroughIcon,
   UnderlineIcon,
 } from 'lucide-react'
@@ -174,6 +175,17 @@ export const TextFormatMenu = ({ editor }: TextFormatMenuProps) => {
             )}
           </Memo>
         ))}
+        <div className='mx-1 inline-block h-6 w-[1px] bg-eva-text-border' />
+        <button onClick={() => editor.chain().focus().toggleAnimation().run()}>
+          <Memo>
+            {() => (
+              <OrigamiIcon
+                size={16}
+                className={isActive$.animation.get() ? 'is-active' : ''}
+              />
+            )}
+          </Memo>
+        </button>
       </div>
     </BubbleMenu>
   )

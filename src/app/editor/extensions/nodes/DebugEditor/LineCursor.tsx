@@ -65,7 +65,7 @@ export const LineCursor = ({
         <div
           onTouchStart={onMouseDown}
           onMouseDown={onMouseDown}
-          className='absolute bottom-4 h-6 w-[1px] -translate-x-1/2 animate-blinking text-yellow-200'
+          className='absolute bottom-4 h-6 w-[1px] -translate-x-1/2 animate-blinking bg-yellow-200'
         />
       </div>
     </div>

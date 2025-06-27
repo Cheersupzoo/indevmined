@@ -57,6 +57,7 @@ type IsActive = {
   paragraph: boolean
   code: boolean
   playful: boolean
+  animation: boolean
 }
 
 type EditorError = 'mismatch_version' | null
@@ -110,6 +111,7 @@ const EditorProvider = ({ children }: React.PropsWithChildren) => {
     paragraph: false,
     code: false,
     playful: false,
+    animation: false,
   })
   const status$ = useObservable<EditorStatus>(null)
   const syncing$ = useObservable<boolean>(true)

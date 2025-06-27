@@ -91,6 +91,7 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
       paragraph: editor.isActive('paragraph'),
       code: editor.isActive('code'),
       playful: editor.isActive('playful'),
+      animation: editor.isActive('animation'),
     })
   }
 
