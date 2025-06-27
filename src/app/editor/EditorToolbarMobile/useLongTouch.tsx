@@ -1,5 +1,7 @@
-import { Editor } from '@tiptap/core'
 import { useEffect } from 'react'
+
+import { Editor } from '@tiptap/core'
+
 import { findBlockNodeAt } from '../extensions/functionality/DragHandleExtension/ProseMirrorPlugin'
 
 /**
@@ -8,6 +10,7 @@ import { findBlockNodeAt } from '../extensions/functionality/DragHandleExtension
 export const useLongTouch = (editor: Editor) => {
   useEffect(() => {
     const touchStart = (e: TouchEvent) => {
+      if (!editor.isEditable) return
       if (editor.view.dom.contains(e.target as Node)) {
         if (
           (e.target as HTMLElement).closest('.ProseMirror-selectednode') ||
