@@ -14,6 +14,7 @@ import { SelectNode } from './SelectNode'
 import { ToolbarVerticalDivider } from './ToolbarVerticalDivider'
 import { UndoRedo } from './UndoRedo'
 import { IsCodeBlock } from './isCode'
+import { useLongTouch } from './useLongTouch'
 
 export const EditorToolbarMobile = ({ editor }: { editor: Editor }) => {
   const divRef = useRef<HTMLDivElement>(null)
@@ -64,6 +65,8 @@ export const EditorToolbarMobile = ({ editor }: { editor: Editor }) => {
       )
     }
   }, [isEditable])
+
+  useLongTouch(editor)
 
   if (!isEditable) {
     return <></>
