@@ -272,3 +272,15 @@
 .markdown-body .blinking {
   @apply animate-blinking;
 }
+
+.markdown-body .align-center {
+  @apply text-center;
+}
+
+/* Image container styles */
+.markdown-body .image-container {
+  position: relative;
+  line-height: 0;
+  max-width: 100%;
+  @apply inline-block;
+}

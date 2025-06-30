@@ -1,3 +1,4 @@
+import { mergeAttributes } from '@tiptap/core'
 import Image from '@tiptap/extension-image'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { DecorationSet, EditorView } from '@tiptap/pm/view'
@@ -169,6 +170,27 @@ export const CustomImage = Image.extend<ImageOptions>({
         default: null,
       },
     }
+  },
+  parseHTML() {
+    return [
+      {
+        tag: this.options.allowBase64
+          ? 'img[src]'
+          : 'img[src]:not([src^="data:"])',
+      },
+    ]
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return [
+      'div',
+      { class: 'align-center' },
+      [
+        'div',
+        { class: 'image-container' },
+        ['img', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)],
+      ],
+    ]
   },
   addNodeView() {
     return ({ view, getPos, HTMLAttributes }) => {

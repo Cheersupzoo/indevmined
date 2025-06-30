@@ -104,18 +104,6 @@ button .is-active {
   opacity: 1;
 }
 
-.tiptap .align-center {
-  @apply text-center;
-}
-
-/* Image container styles */
-.tiptap .image-container {
-  position: relative;
-  line-height: 0;
-  max-width: 100%;
-  @apply inline-block;
-}
-
 .resize-handle-line {
   width: 3px;
   height: 30px;
