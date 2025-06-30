@@ -9,12 +9,16 @@
 [cmdk-list] {
   /* min-height: 300px; */
   height: var(--cmdk-list-height);
-  max-height: 500px;
+  max-height: 250px;
   transition: height 100ms ease;
   min-width: 240px;
 
   scroll-padding-block-start: 8px;
   scroll-padding-block-end: 8px;
+}
+
+[cmdk-list] {
+  @apply h-full overflow-y-auto;
 }
 
 [cmdk-root] {

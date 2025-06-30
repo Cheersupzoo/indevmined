@@ -77,9 +77,10 @@ export function dragHandlePlugin({
           return false
         }
 
-        const hoveredNode = findBlockNodeAt(editorView.state, pos.pos)
+        let hoveredNode = findBlockNodeAt(editorView.state, pos.pos)
+
         if (typeof hoveredNode === 'number') {
-          const nodeDetail = editorView.state.doc.nodeAt(hoveredNode)!
+          let nodeDetail = editorView.state.doc.nodeAt(hoveredNode)!
           if (ignoreNode.has(nodeDetail.type.name)) {
             hidePreNodeContainer()
 
@@ -87,8 +88,18 @@ export function dragHandlePlugin({
           }
 
           preNodeContainer.style.visibility = 'visible'
-          const node = editorView.nodeDOM(hoveredNode)
-          const rect = (node as HTMLDivElement).getBoundingClientRect()
+          let node = editorView.nodeDOM(hoveredNode) as HTMLDivElement
+          if (
+            nodeDetail.type.name === 'blockquote' &&
+            pos.pos > hoveredNode &&
+            node.contains(event.target as HTMLDivElement)
+          ) {
+            const resPos = editorView.state.doc.resolve(pos.pos + 1)
+            hoveredNode = resPos.before()
+            nodeDetail = resPos.parent
+            node = editorView.nodeDOM(hoveredNode) as HTMLDivElement
+          }
+          const rect = node.getBoundingClientRect()
           const editorRect = editorView.dom.getBoundingClientRect()
           const top = rect.top - editorRect.top
           let left = rect.left - editorRect.left + editorView.dom.offsetLeft

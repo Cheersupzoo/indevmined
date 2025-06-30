@@ -14,7 +14,7 @@ const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
     <div
       ref={container}
       style={{ visibility: 'hidden' }}
-      className='pre-node-tool-container absolute left-0 top-0 flex -translate-x-full flex-row space-x-1 pr-4'
+      className='pre-node-tool-container absolute left-0 top-0 flex -translate-x-full flex-row space-x-0.5 pr-2 pb-4'
     >
       <div
         onClick={(event) => {
@@ -47,12 +47,12 @@ const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
             .scrollIntoView()
             .run()
         }}
-        className='cursor-pointer rounded-md px-1 py-1 text-eva-text/60 hover:bg-eva-text/10 hover:text-eva-text/70'
+        className='cursor-pointer rounded-md px-0.5 py-1 text-eva-text/60 hover:bg-eva-text/10 hover:text-eva-text/70'
       >
         <PlusIcon size={16} />
       </div>
       <div
-        className='drag-handle cursor-grab rounded-md px-1 py-1 text-eva-text/60 hover:bg-eva-text/10 hover:text-eva-text/70'
+        className='drag-handle cursor-grab rounded-md px-0.5 py-1 text-eva-text/60 hover:bg-eva-text/10 hover:text-eva-text/70'
         draggable
         onClick={(event) => {
           event.preventDefault()

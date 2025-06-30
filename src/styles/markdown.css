@@ -84,6 +84,7 @@
 
 .markdown-body h3 {
   margin-top: var(--base-size-16);
+  margin-bottom: var(--base-size-16);
   font-weight: var(--base-text-weight-semibold, 600);
   font-size: 1.25em;
   @apply text-text;
@@ -145,7 +146,7 @@
 
 .markdown-body blockquote {
   margin: 32px 0 64px 0;
-  padding: 0.5em 1em 0.1em 1em;
+  padding: 0.5em 1em 0.1em 3em;
   color: rgb(var(--text-color));
   background-color: rgb(var(--text-color) / 0.05);
   border-left: 0.25em solid rgb(var(--text-color));
@@ -257,6 +258,10 @@
   transform: rotate(-90deg);
 }
 
+.markdown-body section[data-collapsed] > .toggle-content {
+  @apply pl-10;
+}
+
 .markdown-body
   section[data-collapsed='true']
   > div.toggle-content
@@ -265,5 +270,5 @@
 }
 
 .markdown-body .blinking {
-  @apply animate-blinking
+  @apply animate-blinking;
 }
