@@ -95,9 +95,11 @@ export function dragHandlePlugin({
             node.contains(event.target as HTMLDivElement)
           ) {
             const resPos = editorView.state.doc.resolve(pos.pos + 1)
-            hoveredNode = resPos.before()
-            nodeDetail = resPos.parent
-            node = editorView.nodeDOM(hoveredNode) as HTMLDivElement
+            if (resPos.depth > 1) {
+              hoveredNode = resPos.before()
+              nodeDetail = resPos.parent
+              node = editorView.nodeDOM(hoveredNode) as HTMLDivElement
+            }
           }
           const rect = node.getBoundingClientRect()
           const editorRect = editorView.dom.getBoundingClientRect()
