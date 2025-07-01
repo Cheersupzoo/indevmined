@@ -33,7 +33,7 @@ export const Type3 = () => {
     <>
       {' '}
       <div className='absolute right-2 top-0 rounded-b-xl border-x-2 border-b-2 border-dashed border-eva-text px-1'>
-        Insert Node at position
+        Insert Node at position v2
       </div>
       <div className='mt-4'>Initial Doc</div>
       <div className='relative font-mono'>
