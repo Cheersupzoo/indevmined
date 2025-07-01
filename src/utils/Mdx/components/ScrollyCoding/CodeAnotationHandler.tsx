@@ -12,10 +12,12 @@ import { cn } from '@/lib/utils'
 export const bgHandler: AnnotationHandler = {
   name: 'bg',
   Inline: ({ children, annotation }) => {
-    const color =
-      annotation.query === '!+'
-        ? 'rgb(63 185 80 / 0.1)'
-        : 'rgb(249 168 212 / 0.2)'
+    let color = 'rgb(249 168 212 / 0.2)'
+    if (annotation.query === '!+') {
+      color = 'rgb(63 185 80 / 0.1)'
+    } else if (annotation.query.length) {
+      color = `rgb(from ${annotation.query} r g b / 0.13)`
+    }
 
     return (
       <span

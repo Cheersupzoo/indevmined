@@ -1,5 +1,6 @@
 import {
   AnnotationHandler,
+  CodeAnnotation,
   Pre,
   RawCode,
   highlight,
@@ -22,11 +23,17 @@ import { tokenTransitions } from './tokenTransitions'
 export const renderCode = async ({
   codeblock,
   noWrap,
+  codeAnnotation,
 }: {
   codeblock: RawCode
   noWrap?: boolean
+  codeAnnotation?: CodeAnnotation[]
 }) => {
   const highlighted = await highlight(codeblock, 'dark-plus')
+
+  if (codeAnnotation) {
+    highlighted.annotations.push(...codeAnnotation)
+  }
   let code: React.JSX.Element
   if (highlighted.lang === 'mermaid') {
     code = (

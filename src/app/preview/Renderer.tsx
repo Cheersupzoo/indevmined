@@ -46,7 +46,12 @@ export const NodeRenderer = ({
 
     return (
       <ReactNode
-        node={{ attrs: { ...node.attrs }, textContent: node.textContent }}
+        node={{
+          attrs: { ...node.attrs },
+          textContent: node.textContent,
+          marks: node.marks,
+          content: node.content,
+        }}
         editor={null}
       >
         {!node.type.spec.code &&

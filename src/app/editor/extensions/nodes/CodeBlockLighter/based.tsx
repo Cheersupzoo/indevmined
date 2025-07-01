@@ -1,6 +1,7 @@
 import CodeBlock, { CodeBlockOptions } from '@tiptap/extension-code-block'
 
-import { CodeBlockWrapperStatic } from './static'
+// import { CodeBlockWrapperStatic } from './static'
+import { CodeBlockStatic } from './CodeBlockStatic'
 
 export interface CodeBlockLighterOptions extends CodeBlockOptions {}
 
@@ -20,5 +21,5 @@ export const CodeBlockLighterBased = CodeBlock.extend<CodeBlockLighterOptions>({
     }
   },
   marks: 'codeMark',
-  reactNode: CodeBlockWrapperStatic,
+  reactNode: CodeBlockStatic,
 })
