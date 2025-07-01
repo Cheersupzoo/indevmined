@@ -2,7 +2,6 @@
 
 import dynamic from 'next/dynamic'
 
-export const CodeBlockWrapperStatic = dynamic(
-  () => import('./CodeBlockWraper').then((m) => m.CodeBlockWrapper),
-  { ssr: false }
+export const CodeBlockWrapperStatic = dynamic(() =>
+  import('./CodeBlockStatic').then((m) => m.CodeBlockStatic)
 )

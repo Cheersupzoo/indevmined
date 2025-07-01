@@ -1,8 +1,8 @@
-import CodeBlock, { CodeBlockOptions } from '@tiptap/extension-code-block'
+import { CodeBlockOptions } from '@tiptap/extension-code-block'
 import { TextSelection } from '@tiptap/pm/state'
 import { mergeAttributes } from '@tiptap/react'
 
-import { CodeBlockWrapperRenderer } from './CodeBlockWraper'
+import { CodeBlockWrapperRenderer } from './CodeBlock'
 import { LighterPlugin } from './LighterPlugin'
 import { CodeBlockLighterBased } from './based'
 
