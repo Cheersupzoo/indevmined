@@ -14,7 +14,7 @@ const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
     <div
       ref={container}
       style={{ visibility: 'hidden' }}
-      className='pre-node-tool-container absolute left-0 top-0 flex -translate-x-full flex-row space-x-0.5 pr-2 pb-4'
+      className='pre-node-tool-container absolute left-0 top-0 flex -translate-x-full flex-row space-x-0.5 pb-4 pr-2'
     >
       <div
         onClick={(event) => {
@@ -59,6 +59,9 @@ const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
           if (!editor || container.current?.dataset.pos === undefined) return
           const pos = parseInt(container.current.dataset.pos)
           editor.chain().setNodeSelection(pos).run()
+          const offsetMainLeft =
+            event.currentTarget.getBoundingClientRect().left -
+            document.querySelector('main')!.getBoundingClientRect().left
           const component = new ReactRenderer(NodeMenu, {
             editor,
             props: {
@@ -70,7 +73,7 @@ const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
             showOnCreate: true,
             interactive: true,
             trigger: 'manual',
-            placement: 'left',
+            placement: offsetMainLeft > 200 ? 'left' : 'right',
             arrow: false,
             onCreate: () => {
               editor.view.dom.style.pointerEvents = 'none'
