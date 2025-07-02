@@ -120,6 +120,7 @@ function getDecorations({
           lineNum.className = 'line-number'
           lineNum.innerHTML = `${index + 1}`
           lineNum.addEventListener('click', () => {
+            if (!editor.editable) return
             const updatedLineMark = [...block.node.attrs?.lineMark]
             const indexArray = updatedLineMark.indexOf(index + 1)
             if (indexArray !== -1) {
