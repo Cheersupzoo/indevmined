@@ -27,11 +27,7 @@ export const Type2 = () => {
 
   return (
     <>
-      {' '}
-      <div className='absolute right-2 top-0 rounded-b-xl border-x-2 border-b-2 border-dashed border-eva-text px-1'>
-        Insert Node at position
-      </div>
-      <div className='mt-4'>Initial Doc</div>
+      <div className=''>Initial Doc</div>
       <div className='relative font-mono'>
         <div className='grid grid-cols-2 gap-2'>
           <ReactStateRenderer node={editorStateRef.current.doc} />

@@ -63,11 +63,7 @@ export const Type1 = () => {
 
   return (
     <>
-      {' '}
-      <div className='absolute right-2 top-0 rounded-b-xl border-x-2 border-b-2 border-dashed border-eva-text px-1'>
-        Insert Text at position
-      </div>
-      <div className='mt-4'>Initial Doc</div>
+      <div className=''>Initial Doc</div>
       <div className='relative font-mono'>
         <ReactStateRenderer node={editorStateRef.current.doc} />
         <LineCursor pos={pos} setPos={setPos} />

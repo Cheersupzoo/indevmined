@@ -31,7 +31,7 @@ export const DebugEditorComponent = (props: NodeViewProps) => {
   }, [])
   return (
     <NodeViewWrapper>
-      <div className='relative rounded-xl border-2 border-dashed border-eva-text p-2'>
+      <div className='relative rounded-xl border border-eva-text-border py-3 px-5'>
         <Show if={isEditable$}>
           {() => (
             <div className='absolute left-0 top-0'>

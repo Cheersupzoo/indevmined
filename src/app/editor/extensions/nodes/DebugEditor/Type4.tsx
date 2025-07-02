@@ -23,11 +23,7 @@ export const Type4 = () => {
 
   return (
     <>
-      {' '}
-      <div className='absolute right-2 top-0 rounded-b-xl border-x-2 border-b-2 border-dashed border-eva-text px-1'>
-        How is position calculated
-      </div>
-      <div className='relative mt-8 font-mono'>
+      <div className='relative font-mono'>
         <ReactStateRenderer
           node={editorStateRef.current.doc}
           showPos={showPos}

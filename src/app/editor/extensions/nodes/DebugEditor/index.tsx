@@ -19,6 +19,6 @@ export const DebugEditor = DebugEditorBased.extend({
     return ['div', mergeAttributes(HTMLAttributes, { class: 'debug-editor' })]
   },
   addNodeView() {
-    return ReactNodeViewRenderer(DebugEditorComponent)
+    return ReactNodeViewRenderer(DebugEditorComponent, { className: '-mx-3' })
   },
 })
