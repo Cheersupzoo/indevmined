@@ -59,7 +59,6 @@ export const CodeBlockLighter =
                 state.selection.$from.pos - state.selection.$from.parentOffset
               const end =
                 start + state.selection.$from.parent.firstChild!.nodeSize
-              console.log(state.selection.$from.parent, start, end)
               const newSelection = TextSelection.create(tr.doc, start, end)
               tr.setSelection(newSelection)
 

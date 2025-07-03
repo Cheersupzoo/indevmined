@@ -16,11 +16,12 @@ export const CodeBlockWrapper = (
       props: NodeViewProps
     ) => void
     Wrapper: React.FC | 'div'
+    WrapperAttr: React.HTMLAttributes<HTMLDivElement> | null
     CodeRenderer: React.ReactElement
   }
 ) => {
   return (
-    <props.Wrapper>
+    <props.Wrapper {...props.WrapperAttr}>
       <div className='pre group relative flex flex-col rounded bg-zinc-800 shadow-xl'>
         <div contentEditable={false} className='absolute right-1.5 top-1.5'>
           {props.Dropdown && <props.Dropdown {...props} />}

@@ -42,6 +42,22 @@ const nodeMenuActions: {
     },
   },
   {
+    title: 'Add ID',
+    icon: CopyIcon,
+    command: (editor) => {
+      const currentId =
+        editor.state.doc.nodeAt(editor.state.selection.from)?.attrs.id || ''
+
+      const id = window.prompt('Enter ID', currentId)
+
+      if (!id) return
+
+      editor.chain().setId(id).hideDragHandle().run()
+
+      hideAll()
+    },
+  },
+  {
     title: 'Clear Formatting',
     icon: RemoveFormattingIcon,
     command: (editor) => {

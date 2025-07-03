@@ -80,6 +80,7 @@ const CodeBlock = (props: NodeViewProps) => {
   return (
     <CodeBlockWrapper
       Wrapper={NodeViewWrapper}
+      WrapperAttr={{ id: props.node.attrs.id }}
       Dropdown={Dropdown}
       onClickLanguageSelector={onClickLanguageSelector}
       CodeRenderer={

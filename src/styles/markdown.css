@@ -128,6 +128,10 @@
   transition: text-decoration 0.3s ease;
 }
 
+.markdown-body a[href^='#'] {
+  text-decoration-color: rgb(var(--color4));
+}
+
 .markdown-body a:hover {
   text-decoration-thickness: 3px;
 }
@@ -283,4 +287,8 @@
   line-height: 0;
   max-width: 100%;
   @apply inline-block;
+}
+
+.markdown-body > div [id] {
+  scroll-margin-top: 50px;
 }

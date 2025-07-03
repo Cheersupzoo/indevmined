@@ -1,7 +1,7 @@
 import { isMobile } from '@/hooks/use-mobile'
 import { Editor, isNodeSelection, posToDOMRect } from '@tiptap/core'
 import { getAttributes } from '@tiptap/core'
-import { Link } from '@tiptap/extension-link'
+import { Link, isAllowedUri } from '@tiptap/extension-link'
 import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import tippy from 'tippy.js'
@@ -16,6 +16,38 @@ export const LinkWithConfigure = Link.extend({
       ...(this.parent?.() || []),
       clickHandler({ type: this.type, editor }),
     ]
+  },
+  addCommands() {
+    return {
+      ...this.parent?.(),
+      setLink:
+        (attributes) =>
+        ({ chain }) => {
+          const { href } = attributes
+
+          if (
+            !this.options.isAllowedUri(href, {
+              defaultValidate: (url) =>
+                !!isAllowedUri(url, this.options.protocols),
+              protocols: this.options.protocols,
+              defaultProtocol: this.options.defaultProtocol,
+            })
+          ) {
+            return false
+          }
+
+          const isId = href.startsWith('#')
+
+          return chain()
+            .setMark(this.name, {
+              ...attributes,
+              target: isId ? null : attributes.target,
+              rel: isId ? null : attributes.rel,
+            })
+            .setMeta('preventAutolink', true)
+            .run()
+        },
+    }
   },
 }).configure({
   openOnClick: false, // handle onClick with custom clickHandler

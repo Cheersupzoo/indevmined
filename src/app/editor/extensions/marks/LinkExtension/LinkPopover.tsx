@@ -31,7 +31,15 @@ export const LinkPopover = ({
   }, [])
 
   const onOpen = () => {
-    window.open(currentUrl, '_blank')
+    const isId = currentUrl.startsWith('#')
+    if (isId) {
+      const element = document.getElementById(currentUrl.slice(1))
+      if (element) {
+        element.scrollIntoView()
+      }
+    } else {
+      window.open(currentUrl, '_blank')
+    }
     closePopup()
   }
 
@@ -90,7 +98,10 @@ export const LinkPopover = ({
                 'cursor-pointer px-3 py-2 text-zinc-300 transition-colors hover:bg-zinc-800'
               )}
             >
-              <ExternalLink size={16} /> Open link in new tab
+              <ExternalLink size={16} />{' '}
+              {currentUrl.startsWith('#')
+                ? 'Scroll to anchor'
+                : 'Open link in new tab'}
             </Command.Item>
           )}
         </Show>
