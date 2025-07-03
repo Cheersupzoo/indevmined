@@ -6,7 +6,8 @@ import { CodeBlockWrapper } from './CodeBlockWraper'
 export const CodeBlockStatic = (props: NodeViewProps) => {
   return (
     <CodeBlockWrapper
-      Wrapper={'div'}
+      Wrapper='div'
+      WrapperAttr={{ id: props.node.attrs.id }}
       CodeRenderer={
         <CodeAsync
           codeblock={{

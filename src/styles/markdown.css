@@ -289,7 +289,7 @@
   @apply inline-block;
 }
 
-.markdown-body > div [id] {
+.markdown-body [id] {
   scroll-margin-top: 50px;
 }
 
