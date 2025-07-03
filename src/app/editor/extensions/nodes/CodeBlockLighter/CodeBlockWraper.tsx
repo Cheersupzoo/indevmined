@@ -16,7 +16,7 @@ export const CodeBlockWrapper = (
       props: NodeViewProps
     ) => void
     Wrapper: React.FC | 'div'
-    WrapperAttr: React.HTMLAttributes<HTMLDivElement> | null
+    WrapperAttr?: React.HTMLAttributes<HTMLDivElement> | null
     CodeRenderer: React.ReactElement
   }
 ) => {
