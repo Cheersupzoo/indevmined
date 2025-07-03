@@ -23,6 +23,9 @@ export const LinkWithConfigure = Link.extend({
   defaultProtocol: 'https',
   protocols: ['http', 'https'],
   isAllowedUri: (url, ctx) => {
+    if (url.startsWith('#')) {
+      return true
+    }
     try {
       // construct URL
       const parsedUrl = url.includes(':')
