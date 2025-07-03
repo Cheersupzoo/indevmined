@@ -26,6 +26,9 @@ const UserDropdown = () => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistration('/sw.js').then((reg) => {
         if (reg) {
+          if (process.env.NODE_ENV === 'development') {
+            reg.unregister()
+          }
           if (reg.active) {
             swStatus$.set(reg.active.state)
           }
