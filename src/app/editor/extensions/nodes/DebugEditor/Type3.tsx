@@ -5,6 +5,9 @@ import { useRef, useState } from 'react'
 import { schema } from '@tiptap/pm/schema-basic'
 import { EditorState } from '@tiptap/pm/state'
 
+import { Button } from '@/components/ui/button'
+
+import { CodeSync } from '../Code/Component'
 import { LineCursor } from './LineCursor'
 import { ReactStateRenderer } from './ReactStateRenderer'
 
@@ -40,23 +43,21 @@ export const Type3 = () => {
         <LineCursor pos={pos} setPos={setPos} />
       </div>
       <div className='mt-4'>Transactions to apply</div>
-      <div className='flex flex-col overflow-x-auto text-nowrap bg-gray-600/70'>
-        <div className='px-1 font-mono text-sm'>
-          const resolvePos = tr.selection.$from // or use `tr.doc.resolve(pos)`
-          if you have pos
-        </div>
-        <div className='px-1 font-mono text-sm'>
-          const finalPos = resolvePos.parent.isTextblock ? resolvePos.after() :
-          pos // or might check `resolvePos.parent.type.name === 'paragraph'`
-          depend on how would you wish to define your logic
-        </div>
-        <div className='px-1 font-mono text-sm'>
-          tr.insert(finalPos,{' '}
-          <span className='text-emerald-500'>blockquote</span>) // finalPos ={' '}
-          <span className='bg-yellow-200 text-yellow-800'>{finalPos}</span>
-        </div>
+      <div className='rounded bg-zinc-800 [&>div>pre>div]:text-[0.8rem] [&>div>pre>div]:leading-relaxed [&>div>pre]:mb-0'>
+        <CodeSync
+          codeblock={{
+            lang: 'js',
+            meta: '',
+            value: `const resolvePos = tr.selection.$from // or use \`tr.doc.resolve(pos)\` if you have pos
+const finalPos = resolvePos.parent.isTextblock ? resolvePos.after() : pos // or might check \`resolvePos.parent.type.name === 'paragraph'\` depend on how would you wish to define your logic
+// !bg[37] white
+// !bg[16:25] lime
+// !mark
+tr.insert(pos, blockquote) // pos = ${pos}`,
+          }}
+        />
       </div>
-      <button
+      <Button
         onClick={() => {
           setAppliedState(
             editorStateRef.current.apply(
@@ -64,10 +65,11 @@ export const Type3 = () => {
             )
           )
         }}
-        className='mt-2 rounded-md bg-orange-600 px-2 py-1 hover:bg-orange-700'
+        variant='default'
+        className='mt-2'
       >
         Apply
-      </button>
+      </Button>
       {appliedState && (
         <div className='mt-4'>
           <div>Final Doc</div>

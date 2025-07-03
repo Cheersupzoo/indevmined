@@ -50,7 +50,7 @@ export const DebugEditorComponent = (props: NodeViewProps) => {
   )
 }
 
-const types = [1, 2, 3, 4]
+const types = [1, 2, 3, 4, 5]
 
 const TypeSelector = ({
   type,

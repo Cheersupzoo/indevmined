@@ -85,11 +85,13 @@ export function CodeSync({
   copy,
   collapse,
   noWrap,
+  line = true,
 }: {
   codeblock: RawCode
   copy?: boolean
   collapse?: boolean
   noWrap?: boolean
+  line?: boolean
 }) {
   const [highlighted, setHighlighted] = useState<HighlightedCode | null>(null)
 
@@ -116,7 +118,13 @@ export function CodeSync({
     code = (
       <Pre
         code={highlighted}
-        handlers={[bgHandler, mark, lineNumbers, callout, diff]}
+        handlers={[
+          bgHandler,
+          mark,
+          line ? lineNumbers : null,
+          callout,
+          diff,
+        ].filter(Boolean)}
         className='bg-transparent text-[0.9rem]'
       />
     )

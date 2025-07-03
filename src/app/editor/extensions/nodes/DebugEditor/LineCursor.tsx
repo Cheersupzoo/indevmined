@@ -59,14 +59,14 @@ export const LineCursor = ({
         <div
           onTouchStart={onMouseDown}
           onMouseDown={onMouseDown}
-          className='triangle-text-clip absolute -bottom-4 flex h-8 w-4 -translate-x-1/2 touch-none items-end justify-center bg-yellow-200 text-yellow-800'
+          className='triangle-text-clip absolute -bottom-4 flex h-8 w-4 -translate-x-1/2 touch-none items-end justify-center bg-zinc-100 text-zinc-800'
         >
           <div className='-m-[6px]'>{pos}</div>
         </div>
         <div
           onTouchStart={onMouseDown}
           onMouseDown={onMouseDown}
-          className='absolute bottom-4 h-6 w-[1px] -translate-x-1/2 animate-blinking bg-yellow-200'
+          className='absolute bottom-4 h-6 w-[1px] -translate-x-1/2 animate-blinking bg-zinc-100'
         />
       </div>
     </div>

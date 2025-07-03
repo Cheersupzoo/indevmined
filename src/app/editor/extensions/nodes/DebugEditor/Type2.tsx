@@ -5,6 +5,9 @@ import { useRef, useState } from 'react'
 import { schema } from '@tiptap/pm/schema-basic'
 import { EditorState } from '@tiptap/pm/state'
 
+import { Button } from '@/components/ui/button'
+
+import { CodeSync } from '../Code/Component'
 import { LineCursor } from './LineCursor'
 import { ReactStateRenderer } from './ReactStateRenderer'
 
@@ -36,11 +39,19 @@ export const Type2 = () => {
         <LineCursor pos={pos} setPos={setPos} />
       </div>
       <div className='mt-4'>Transactions to apply</div>
-      <div className='bg-gray-600/70 px-1 font-mono text-sm'>
-        tr.insert(pos, <span className='text-emerald-500'>blockquote</span>) //
-        pos = <span className='bg-yellow-200 text-yellow-800'>{pos}</span>
+      <div className='rounded bg-zinc-800 [&>div>pre]:mb-0'>
+        <CodeSync
+          codeblock={{
+            lang: 'js',
+            meta: '',
+            value: `// !bg[37] white
+// !bg[16:25] lime
+tr.insert(pos, blockquote) // pos = ${pos}`,
+          }}
+          line={false}
+        />
       </div>
-      <button
+      <Button
         onClick={() => {
           setAppliedState(
             editorStateRef.current.apply(
@@ -48,10 +59,11 @@ export const Type2 = () => {
             )
           )
         }}
-        className='mt-2 rounded-md bg-orange-600 px-2 py-1 hover:bg-orange-700'
+        variant='default'
+        className='mt-2'
       >
         Apply
-      </button>
+      </Button>
       {appliedState && (
         <div className='mt-4'>
           <div>Final Doc</div>

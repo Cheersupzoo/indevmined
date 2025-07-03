@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
-import { Node } from '@tiptap/pm/model'
+import { Fragment, Node } from '@tiptap/pm/model'
 import { schema } from '@tiptap/pm/schema-basic'
 import { motion, useAnimate } from 'motion/react'
 
@@ -12,12 +12,14 @@ export const NodeRenderer = ({
   pos = 0,
   showPos = false,
   groupClassName,
+  decorationsMap,
 }: {
-  node: Node
+  node: Node | Fragment
   animate?: boolean
   pos?: number
   showPos?: boolean
   groupClassName?: React.HTMLAttributes<HTMLDivElement>['className']
+  decorationsMap?: Map<number, React.ReactNode[]>
 }) => {
   const [scope, animate] = useAnimate()
 
@@ -42,29 +44,72 @@ export const NodeRenderer = ({
     }
   }, [pos, node])
 
+  if (node instanceof Fragment) {
+    return node.content.map((node, index) => (
+      <NodeRenderer
+        key={index}
+        node={node}
+        animate={isAnimate}
+        pos={pos}
+        showPos={showPos}
+        decorationsMap={decorationsMap}
+      />
+    ))
+  }
+
   if (node.type.name === schema.nodes.doc.name) {
     let currentPos = pos
-
     return (
       <div ref={scope} className='rounded-xl bg-slate-800 p-2 font-mono'>
         <div className='text-sm text-eva-text/70'>doc</div>
         <div className={cn('flex flex-col gap-2', groupClassName)}>
-          {showPos && <NodePos pos={pos} />}
           {node.children.map((node, index) => {
             const startPos = currentPos
             currentPos += node.nodeSize
 
             return (
-              <NodeRenderer
-                key={index}
-                node={node}
-                animate={isAnimate}
-                pos={startPos}
-                showPos={showPos}
-              />
+              <React.Fragment key={index}>
+                <span>
+                  {showPos && <NodePos pos={startPos} />}
+                  {decorationsMap
+                    ?.get(startPos)
+                    ?.map((decoration, index) => (
+                      <React.Fragment key={index}>{decoration}</React.Fragment>
+                    ))}
+                </span>
+                <NodeRenderer
+                  node={node}
+                  animate={isAnimate}
+                  pos={startPos}
+                  showPos={showPos}
+                  decorationsMap={decorationsMap}
+                />
+              </React.Fragment>
             )
           })}
-          {showPos && <NodePos pos={currentPos} />}
+          <span>
+            {showPos && <NodePos pos={currentPos} />}
+            {decorationsMap
+              ?.get(currentPos)
+              ?.map((decoration, index) => (
+                <React.Fragment key={index}>{decoration}</React.Fragment>
+              ))}
+            {[
+              ...(decorationsMap
+                ?.entries()
+                .filter(([pos]) => pos > currentPos)
+                .map(([pos, elements]) => {
+                  console.log(pos, elements)
+                  return (
+                    <React.Fragment key={pos}>
+                      {elements.map((element, index) => (
+                        <React.Fragment key={index}>{element}</React.Fragment>
+                      ))}
+                    </React.Fragment>
+                  )
+                }) ?? []),
+            ]}
+          </span>
         </div>
       </div>
     )
@@ -80,6 +125,7 @@ export const NodeRenderer = ({
               node={node}
               animate={isAnimate}
               showPos={showPos}
+              decorationsMap={decorationsMap}
             />
           ))}
         </div>
@@ -109,6 +155,7 @@ export const NodeRenderer = ({
                 animate={isAnimate}
                 pos={startPos}
                 showPos={showPos}
+                decorationsMap={decorationsMap}
               />
             )
           })}
@@ -121,21 +168,27 @@ export const NodeRenderer = ({
   if (node.isText) {
     const text = node.text || ''
 
-    if (showPos) {
-      return (
-        <span className=''>
-          {text.split('').map((char, index) => (
-            <React.Fragment key={index}>
-              <NodePos pos={pos + index} />
-              {char}
-            </React.Fragment>
+    return (
+      <span className=''>
+        {text.split('').map((char, index) => (
+          <React.Fragment key={index}>
+            {showPos && <NodePos pos={pos + index} />}
+            {decorationsMap
+              ?.get(pos + index)
+              ?.map((decoration, index) => (
+                <React.Fragment key={index}>{decoration}</React.Fragment>
+              ))}
+            {char}
+          </React.Fragment>
+        ))}
+        {showPos && <NodePos pos={pos + node.nodeSize} />}
+        {decorationsMap
+          ?.get(pos + node.nodeSize)
+          ?.map((decoration, index) => (
+            <React.Fragment key={index}>{decoration}</React.Fragment>
           ))}
-          {showPos && <NodePos pos={pos + node.nodeSize} />}
-        </span>
-      )
-    }
-
-    return text
+      </span>
+    )
   }
 
   return <div className='bg-gray-400 text-gray-50'>ukn</div>
@@ -144,7 +197,5 @@ export const NodeRenderer = ({
 export const ReactStateRenderer = React.memo(NodeRenderer)
 
 const NodePos = ({ pos }: { pos: number }) => (
-  <span className='inline-block translate-y-2 text-xs text-color3'>
-    {pos}
-  </span>
+  <span className='inline-block translate-y-2 text-xs text-color3'>{pos}</span>
 )
