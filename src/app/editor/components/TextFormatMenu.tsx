@@ -5,6 +5,7 @@ import { BubbleMenu, Editor } from '@tiptap/react'
 import {
   BoldIcon,
   CodeIcon,
+  EraserIcon,
   ItalicIcon,
   LinkIcon,
   OrigamiIcon,
@@ -149,7 +150,7 @@ export const TextFormatMenu = ({ editor }: TextFormatMenuProps) => {
             )}
           </Memo>
         </button>
-        <div className='mx-1 inline-block h-6 w-[1px] bg-eva-text-border' />
+        <ToolbarVerticalDivider />
         <button
           className='font-bold'
           onClick={() => editor.chain().focus().unsetTextDecoration().run()}
@@ -202,7 +203,7 @@ export const TextFormatMenu = ({ editor }: TextFormatMenuProps) => {
             )}
           </Memo>
         ))}
-        <div className='mx-1 inline-block h-6 w-[1px] bg-eva-text-border' />
+        <ToolbarVerticalDivider />
         <button onClick={() => editor.chain().focus().toggleAnimation().run()}>
           <Memo>
             {() => (
@@ -213,7 +214,15 @@ export const TextFormatMenu = ({ editor }: TextFormatMenuProps) => {
             )}
           </Memo>
         </button>
+        <ToolbarVerticalDivider />
+        <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
+          <EraserIcon size={16} />
+        </button>
       </div>
     </BubbleMenu>
   )
+}
+
+const ToolbarVerticalDivider = () => {
+  return <div className='mx-1 inline-block h-6 w-[1px] bg-eva-text-border' />
 }
