@@ -162,7 +162,7 @@
 
 .markdown-body strong {
   font-weight: 500;
-  color: rgb(var(--text-color));
+  color: inherit;
 }
 
 .markdown-body p:has(img + span) {
@@ -291,4 +291,8 @@
 
 .markdown-body > div [id] {
   scroll-margin-top: 50px;
+}
+
+.markdown-body .playful {
+  @apply font-playful;
 }
