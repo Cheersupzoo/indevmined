@@ -19,6 +19,7 @@ export const UndoRedo = ({ editor }: { editor: Editor }) => {
     }
     editor.on('transaction', onUndoChange)
     editor.on('transaction', onRedoChange)
+
     return () => {
       editor.off('transaction', onUndoChange)
       editor.off('transaction', onRedoChange)

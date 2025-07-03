@@ -17,6 +17,7 @@ export const LineCursor = ({
     const getPos = (pageX: number) => {
       const left = pageX - startLeft
       const pos = Math.round(Math.max(0, Math.min(left / (width / 7), 7)))
+
       return pos
     }
     const onMouseMove = (e: MouseEvent | TouchEvent) => {

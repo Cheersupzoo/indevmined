@@ -44,6 +44,7 @@ export const NodeRenderer = ({
 
   if (node.type.name === schema.nodes.doc.name) {
     let currentPos = pos
+
     return (
       <div ref={scope} className='rounded-xl bg-slate-800 p-2 font-mono'>
         <div className='text-sm text-eva-text/70'>doc</div>
@@ -52,6 +53,7 @@ export const NodeRenderer = ({
           {node.children.map((node, index) => {
             const startPos = currentPos
             currentPos += node.nodeSize
+
             return (
               <NodeRenderer
                 key={index}
@@ -87,6 +89,7 @@ export const NodeRenderer = ({
 
   if (node.type.name === schema.nodes.paragraph.name) {
     let currentPos = pos
+
     return (
       <motion.div
         layout
@@ -98,6 +101,7 @@ export const NodeRenderer = ({
           {node.children.map((node, index) => {
             const startPos = currentPos + 1
             currentPos += node.nodeSize
+
             return (
               <NodeRenderer
                 key={index}
@@ -130,6 +134,7 @@ export const NodeRenderer = ({
         </span>
       )
     }
+
     return text
   }
 

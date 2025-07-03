@@ -132,6 +132,7 @@ const createResizeHandle = (
         currentImg.style.width = ''
         currentImg.style.height = ''
       }
+
       return
     }
 

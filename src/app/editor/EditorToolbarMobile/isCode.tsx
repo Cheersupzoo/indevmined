@@ -25,6 +25,7 @@ export const IsCodeBlock = ({ editor }: { editor: Editor }) => {
 
     editor.on('selectionUpdate', onColorChange)
     editor.on('update', onColorChange)
+
     return () => {
       editor.off('selectionUpdate', onColorChange)
       editor.off('update', onColorChange)

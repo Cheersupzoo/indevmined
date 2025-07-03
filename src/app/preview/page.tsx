@@ -19,6 +19,7 @@ const extensions = [...staticNodeExtensions, ...staticMarkExtensions]
 const nodeExtensionKV = staticNodeExtensions.reduce(
   (prev, cur) => {
     prev[cur.name] = cur
+
     return prev
   },
   {} as Record<string, AnyExtension>

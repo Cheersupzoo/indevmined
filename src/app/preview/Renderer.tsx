@@ -15,6 +15,7 @@ export const NodeRenderer = ({
       node.marks.forEach((mark) => {
         if (!mark.type.spec.toDOM) {
           console.log('missing todom mark', mark.type.name)
+
           return
         }
         const domSpec = mark.type.spec.toDOM(mark, true)
@@ -30,14 +31,17 @@ export const NodeRenderer = ({
               {markedText}
             </Tag>
           )
+
           return
         }
         console.log('Unhandle mark', mark.type.name)
+
         return
       })
 
       return <>{markedText}</>
     }
+
     return <>{node.text}</>
   }
   const extension = nodeExtensionKV[node.type.name]
@@ -68,6 +72,7 @@ export const NodeRenderer = ({
   }
   if (!node.type.spec.toDOM) {
     console.log('Missing toDom', node.type.name)
+
     return
   }
   const domSpec = node.type.spec.toDOM(node)
@@ -107,6 +112,7 @@ export const DomRenderer = ({
         if (domSpec[0] === 'input') {
           restAttrs.disabled = true
         }
+
         return (
           <Tag
             style={style ? cssToReactStyle(style) : undefined}
@@ -115,6 +121,7 @@ export const DomRenderer = ({
           />
         )
       }
+
       return (
         <Tag
           style={style ? cssToReactStyle(style) : undefined}
@@ -131,6 +138,7 @@ export const DomRenderer = ({
         </Tag>
       )
     }
+
     return (
       <Tag>
         {childrenSpecs.map((childSpec, index) => (
@@ -143,5 +151,6 @@ export const DomRenderer = ({
   }
 
   const Tag = domSpec as string
+
   return <Tag></Tag>
 }

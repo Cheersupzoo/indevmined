@@ -122,8 +122,10 @@ const TiptapEditor = ({ docId }: { docId: string }) => {
           ) {
             e.preventDefault()
             e.stopPropagation()
+
             return true
           }
+
           return false
         },
       },

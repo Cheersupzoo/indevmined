@@ -12,6 +12,7 @@ export const SearchParamHandler = () => {
     const id = searchParams.get('id')
     if (!id) {
       setDocId(null)
+
       return
     }
     const setId = async () => {
@@ -22,6 +23,7 @@ export const SearchParamHandler = () => {
       if (!docs) {
         setDocId(null)
         console.log('docs is null')
+
         return
       }
 

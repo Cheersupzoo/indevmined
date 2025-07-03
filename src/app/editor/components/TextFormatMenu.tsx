@@ -42,6 +42,7 @@ export const TextFormatMenu = ({ editor }: TextFormatMenuProps) => {
 
     editor.on('update', onColorChange)
     editor.on('selectionUpdate', onColorChange)
+
     return () => {
       editor.off('update', onColorChange)
       editor.off('selectionUpdate', onColorChange)

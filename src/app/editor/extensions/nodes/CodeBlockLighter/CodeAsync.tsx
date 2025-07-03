@@ -22,6 +22,7 @@ const markToCodeAnnotation = (
           const lastLine = texts.pop()!
 
           fromColumn = fromColumn + lastLine.length
+
           return
         }
         node.marks.forEach((mark) => {

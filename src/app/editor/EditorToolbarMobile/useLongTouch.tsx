@@ -46,6 +46,7 @@ export const useLongTouch = (editor: Editor) => {
         document.addEventListener('touchmove', cancel)
         document.addEventListener('touchend', cancel)
         document.addEventListener('touchcancel', cancel)
+
         return false
       }
     }

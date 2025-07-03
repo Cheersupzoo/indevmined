@@ -10,6 +10,7 @@ import { NodeMenu } from './NodeMenu'
 
 const PreNodeToolsImpl = ({ editor }: { editor: Editor | null }) => {
   const container = useRef<HTMLDivElement>(null)
+
   return (
     <div
       ref={container}

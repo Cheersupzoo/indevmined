@@ -28,11 +28,13 @@ export const CodeFormatMenu = ({ editor }: CodeFormatMenuProps) => {
 
     editor.on('update', onColorChange)
     editor.on('selectionUpdate', onColorChange)
+
     return () => {
       editor.off('update', onColorChange)
       editor.off('selectionUpdate', onColorChange)
     }
   }, [editor])
+
   return (
     <BubbleMenu
       editor={editor}

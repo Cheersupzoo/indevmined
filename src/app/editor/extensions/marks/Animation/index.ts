@@ -45,6 +45,7 @@ export const AnimationMark = Mark.create({
           if (type) {
             return { type }
           }
+
           return null
         },
       },

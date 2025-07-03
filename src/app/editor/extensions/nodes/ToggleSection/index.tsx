@@ -141,6 +141,7 @@ export const ToggleSection = Node.create<ToggleSectionOptions>({
               collapsed: !node.attrs.collapsed,
             })
           }
+
           return false
         },
     }

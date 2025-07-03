@@ -25,10 +25,12 @@ export const DebugEditorComponent = (props: NodeViewProps) => {
     }
 
     props.editor.on('update', update)
+
     return () => {
       props.editor.off('update', update)
     }
   }, [])
+
   return (
     <NodeViewWrapper>
       <div className='relative rounded-xl border border-eva-text-border py-3 px-5'>

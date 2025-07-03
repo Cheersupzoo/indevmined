@@ -25,6 +25,7 @@ export const EditorToolbarMobile = ({ editor }: { editor: Editor }) => {
       setIsEditable(editor.isEditable)
     }
     editor.on('update', update)
+
     return () => {
       editor.off('update', update)
     }

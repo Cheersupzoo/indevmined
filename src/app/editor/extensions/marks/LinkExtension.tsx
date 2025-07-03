@@ -11,6 +11,7 @@ import { LinkPopoverRenderer } from './LinkExtension/LinkPopover'
 export const LinkWithConfigure = Link.extend({
   addProseMirrorPlugins() {
     const editor = this.editor
+
     return [
       ...(this.parent?.() || []),
       clickHandler({ type: this.type, editor }),
