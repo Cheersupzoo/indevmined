@@ -15,8 +15,8 @@ export const CodeBlockWrapper = (
       event: React.MouseEvent,
       props: NodeViewProps
     ) => void
-    Wrapper: React.FC<React.PropsWithChildren>
-    CodeRenderer: React.FunctionComponent
+    Wrapper: React.FC | 'div'
+    CodeRenderer: React.ReactElement
   }
 ) => {
   return (
@@ -48,11 +48,11 @@ export const CodeBlockWrapper = (
         {!(
           props.node.attrs.preview && ['jsx', 'tsx', props.node.attrs.preview]
         ) ? (
-          <props.CodeRenderer />
+          props.CodeRenderer
         ) : (
           <div className='grid grid-rows-[minmax(0,_1fr)_minmax(100px,_auto)] sm:grid-cols-2 sm:grid-rows-none'>
             <div className='border-b border-eva-text-border sm:border-b-0 sm:border-r'>
-              <props.CodeRenderer />
+              {props.CodeRenderer}
             </div>
             <div contentEditable={false} className='p-2'>
               <ReactLive

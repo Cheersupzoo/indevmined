@@ -79,12 +79,12 @@ const onClickLanguageSelector = (
 const CodeBlock = (props: NodeViewProps) => {
   return (
     <CodeBlockWrapper
-      Wrapper={({ children }) => <NodeViewWrapper>{children}</NodeViewWrapper>}
+      Wrapper={NodeViewWrapper}
       Dropdown={Dropdown}
       onClickLanguageSelector={onClickLanguageSelector}
-      CodeRenderer={() => (
+      CodeRenderer={
         <NodeViewContent as='code' className='relative z-0 text-[0.9rem]' />
-      )}
+      }
       {...props}
     />
   )

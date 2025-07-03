@@ -6,8 +6,8 @@ import { CodeBlockWrapper } from './CodeBlockWraper'
 export const CodeBlockStatic = (props: NodeViewProps) => {
   return (
     <CodeBlockWrapper
-      Wrapper={({ children }) => <div>{children}</div>}
-      CodeRenderer={() => (
+      Wrapper={'div'}
+      CodeRenderer={
         <CodeAsync
           codeblock={{
             value: props.node.textContent ?? '',
@@ -17,7 +17,7 @@ export const CodeBlockStatic = (props: NodeViewProps) => {
           textNode={props.node?.content?.content}
           lineMarks={props.node?.attrs?.lineMark}
         />
-      )}
+      }
       {...props}
     />
   )
