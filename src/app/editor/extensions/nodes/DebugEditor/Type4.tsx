@@ -38,7 +38,7 @@ export const Type4 = () => {
             setShowPos((prev) => !prev)
           }}
         />
-        <Label htmlFor='show-pos'>Show Position Decoration</Label>
+        <Label className='cursor-pointer' htmlFor='show-pos'>Show Position Decoration</Label>
       </div>
     </>
   )
