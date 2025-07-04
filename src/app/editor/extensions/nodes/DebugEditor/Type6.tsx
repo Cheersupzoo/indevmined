@@ -32,7 +32,7 @@ const tr = initialEditorState().tr
 
 const decorationsMap = {
   0: [
-    <span className='inline-block w-0'>
+    <span key='0' className='inline-block w-0'>
       <div className='translate-y-[calc(100%+0.4rem)]'>
         <div className='triangle-clip h-1 w-2 -translate-x-1/2 -translate-y-0.5 bg-color3' />
         <div className='w-fit -translate-y-1 translate-x-[calc(-100%+0.375rem)] text-xs text-color3'>
@@ -42,7 +42,7 @@ const decorationsMap = {
     </span>,
   ],
   1: [
-    <span className='inline-block w-0'>
+    <span key='0' className='inline-block w-0'>
       <div className='translate-y-[calc(100%+0.4rem)]'>
         <div className='triangle-clip h-1 w-2 -translate-x-1/2 -translate-y-0.5 bg-color3' />
         <div className='w-fit -translate-x-1.5 -translate-y-1 text-xs text-color3'>
@@ -52,8 +52,8 @@ const decorationsMap = {
     </span>,
   ],
   6: [
-    <Cursor />,
-    <span className='inline-block w-0'>
+    <Cursor key='0' />,
+    <span key='1' className='inline-block w-0'>
       <div className='-translate-x-[1px] translate-y-[calc(100%+0.4rem)]'>
         <div className='triangle-clip h-1 w-2 -translate-x-1/2 -translate-y-0.5 bg-color3' />
         <div className='w-fit -translate-x-1/2 -translate-y-1 text-xs text-color3'>
@@ -63,7 +63,7 @@ const decorationsMap = {
     </span>,
   ],
   13: [
-    <span className='inline-block w-0'>
+    <span key='0' className='inline-block w-0'>
       <div className='translate-y-[calc(100%+0.4rem)]'>
         <div className='triangle-clip h-1 w-2 -translate-x-1/2 -translate-y-0.5 bg-color3' />
         <div className='w-fit -translate-y-1 translate-x-[calc(-100%+0.375rem)] text-xs text-color3'>
@@ -73,7 +73,7 @@ const decorationsMap = {
     </span>,
   ],
   14: [
-    <span className='inline-block w-0'>
+    <span key='0' className='inline-block w-0'>
       <div className='translate-y-[calc(100%+0.4rem)]'>
         <div className='triangle-clip h-1 w-2 -translate-x-1/2 -translate-y-0.5 bg-color3' />
         <div className='w-fit -translate-x-1.5 -translate-y-1 text-xs text-color3'>
