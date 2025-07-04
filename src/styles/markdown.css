@@ -174,7 +174,8 @@
   margin: 0 auto;
 }
 
-.markdown-body p code {
+.markdown-body p code,
+.markdown-body .code-inline {
   font-size: 85%;
   @apply rounded bg-text/15 p-0.5 text-text;
 }

@@ -19,7 +19,7 @@ export const NodeRenderer = ({
   pos?: number
   showPos?: boolean
   groupClassName?: React.HTMLAttributes<HTMLDivElement>['className']
-  decorationsMap?: Map<number, React.ReactNode[]>
+  decorationsMap?: Record<number, React.ReactNode[]>
 }) => {
   const [scope, animate] = useAnimate()
 
@@ -71,11 +71,9 @@ export const NodeRenderer = ({
               <React.Fragment key={index}>
                 <span>
                   {showPos && <NodePos pos={startPos} />}
-                  {decorationsMap
-                    ?.get(startPos)
-                    ?.map((decoration, index) => (
-                      <React.Fragment key={index}>{decoration}</React.Fragment>
-                    ))}
+                  {decorationsMap?.[startPos]?.map((decoration, index) => (
+                    <React.Fragment key={index}>{decoration}</React.Fragment>
+                  ))}
                 </span>
                 <NodeRenderer
                   node={node}
@@ -89,17 +87,13 @@ export const NodeRenderer = ({
           })}
           <span>
             {showPos && <NodePos pos={currentPos} />}
-            {decorationsMap
-              ?.get(currentPos)
-              ?.map((decoration, index) => (
-                <React.Fragment key={index}>{decoration}</React.Fragment>
-              ))}
-            {[
-              ...(decorationsMap
-                ?.entries()
-                .filter(([pos]) => pos > currentPos)
+            {decorationsMap?.[currentPos]?.map((decoration, index) => (
+              <React.Fragment key={index}>{decoration}</React.Fragment>
+            ))}
+            {decorationsMap && [
+              ...Object.entries(decorationsMap)
+                .filter(([pos]) => Number(pos) > currentPos)
                 .map(([pos, elements]) => {
-                  console.log(pos, elements)
                   return (
                     <React.Fragment key={pos}>
                       {elements.map((element, index) => (
@@ -107,7 +101,7 @@ export const NodeRenderer = ({
                       ))}
                     </React.Fragment>
                   )
-                }) ?? []),
+                }),
             ]}
           </span>
         </div>
@@ -173,20 +167,16 @@ export const NodeRenderer = ({
         {text.split('').map((char, index) => (
           <React.Fragment key={index}>
             {showPos && <NodePos pos={pos + index} />}
-            {decorationsMap
-              ?.get(pos + index)
-              ?.map((decoration, index) => (
-                <React.Fragment key={index}>{decoration}</React.Fragment>
-              ))}
+            {decorationsMap?.[pos + index]?.map((decoration, index) => (
+              <React.Fragment key={index}>{decoration}</React.Fragment>
+            ))}
             {char}
           </React.Fragment>
         ))}
         {showPos && <NodePos pos={pos + node.nodeSize} />}
-        {decorationsMap
-          ?.get(pos + node.nodeSize)
-          ?.map((decoration, index) => (
-            <React.Fragment key={index}>{decoration}</React.Fragment>
-          ))}
+        {decorationsMap?.[pos + node.nodeSize]?.map((decoration, index) => (
+          <React.Fragment key={index}>{decoration}</React.Fragment>
+        ))}
       </span>
     )
   }

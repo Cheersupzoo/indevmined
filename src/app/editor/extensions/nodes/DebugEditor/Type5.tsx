@@ -108,7 +108,7 @@ const states: {
     description: (
       <div>
         <div>Step 3: Get the slice of the hovered node</div>
-        <code>tr.doc.slice(before, after)</code>
+        <code className='code-inline'>tr.doc.slice(before, after)</code>
       </div>
     ),
     decorations: [
@@ -149,7 +149,7 @@ const states: {
     description: (
       <div>
         <div>Step 4: Delete the hovered node from doc</div>
-        <code>tr.delete(before, after)</code>
+        <code className='code-inline'>tr.delete(before, after)</code>
       </div>
     ),
     decorations: [
@@ -174,7 +174,7 @@ const states: {
     description: (
       <div>
         <div> Step 5.1: Map the drop position to the new transaction</div>
-        <code>tr.mapping.map(35)</code>
+        <code className='code-inline'>tr.mapping.map(35)</code>
       </div>
     ),
     decorations: [
@@ -199,7 +199,9 @@ const states: {
     description: (
       <div>
         <div>Step 5.2:Insert the slice at the updated drop position</div>
-        <code>tr.insert(updatedDropPos, slice.content)</code>
+        <code className='code-inline'>
+          tr.insert(updatedDropPos, slice.content)
+        </code>
       </div>
     ),
     decorations: [
@@ -215,7 +217,7 @@ const states: {
     description: (
       <div>
         <div>Step 6: Update selection position to draggedNode node</div>
-        <code>
+        <code className='code-inline'>
           tr.setSelection(TextSelection.create(tr.doc, updatedDropPos + 1))
         </code>
       </div>
@@ -235,13 +237,13 @@ export const Type5 = () => {
   const [step, setStep] = useState(0)
 
   const decorationsMap = useMemo(() => {
-    const map = new Map<number, React.ReactNode[]>()
+    const map: Record<number, React.ReactNode[]> = {}
 
     states[step].decorations.forEach((decoration) => {
-      if (map.has(decoration.pos)) {
-        map.get(decoration.pos)?.push(decoration.element)
+      if (map[decoration.pos]) {
+        map[decoration.pos].push(decoration.element)
       } else {
-        map.set(decoration.pos, [decoration.element])
+        map[decoration.pos] = [decoration.element]
       }
     })
 
@@ -250,7 +252,7 @@ export const Type5 = () => {
 
   return (
     <>
-      <p className='!mb-1'>{states[step].description}</p>
+      <div className='!mb-1'>{states[step].description}</div>
       <div className='mt-1 flex items-center space-x-2'>
         <div className='text-eva-text/80'>Step</div>
         <Button
