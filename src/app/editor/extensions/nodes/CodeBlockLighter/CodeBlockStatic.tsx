@@ -17,6 +17,7 @@ export const CodeBlockStatic = (props: NodeViewProps) => {
           }}
           textNode={props.node?.content?.content}
           lineMarks={props.node?.attrs?.lineMark}
+          twoslash={props.node?.attrs?.twoslash}
         />
       }
       {...props}

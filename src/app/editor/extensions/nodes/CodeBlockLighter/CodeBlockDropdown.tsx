@@ -24,9 +24,11 @@ export const CodeBlockDropdown = ({
   togglePreview,
   center,
   toggleCenter,
+  setTwoslash,
 }: {
   preview?: boolean
   togglePreview: () => void
+  setTwoslash: () => void
   center?: boolean
   toggleCenter: () => void
 }) => {
@@ -69,6 +71,9 @@ export const CodeBlockDropdown = ({
               ) : (
                 <ImageOffIcon className='ml-auto' size={16} />
               )}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={setTwoslash}>
+              Set Twoslash
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

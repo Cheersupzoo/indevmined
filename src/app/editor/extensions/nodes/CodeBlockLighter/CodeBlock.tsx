@@ -22,6 +22,19 @@ const Dropdown = (props: NodeViewProps) => {
           preview: !props.node.attrs.preview,
         })
       }}
+      setTwoslash={() => {
+        const twoslash = window.prompt(
+          'Enter twoslash object',
+          props.node.attrs.twoslash
+            ? JSON.stringify(props.node.attrs.twoslash)
+            : ''
+        )
+        if (!twoslash) return
+
+        props.updateAttributes({
+          twoslash: twoslash.trim().length ? JSON.parse(twoslash) : null,
+        })
+      }}
       center={props.node.attrs.previewCenter}
       toggleCenter={() =>
         props.updateAttributes({

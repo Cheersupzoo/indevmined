@@ -4,7 +4,8 @@ import { CodeAnnotation, RawCode } from 'codehike/code'
 
 const markToCodeAnnotation = (
   textNode?: readonly Node[],
-  lineMarks?: number[]
+  lineMarks?: number[],
+  twoslash?: Record<string, any>
 ) => {
   const codeAnnotation: CodeAnnotation[] = []
 
@@ -52,6 +53,25 @@ const markToCodeAnnotation = (
     })
   }
 
+  if (twoslash) {
+    if (twoslash.hovers) {
+      twoslash.hovers.forEach(
+        ({ text, line, character, length, docs }: any) => {
+          codeAnnotation.push({
+            name: 'tooltip',
+            query: text,
+            data: {
+              docs,
+            },
+            lineNumber: line + 1,
+            fromColumn: character + 1,
+            toColumn: character + length,
+          })
+        }
+      )
+    }
+  }
+
   return codeAnnotation
 }
 
@@ -60,13 +80,15 @@ export const CodeAsync = async ({
   noWrap,
   textNode,
   lineMarks,
+  twoslash,
 }: {
   codeblock: RawCode
   noWrap?: boolean
   textNode?: readonly Node[]
   lineMarks?: number[]
+  twoslash?: Record<string, any>
 }) => {
-  const codeAnnotation = markToCodeAnnotation(textNode, lineMarks)
+  const codeAnnotation = markToCodeAnnotation(textNode, lineMarks, twoslash)
   const { code } = await renderCode({ codeblock, noWrap, codeAnnotation })
 
   return code

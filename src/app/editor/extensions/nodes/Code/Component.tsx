@@ -7,7 +7,7 @@ import {
   callout,
   lineNumbers,
   mark,
-} from '@/utils/Mdx/components/ScrollyCoding/CodeAnotationHandler'
+} from '@/utils/Mdx/components/ScrollyCoding/Annotation/CodeAnotationHandler'
 import { MermaidLanguageRenderer } from '@/utils/Mdx/components/ScrollyCoding/MermaidLanguageRenderer'
 import {
   NodeViewProps,

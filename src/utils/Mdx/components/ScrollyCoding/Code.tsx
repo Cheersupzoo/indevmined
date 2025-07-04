@@ -16,9 +16,10 @@ import {
   mark,
   wordWrap,
 } from './Annotation/CodeAnotationHandler'
+import { tokenTransitions } from './Annotation/tokenTransitions'
+import { tooltipAsync } from './Annotation/tooltip'
 import { CodeCollapsible } from './CodeCollapsible.client'
 import { MermaidLanguageRenderer } from './MermaidLanguageRenderer'
-import { tokenTransitions } from './Annotation/tokenTransitions'
 
 export const renderCode = async ({
   codeblock,
@@ -54,6 +55,7 @@ export const renderCode = async ({
             lineNumbers,
             callout,
             diff,
+            tooltipAsync,
           ].filter(Boolean) as AnnotationHandler[]
         }
         className='bg-transparent text-[0.9rem]'

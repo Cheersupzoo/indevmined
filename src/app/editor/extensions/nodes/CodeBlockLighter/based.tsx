@@ -18,6 +18,9 @@ export const CodeBlockLighterBased = CodeBlock.extend<CodeBlockLighterOptions>({
       previewCenter: {
         default: null,
       },
+      twoslash: {
+        default: null,
+      },
     }
   },
   marks: 'codeMark',
