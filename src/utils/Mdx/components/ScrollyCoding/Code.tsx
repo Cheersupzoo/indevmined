@@ -15,10 +15,10 @@ import {
   lineNumbers,
   mark,
   wordWrap,
-} from './CodeAnotationHandler'
+} from './Annotation/CodeAnotationHandler'
 import { CodeCollapsible } from './CodeCollapsible.client'
 import { MermaidLanguageRenderer } from './MermaidLanguageRenderer'
-import { tokenTransitions } from './tokenTransitions'
+import { tokenTransitions } from './Annotation/tokenTransitions'
 
 export const renderCode = async ({
   codeblock,
