@@ -4,6 +4,9 @@ compatibility_date = "2025-04-30"
 # flag for E2B
 compatibility_flags = [ "nodejs_compat" ]
 
+[vars]
+NPM_CONFIG_USERCONFIG = "/opt/buildhome/repo/.npmrc.pages"
+
 [[r2_buckets]]
 binding = "INDEVMINED_BUCKET"
 bucket_name = "indevmined"
