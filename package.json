@@ -102,9 +102,6 @@
       "@parcel/watcher",
       "protobufjs",
       "sharp"
-    ],
-    "overrides": {
-      "@cheersupzoo/editor": "link:../../Library/pnpm/global/5/node_modules/@cheersupzoo/editor"
-    }
+    ]
   }
 }
