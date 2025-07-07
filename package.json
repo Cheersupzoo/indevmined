@@ -10,6 +10,7 @@
     "dev:function": "npx -y wrangler pages dev ."
   },
   "dependencies": {
+    "@cheersupzoo/editor": "0.1.6",
     "@code-hike/lighter": "^1.0.3",
     "@e2b/code-interpreter": "^1.0.2",
     "@excalidraw/excalidraw": "^0.18.0",
@@ -35,7 +36,6 @@
     "@tiptap/extension-task-item": "2.24.2",
     "@tiptap/extension-task-list": "2.24.2",
     "@tiptap/extension-typography": "2.24.2",
-    "@tiptap/extension-underline": "2.24.2",
     "@tiptap/pm": "2.24.2",
     "@tiptap/react": "2.24.2",
     "@tiptap/starter-kit": "2.24.2",
@@ -102,6 +102,9 @@
       "@parcel/watcher",
       "protobufjs",
       "sharp"
-    ]
+    ],
+    "overrides": {
+      "@cheersupzoo/editor": "link:../../Library/pnpm/global/5/node_modules/@cheersupzoo/editor"
+    }
   }
 }

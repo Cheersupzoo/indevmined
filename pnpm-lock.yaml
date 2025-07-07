@@ -4,10 +4,16 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@cheersupzoo/editor': link:../../Library/pnpm/global/5/node_modules/@cheersupzoo/editor
+
 importers:
 
   .:
     dependencies:
+      '@cheersupzoo/editor':
+        specifier: 0.1.6
+        version: 0.1.6(a8b82493e1a967eab1a7a1d407c0b6f5)
       '@code-hike/lighter':
         specifier: ^1.0.3
         version: 1.0.3
@@ -81,9 +87,6 @@ importers:
         specifier: 2.24.2
         version: 2.24.2(@tiptap/core@2.24.2(@tiptap/pm@2.24.2))
       '@tiptap/extension-typography':
-        specifier: 2.24.2
-        version: 2.24.2(@tiptap/core@2.24.2(@tiptap/pm@2.24.2))
-      '@tiptap/extension-underline':
         specifier: 2.24.2
         version: 2.24.2(@tiptap/core@2.24.2(@tiptap/pm@2.24.2))
       '@tiptap/pm':
@@ -323,6 +326,23 @@ packages:
 
   '@bufbuild/protobuf@1.10.0':
     resolution: {integrity: sha512-QDdVFLoN93Zjg36NoQPZfsVH9tZew7wKDKyV5qRdj8ntT4wQCOradQjRaTdwMhWUYsgKsvCINKKm87FdEk96Ag==}
+
+  '@cheersupzoo/editor@0.1.6':
+    resolution: {integrity: sha512-//7tVjPTFc5/bP1aG/1rTOHZfLbkydkjFBd4dNgTPMJsz6ZVzd+6+1E4L0ZcKG+FUxhpoBTpGJIWxS0HOdSlWQ==, tarball: https://npm.pkg.github.com/download/@cheersupzoo/editor/0.1.6/1027de7171482bcb8a2c2a069b9748d3a225151d}
+    peerDependencies:
+      '@tiptap/core': 2.24.2
+      '@tiptap/extension-code-block': 2.24.2
+      '@tiptap/extension-collaboration': 2.24.2
+      '@tiptap/extension-image': 2.24.2
+      '@tiptap/extension-link': 2.24.2
+      '@tiptap/extension-placeholder': 2.24.2
+      '@tiptap/extension-task-item': 2.24.2
+      '@tiptap/extension-task-list': 2.24.2
+      '@tiptap/extension-typography': 2.24.2
+      '@tiptap/extension-underline': 2.24.2
+      '@tiptap/pm': 2.24.2
+      '@tiptap/react': 2.24.2
+      '@tiptap/starter-kit': 2.24.2
 
   '@cloudflare/workers-types@4.20240909.0':
     resolution: {integrity: sha512-4knwtX6efxIsIxawdmPyynU9+S8A78wntU8eUIEldStWP4gNgxGkeWcfCMXulTx8oxr3DU4aevHyld9HGV8VKQ==}
@@ -5352,6 +5372,32 @@ snapshots:
   '@braintree/sanitize-url@6.0.2': {}
 
   '@bufbuild/protobuf@1.10.0': {}
+
+  '@cheersupzoo/editor@0.1.6(a8b82493e1a967eab1a7a1d407c0b6f5)':
+    dependencies:
+      '@excalidraw/excalidraw': 0.18.0(@types/react-dom@18.2.24)(@types/react@18.2.74)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@legendapp/state': 3.0.0-beta.30(react@18.2.0)
+      '@tiptap/core': 2.24.2(@tiptap/pm@2.24.2)
+      '@tiptap/extension-code-block': 2.24.2(@tiptap/core@2.24.2(@tiptap/pm@2.24.2))(@tiptap/pm@2.24.2)
+      '@tiptap/extension-collaboration': 2.24.2(@tiptap/core@2.24.2(@tiptap/pm@2.24.2))(@tiptap/pm@2.24.2)(y-prosemirror@1.3.3(prosemirror-model@1.25.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)(y-protocols@1.0.6(yjs@13.6.26))(yjs@13.6.26))
+      '@tiptap/extension-image': 2.24.2(@tiptap/core@2.24.2(@tiptap/pm@2.24.2))
+      '@tiptap/extension-link': 2.24.2(@tiptap/core@2.24.2(@tiptap/pm@2.24.2))(@tiptap/pm@2.24.2)
+      '@tiptap/extension-placeholder': 2.24.2(@tiptap/core@2.24.2(@tiptap/pm@2.24.2))(@tiptap/pm@2.24.2)
+      '@tiptap/extension-task-item': 2.24.2(@tiptap/core@2.24.2(@tiptap/pm@2.24.2))(@tiptap/pm@2.24.2)
+      '@tiptap/extension-task-list': 2.24.2(@tiptap/core@2.24.2(@tiptap/pm@2.24.2))
+      '@tiptap/extension-typography': 2.24.2(@tiptap/core@2.24.2(@tiptap/pm@2.24.2))
+      '@tiptap/extension-underline': 2.24.2(@tiptap/core@2.24.2(@tiptap/pm@2.24.2))
+      '@tiptap/pm': 2.24.2
+      '@tiptap/react': 2.24.2(@tiptap/core@2.24.2(@tiptap/pm@2.24.2))(@tiptap/pm@2.24.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@tiptap/starter-kit': 2.24.2
+    transitivePeerDependencies:
+      - '@types/react'
+      - '@types/react-dom'
+      - expo-sqlite
+      - immer
+      - react
+      - react-dom
+      - supports-color
 
   '@cloudflare/workers-types@4.20240909.0': {}
 
