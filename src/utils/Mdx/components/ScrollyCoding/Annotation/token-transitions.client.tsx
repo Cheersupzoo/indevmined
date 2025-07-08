@@ -12,7 +12,7 @@ import {
 const MAX_TRANSITION_DURATION = 900 // milliseconds
 
 export class SmoothPre extends React.Component<CustomPreProps> {
-  ref: React.RefObject<HTMLPreElement>
+  ref: React.RefObject<HTMLPreElement | null>
   constructor(props: CustomPreProps) {
     super(props)
     this.ref = getPreRef(this.props)

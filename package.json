@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -53,11 +53,11 @@
     "micromark": "^4.0.0",
     "mini-svg-data-uri": "^1.4.4",
     "motion": "^12.6.2",
-    "next": "14.2.28",
+    "next": "15.3.5",
     "next-mdx-remote": "^5.0.0",
     "prosemirror-markdown": "^1.13.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
     "react-error-boundary": "^6.0.0",
     "react-icons": "^5.2.1",
     "react-live": "^4.1.8",
@@ -81,13 +81,13 @@
     "@cloudflare/workers-types": "^4.20240909.0",
     "@trivago/prettier-plugin-sort-imports": "5.2.2",
     "@types/node": "^20.12.5",
-    "@types/react": "^18.2.74",
-    "@types/react-dom": "^18.2.24",
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.6",
     "@types/react-syntax-highlighter": "^15.5.13",
     "autoprefixer": "^10.4.19",
     "cssnano": "7.0.7",
     "eslint": "^8.57.0",
-    "eslint-config-next": "14.2.28",
+    "eslint-config-next": "15.3.5",
     "postcss": "8.4.38",
     "prettier": "3.5.3",
     "prettier-plugin-tailwindcss": "0.6.12",
@@ -102,6 +102,10 @@
       "@parcel/watcher",
       "protobufjs",
       "sharp"
-    ]
+    ],
+    "overrides": {
+      "@types/react": "19.1.8",
+      "@types/react-dom": "19.1.6"
+    }
   }
 }

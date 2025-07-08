@@ -6,7 +6,11 @@ export const img = (
     HTMLImageElement
   >
 ) => {
-  if (props.src?.startsWith('/Screenshot%20')) {
+  if (
+    props.src &&
+    typeof props.src === 'string' &&
+    props.src?.startsWith('/Screenshot%20')
+  ) {
     const { style, ...restProps } = props
 
     // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text

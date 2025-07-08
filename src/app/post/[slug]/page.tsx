@@ -11,9 +11,10 @@ import {
 import Layout from '@/components/Layout'
 import Post from '@/components/Post'
 
-type Props = { params: { slug: string } }
+type Props = { params: Promise<{ slug: string }> }
 
-export default async function page({ params }: Props) {
+export default async function page(props: Props) {
+  const params = await props.params;
   const post = await getPostBySlug(params.slug)
 
   const enUrl = post.frontmatter['language-en-link']
@@ -31,6 +32,7 @@ export async function generateStaticParams() {
   return generatePostsStaticParams()
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   return generatePostMetadata(params.slug)
 }

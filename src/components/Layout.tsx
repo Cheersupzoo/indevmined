@@ -10,7 +10,7 @@ type Props = React.PropsWithChildren<{
   th?: string
   className?: string
   isEN?: boolean
-  footer?: React.ReactElement
+  footer?: React.ReactElement<any>
 }>
 export default function Layout({
   children,

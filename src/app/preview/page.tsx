@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 
 export default async function PreviewPage() {
 //   const contentNode = Node.fromJSON(schema, json)
-  const children: React.ReactElement[] = []
+  const children: React.ReactElement<any>[] = []
 //   contentNode.content.forEach((node, index) => {
 //     children.push(
 //       <NodeRenderer key={index} node={node} nodeExtensionKV={nodeExtensionKV} />
