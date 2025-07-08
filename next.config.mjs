@@ -1,4 +1,3 @@
-import withSerwistInit from '@serwist/next'
 import { execSync } from 'child_process'
 import path from 'path'
 
@@ -12,18 +11,6 @@ function getGitCommitHash() {
 }
 
 const gitCommitHash = getGitCommitHash()
-
-const revision =
-  process.env.NODE_ENV === 'production' ? gitCommitHash : 'dev-' + Date.now()
-
-const withSerwist = withSerwistInit({
-  cacheOnNavigation: true,
-  scope: '/',
-  swSrc: 'src/app/sw.ts',
-  swDest: 'public/sw.js',
-  disable: process.env.NODE_ENV === 'development',
-  additionalPrecacheEntries: [{ url: '/~offline', revision }],
-})
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -52,4 +39,4 @@ const nextConfig = {
   },
 }
 
-export default withSerwist(nextConfig)
+export default nextConfig
