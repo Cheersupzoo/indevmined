@@ -48,13 +48,15 @@ export const NodeRenderer = ({
   if (extension?.config?.reactNode) {
     const ReactNode = extension.config.reactNode
 
+    console.log('🚀 ~ node.marks:', node.marks)
+
     return (
       <ReactNode
         node={{
           attrs: { ...node.attrs },
-          textContent: node.textContent,
-          marks: node.marks,
-          content: node.content,
+          // textContent: node.textContent,
+          // marks: node.marks,
+          // content: node.content,
         }}
         editor={null}
       >

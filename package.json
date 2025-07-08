@@ -10,7 +10,7 @@
     "dev:function": "npx -y wrangler pages dev ."
   },
   "dependencies": {
-    "@cheersupzoo/editor": "0.1.6",
+    "@cheersupzoo/editor": "0.1.7",
     "@code-hike/lighter": "^1.0.3",
     "@e2b/code-interpreter": "^1.0.2",
     "@excalidraw/excalidraw": "^0.18.0",

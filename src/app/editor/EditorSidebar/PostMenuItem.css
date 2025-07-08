@@ -1,6 +1,0 @@
-.post-menu-item:empty:before {
-  content: attr(data-placeholder);
-  pointer-events: none;
-  display: block; /* For Firefox */
-  @apply text-eva-text/50;
-}

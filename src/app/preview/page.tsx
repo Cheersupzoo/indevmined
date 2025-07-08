@@ -6,8 +6,8 @@ import { Node } from '@tiptap/pm/model'
 import Layout, { NormalResponsive } from '@/components/Layout'
 import '@/styles/markdown.css'
 
-import { staticMarkExtensions } from '../editor/extensions/marks/staticMark'
-import { staticNodeExtensions } from '../editor/extensions/nodes/staticNodes'
+// import { staticMarkExtensions } from '@cheersupzoo/editor/extensions/marks/static'
+// import { staticNodeExtensions } from '@cheersupzoo/editor/extensions/nodes/static'
 import { NodeRenderer } from './Renderer'
 
 export const metadata: Metadata = {
@@ -15,25 +15,25 @@ export const metadata: Metadata = {
   description: 'In Dev Mined WYSIWYG Editor',
 }
 
-const extensions = [...staticNodeExtensions, ...staticMarkExtensions]
-const nodeExtensionKV = staticNodeExtensions.reduce(
-  (prev, cur) => {
-    prev[cur.name] = cur
+// const extensions = [...staticNodeExtensions, ...staticMarkExtensions]
+// const nodeExtensionKV = staticNodeExtensions.reduce(
+//   (prev, cur) => {
+//     prev[cur.name] = cur
 
-    return prev
-  },
-  {} as Record<string, AnyExtension>
-)
-const schema = getSchema(extensions)
+//     return prev
+//   },
+//   {} as Record<string, AnyExtension>
+// )
+// const schema = getSchema(extensions)
 
 export default async function PreviewPage() {
-  const contentNode = Node.fromJSON(schema, json)
+//   const contentNode = Node.fromJSON(schema, json)
   const children: React.ReactElement[] = []
-  contentNode.content.forEach((node, index) => {
-    children.push(
-      <NodeRenderer key={index} node={node} nodeExtensionKV={nodeExtensionKV} />
-    )
-  })
+//   contentNode.content.forEach((node, index) => {
+//     children.push(
+//       <NodeRenderer key={index} node={node} nodeExtensionKV={nodeExtensionKV} />
+//     )
+//   })
 
   return (
     <Layout>

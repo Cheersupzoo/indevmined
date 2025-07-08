@@ -1,5 +1,5 @@
-import { TiptapDoc } from '@/app/editor/hooks/EditorProvider'
 import { fetchAwareOnline } from '@/utils/Network/fetch'
+import { TiptapDoc } from '@cheersupzoo/editor/types/tiptap'
 import { getAuth } from 'firebase/auth'
 
 import { UploadFunction } from '@/components/tiptap-node/image-upload-node'
