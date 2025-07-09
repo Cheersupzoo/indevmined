@@ -10,7 +10,7 @@
     "dev:function": "npx -y wrangler pages dev ."
   },
   "dependencies": {
-    "@cheersupzoo/editor": "0.1.7",
+    "@cheersupzoo/editor": "0.1.9",
     "@code-hike/lighter": "^1.0.3",
     "@e2b/code-interpreter": "^1.0.2",
     "@excalidraw/excalidraw": "^0.18.0",
@@ -79,8 +79,8 @@
     "@cloudflare/workers-types": "^4.20240909.0",
     "@trivago/prettier-plugin-sort-imports": "5.2.2",
     "@types/node": "^20.12.5",
-    "@types/react": "19.1.8",
-    "@types/react-dom": "19.1.6",
+    "@types/react": "19.1.0",
+    "@types/react-dom": "19.1.0",
     "@types/react-syntax-highlighter": "^15.5.13",
     "autoprefixer": "^10.4.19",
     "cssnano": "7.0.7",
@@ -101,9 +101,6 @@
       "protobufjs",
       "sharp"
     ],
-    "overrides": {
-      "@types/react": "19.1.8",
-      "@types/react-dom": "19.1.6"
-    }
+    "overrides": {}
   }
 }

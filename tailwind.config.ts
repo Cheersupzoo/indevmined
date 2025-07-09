@@ -9,6 +9,7 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/utils/Mdx/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './node_modules/@cheersupzoo/editor/dist/**/*.{js,mjs,cjs,ts,tsx}',
   ],
   plugins: [
     addVariablesForColors,
